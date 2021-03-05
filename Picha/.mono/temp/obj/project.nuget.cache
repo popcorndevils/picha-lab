@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "j0xhu2wOTgSJX7FcynfSx0DvAfAbnLK6kf6y2sp0di/bvmTvrYtVir/tHH4CvYjTu/ozc9czQo65F0jEdxExqw==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\azhai\\Documents\\Projects\\godot\\PichaApp\\Picha\\Picha.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\azhai\\.nuget\\packages\\newtonsoft.json\\12.0.3\\newtonsoft.json.12.0.3.nupkg.sha512"
+  ],
+  "logs": []
+}
