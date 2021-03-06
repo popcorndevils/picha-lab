@@ -13,6 +13,7 @@ static class PDefaults
                 Frames = PDefaults.Frames,
                 Pixels = PDefaults.Pixels,
                 Cycles = PDefaults.Cycles,
+                Locus = (8, 8, 0, 0),
             };
         }
     }

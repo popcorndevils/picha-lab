@@ -1,30 +1,88 @@
+using System.Collections.Generic;
+
 using Godot;
 
-public delegate void ItemSelectedHandler(int item);
+public delegate void ItemSelectedHandler(MenuBarItem action);
 
 public class MenuBar : MarginContainer
 {
     public event ItemSelectedHandler ItemSelected;
-
-    private MenuButton _File;
-    private MenuButton _Edit;
+    private Dictionary<int, MenuBarItem> _ActionList;
 
     public override void _Ready()
     {
-        this._File = this.GetNode<MenuButton>("OptButtons/OptFile");
-        this._Edit = this.GetNode<MenuButton>("OptButtons/OptEdit");
-
+        this._ActionList = new Dictionary<int, MenuBarItem>();
         this._PrepMenu();
     }
 
     private void _PrepMenu()
     {
-        this._File.GetPopup().Connect("id_pressed", this, "_OnMenuSelected");
-        this._Edit.GetPopup().Connect("id_pressed", this, "_OnMenuSelected");
+        var _menuButtons = this.GetNode<HBoxContainer>("OptButtons").GetChildren();
+
+        foreach(Node _n in _menuButtons)
+        {
+            if(_n is MenuButton _button)
+            {
+                var _pop = _button.GetPopup();
+                _pop.Connect("id_pressed", this, "_OnMenuSelected");
+                this._CycleItems(_pop, _button.GetChildren());
+            }
+        }
+    }
+
+    private void _CycleItems(PopupMenu p, Godot.Collections.Array items)
+    {
+        foreach(Node _b in items)
+        {
+            if(_b is MenuBarItem _item)
+            {
+                this._SetMenuItem(p, _item);
+            }
+        }
+    }
+
+    private void _SetMenuItem(PopupMenu p, MenuBarItem item)
+    {
+        var _subitems = item.GetChildren();
+        var _itemID = this._ActionList.Count;
+
+        this._ActionList.Add(_itemID, item);
+        item.ParentPopup = p;
+
+        if(_subitems.Count > 0)
+        {
+            var _subName = $"SubMenu_{item.Text}";
+            var _subPop = new PopupMenu() { Name = _subName };
+
+            p.AddChild(_subPop);
+            p.AddSubmenuItem(item.Text, _subName);
+            _subPop.Connect("id_pressed", this, "_OnMenuSelected");
+            this._CycleItems(_subPop, _subitems);
+        }
+        else
+        {
+            if(item.Separate)
+                { p.AddSeparator(); } 
+            if(item.Icon is null)
+                { p.AddItem(item.Text, _itemID); } 
+            else
+                { p.AddIconItem(item.Icon, item.Text, _itemID); }
+            if(item.CheckButton)
+                { p.SetItemAsCheckable(p.GetItemIndex(_itemID), true); }
+        }
     }
 
     public void _OnMenuSelected(int i)
     {
-        ItemSelected?.Invoke(i);
+        var _item = this._ActionList[i];
+
+        if(_item.CheckButton)
+        {
+            var _pop = _item.ParentPopup;
+            _item.IsChecked = !_item.IsChecked;
+            _pop.SetItemChecked(_pop.GetItemIndex(i), _item.IsChecked);
+        }
+
+        ItemSelected?.Invoke(this._ActionList[i]);
     }
 }

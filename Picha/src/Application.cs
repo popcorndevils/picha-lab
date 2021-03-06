@@ -1,7 +1,4 @@
-using System;
 using Godot;
-
-using PichaLib;
 
 public class Application : Node
 {
@@ -9,11 +6,8 @@ public class Application : Node
 
     public override void _Ready()
     {
-        this._Menu = this.GetNode<MenuBar>("PichaGUI/WSVert/MenuBar");
+        this._Menu = this.FindNode("MenuBar") as MenuBar;
         this._RegisterSignals();
-
-        var _test = new Canvas();
-        _test.Layers.Add(0, PDefaults.Layer);
     }
 
     private void _RegisterSignals()
@@ -21,8 +15,13 @@ public class Application : Node
         this._Menu.ItemSelected += this.HandleMenu;
     }
 
-    public void HandleMenu(int i)
+    public void HandleMenu(MenuBarItem menu)
     {
-        GD.Print($"Item {i} was Selected");
+        switch(menu.Action)
+        {
+            default:
+                GD.PrintErr($"Unable to Parse MenuItem action \"{menu.Action}\".");
+                break;
+        }
     }
 }
