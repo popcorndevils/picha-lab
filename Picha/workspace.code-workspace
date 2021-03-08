@@ -5,6 +5,9 @@
 		},
 		{
 			"path": "..\\PichaLib"
+		},
+		{
+			"path": "..\\OctavianLib"
 		}
 	],
 	"settings": {}

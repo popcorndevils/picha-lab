@@ -1,5 +1,3 @@
-using System;
-
 namespace PichaLib
 {
     public class Policy
@@ -15,7 +13,6 @@ namespace PichaLib
     public enum ConditionTarget
     {
         NONE,
-        SELF,
         NEIGHBOR
     }
 

@@ -6,10 +6,10 @@ namespace PichaLib
     public partial class Chroma
     {
         // CONSTRUCTORS FOR CHROMA OBJECT
-        public static Chroma CreateFromHSV(float h, float s, float v)
-            { return new Chroma(Chroma.HSVtoRGB(h, s, v)); }
-        public static Chroma CreateFromHSL(float h, float s, float l)
-            { return new Chroma(Chroma.HSLtoRGB(h, s, l)); }
+        public static Chroma CreateFromHSV(float h, float s, float v, float a)
+            { return new Chroma(Chroma.HSVtoRGB(h, s, v, a)); }
+        public static Chroma CreateFromHSL(float h, float s, float l, float a)
+            { return new Chroma(Chroma.HSLtoRGB(h, s, l, a)); }
         public static Chroma CreateFromHex(string hex)
             { return Chroma.CreateFromSysCol(SysDraw.ColorTranslator.FromHtml(hex)); }
         public static Chroma CreateFromName(string name)
@@ -35,24 +35,24 @@ namespace PichaLib
 
         // CONVERSION METHODS
         // convenience methods for tuple handling
-        public static (float h, float s, float v) RGBtoHSV((float r, float g, float b) col)
-            { return Chroma.RGBtoHSV(col.r, col.g, col.b); }
+        public static (float h, float s, float v, float a) RGBtoHSV((float r, float g, float b, float a) col)
+            { return Chroma.RGBtoHSV(col.r, col.g, col.b, col.a); }
         public static float RGBtoH((float r, float g, float b) col)
             { return Chroma.RGBtoH(col.r, col.g, col.b); }
-        public static (float r, float g, float b) HSVtoRGB((float h, float s, float v) col)
-            { return Chroma.HSVtoRGB(col.h, col.s, col.v); }
-        public static (float h, float s, float l) HSVtoHSL((float h, float s, float v) col)
-            { return Chroma.HSVtoHSL(col.h, col.s, col.v); }
-        public static (float h, float s, float v) HSLtoHSV((float h, float s, float l) col)
-            { return Chroma.HSLtoHSV(col.h, col.s, col.l); }
-        public static (float h, float s, float l) RGBtoHSL((float r, float g, float b) col)
-            { return Chroma.RGBtoHSL(col.r, col.g, col.b); }
+        public static (float r, float g, float b, float a) HSVtoRGB((float h, float s, float v, float a) col)
+            { return Chroma.HSVtoRGB(col.h, col.s, col.v, col.a); }
+        public static (float h, float s, float l, float a) HSVtoHSL((float h, float s, float v, float a) col)
+            { return Chroma.HSVtoHSL(col.h, col.s, col.v, col.a); }
+        public static (float h, float s, float v, float a) HSLtoHSV((float h, float s, float l, float a) col)
+            { return Chroma.HSLtoHSV(col.h, col.s, col.l, col.a); }
+        public static (float h, float s, float l, float a) RGBtoHSL((float r, float g, float b, float a) col)
+            { return Chroma.RGBtoHSL(col.r, col.g, col.b, col.a); }
 
         // multistage conversions for convenience
-        public static (float h, float s, float l) RGBtoHSL(float r, float g, float b)
-            { return Chroma.HSVtoHSL(Chroma.RGBtoHSV(r, g, b)); }
-        public static (float r, float g, float b) HSLtoRGB(float h, float s, float l)
-            { return Chroma.HSVtoRGB(Chroma.HSLtoHSV(h, s, l)); }
+        public static (float h, float s, float l, float a) RGBtoHSL(float r, float g, float b, float a)
+            { return Chroma.HSVtoHSL(Chroma.RGBtoHSV(r, g, b, a)); }
+        public static (float r, float g, float b, float a) HSLtoRGB(float h, float s, float l, float a)
+            { return Chroma.HSVtoRGB(Chroma.HSLtoHSV(h, s, l, a)); }
 
         // actual conversion methods
         public static float RGBtoH(float r, float g, float b)
@@ -79,7 +79,7 @@ namespace PichaLib
             return (_out / 360);
         }
 
-        public static (float h, float s, float v) RGBtoHSV(float r, float g, float b)
+        public static (float h, float s, float v, float a) RGBtoHSV(float r, float g, float b, float a)
         {
             float _max = Math.Max(r, Math.Max(g, b));
             float _min = Math.Min(r, Math.Min(g, b));
@@ -91,19 +91,19 @@ namespace PichaLib
 
             if(_max != 0) { _s = _delta / _max; }
 
-            return (_h, _s, _v);
+            return (_h, _s, _v, a);
         }
 
-        public static (float r, float g, float b) HSVtoRGB(float h, float s, float v)
+        public static (float r, float g, float b, float a) HSVtoRGB(float h, float s, float v, float a)
         {
             float _h = h * 360;
             float _s = s;
             float _v = v;
 
             if(_s == 0)
-                { return (v, v, v); }
+                { return (v, v, v, a); }
             else if(_v <= 0)
-                { return (0f, 0f, 0f); }
+                { return (0f, 0f, 0f, a); }
 
             // wrap the value around 360°
             while (_h < 0) 
@@ -122,41 +122,41 @@ namespace PichaLib
             switch (_i) 
             {
                 case 0:
-                    return (_v, _tv, _pv);
+                    return (_v, _tv, _pv, a);
                 case 1:
-                    return (_qv, _v, _pv);
+                    return (_qv, _v, _pv, a);
                 case 2:
-                    return (_pv, _v, _tv);
+                    return (_pv, _v, _tv, a);
                 case 3:
-                    return (_pv, _qv, _v);
+                    return (_pv, _qv, _v, a);
                 case 4:
-                    return (_tv, _pv, _v);
+                    return (_tv, _pv, _v, a);
                 case 5:
-                    return (_v, _pv, _qv);
+                    return (_v, _pv, _qv, a);
                 case 6:
-                    return (_v, _tv, _pv);
+                    return (_v, _tv, _pv, a);
                 case -1:
-                    return (_v, _tv, _qv);
+                    return (_v, _tv, _qv, a);
                 default:
                     // TODO throw error because color doesn't exist
                     // for now convert to black and white
-                    return (_v, _v, _v);
+                    return (_v, _v, _v, a);
             }
         }
 
-        public static (float h, float s, float l) HSVtoHSL(float h, float s, float v)
+        public static (float h, float s, float l, float a) HSVtoHSL(float h, float s, float v, float a)
         {
             float _h = h;
             float _l = (v * (1-(s / 2)));
             float _s = (_l == 0 | _l == 1) ? 0f : (v - _l) / Math.Min(_l, 1 - _l);   
-            return (_h, _s, _l);
+            return (_h, _s, _l, a);
         }
-        public static (float h, float s, float v) HSLtoHSV(float h, float s, float l)
+        public static (float h, float s, float v, float a) HSLtoHSV(float h, float s, float l, float a)
         {
             float _h = h;
             float _v = l + (s * Math.Min(l, 1 - l));
             float _s = _v == 0f ? 0f : 2 * (1 - (l / _v));
-            return (_h, _s, _v);
+            return (_h, _s, _v, a);
         }
     }
 }

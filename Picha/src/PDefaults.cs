@@ -14,6 +14,7 @@ static class PDefaults
                 Pixels = PDefaults.Pixels,
                 Cycles = PDefaults.Cycles,
                 Locus = (8, 8, 0, 0),
+                FadeDirection = FadeDirection.NORTH,
             };
         }
     }
@@ -21,17 +22,14 @@ static class PDefaults
     internal static SortedList<int, int[,]> Frames {
         get {
             return new SortedList<int, int[,]> {
-                {0, new int[,] {
-                    {0, 0, 0, 0, 0, 0, 0, 0},
-                    {0, 1, 1, 1, 1, 1, 1, 0},
-                    {0, 1, 2, 2, 2, 2, 1, 0},
-                    {0, 1, 2, 0, 0, 2, 1, 0},
-                    {0, 1, 2, 0, 0, 2, 1, 0},
-                    {0, 1, 2, 2, 2, 2, 1, 0},
-                    {0, 1, 1, 1, 1, 1, 1, 0},
-                    {0, 0, 0, 0, 0, 0, 0, 0}}
-                }
-            };
+                {0, new int[,] {{0, 0, 0, 0, 0, 0, 0, 0},
+                                {0, 1, 1, 1, 1, 1, 1, 0},
+                                {0, 1, 2, 2, 2, 2, 1, 0},
+                                {0, 1, 2, 0, 0, 2, 1, 0},
+                                {0, 1, 2, 0, 0, 2, 1, 0},
+                                {0, 1, 2, 2, 2, 2, 1, 0},
+                                {0, 1, 1, 1, 1, 1, 1, 0},
+                                {0, 0, 0, 0, 0, 0, 0, 0}}}};
         }
     }
 
@@ -41,8 +39,8 @@ static class PDefaults
                 {0, new Pixel(){
                     ID = 0,
                     Name = "EMPTY",
-                    Color = (255, 255, 255, 255),
-                    RandomCol = true}
+                    Color = (255, 255, 255, 0),
+                    RandomCol = false}
                 },
                 {1, new Pixel(){
                     ID = 1,
@@ -83,7 +81,10 @@ static class PDefaults
             var _policy3 = new Policy() {
                 Input = (int)PDefaults.PIXEL_IDS.EMPTY,
                 Output = (int)PDefaults.PIXEL_IDS.OUTLINE,
-                Rate = .5f
+                Rate = 1f,
+                ConditionA = ConditionTarget.NEIGHBOR,
+                ConditionLogic = ConditionExpression.IS_NOT,
+                ConditionB = (int)PDefaults.PIXEL_IDS.EMPTY,
             };
 
             return new SortedList<int, Dictionary<int, Policy>>() {

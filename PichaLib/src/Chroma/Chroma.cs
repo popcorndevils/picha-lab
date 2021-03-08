@@ -7,9 +7,9 @@ namespace PichaLib
         public float B = 0f;
         public float A = 1f;
 
-        public (float r, float g, float b) RGB => (this.R, this.G, this.B);
-        public (float h, float s, float v) HSV => Chroma.RGBtoHSV(this.RGB);
-        public (float h, float s, float l) HSL => Chroma.RGBtoHSL(this.RGB);
+        public (float r, float g, float b, float a) RGBA => (this.R, this.G, this.B, this.A);
+        public (float h, float s, float v, float a) HSV => Chroma.RGBtoHSV(this.RGBA);
+        public (float h, float s, float l, float a) HSL => Chroma.RGBtoHSL(this.RGBA);
 
         public Chroma((float r, float g, float b) col)
         {
@@ -33,6 +33,9 @@ namespace PichaLib
             this.B = b;
             this.A = a;
         }
+
+        public (float h, float s, float l, float a) ToHSL()
+            { return Chroma.RGBtoHSL(this.RGBA); }
 
         public override string ToString()
             { return $"PichaLib.Chroma {{R: {this.R}, G: {this.G}, B: {this.B}, A: {this.A}}}"; }
