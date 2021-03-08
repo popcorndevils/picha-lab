@@ -25,6 +25,16 @@ __meta__ = {
 [node name="MenuBar" parent="PichaGUI/WSVert" instance=ExtResource( 2 )]
 margin_bottom = 22.0
 
+[node name="ColorRect" type="ColorRect" parent="PichaGUI"]
+margin_left = 79.0
+margin_top = 63.0
+margin_right = 676.0
+margin_bottom = 601.0
+color = Color( 0.585938, 0.585938, 0.585938, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="TestSprite" type="Sprite" parent="PichaGUI"]
 position = Vector2( 373.78, 203.166 )
 scale = Vector2( 20, 20 )

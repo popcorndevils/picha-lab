@@ -19,7 +19,7 @@ public class Application : Node
         var _testChanged = PFactory.ProcessLayer(_test);
 
         var _width = _testChanged[0].GetWidth();
-        var _height = _testChanged[0].GetWidth();
+        var _height = _testChanged[0].GetHeight();
 
         var _i = new Image();
 

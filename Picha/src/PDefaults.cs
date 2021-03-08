@@ -15,6 +15,8 @@ static class PDefaults
                 Cycles = PDefaults.Cycles,
                 Locus = (8, 8, 0, 0),
                 FadeDirection = FadeDirection.NORTH,
+                BrightNoise = .5f,
+                MinSaturation = .5f,
             };
         }
     }
@@ -39,7 +41,7 @@ static class PDefaults
                 {0, new Pixel(){
                     ID = 0,
                     Name = "EMPTY",
-                    Color = (255, 255, 255, 0),
+                    Color = (0, 0, 0, 0),
                     RandomCol = false}
                 },
                 {1, new Pixel(){
@@ -57,8 +59,8 @@ static class PDefaults
                 {3, new Pixel(){
                     ID = 3,
                     Name = "OUTLINE",
-                    Color = (0, 0, 0, 255),
-                    RandomCol = true}
+                    Color = (255, 0, 0, 255),
+                    RandomCol = false}
                 },
             };
         }

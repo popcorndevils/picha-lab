@@ -27,7 +27,6 @@ namespace PichaLib
                 }
                 _output.Add(_frame.Key, _frameCopy);
             }
-
             return _output;
         }
 
@@ -56,7 +55,7 @@ namespace PichaLib
                 _cellColors.Add(_type.ID, _dat);
             }
 
-            foreach(KeyValuePair<int, int[,]> _pair in l.Frames)
+            foreach(KeyValuePair<int, int[,]> _pair in cells)
             {
                 int _w = _pair.Value.GetWidth();
                 int _h = _pair.Value.GetHeight();
