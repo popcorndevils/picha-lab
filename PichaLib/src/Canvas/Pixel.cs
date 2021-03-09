@@ -6,5 +6,8 @@ namespace PichaLib
         public string Name;
         public (byte r, byte g, byte b, byte a) Color;
         public bool RandomCol;
+        public FadeDirection FadeDirection;
+        public float BrightNoise;
+        public float MinSaturation;
     }
 }

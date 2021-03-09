@@ -33,24 +33,25 @@ namespace PichaLib
         private static SortedList<int, Chroma[,]> _GenColors(SortedList<int, int[,]> cells, Layer l)
         {
             var _output = new SortedList<int, Chroma[,]>();
-
-            var _cellColors = new Dictionary<int, (Chroma rgb, (float h, float s, float l, float a) hsl, float sat)>();
+            var _cellColors = new Dictionary<int, CellData>();
 
             foreach(Pixel _type in l.Pixels.Values)
             {
-                (Chroma rgb, (float h, float s, float l, float a) hsl, float sat) _dat;
+                CellData _dat = new CellData();
+                
                 if(_type.RandomCol)
                 {
-                    _dat.rgb = new Chroma(
+                    _dat.RGB = new Chroma(
                         (float)PFactory._Random.NextDouble(),
                         (float)PFactory._Random.NextDouble(),
                         (float)PFactory._Random.NextDouble());
                 }
                 else
-                    { _dat.rgb = Chroma.CreateFromBytes(_type.Color); }
+                    { _dat.RGB = Chroma.CreateFromBytes(_type.Color); }
 
-                _dat.hsl = _dat.rgb.ToHSL();
-                _dat.sat = (float)PFactory._Random.RandfRange(l.MinSaturation * _dat.hsl.s, _dat.hsl.s);
+                _dat.HSL = _dat.RGB.ToHSL();
+                _dat.Sat = (float)PFactory._Random.RandfRange(_type.MinSaturation * _dat.HSL.s, _dat.HSL.s);
+
 
                 _cellColors.Add(_type.ID, _dat);
             }
@@ -69,7 +70,7 @@ namespace PichaLib
                         var _cSet = _cellColors[_cell];
                         float _grade = 0f;
 
-                        switch(l.FadeDirection)
+                        switch(l.Pixels[_cell].FadeDirection)
                         {
                             case FadeDirection.NORTH:
                                 _grade = (float)((_y + 1f) / _h);
@@ -83,15 +84,15 @@ namespace PichaLib
                             case FadeDirection.EAST:
                                 _grade = 1f - (float)((_x + 1f) / _w);
                                 break;
-                            case FadeDirection.RANDOM:
+                            case FadeDirection.NONE:
                                 _grade = 1f;
                                 break;
                         }
 
                         float u_sin = (float)Math.Cos(_grade * Math.PI);
-                        float _l = (float)(PFactory._Random.RandfRange(0f, l.BrightNoise) * u_sin) + _cSet.hsl.l;
+                        float _l = (float)(PFactory._Random.RandfRange(0f, l.Pixels[_cell].BrightNoise) * u_sin) + _cSet.HSL.l;
 
-                        _frameOut[_y, _x] = Chroma.CreateFromHSL(_cSet.hsl.h, _cSet.sat, _l, _cSet.hsl.a);
+                        _frameOut[_y, _x] = Chroma.CreateFromHSL(_cSet.HSL.h, _cSet.Sat, _l, _cSet.HSL.a);
 
                     }
                 }
@@ -182,5 +183,12 @@ namespace PichaLib
 
             return _output;
         }
+    }
+
+    public struct CellData
+    {
+        public Chroma RGB;
+        public (float h, float s, float l, float a) HSL;
+        public float Sat;
     }
 }

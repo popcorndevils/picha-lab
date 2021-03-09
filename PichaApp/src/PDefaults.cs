@@ -13,10 +13,7 @@ static class PDefaults
                 Frames = PDefaults.Frames,
                 Pixels = PDefaults.Pixels,
                 Cycles = PDefaults.Cycles,
-                Locus = (8, 8, 0, 0),
-                FadeDirection = FadeDirection.NORTH,
-                BrightNoise = .5f,
-                MinSaturation = .5f,
+                Locus = (8, 8, 0, 0)
             };
         }
     }
@@ -42,25 +39,37 @@ static class PDefaults
                     ID = 0,
                     Name = "EMPTY",
                     Color = (0, 0, 0, 0),
-                    RandomCol = false}
+                    RandomCol = false,
+                    FadeDirection = FadeDirection.NORTH,
+                    BrightNoise = .5f,
+                    MinSaturation = .5f,}
                 },
                 {1, new Pixel(){
                     ID = 1,
                     Name = "BODY1",
                     Color = (0, 0, 255, 255),
-                    RandomCol = true}
+                    RandomCol = true,
+                    FadeDirection = FadeDirection.NORTH,
+                    BrightNoise = .5f,
+                    MinSaturation = .5f,}
                 },
                 {2, new Pixel(){
                     ID = 2,
                     Name = "BODY2",
                     Color = (0, 255, 0, 255),
-                    RandomCol = true}
+                    RandomCol = true,
+                    FadeDirection = FadeDirection.NORTH,
+                    BrightNoise = .5f,
+                    MinSaturation = .5f,}
                 },
                 {3, new Pixel(){
                     ID = 3,
                     Name = "OUTLINE",
-                    Color = (255, 0, 0, 255),
-                    RandomCol = false}
+                    Color = (0, 0, 0, 255),
+                    RandomCol = false,
+                    FadeDirection = FadeDirection.NONE,
+                    BrightNoise = .5f,
+                    MinSaturation = 0f,}
                 },
             };
         }

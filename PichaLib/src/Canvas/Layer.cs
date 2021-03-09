@@ -9,12 +9,9 @@ namespace PichaLib
         public SortedList<int, int[,]> Frames;
         public Dictionary<int, Pixel> Pixels;
         public SortedList<int, Dictionary<int, Policy>> Cycles;
-
-        public FadeDirection FadeDirection;
+        
         public bool MirrorX;
         public bool MirrorY;
-        public float BrightNoise;
-        public float MinSaturation;
     }
 
     public enum FadeDirection
