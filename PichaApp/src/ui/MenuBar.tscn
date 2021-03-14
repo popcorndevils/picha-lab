@@ -6,6 +6,7 @@
 [node name="MenuBar" type="MarginContainer"]
 margin_right = 1024.0
 margin_bottom = 20.0
+rect_min_size = Vector2( 30, 30 )
 script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -13,11 +14,11 @@ __meta__ = {
 
 [node name="OptButtons" type="HBoxContainer" parent="."]
 margin_right = 1024.0
-margin_bottom = 20.0
+margin_bottom = 30.0
 
 [node name="OptFile" type="MenuButton" parent="OptButtons"]
 margin_right = 35.0
-margin_bottom = 20.0
+margin_bottom = 30.0
 text = "File"
 
 [node name="FileOpen" parent="OptButtons/OptFile" instance=ExtResource( 2 )]
@@ -27,7 +28,7 @@ Action = "file_open"
 [node name="OptEdit" type="MenuButton" parent="OptButtons"]
 margin_left = 39.0
 margin_right = 75.0
-margin_bottom = 20.0
+margin_bottom = 30.0
 text = "Edit"
 
 [node name="Canvas" parent="OptButtons/OptEdit" instance=ExtResource( 2 )]
@@ -39,8 +40,4 @@ Action = "edit_canvas"
 
 [node name="Generate" parent="OptButtons/OptEdit" instance=ExtResource( 2 )]
 Text = "Generation"
-
-[node name="AutoGenerate2" parent="OptButtons/OptEdit/Generate" instance=ExtResource( 2 )]
-Text = "Auto Generate"
-Action = "auto_generate"
-CheckButton = true
+Action = "gen_sprite"

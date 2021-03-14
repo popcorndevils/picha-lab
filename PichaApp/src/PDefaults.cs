@@ -13,7 +13,9 @@ static class PDefaults
                 Frames = PDefaults.Frames,
                 Pixels = PDefaults.Pixels,
                 Cycles = PDefaults.Cycles,
-                Locus = (8, 8, 0, 0)
+                Locus = (8, 8, 0, 0),
+                MirrorX = true,
+                MirrorY = true,
             };
         }
     }
@@ -28,6 +30,14 @@ static class PDefaults
                                 {0, 1, 2, 0, 0, 2, 1, 0},
                                 {0, 1, 2, 2, 2, 2, 1, 0},
                                 {0, 1, 1, 1, 1, 1, 1, 0},
+                                {0, 0, 0, 0, 0, 0, 0, 0}}},
+                {1, new int[,] {{0, 0, 0, 0, 0, 0, 0, 0},
+                                {0, 0, 0, 0, 0, 0, 0, 0},
+                                {0, 0, 2, 2, 2, 2, 0, 0},
+                                {0, 0, 2, 2, 2, 2, 0, 0},
+                                {0, 0, 2, 2, 2, 2, 0, 0},
+                                {0, 0, 2, 2, 2, 2, 0, 0},
+                                {0, 0, 0, 0, 0, 0, 0, 0},
                                 {0, 0, 0, 0, 0, 0, 0, 0}}}};
         }
     }

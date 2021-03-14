@@ -96,8 +96,13 @@ namespace PichaLib
 
                     }
                 }
+
+                if(l.MirrorX) { _frameOut = _frameOut.MirrorX(); }
+                if(l.MirrorY) { _frameOut = _frameOut.MirrorY(); }
+
                 _output.Add(_pair.Key, _frameOut);
             }
+
 
             return _output;
         }

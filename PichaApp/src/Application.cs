@@ -1,44 +1,25 @@
 using Godot;
-
 using PichaLib;
-
-using OctavianLib;
 
 public class Application : Node
 {
     private MenuBar _Menu;
+    private Control _GUI;
+    private GenSprite _Sprite;
 
     public override void _Ready()
     {
-        this._Menu = this.FindNode("MenuBar") as MenuBar;
+        this._Menu = this.GetNode<MenuBar>("PichaGUI/WSVert/MenuBar");
+        this._GUI = this.GetNode<Control>("PichaGUI");
         this._RegisterSignals();
 
-        var _test = PDefaults.Layer;
-        GD.Print("****STAGE 00****");
-        GD.Print(_test.Frames[0].ToPrintOut());
-        var _testChanged = PFactory.ProcessLayer(_test);
+        this._Sprite = new GenSprite();
 
-        var _width = _testChanged[0].GetWidth();
-        var _height = _testChanged[0].GetHeight();
+        this._GUI.AddChild(this._Sprite);
+        this._Sprite.Scale = new Vector2(20, 20);
+        this._Sprite.Position = new Vector2(180, 300);
 
-        var _i = new Image();
-
-        _i.Create(_width, _height, false, Image.Format.Rgba8);
-        _i.Lock();
-
-        for(int x = 0; x < _width; x++) 
-        {
-            for(int y = 0; y < _height; y++) 
-            {
-                // use transpose
-                _i.SetPixel(x, y, _testChanged[0][y, x].ToGodotColor());
-            }
-        }
-
-        var _tex = new ImageTexture();
-        _tex.CreateFromImage(_i, 0);
-        var _sprite = this.FindNode("TestSprite") as Sprite;
-        _sprite.Texture = _tex;
+        this._Sprite.Generate();
     }
 
     private void _RegisterSignals()
@@ -50,6 +31,9 @@ public class Application : Node
     {
         switch(menu.Action)
         {
+            case "gen_sprite":
+                this._Sprite.Generate();
+                break;
             default:
                 GD.PrintErr($"Unable to Parse MenuItem action \"{menu.Action}\".");
                 break;
