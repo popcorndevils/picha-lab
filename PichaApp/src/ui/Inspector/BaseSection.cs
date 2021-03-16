@@ -1,8 +1,16 @@
 using Godot;
 
-public abstract class BaseSection : VBoxContainer
+public class BaseSection : VBoxContainer
 {
-    public string SectionTitle;
+    private string _SectionTitle;
+    public string SectionTitle {
+        get => this._SectionTitle;
+        set {
+            this._SectionTitle = value;
+            if(this.SectionHeader != null)
+                { this.SectionHeader.Text = value; }
+        }
+    }
     public Button SectionHeader;
     public MarginContainer SectionContent;
     public GridContainer SectionGrid;
@@ -21,10 +29,12 @@ public abstract class BaseSection : VBoxContainer
         this.AddChild(this.SectionHeader);
         this.AddChild(this.SectionContent);
         this.SectionHeader.Connect("pressed", this, "_SectionClicked");
+        this.SectionContent.Visible = false;
+        this.SizeFlagsHorizontal = (int)Control.SizeFlags.ExpandFill;
+        this.SectionContent.SizeFlagsHorizontal = (int)Control.SizeFlags.ExpandFill;
+        this.SectionGrid.SizeFlagsHorizontal = (int)Control.SizeFlags.ExpandFill;
     }
 
     public void _SectionClicked()
-    {
-        GD.Print(this.SectionTitle);
-    }
+        { this.SectionContent.Visible = !this.SectionContent.Visible; }
 }

@@ -4,7 +4,10 @@ using Godot;
 
 public class GenSprite : Node2D
 {
-    public (int w, int h) Size;
+    public Vector2 Size {
+        get => this._BG.RectSize;
+    }
+
     private SortedList<int, GenLayer> _Layers;
     private ColorRect _BG;
     private TextureRect _FG;
@@ -26,27 +29,29 @@ public class GenSprite : Node2D
         this._BG = new ColorRect() {
             Color = new Color(1f, 1f, 1f, 1f),
             RectSize = new Vector2(16, 16),
-            RectPosition = new Vector2(-8, -8),
         };
 
         this._FG = new TextureRect() {
             Texture = this._GetFG(16, 16),
             RectSize = new Vector2(16, 16),
-            RectPosition = new Vector2(-8, -8),
         };
 
         this.AddChild(this._BG);
         this.AddChild(this._FG);
+
         this.AddLayer(new GenLayer());
 
         this.FG = new Color(.1f, .1f, .1f, 1f);
         this.BG = new Color(.4f, .4f, .4f, 1f);
     }
 
-    public void AddLayer(GenLayer l)
+    public void AddLayer(Node n)
     {
+        GenLayer l = n as GenLayer;
+
         this._Layers.Add(this._Layers.Count, l);
         this.AddChild(l);
+        this.GetTree().CallGroup("layer_gui_props", "LayerLoad", l);
     }
 
     public void Generate()

@@ -5,6 +5,7 @@
 [node name="WorkArea" type="MarginContainer"]
 anchor_right = 1.0
 anchor_bottom = 1.0
+mouse_filter = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 script = ExtResource( 1 )
@@ -15,35 +16,30 @@ __meta__ = {
 [node name="WorkSpace" type="HBoxContainer" parent="."]
 margin_right = 1024.0
 margin_bottom = 600.0
+mouse_filter = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="Left" type="MarginContainer" parent="WorkSpace"]
 visible = false
-margin_right = 338.0
+margin_right = 358.0
 margin_bottom = 600.0
+mouse_filter = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="Middle" type="MarginContainer" parent="WorkSpace"]
 margin_right = 720.0
 margin_bottom = 600.0
+mouse_filter = 1
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="ViewportContainer" type="ViewportContainer" parent="WorkSpace/Middle"]
+[node name="SpriteView" type="Control" parent="WorkSpace/Middle"]
 margin_right = 720.0
 margin_bottom = 600.0
-stretch = true
-
-[node name="Viewport" type="Viewport" parent="WorkSpace/Middle/ViewportContainer"]
-size = Vector2( 720, 600 )
-handle_input_locally = false
-render_target_update_mode = 3
-
-[node name="Camera2D" type="Camera2D" parent="WorkSpace/Middle/ViewportContainer/Viewport"]
-scale = Vector2( 2, 2 )
-current = true
+rect_clip_content = true
+mouse_filter = 2
 
 [node name="Right" type="MarginContainer" parent="WorkSpace"]
 margin_left = 724.0

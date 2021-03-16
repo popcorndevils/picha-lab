@@ -1,5 +1,4 @@
 using Godot;
-using PichaLib;
 
 public class Application : Node
 {
@@ -15,13 +14,13 @@ public class Application : Node
 
         this._Sprite = new GenSprite();
 
-        Viewport _vp = this.GetNode<Viewport>("PichaGUI/WSVert/WorkArea/WorkSpace/Middle/ViewportContainer/Viewport");
-        Camera2D _cam = this.GetNode<Camera2D>("PichaGUI/WSVert/WorkArea/WorkSpace/Middle/ViewportContainer/Viewport/Camera2D");
+        Control _vp = this.GetNode<Control>("PichaGUI/WSVert/WorkArea/WorkSpace/Middle/SpriteView");
 
         _vp.AddChild(this._Sprite);
-        this._Sprite.Scale = new Vector2(10, 10);
 
         this._Sprite.Generate();
+        this._Sprite.Scale = new Vector2(20, 20);
+        this._Sprite.Position = (this._Sprite.GetParent<Control>().RectSize / 2) - ((this._Sprite.Size / 2) * this._Sprite.Scale);
     }
 
     private void _RegisterSignals()

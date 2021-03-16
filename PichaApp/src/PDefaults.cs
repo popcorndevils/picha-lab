@@ -14,8 +14,8 @@ static class PDefaults
                 Pixels = PDefaults.Pixels,
                 Cycles = PDefaults.Cycles,
                 Locus = (8, 8, 0, 0),
-                MirrorX = true,
-                MirrorY = true,
+                MirrorX = false,
+                MirrorY = false,
             };
         }
     }
