@@ -48,7 +48,8 @@ static class PDefaults
                 {0, new Pixel(){
                     ID = 0,
                     Name = "EMPTY",
-                    Color = (0, 0, 0, 0),
+                    Color = Chroma.CreateFromBytes(0, 0, 0, 0),
+                    Paint = Chroma.CreateFromBytes(255, 255, 255, 255),
                     RandomCol = false,
                     FadeDirection = FadeDirection.NORTH,
                     BrightNoise = .5f,
@@ -57,7 +58,8 @@ static class PDefaults
                 {1, new Pixel(){
                     ID = 1,
                     Name = "BODY1",
-                    Color = (0, 0, 255, 255),
+                    Color = Chroma.CreateFromBytes(0, 0, 255, 255),
+                    Paint = Chroma.CreateFromBytes(0, 0, 255, 255),
                     RandomCol = true,
                     FadeDirection = FadeDirection.NORTH,
                     BrightNoise = .5f,
@@ -66,7 +68,8 @@ static class PDefaults
                 {2, new Pixel(){
                     ID = 2,
                     Name = "BODY2",
-                    Color = (0, 255, 0, 255),
+                    Color = Chroma.CreateFromBytes(0, 255, 0, 255),
+                    Paint = Chroma.CreateFromBytes(0, 255, 0, 255),
                     RandomCol = true,
                     FadeDirection = FadeDirection.NORTH,
                     BrightNoise = .5f,
@@ -75,7 +78,8 @@ static class PDefaults
                 {3, new Pixel(){
                     ID = 3,
                     Name = "OUTLINE",
-                    Color = (0, 0, 0, 255),
+                    Color = Chroma.CreateFromBytes(0, 0, 0, 255),
+                    Paint = Chroma.CreateFromBytes(0, 0, 0, 255),
                     RandomCol = false,
                     FadeDirection = FadeDirection.NONE,
                     BrightNoise = .5f,

@@ -20,15 +20,11 @@ public class PixelSection : BaseSection
             var _props = new PixelProps() {
                 SectionTitle = p.Name
             };
+
             
             this.SectionGrid.AddChild(_props);
+            _props.SectionHeader.Align = Button.TextAlign.Left;
             _props.PixelLoad(p);
-            // _props.PixelChanged += this.HandlePixelChange;
         }
-    }
-
-    public void HandlePixelChange(Pixel p)
-    {
-        this._Layer.Data.Pixels[p.ID] = p;
     }
 }

@@ -47,7 +47,7 @@ namespace PichaLib
                         (float)PFactory._Random.NextDouble());
                 }
                 else
-                    { _dat.RGB = Chroma.CreateFromBytes(_type.Color); }
+                    { _dat.RGB = _type.Color; }
 
                 _dat.HSL = _dat.RGB.ToHSL();
                 _dat.Sat = (float)PFactory._Random.RandfRange(_type.MinSaturation * _dat.HSL.s, _dat.HSL.s);

@@ -28,7 +28,9 @@ public class BaseSection : VBoxContainer
         this.SectionContent.AddChild(this.SectionGrid);
         this.AddChild(this.SectionHeader);
         this.AddChild(this.SectionContent);
+
         this.SectionHeader.Connect("pressed", this, "_SectionClicked");
+        
         this.SectionContent.Visible = false;
         this.SizeFlagsHorizontal = (int)Control.SizeFlags.ExpandFill;
         this.SectionContent.SizeFlagsHorizontal = (int)Control.SizeFlags.ExpandFill;

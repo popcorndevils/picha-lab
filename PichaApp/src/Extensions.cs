@@ -9,6 +9,9 @@ public static class PichaExtensions
     public static Color ToGodotColor(this Chroma col)
         { return new Color(col.R, col.G, col.B, col.A); }
 
+    public static Chroma ToChroma(this Color c)
+        { return new Chroma(c.r, c.g, c.b, c.a); }
+
     public static ImageTexture ToGodotTex(this Chroma[,] array)
     {
         var _output = new ImageTexture();

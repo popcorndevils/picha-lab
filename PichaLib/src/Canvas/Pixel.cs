@@ -4,7 +4,8 @@ namespace PichaLib
     {
         public int ID;
         public string Name;
-        public (byte r, byte g, byte b, byte a) Color;
+        public Chroma Color;
+        public Chroma Paint;
         public bool RandomCol;
         public FadeDirection FadeDirection;
         public float BrightNoise;

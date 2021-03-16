@@ -23,6 +23,8 @@ namespace PichaLib
                 (float)(col.A / 255f)
             );
         }
+        public static Chroma CreateFromBytes(byte r, byte g, byte b, byte a)
+            { return Chroma.CreateFromBytes((r, g, b, a)); }
         public static Chroma CreateFromBytes((byte r, byte g, byte b, byte a) col)
         {
             return new Chroma(
