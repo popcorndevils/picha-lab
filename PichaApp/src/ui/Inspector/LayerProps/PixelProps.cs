@@ -2,8 +2,13 @@ using Godot;
 
 using PichaLib;
 
+public delegate void PixelChangedHandler(Pixel p);
+
 public class PixelProps : BaseSection
 {
+    public event PixelChangedHandler PixelChanged;
+    public Pixel Pixel;
+
     public override void _Ready()
     {
         base._Ready();
@@ -12,6 +17,9 @@ public class PixelProps : BaseSection
 
     public void PixelLoad(Pixel p)
     {
+        this._ClearChildren();
+        this.Pixel = p;
+
         var _nameLabel = new Label() {
             Text = "NAME",
             SizeFlagsHorizontal = (int)Control.SizeFlags.ExpandFill,
@@ -29,5 +37,18 @@ public class PixelProps : BaseSection
         _nameEdit.Connect("text_changed", this, "EditName");
     }
 
-    public void EditName(string s) { this.SectionTitle = s; }
+    private void _ClearChildren()
+    {
+        foreach(Node n in this.SectionGrid.GetChildren())
+        {
+            this.SectionGrid.RemoveChild(n);
+        }
+    }
+
+    public void EditName(string s)
+    {
+        this.SectionTitle = s; 
+        this.Pixel.Name = s;
+        PixelChanged?.Invoke(Pixel);
+    }
 }

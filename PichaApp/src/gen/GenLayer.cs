@@ -61,6 +61,11 @@ public class GenLayer : TextureRect
     {
         this._Textures.Clear();
 
+        foreach(Pixel p in this.Data.Pixels.Values)
+        {
+            GD.Print($"{p.Name}: {p.ID}");
+        }
+
         foreach(KeyValuePair<int, Chroma[,]> _p in PFactory.ProcessLayer(this.Data))
             { this._Textures.Add(_p.Key, _p.Value.ToGodotTex()); }
 

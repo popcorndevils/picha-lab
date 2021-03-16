@@ -34,10 +34,3 @@ anchor_bottom = 0.0
 margin_top = 34.0
 margin_right = 1024.0
 margin_bottom = 600.0
-
-[node name="GridContainer" type="GridContainer" parent="."]
-margin_right = 40.0
-margin_bottom = 40.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
