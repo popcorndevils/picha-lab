@@ -2,8 +2,31 @@ using System.Collections.Generic;
 
 using Godot;
 
-public class GenSprite : Node2D
+public class GenCanvas : Node2D
 {
+    private bool _AutoGen = false;
+    public bool AutoGen {
+        get => this._AutoGen;
+        set {
+            this._AutoGen = value;
+            if(value) { this._Timer.Start(); }
+            else { this._Timer.Stop(); }
+        }
+    }
+
+    private float _TimeToGen = 3f;
+    public float TimeToGen {
+        get => this._TimeToGen;
+        set {
+            this._TimeToGen = value;
+            this._Timer.WaitTime = value;
+            if(this.AutoGen) { this._Timer.Start(); }
+        }
+    }
+
+
+    private Timer _Timer;
+
     public Vector2 Size {
         get => this._BG.RectSize;
     }
@@ -24,6 +47,11 @@ public class GenSprite : Node2D
 
     public override void _Ready()
     {
+        this._Timer = new Timer() {
+            WaitTime = this.TimeToGen
+        };
+
+
         this._Layers = new SortedList<int, GenLayer>();
 
         this._BG = new ColorRect() {
@@ -36,6 +64,7 @@ public class GenSprite : Node2D
             RectSize = new Vector2(16, 16),
         };
 
+        this.AddChild(this._Timer);
         this.AddChild(this._BG);
         this.AddChild(this._FG);
 
@@ -43,6 +72,9 @@ public class GenSprite : Node2D
 
         this.FG = new Color(.1f, .1f, .1f, 1f);
         this.BG = new Color(.4f, .4f, .4f, 1f);
+
+        this._Timer.Connect("timeout", this, "Generate");
+        if(this.AutoGen) { this._Timer.Start(); }
     }
 
     public void AddLayer(Node n)
@@ -51,7 +83,7 @@ public class GenSprite : Node2D
 
         this._Layers.Add(this._Layers.Count, l);
         this.AddChild(l);
-        this.GetTree().CallGroup("layer_gui_props", "LoadLayer", l);
+        this.GetTree().CallGroup("gp_layer_gui", "LoadLayer", l);
     }
 
     public void Generate()

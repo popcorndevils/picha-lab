@@ -10,10 +10,10 @@ static class PDefaults
     internal static Layer Layer {
         get {
             return new Layer() {
+                Name = "TEST LAYER",
                 Frames = PDefaults.Frames,
                 Pixels = PDefaults.Pixels,
                 Cycles = PDefaults.Cycles,
-                Locus = (8, 8, 0, 0),
                 MirrorX = false,
                 MirrorY = false,
             };

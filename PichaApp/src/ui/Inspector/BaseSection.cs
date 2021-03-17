@@ -14,19 +14,23 @@ public class BaseSection : VBoxContainer
     public Button SectionHeader;
     public MarginContainer SectionContent;
     public GridContainer SectionGrid;
+    public HBoxContainer HeaderContainer;
 
     public override void _Ready()
     {
         this.SectionHeader = new Button() {
             Text = this.SectionTitle,
             Flat = true,
+            SizeFlagsHorizontal = (int)Control.SizeFlags.ExpandFill,
         };
 
+        this.HeaderContainer = new HBoxContainer();
         this.SectionContent = new MarginContainer();
         this.SectionGrid = new GridContainer();
 
+        this.HeaderContainer.AddChild(this.SectionHeader);
         this.SectionContent.AddChild(this.SectionGrid);
-        this.AddChild(this.SectionHeader);
+        this.AddChild(this.HeaderContainer);
         this.AddChild(this.SectionContent);
 
         this.SectionHeader.Connect("pressed", this, "_SectionClicked");
