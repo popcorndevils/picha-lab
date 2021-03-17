@@ -1,6 +1,6 @@
 using Godot;
 
-public class GenProps : BaseSection
+public class GenSection : BaseSection
 {
     public override void _Ready()
     {

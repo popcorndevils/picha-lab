@@ -133,7 +133,7 @@ public class PixelProps : BaseSection
         this._RandomColEdit.Pressed = p.RandomCol;
 
         this._FadeDirectionEdit.Clear();
-        foreach (int i in Enum.GetValues(typeof(FadeDirection)))  
+        foreach(int i in Enum.GetValues(typeof(FadeDirection)))  
         {  
             this._FadeDirectionEdit.AddItem(Enum.GetName(typeof(FadeDirection), i), i);
         }

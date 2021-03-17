@@ -89,7 +89,7 @@ static class PDefaults
         }
     }
 
-    internal static SortedList<int, Dictionary<int, Policy>> Cycles {
+    internal static SortedList<int, Cycle> Cycles {
         get {
             var _policy1 = new Policy() {
                 Input = (int)PDefaults.PIXEL_IDS.BODY1,
@@ -112,15 +112,18 @@ static class PDefaults
                 ConditionB = (int)PDefaults.PIXEL_IDS.EMPTY,
             };
 
-            return new SortedList<int, Dictionary<int, Policy>>() {
-                {0, new Dictionary<int, Policy>() {
+            return new SortedList<int, Cycle>() {
+                {0, new Cycle() {
+                    Name = "DEGRADE",
+                    Policies = new Dictionary<int, Policy>() {
                         {(int)PDefaults.PIXEL_IDS.BODY1, _policy1},
                         {(int)PDefaults.PIXEL_IDS.BODY2, _policy2}
-                    }
-                },
-                {1, new Dictionary<int, Policy>() {
+                    }}},
+                {1, new Cycle() {
+                    Name = "OUTLINE",
+                    Policies = new Dictionary<int, Policy>() {
                         {(int)PDefaults.PIXEL_IDS.EMPTY, _policy3}
-                    }
+                    }}
                 }};
         }
     }

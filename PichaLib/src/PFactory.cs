@@ -21,9 +21,9 @@ namespace PichaLib
             {
                 int[,] _frameCopy = (int[,])_frame.Value.Clone();
 
-                foreach(KeyValuePair<int, Dictionary<int, Policy>> _cycle in l.Cycles)
+                foreach(KeyValuePair<int, Cycle> _cycle in l.Cycles)
                 {
-                    _frameCopy = PFactory._RunCycle(_frameCopy, _cycle.Value);
+                    _frameCopy = PFactory._RunCycle(_frameCopy, _cycle.Value.Policies);
                 }
                 _output.Add(_frame.Key, _frameCopy);
             }

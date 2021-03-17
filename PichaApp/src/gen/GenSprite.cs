@@ -51,7 +51,7 @@ public class GenSprite : Node2D
 
         this._Layers.Add(this._Layers.Count, l);
         this.AddChild(l);
-        this.GetTree().CallGroup("layer_gui_props", "LayerLoad", l);
+        this.GetTree().CallGroup("layer_gui_props", "LoadLayer", l);
     }
 
     public void Generate()
