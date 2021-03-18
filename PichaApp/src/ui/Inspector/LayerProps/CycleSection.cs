@@ -9,7 +9,7 @@ public class CycleSection : BaseSection
 
     public override void _Ready()
     {
-        this.SectionTitle = "Cycles";
+        this.SectionTitle = "Gen Cycles";
         base._Ready();
     }
 

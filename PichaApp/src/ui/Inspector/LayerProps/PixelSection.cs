@@ -9,7 +9,7 @@ public class PixelSection : BaseSection
 
     public override void _Ready()
     {
-        this.SectionTitle = "Pixels";
+        this.SectionTitle = "Pixel Types";
         base._Ready();
     }
 

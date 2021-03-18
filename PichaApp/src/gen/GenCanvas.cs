@@ -29,6 +29,11 @@ public class GenCanvas : Node2D
 
     public Vector2 Size {
         get => this._BG.RectSize;
+        set {
+            this._BG.RectSize = value;
+            this._FG.RectSize = value;
+            this._FG.Texture = this._GetFG((int)value.x, (int)value.y);
+        }
     }
 
     private SortedList<int, GenLayer> _Layers;
@@ -75,6 +80,8 @@ public class GenCanvas : Node2D
 
         this._Timer.Connect("timeout", this, "Generate");
         if(this.AutoGen) { this._Timer.Start(); }
+
+        this.Generate();
     }
 
     public void AddLayer(Node n)

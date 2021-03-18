@@ -11,6 +11,17 @@ public class GenLayer : TextureRect
     private SortedList<int, Texture> _Textures;
 
     private bool _Hover;
+    public bool Hover {
+        get => this._Hover;
+        set {
+            this._Hover = value;
+
+            if(value) { this.Modulate = new Color(.3f, .3f, .3f, 1f); }
+            else { this.Modulate = new Color(1f, 1f, 1f, 1f); }
+        }
+    }
+
+    private bool _Dragging;
 
     private float _AnimTime = 2;
     public float AnimTime {
@@ -54,6 +65,32 @@ public class GenLayer : TextureRect
         this._Timer.Start();
     }
 
+    public override void _GuiInput(InputEvent @event)
+    {
+        base._GuiInput(@event);
+        if(@event is InputEventMouseButton btn)
+        {
+            if(btn.ButtonIndex == (int)ButtonList.Left)
+            {
+                if(btn.Pressed && this.Hover)
+                {
+                    this._Dragging = true;
+                }
+                else
+                {
+                    this._Dragging = false;
+                }
+            } 
+        }
+        else if(@event is InputEventMouseMotion mtn)
+        {
+            if(this._Dragging)
+            {
+                this.RectPosition += mtn.Relative;
+            }
+        }
+    }
+
     public void OnChange()
         { this.Frame = this.Frame >= this._Textures.Count - 1 ? 0 : this.Frame + 1; }
 
@@ -69,6 +106,6 @@ public class GenLayer : TextureRect
         this._Timer.WaitTime = this.AnimTime / this._Textures.Count;
     }
 
-    public void OnMouseIn() { this._Hover = true; }
-    public void OnMouseOut() { this._Hover = false; }
+    public void OnMouseIn() { this.Hover = true; }
+    public void OnMouseOut() { this.Hover = false; }
 }

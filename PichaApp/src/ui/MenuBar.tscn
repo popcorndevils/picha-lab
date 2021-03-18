@@ -24,20 +24,3 @@ text = "File"
 [node name="FileOpen" parent="OptButtons/OptFile" instance=ExtResource( 2 )]
 Text = "Open"
 Action = "file_open"
-
-[node name="OptEdit" type="MenuButton" parent="OptButtons"]
-margin_left = 39.0
-margin_right = 75.0
-margin_bottom = 30.0
-text = "Edit"
-
-[node name="Canvas" parent="OptButtons/OptEdit" instance=ExtResource( 2 )]
-Text = "Canvas"
-
-[node name="EditCanvas" parent="OptButtons/OptEdit/Canvas" instance=ExtResource( 2 )]
-Text = "Edit Canvas"
-Action = "edit_canvas"
-
-[node name="Generate" parent="OptButtons/OptEdit" instance=ExtResource( 2 )]
-Text = "Generation"
-Action = "gen_sprite"

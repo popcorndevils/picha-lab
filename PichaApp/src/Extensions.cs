@@ -36,5 +36,13 @@ public static class PichaExtensions
         _output.CreateFromImage(_i, 0);
         return _output;
     }
+
+    public static void AddChildren(this Node self, params Node[] nodes)
+    {
+        foreach(Node n in nodes)
+        {
+            self.AddChild(n);
+        }
+    }
 }
 
