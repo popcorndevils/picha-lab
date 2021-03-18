@@ -37,6 +37,10 @@ public class GenCanvas : Node2D
     }
 
     private SortedList<int, GenLayer> _Layers;
+    public SortedList<int, GenLayer> Layers {
+        get => this._Layers;
+        set => this._Layers = value;
+    }
     private ColorRect _BG;
     private TextureRect _FG;
 
@@ -56,8 +60,7 @@ public class GenCanvas : Node2D
             WaitTime = this.TimeToGen
         };
 
-
-        this._Layers = new SortedList<int, GenLayer>();
+        this.Layers = new SortedList<int, GenLayer>();
 
         this._BG = new ColorRect() {
             Color = new Color(1f, 1f, 1f, 1f),
@@ -88,14 +91,13 @@ public class GenCanvas : Node2D
     {
         GenLayer l = n as GenLayer;
 
-        this._Layers.Add(this._Layers.Count, l);
+        this.Layers.Add(this.Layers.Count, l);
         this.AddChild(l);
-        this.GetTree().CallGroup("gp_layer_gui", "LoadLayer", l);
     }
 
     public void Generate()
     {
-        foreach(GenLayer _l in this._Layers.Values)
+        foreach(GenLayer _l in this.Layers.Values)
         {
             _l.Generate();
         }

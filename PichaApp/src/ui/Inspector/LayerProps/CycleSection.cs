@@ -15,6 +15,7 @@ public class CycleSection : BaseSection
 
     public void LoadLayer(Layer l)
     {
+        this.SectionGrid.ClearChildren();
         foreach(Cycle _c in l.Cycles.Values)
         {
             var _props = new CycleProps() { SectionTitle = _c.Name };

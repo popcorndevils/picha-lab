@@ -21,6 +21,10 @@ margin_right = 35.0
 margin_bottom = 30.0
 text = "File"
 
+[node name="MenuBarItem" parent="OptButtons/OptFile" instance=ExtResource( 2 )]
+Text = "New Canvas"
+Action = "new_canvas"
+
 [node name="FileOpen" parent="OptButtons/OptFile" instance=ExtResource( 2 )]
-Text = "Open"
-Action = "file_open"
+Text = "Open Canvas"
+Action = "canvas_open"

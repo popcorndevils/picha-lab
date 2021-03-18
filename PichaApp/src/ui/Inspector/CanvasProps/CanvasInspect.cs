@@ -127,6 +127,9 @@ public class CanvasInspect : ScrollContainer
         this._AutoGenTimeEdit.Connect("value_changed", this, "OnCanvasEdit");
         this._WidthEdit.Connect("value_changed", this, "OnCanvasEdit");
         this._HeightEdit.Connect("value_changed", this, "OnCanvasEdit");
+        
+        if(c.Layers.Count > 0)
+            { this.GetTree().CallGroup("gp_layer_gui", "LoadLayer", c.Layers[0]); }
     }
 
     public void OnCanvasEdit(params object[] args)

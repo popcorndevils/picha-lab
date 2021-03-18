@@ -34,3 +34,7 @@ anchor_bottom = 0.0
 margin_top = 34.0
 margin_right = 1024.0
 margin_bottom = 600.0
+
+[node name="PatternDesigner" type="WindowDialog" parent="PichaGUI"]
+margin_right = 48.0
+margin_bottom = 40.0
