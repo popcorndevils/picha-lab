@@ -1,11 +1,13 @@
 using Godot;
 
-public class SpriteContainer : Control
+public class CanvasContainer : Control
 {
+    private bool _Dragging;
     private GenCanvas _Canvas;
     public GenCanvas Canvas {
         get => this._Canvas;
         set {
+            
             if(this._Canvas != null)
                 { this.RemoveChild(value); }
             this._Canvas = value;
@@ -13,10 +15,11 @@ public class SpriteContainer : Control
             value.Scale = new Vector2(20, 20);
             value.Position = (this.RectSize / 2) - ((value.Size / 2) * value.Scale);
 
-            this.GetTree().CallGroup("gp_canvas_gui", "LoadCanvas", value);
+            this.GetParent<CanvasView>().NameCurrentTab(value.Name);
+
+            // this.GetTree().CallGroup("gp_canvas_gui", "LoadCanvas", value);
         }
     }
-    private bool _Dragging;
 
     public override void _Ready()
     {
@@ -58,6 +61,8 @@ public class SpriteContainer : Control
     public void OnVisibleChanged()
     {
         if(this.Visible) 
-            { this.GetTree().CallGroup("gp_canvas_gui", "LoadCanvas", this.Canvas); }
+        { 
+            this.GetTree().CallGroup("gp_canvas_gui", "LoadCanvas", this.Canvas);
+        }
     }
 }

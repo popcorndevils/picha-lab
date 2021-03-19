@@ -8,6 +8,7 @@ public class MenuBarItem : Node
     [Export] public bool Separate = false;
     [Export] public bool CheckButton = false;
     [Export] public bool IsChecked = false;
+    [Export] public bool StartDisabled = false;
 
     public PopupMenu ParentPopup;
 }

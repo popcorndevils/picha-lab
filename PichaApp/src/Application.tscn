@@ -38,3 +38,24 @@ margin_bottom = 600.0
 [node name="PatternDesigner" type="WindowDialog" parent="PichaGUI"]
 margin_right = 48.0
 margin_bottom = 40.0
+
+[node name="SaveDialog" type="FileDialog" parent="PichaGUI"]
+margin_right = 600.0
+margin_bottom = 300.0
+rect_min_size = Vector2( 400, 140 )
+window_title = "Save New Canvas"
+resizable = true
+access = 2
+current_dir = "/Projects/Picha/PichaApp"
+current_path = "/Projects/Picha/PichaApp/"
+
+[node name="OpenDialog" type="FileDialog" parent="PichaGUI"]
+margin_right = 600.0
+margin_bottom = 300.0
+rect_min_size = Vector2( 400, 140 )
+window_title = "Open Canvas"
+resizable = true
+mode = 0
+access = 2
+current_dir = "/Projects/Picha/PichaApp"
+current_path = "/Projects/Picha/PichaApp/"

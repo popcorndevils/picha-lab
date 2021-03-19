@@ -52,5 +52,15 @@ public static class PichaExtensions
             self.RemoveChild(n);
         }
     }
+
+    public static (int x, int y) ToIntPair(this Vector2 self)
+    {
+        return ((int)self.x, (int)self.y);
+    }
+
+    public static Vector2 ToVector2(this (int x, int y) self)
+    {
+        return new Vector2(self.x, self.y);
+    }
 }
 

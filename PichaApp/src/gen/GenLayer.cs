@@ -6,7 +6,20 @@ using PichaLib;
 
 public class GenLayer : TextureRect
 {
-    public Layer Data;
+    public Layer _Data;
+    public Layer Data {
+        get {
+            this._Data.X = (int)this.RectPosition.x;
+            this._Data.Y = (int)this.RectPosition.y;
+            return this._Data;
+        }
+        set {
+            this._Data = value;
+            this.RectPosition = (value.X, value.Y).ToVector2();
+            this._AnimTime = value.AnimTime;
+        }
+    }
+
     private Timer _Timer;
     private SortedList<int, Texture> _Textures;
 
@@ -23,16 +36,17 @@ public class GenLayer : TextureRect
 
     private bool _Dragging;
 
-    private float _AnimTime = 2;
+    private float _AnimTime = 2f;
     public float AnimTime {
         get => this._AnimTime;
         set {
             this._AnimTime = value;
+            this.Data.AnimTime = value;
             this.FrameTime = value / this._Textures.Count;
         }
     }
 
-    private float _FrameTime;
+    private float _FrameTime = 3f;
     public float FrameTime {
         get => this._FrameTime;
         set {
@@ -53,7 +67,7 @@ public class GenLayer : TextureRect
     public override void _Ready()
     {
         this._Textures = new SortedList<int, Texture>();
-        this._Timer = new Timer();
+        this._Timer = new Timer() { WaitTime = this.FrameTime };
 
         this.AddChild(this._Timer);
 
@@ -103,7 +117,6 @@ public class GenLayer : TextureRect
 
         this.Texture = this._Textures[0];
         this._Frame = 0;
-        this._Timer.WaitTime = this.AnimTime / this._Textures.Count;
     }
 
     public void OnMouseIn() { this.Hover = true; }

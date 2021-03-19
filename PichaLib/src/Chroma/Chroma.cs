@@ -11,6 +11,14 @@ namespace PichaLib
         public (float h, float s, float v, float a) HSV => Chroma.RGBtoHSV(this.RGBA);
         public (float h, float s, float l, float a) HSL => Chroma.RGBtoHSL(this.RGBA);
 
+        public Chroma()
+        {
+            this.R = 0f;
+            this.G = 0f;
+            this.B = 0f;
+            this.A = 1f;
+        }
+
         public Chroma((float r, float g, float b) col)
         {
             this.R = col.r;

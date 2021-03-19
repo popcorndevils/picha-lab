@@ -8,10 +8,12 @@ public class MenuBar : MarginContainer
 {
     public event ItemSelectedHandler ItemSelected;
     private Dictionary<int, MenuBarItem> _ActionList;
+    private Dictionary<string, (PopupMenu pop, int idx)> _ItemList;
 
     public override void _Ready()
     {
         this._ActionList = new Dictionary<int, MenuBarItem>();
+        this._ItemList = new Dictionary<string, (PopupMenu, int)>();
         this._PrepMenu();
     }
 
@@ -46,8 +48,10 @@ public class MenuBar : MarginContainer
         var _subitems = item.GetChildren();
         var _itemID = this._ActionList.Count;
 
-        this._ActionList.Add(_itemID, item);
         item.ParentPopup = p;
+
+        this._ActionList.Add(_itemID, item);
+        this._ItemList.Add(item.Action, (p, _itemID));
 
         if(_subitems.Count > 0)
         {
@@ -69,6 +73,8 @@ public class MenuBar : MarginContainer
                 { p.AddIconItem(item.Icon, item.Text, _itemID); }
             if(item.CheckButton)
                 { p.SetItemAsCheckable(p.GetItemIndex(_itemID), true); }
+            if(item.StartDisabled)
+                { p.SetItemDisabled(_itemID, true); }
         }
     }
 
@@ -84,5 +90,11 @@ public class MenuBar : MarginContainer
         }
 
         ItemSelected?.Invoke(this._ActionList[i]);
+    }
+
+    public void SetDisabled(string action, bool disabled)
+    {
+        var _opt = this._ItemList[action];
+        _opt.pop.SetItemDisabled(_opt.idx, disabled);
     }
 }

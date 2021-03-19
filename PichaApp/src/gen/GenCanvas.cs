@@ -2,15 +2,24 @@ using System.Collections.Generic;
 
 using Godot;
 
+using Newtonsoft.Json;
+using PichaLib;
+
 public class GenCanvas : Node2D
 {
+    public bool FileExists = false;
+    public string FilePath = "";
+
     private bool _AutoGen = false;
     public bool AutoGen {
         get => this._AutoGen;
         set {
             this._AutoGen = value;
-            if(value) { this._Timer.Start(); }
-            else { this._Timer.Stop(); }
+            if(_Timer != null)
+            {
+                if(value) { this._Timer.Start(); }
+                else { this._Timer.Stop(); }
+            }
         }
     }
 
@@ -19,24 +28,31 @@ public class GenCanvas : Node2D
         get => this._TimeToGen;
         set {
             this._TimeToGen = value;
-            this._Timer.WaitTime = value;
-            if(this.AutoGen) { this._Timer.Start(); }
+            if(_Timer != null)
+            {
+                this._Timer.WaitTime = value;
+                if(this.AutoGen){ this._Timer.Start(); }
+            }
         }
     }
-
 
     private Timer _Timer;
 
+    private Vector2 _Size = new Vector2(16, 16);
     public Vector2 Size {
-        get => this._BG.RectSize;
+        get => this._Size;
         set {
-            this._BG.RectSize = value;
-            this._FG.RectSize = value;
-            this._FG.Texture = this._GetFG((int)value.x, (int)value.y);
+            this._Size = value;
+            if(this._BG != null)
+            {
+                this._BG.RectSize = value;
+                this._FG.RectSize = value;
+                this._FG.Texture = this._GetFG((int)value.x, (int)value.y);
+            }
         }
     }
 
-    private SortedList<int, GenLayer> _Layers;
+    private SortedList<int, GenLayer> _Layers = new SortedList<int, GenLayer>();
     public SortedList<int, GenLayer> Layers {
         get => this._Layers;
         set => this._Layers = value;
@@ -44,32 +60,42 @@ public class GenCanvas : Node2D
     private ColorRect _BG;
     private TextureRect _FG;
 
+    private Color _BGCol = new Color(.4f, .4f, .4f, 1f);
     public Color BG {
-        get => this._BG.Color;
-        set => this._BG.Color = value;
+        get => this._BGCol;
+        set {
+            this._BGCol = value;
+            if(this._BG != null)
+                { this._BG.Modulate = value; }
+        }
     }
 
+    private Color _FGCol = new Color(.1f, .1f, .1f, 1f);
     public Color FG {
-        get => this._FG.Modulate;
-        set => this._FG.Modulate = value;
+        get => this._FGCol;
+        set {
+            this._FGCol = value;
+            if(this._FG != null)
+                { this._FG.Modulate = value; }
+        }
     }
 
     public override void _Ready()
     {
         this._Timer = new Timer() {
-            WaitTime = this.TimeToGen
+            WaitTime = this.TimeToGen,
         };
-
-        this.Layers = new SortedList<int, GenLayer>();
 
         this._BG = new ColorRect() {
             Color = new Color(1f, 1f, 1f, 1f),
-            RectSize = new Vector2(16, 16),
+            RectSize = this.Size,
+            Modulate = this.BG,
         };
 
         this._FG = new TextureRect() {
-            Texture = this._GetFG(16, 16),
-            RectSize = new Vector2(16, 16),
+            Texture = this._GetFG(this.Size),
+            RectSize = this.Size,
+            Modulate = this.FG,
         };
 
         this.AddChild(this._Timer);
@@ -77,9 +103,6 @@ public class GenCanvas : Node2D
         this.AddChild(this._FG);
 
         this.AddLayer(new GenLayer());
-
-        this.FG = new Color(.1f, .1f, .1f, 1f);
-        this.BG = new Color(.4f, .4f, .4f, 1f);
 
         this._Timer.Connect("timeout", this, "Generate");
         if(this.AutoGen) { this._Timer.Start(); }
@@ -103,6 +126,7 @@ public class GenCanvas : Node2D
         }
     }
     
+    private ImageTexture _GetFG(Vector2 s) { return this._GetFG((int)s.x, (int)s.y); }
     private ImageTexture _GetFG(int w, int h)
     {
         var _t = new Color(1f, 1f, 1f, 0f);
@@ -146,5 +170,54 @@ public class GenCanvas : Node2D
         _imTex.CreateFromImage(_im, 0);
 
         return _imTex;
+    }
+
+    public void Save() 
+    { 
+        this._WriteFile(this.FilePath); 
+    }
+
+    public void SaveAsFile(string path)
+    {
+        this.FileExists = true;
+        this.FilePath = path;
+        this._WriteFile(path);
+    }
+
+    public void _WriteFile(string path)
+        { System.IO.File.WriteAllText(path, JsonConvert.SerializeObject(this.SaveData())); }
+
+    public Canvas SaveData()
+    {
+        var _output = new Canvas() {
+            Size = ((int)this.Size.x, (int)this.Size.y),
+            AutoGen = this.AutoGen,
+            TimeToGen = this.TimeToGen,
+            TransparencyFG = this.FG.ToChroma(),
+            TransparencyBG = this.BG.ToChroma(),
+        };
+
+        foreach(KeyValuePair<int, GenLayer> _pair in this.Layers)
+        {
+            _output.Layers.Add(_pair.Key, _pair.Value.Data);
+        }
+
+        return _output;
+    }
+
+    public void LoadData(Canvas c) 
+    {
+        this.Size = new Vector2(c.Size.W, c.Size.H);
+        this.AutoGen = c.AutoGen;
+        this.TimeToGen = c.TimeToGen;
+        this.FG = c.TransparencyFG.ToGodotColor();
+        this.BG = c.TransparencyBG.ToGodotColor();
+
+        foreach(KeyValuePair<int, Layer> _pair in c.Layers)
+        {
+            var _l = new GenLayer();
+            _l.Data = _pair.Value;
+            this.AddLayer(_l);
+        }
     }
 }
