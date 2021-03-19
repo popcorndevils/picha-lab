@@ -2,7 +2,6 @@ namespace PichaLib
 {
     public class Pixel
     {
-        public int ID;
         public string Name;
         public Chroma Color;
         public Chroma Paint;

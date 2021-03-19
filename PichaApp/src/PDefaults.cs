@@ -7,12 +7,46 @@ static class PDefaults
     internal const int LAYER_WIDTH = 8;
     internal const int LAYER_HEIGHT = 8;
 
-    internal static Dictionary<int, Pixel> Pixels {
+    
+
+    internal static GenLayer Layer {
         get {
-            return new Dictionary<int, Pixel>() {
-                {0, new Pixel(){
-                    ID = 0,
-                    Name = "EMPTY",
+            return new GenLayer() 
+            {
+                Data = new Layer() 
+                {
+                    Name = "[unamed]",
+                    AnimTime = 3f,
+                    Cycles = PDefaults.Cycles,
+                    Frames = PDefaults.Frames,
+                    Pixels = PDefaults.Pixels
+                }
+            };
+        }
+    }
+
+    internal static SortedList<int, string[,]> Frames {
+        get {
+            return new SortedList<int, string[,]>() {
+                {0, new string[,] {
+                    {PIXEL_IDS.EMPTY, PIXEL_IDS.EMPTY, PIXEL_IDS.EMPTY, PIXEL_IDS.EMPTY, PIXEL_IDS.EMPTY, PIXEL_IDS.EMPTY, PIXEL_IDS.EMPTY, PIXEL_IDS.EMPTY,},
+                    {PIXEL_IDS.EMPTY, PIXEL_IDS.BODY1, PIXEL_IDS.BODY1, PIXEL_IDS.BODY1, PIXEL_IDS.BODY1, PIXEL_IDS.BODY1, PIXEL_IDS.BODY1, PIXEL_IDS.EMPTY,},
+                    {PIXEL_IDS.EMPTY, PIXEL_IDS.BODY1, PIXEL_IDS.BODY2, PIXEL_IDS.BODY2, PIXEL_IDS.BODY2, PIXEL_IDS.BODY2, PIXEL_IDS.BODY1, PIXEL_IDS.EMPTY,},
+                    {PIXEL_IDS.EMPTY, PIXEL_IDS.BODY1, PIXEL_IDS.BODY2, PIXEL_IDS.EMPTY, PIXEL_IDS.EMPTY, PIXEL_IDS.BODY2, PIXEL_IDS.BODY1, PIXEL_IDS.EMPTY,},
+                    {PIXEL_IDS.EMPTY, PIXEL_IDS.BODY1, PIXEL_IDS.BODY2, PIXEL_IDS.EMPTY, PIXEL_IDS.EMPTY, PIXEL_IDS.BODY2, PIXEL_IDS.BODY1, PIXEL_IDS.EMPTY,},
+                    {PIXEL_IDS.EMPTY, PIXEL_IDS.BODY1, PIXEL_IDS.BODY2, PIXEL_IDS.BODY2, PIXEL_IDS.BODY2, PIXEL_IDS.BODY2, PIXEL_IDS.BODY1, PIXEL_IDS.EMPTY,},
+                    {PIXEL_IDS.EMPTY, PIXEL_IDS.BODY1, PIXEL_IDS.BODY1, PIXEL_IDS.BODY1, PIXEL_IDS.BODY1, PIXEL_IDS.BODY1, PIXEL_IDS.BODY1, PIXEL_IDS.EMPTY,},
+                    {PIXEL_IDS.EMPTY, PIXEL_IDS.EMPTY, PIXEL_IDS.EMPTY, PIXEL_IDS.EMPTY, PIXEL_IDS.EMPTY, PIXEL_IDS.EMPTY, PIXEL_IDS.EMPTY, PIXEL_IDS.EMPTY,},
+                }}
+            };
+        }
+    }
+
+    internal static Dictionary<string, Pixel> Pixels {
+        get {
+            return new Dictionary<string, Pixel>() {
+                {PIXEL_IDS.EMPTY, new Pixel(){
+                    Name = PIXEL_IDS.EMPTY,
                     Color = Chroma.CreateFromBytes(0, 0, 0, 0),
                     Paint = Chroma.CreateFromBytes(255, 255, 255, 255),
                     RandomCol = false,
@@ -20,9 +54,8 @@ static class PDefaults
                     BrightNoise = .5f,
                     MinSaturation = .5f,}
                 },
-                {1, new Pixel(){
-                    ID = 1,
-                    Name = "BODY1",
+                {PIXEL_IDS.BODY1, new Pixel(){
+                    Name = PIXEL_IDS.BODY1,
                     Color = Chroma.CreateFromBytes(0, 0, 255, 255),
                     Paint = Chroma.CreateFromBytes(0, 0, 255, 255),
                     RandomCol = true,
@@ -30,9 +63,8 @@ static class PDefaults
                     BrightNoise = .5f,
                     MinSaturation = .5f,}
                 },
-                {2, new Pixel(){
-                    ID = 2,
-                    Name = "BODY2",
+                {PIXEL_IDS.BODY2, new Pixel(){
+                    Name = PIXEL_IDS.BODY2,
                     Color = Chroma.CreateFromBytes(0, 255, 0, 255),
                     Paint = Chroma.CreateFromBytes(0, 255, 0, 255),
                     RandomCol = true,
@@ -40,9 +72,8 @@ static class PDefaults
                     BrightNoise = .5f,
                     MinSaturation = .5f,}
                 },
-                {3, new Pixel(){
-                    ID = 3,
-                    Name = "OUTLINE",
+                {PIXEL_IDS.OUTLINE, new Pixel(){
+                    Name = PIXEL_IDS.OUTLINE,
                     Color = Chroma.CreateFromBytes(0, 0, 0, 255),
                     Paint = Chroma.CreateFromBytes(0, 0, 0, 255),
                     RandomCol = false,
@@ -59,13 +90,19 @@ static class PDefaults
             var _policy1 = new Policy() {
                 Input = PDefaults.PIXEL_IDS.BODY1,
                 Output = PDefaults.PIXEL_IDS.EMPTY,
-                Rate = .5f
+                Rate = .5f,
+                ConditionA = ConditionTarget.NONE,
+                ConditionLogic = ConditionExpression.NONE,
+                ConditionB = PDefaults.PIXEL_IDS.EMPTY,
             };
 
             var _policy2 = new Policy() {
                 Input = PDefaults.PIXEL_IDS.BODY2,
                 Output = PDefaults.PIXEL_IDS.BODY1,
-                Rate = .5f
+                Rate = .5f,
+                ConditionA = ConditionTarget.NONE,
+                ConditionLogic = ConditionExpression.NONE,
+                ConditionB = PDefaults.PIXEL_IDS.EMPTY,
             };
 
             var _policy3 = new Policy() {

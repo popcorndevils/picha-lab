@@ -3,7 +3,13 @@ using Godot;
 public class CanvasView : TabContainer
 {
     public GenCanvas Active {
-        get => this.GetChild<CanvasContainer>(this.CurrentTab).Canvas;
+        get {
+            if(this.GetChildren().Count > 0)
+            {
+                return this.GetChild<CanvasContainer>(this.CurrentTab).Canvas;
+            }
+            return null;
+        } 
     }
     public override void _Ready()
     {
@@ -19,6 +25,14 @@ public class CanvasView : TabContainer
         _view.Canvas = c;
         this.CurrentTab = _i;
         this.SetTabTitle(this.CurrentTab, c.Name);
+    }
+
+    public void AddLayer(GenLayer l)
+    {
+        if(this.Active != null)
+        {
+            this.Active.AddLayer(l);
+        }
     }
 
     public void NameCurrentTab(string s)

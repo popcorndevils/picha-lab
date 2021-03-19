@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://src/Application.cs" type="Script" id=1]
 [ext_resource path="res://src/ui/MenuBar.tscn" type="PackedScene" id=2]
 [ext_resource path="res://res/theme/Application.theme" type="Theme" id=3]
 [ext_resource path="res://src/ui/WorkArea.tscn" type="PackedScene" id=4]
+[ext_resource path="res://src/ui/PatternDesigner.cs" type="Script" id=5]
 
 [node name="Application" type="Node"]
 script = ExtResource( 1 )
@@ -35,9 +36,10 @@ margin_top = 34.0
 margin_right = 1024.0
 margin_bottom = 600.0
 
-[node name="PatternDesigner" type="WindowDialog" parent="PichaGUI"]
+[node name="PatternDesigner" type="AcceptDialog" parent="PichaGUI"]
 margin_right = 48.0
 margin_bottom = 40.0
+script = ExtResource( 5 )
 
 [node name="SaveDialog" type="FileDialog" parent="PichaGUI"]
 margin_right = 600.0

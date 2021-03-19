@@ -1,11 +1,11 @@
 using System;
 using Godot;
 
-public class CanvasInspect : ScrollContainer
+public class CanvasInspect : VBoxContainer
 {
     public GenCanvas Canvas;
 
-    private VBoxContainer _Contents;
+    // private VBoxContainer _Contents;
     private GridContainer _Settings;
 
     private CheckBox _AutoGenEdit;
@@ -18,10 +18,7 @@ public class CanvasInspect : ScrollContainer
     public override void _Ready()
     {
         this.AddToGroup("gp_canvas_gui");
-        
-        this._Contents = new VBoxContainer() {
-            SizeFlagsHorizontal = (int)SizeFlags.ExpandFill,
-        };
+        this.SizeFlagsHorizontal = (int)SizeFlags.ExpandFill;
 
         this._Settings = new GridContainer() {
             Columns = 2,
@@ -89,8 +86,8 @@ public class CanvasInspect : ScrollContainer
             RectMinSize = new Vector2(40, 0),
         };
 
-        this._Contents.AddChild(this._Settings);
-        this.AddChild(this._Contents);
+        this.AddChild(this._Settings);
+        this.AddChild(new LayersList());
 
         _bgColorsBox.AddChildren(this._FGEdit, this._BGEdit);
         _sizeBox.AddChildren(this._WidthEdit, this._HeightEdit);

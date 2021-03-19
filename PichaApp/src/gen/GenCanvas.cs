@@ -102,20 +102,18 @@ public class GenCanvas : Node2D
         this.AddChild(this._BG);
         this.AddChild(this._FG);
 
-        this.AddLayer(new GenLayer());
-
         this._Timer.Connect("timeout", this, "Generate");
         if(this.AutoGen) { this._Timer.Start(); }
 
         this.Generate();
     }
 
-    public void AddLayer(Node n)
+    public void AddLayer(GenLayer l)
     {
-        GenLayer l = n as GenLayer;
-
         this.Layers.Add(this.Layers.Count, l);
         this.AddChild(l);
+        this.Generate();
+        this.GetTree().CallGroup("gp_layer_gui", "LoadLayer", l);
     }
 
     public void Generate()

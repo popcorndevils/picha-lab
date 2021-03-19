@@ -32,9 +32,7 @@ Action = "open_canvas"
 [node name="SaveCanvas" parent="OptButtons/OptFile" instance=ExtResource( 2 )]
 Text = "Save"
 Action = "save_canvas"
-StartDisabled = true
 
 [node name="SaveAsCanvas" parent="OptButtons/OptFile" instance=ExtResource( 2 )]
 Text = "Save As..."
 Action = "save_as_canvas"
-StartDisabled = true

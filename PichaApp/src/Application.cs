@@ -15,8 +15,6 @@ public class Application : Node
 
     public override void _Ready()
     {
-        this.AddToGroup("gp_canvas_gui");
-
         this._Menu = this.GetNode<MenuBar>("PichaGUI/WSVert/MenuBar");
         this._GUI = this.GetNode<Control>("PichaGUI");
         this._PatternDesigner = this.GetNode<WindowDialog>("PichaGUI/PatternDesigner");
@@ -45,22 +43,22 @@ public class Application : Node
                 this._OpenCanvas.PopupCentered();
                 break;
             case "save_canvas":
-                if(this._Canvases.Active.FileExists) { this._Canvases.Active.Save(); }
-                else { this._SaveAs.PopupCentered(); }
+                if(this._Canvases.Active != null)
+                {
+                    if(this._Canvases.Active.FileExists) { this._Canvases.Active.Save(); }
+                    else { this._SaveAs.PopupCentered(); }
+                }
                 break;
             case "save_as_canvas":
-                this._SaveAs.PopupCentered();
+                if(this._Canvases.Active != null)
+                { 
+                    this._SaveAs.PopupCentered();
+                }
                 break;
             default:
                 GD.PrintErr($"Unable to Parse MenuItem action \"{menu.Action}\".");
                 break;
         }
-    }
-
-    public void LoadCanvas(GenCanvas c)
-    {
-        this._Menu.SetDisabled("save_as_canvas", false);
-        this._Menu.SetDisabled("save_canvas", false);
     }
 
     public void OnFileSaveAs(string f)
