@@ -7,33 +7,6 @@ static class PDefaults
     internal const int LAYER_WIDTH = 8;
     internal const int LAYER_HEIGHT = 8;
 
-    internal static Layer Layer {
-        get {
-            return new Layer() {
-                Name = "TEST LAYER",
-                Frames = PDefaults.Frames,
-                Pixels = PDefaults.Pixels,
-                Cycles = PDefaults.Cycles,
-                MirrorX = false,
-                MirrorY = false,
-            };
-        }
-    }
-    
-    internal static SortedList<int, int[,]> Frames {
-        get {
-            return new SortedList<int, int[,]> {
-                {0, new int[,] {{0, 0, 0, 0, 0, 0, 0, 0},
-                                {0, 1, 1, 1, 1, 1, 1, 0},
-                                {0, 1, 2, 2, 2, 2, 1, 0},
-                                {0, 1, 2, 0, 0, 2, 1, 0},
-                                {0, 1, 2, 0, 0, 2, 1, 0},
-                                {0, 1, 2, 2, 2, 2, 1, 0},
-                                {0, 1, 1, 1, 1, 1, 1, 0},
-                                {0, 0, 0, 0, 0, 0, 0, 0}}}};
-        }
-    }
-
     internal static Dictionary<int, Pixel> Pixels {
         get {
             return new Dictionary<int, Pixel>() {
@@ -84,24 +57,24 @@ static class PDefaults
     internal static SortedList<int, Cycle> Cycles {
         get {
             var _policy1 = new Policy() {
-                Input = (int)PDefaults.PIXEL_IDS.BODY1,
-                Output = (int)PDefaults.PIXEL_IDS.EMPTY,
+                Input = PDefaults.PIXEL_IDS.BODY1,
+                Output = PDefaults.PIXEL_IDS.EMPTY,
                 Rate = .5f
             };
 
             var _policy2 = new Policy() {
-                Input = (int)PDefaults.PIXEL_IDS.BODY2,
-                Output = (int)PDefaults.PIXEL_IDS.BODY1,
+                Input = PDefaults.PIXEL_IDS.BODY2,
+                Output = PDefaults.PIXEL_IDS.BODY1,
                 Rate = .5f
             };
 
             var _policy3 = new Policy() {
-                Input = (int)PDefaults.PIXEL_IDS.EMPTY,
-                Output = (int)PDefaults.PIXEL_IDS.OUTLINE,
+                Input = PDefaults.PIXEL_IDS.EMPTY,
+                Output = PDefaults.PIXEL_IDS.OUTLINE,
                 Rate = 1f,
                 ConditionA = ConditionTarget.NEIGHBOR,
                 ConditionLogic = ConditionExpression.IS_NOT,
-                ConditionB = (int)PDefaults.PIXEL_IDS.EMPTY,
+                ConditionB = PDefaults.PIXEL_IDS.EMPTY,
             };
 
             return new SortedList<int, Cycle>() {
@@ -117,11 +90,11 @@ static class PDefaults
         }
     }
 
-    private enum PIXEL_IDS
+    private static class PIXEL_IDS
     {
-        EMPTY = 0,
-        BODY1 = 1,
-        BODY2 = 2,
-        OUTLINE = 3,
+        public static string EMPTY = "EMPTY";
+        public static string BODY1 = "BODY1";
+        public static string BODY2 = "BODY2";
+        public static string OUTLINE = "OUTLINE";
     }
 }

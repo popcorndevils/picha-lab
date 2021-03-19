@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Godot;
 
 using PichaLib;
+using OctavianLib;
 
 public delegate void PolicyChangedHandler(Policy p);
 
@@ -20,6 +21,8 @@ public class PolicyProps : BaseSection
     private OptionButton _ConditionAEdit;
     private OptionButton _ConditionLogicEdit;
     private OptionButton _ConditionBEdit;
+
+    private CrossTable<string, int> _PixelTable = new CrossTable<string, int>();
 
     public override void _Ready()
     {
@@ -102,13 +105,16 @@ public class PolicyProps : BaseSection
         this.Layer = l;
         this.Policy = p;
 
+        this._PixelTable.Clear();
+        foreach(string _pN in l.Pixels.Keys) { this._PixelTable.Add(_pN, this._PixelTable.Count); }
+
         var _optBtns = new OptionButton[] {this._InputEdit, this._OutputEdit, this._ConditionBEdit};
 
         foreach(OptionButton _b in _optBtns)
         {
-            foreach(Pixel _p in l.Pixels.Values)
+            foreach(KeyValuePair<string, int> _pair in this._PixelTable)
             {
-                _b.AddItem(_p.Name, _p.ID);
+                _b.AddItem(_pair.Key, _pair.Value);
             }
         }
 
@@ -122,8 +128,8 @@ public class PolicyProps : BaseSection
             this._ConditionLogicEdit.AddItem(Enum.GetName(typeof(ConditionExpression), i), i);
         }
         
-        this._InputEdit.Selected = p.Input;
-        this._OutputEdit.Selected = p.Output;
+        this._InputEdit.Selected = this._PixelTable[p.Input];
+        this._OutputEdit.Selected = this._PixelTable[p.Output];
 
         this._RateEdit.Disconnect("value_changed", this, "OnPolicySettingEdit");
         this._RateEdit.Value = p.Rate;
@@ -131,7 +137,7 @@ public class PolicyProps : BaseSection
 
         this._ConditionAEdit.Selected = (int)p.ConditionA;
         this._ConditionLogicEdit.Selected = (int)p.ConditionLogic;
-        this._ConditionBEdit.Selected = p.ConditionB;
+        this._ConditionBEdit.Selected = this._PixelTable[p.ConditionB];
     }
 
     public void OnPolicySettingEdit(params object[] args)
@@ -139,16 +145,16 @@ public class PolicyProps : BaseSection
 
     public void OnPolicySettingEdit()
     {
-        var _inputName = $"{this.Layer.Pixels[this._InputEdit.Selected].Name}";
-        var _outputName = $"{this.Layer.Pixels[this._OutputEdit.Selected].Name}";
+        var _inputName = $"{this._PixelTable[this._InputEdit.Selected]}";
+        var _outputName = $"{this._PixelTable[this._OutputEdit.Selected]}";
 
         this.SectionTitle = $"{_inputName} -> {_outputName}";
 
-        this.Policy.Input = this._InputEdit.Selected;
-        this.Policy.Output = this._OutputEdit.Selected;
+        this.Policy.Input = this._PixelTable[this._InputEdit.Selected];
+        this.Policy.Output = this._PixelTable[this._OutputEdit.Selected];
         this.Policy.Rate = (float)this._RateEdit.Value;
         this.Policy.ConditionA = (ConditionTarget)this._ConditionAEdit.Selected;
         this.Policy.ConditionLogic = (ConditionExpression)this._ConditionLogicEdit.Selected;
-        this.Policy.ConditionB = this._ConditionBEdit.Selected;
+        this.Policy.ConditionB = this._PixelTable[this._ConditionBEdit.Selected];
     }
 }

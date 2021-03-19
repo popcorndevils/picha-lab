@@ -14,13 +14,13 @@ namespace PichaLib
             return PFactory._GenColors(PFactory._GenShape(l), l);
         }
 
-        private static SortedList<int, int[,]> _GenShape(Layer l)
+        private static SortedList<int, string[,]> _GenShape(Layer l)
         {
-            var _output = new SortedList<int, int[,]>();
+            var _output = new SortedList<int, string[,]>();
 
-            foreach(KeyValuePair<int, int[,]> _frame in l.Frames)
+            foreach(KeyValuePair<int, string[,]> _frame in l.Frames)
             {
-                int[,] _frameCopy = (int[,])_frame.Value.Clone();
+                string[,] _frameCopy = (string[,])_frame.Value.Clone();
 
                 foreach(KeyValuePair<int, Cycle> _cycle in l.Cycles)
                 {
@@ -31,10 +31,10 @@ namespace PichaLib
             return _output;
         }
 
-        private static SortedList<int, Chroma[,]> _GenColors(SortedList<int, int[,]> cells, Layer l)
+        private static SortedList<int, Chroma[,]> _GenColors(SortedList<int, string[,]> cells, Layer l)
         {
             var _output = new SortedList<int, Chroma[,]>();
-            var _cellColors = new Dictionary<int, CellData>();
+            var _cellColors = new Dictionary<string, CellData>();
 
             foreach(Pixel _type in l.Pixels.Values)
             {
@@ -54,10 +54,10 @@ namespace PichaLib
                 _dat.Sat = (float)PFactory._Random.RandfRange(_type.MinSaturation * _dat.HSL.s, _dat.HSL.s);
 
 
-                _cellColors.Add(_type.ID, _dat);
+                _cellColors.Add(_type.Name, _dat);
             }
 
-            foreach(KeyValuePair<int, int[,]> _pair in cells)
+            foreach(KeyValuePair<int, string[,]> _pair in cells)
             {
                 int _w = _pair.Value.GetWidth();
                 int _h = _pair.Value.GetHeight();
@@ -108,17 +108,17 @@ namespace PichaLib
             return _output;
         }
 
-        private static int[,] _RunCycle(int[,] cells, List<Policy> cycle)
+        private static string[,] _RunCycle(string[,] cells, List<Policy> cycle)
         {
             (int W, int H) _size = (cells.GetWidth(), cells.GetHeight());
 
-            var _output = new int[_size.H, _size.W];
+            var _output = new string[_size.H, _size.W];
 
             for(int _x = 0; _x < _size.W; _x++)
             {
                 for(int _y = 0; _y < _size.H; _y++)
                 {
-                    int _cType = cells[_y, _x];
+                    string _cType = cells[_y, _x];
                     var _policies = cycle.FindAll(p => p.Input == _cType);
                     if(_policies.Count > 0)
                     { 
@@ -135,7 +135,7 @@ namespace PichaLib
             return _output;
         }
 
-        private static int RunPolicy(this int[,] array, Policy p, int x, int y)
+        private static string RunPolicy(this string[,] array, Policy p, int x, int y)
         {
             if(PFactory._Random.NextDouble() <= p.Rate)
             {
@@ -163,23 +163,23 @@ namespace PichaLib
                 { return array[y, x]; }
         }
 
-        private static bool NeighborIs(this int[,] array, int x, int y, int value) 
+        private static bool NeighborIs(this string[,] array, int x, int y, string value) 
         {
             var _testVals = array.GatherNeighbors(x, y);
-            foreach(int _v in _testVals) { if(_v == value) { return true; } }
+            foreach(string _v in _testVals) { if(_v == value) { return true; } }
             return false;
         }
 
-        private static bool NeighborIsNot(this int[,] array, int x, int y, int value) 
+        private static bool NeighborIsNot(this string[,] array, int x, int y, string value) 
         {
             var _testVals = array.GatherNeighbors(x, y);
-            foreach(int _v in _testVals) { if(_v != value) { return true; } }
+            foreach(string _v in _testVals) { if(_v != value) { return true; } }
             return false;
         }
 
-        private static List<int> GatherNeighbors(this int[,] array, int x, int y)
+        private static List<string> GatherNeighbors(this string[,] array, int x, int y)
         {
-            List<int> _output = new List<int>();
+            List<string> _output = new List<string>();
             List<(int xT, int yT)> _addresses = new List<(int xT, int yT)>() {
                 (x - 1, y),
                 (x + 1, y),

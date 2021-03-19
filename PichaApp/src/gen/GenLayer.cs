@@ -6,7 +6,7 @@ using PichaLib;
 
 public class GenLayer : TextureRect
 {
-    public Layer _Data;
+    public Layer _Data = new Layer();
     public Layer Data {
         get {
             this._Data.X = (int)this.RectPosition.x;
@@ -71,8 +71,6 @@ public class GenLayer : TextureRect
 
         this.AddChild(this._Timer);
 
-        this.Data = PDefaults.Layer;
-
         this.Connect("mouse_entered", this, "OnMouseIn");
         this.Connect("mouse_exited", this, "OnMouseOut");
         this._Timer.Connect("timeout", this, "OnChange");
@@ -105,20 +103,42 @@ public class GenLayer : TextureRect
         }
     }
 
+    public void OnMouseIn() { this.Hover = true; }
+    public void OnMouseOut() { this.Hover = false; }
+
     public void OnChange()
-        { this.Frame = this.Frame >= this._Textures.Count - 1 ? 0 : this.Frame + 1; }
+    { 
+        if(this._Textures.Count > 0)
+        {
+            this.Frame = this.Frame >= this._Textures.Count - 1 ? 0 : this.Frame + 1;
+        }
+    }
 
     public void Generate()
     {
-        this._Textures.Clear();
+        if(this.Data != null)
+        {
+            this._Textures.Clear();
 
-        foreach(KeyValuePair<int, Chroma[,]> _p in PFactory.ProcessLayer(this.Data))
-            { this._Textures.Add(_p.Key, _p.Value.ToGodotTex()); }
+            foreach(KeyValuePair<int, Chroma[,]> _p in PFactory.ProcessLayer(this.Data))
+                { this._Textures.Add(_p.Key, _p.Value.ToGodotTex()); }
 
-        this.Texture = this._Textures[0];
-        this._Frame = 0;
+            if(this._Textures.Count > 0)
+            {
+                this.Texture = this._Textures[0];
+                this._Frame = 0;
+            }
+        }
     }
 
-    public void OnMouseIn() { this.Hover = true; }
-    public void OnMouseOut() { this.Hover = false; }
+    public void DeletePixel(Pixel p)
+    {
+        foreach(Cycle _c in this.Data.Cycles.Values)
+        {
+            foreach(Policy _p in _c.Policies)
+            {
+                _p.VoidValue(p);
+            }
+        }
+    }
 }
