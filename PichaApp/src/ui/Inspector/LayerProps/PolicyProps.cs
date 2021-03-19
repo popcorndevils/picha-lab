@@ -7,7 +7,7 @@ using PichaLib;
 
 public delegate void PolicyChangedHandler(Policy p);
 
-public class RuleProps : BaseSection
+public class PolicyProps : BaseSection
 {
     public event PolicyChangedHandler PolicyChanged;
     public Policy Policy;

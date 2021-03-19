@@ -59,7 +59,7 @@ public class CanvasInspect : ScrollContainer
         };
 
         var _sizeLabel = new Label() {
-            Text = "Size",
+            Text = "Canvas Size",
             Align = Label.AlignEnum.Right,
         };
 

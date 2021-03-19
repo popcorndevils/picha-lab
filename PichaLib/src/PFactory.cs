@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using OctavianLib;
 
@@ -107,7 +108,7 @@ namespace PichaLib
             return _output;
         }
 
-        private static int[,] _RunCycle(int[,] cells, Dictionary<int, Policy> cycle)
+        private static int[,] _RunCycle(int[,] cells, List<Policy> cycle)
         {
             (int W, int H) _size = (cells.GetWidth(), cells.GetHeight());
 
@@ -118,8 +119,14 @@ namespace PichaLib
                 for(int _y = 0; _y < _size.H; _y++)
                 {
                     int _cType = cells[_y, _x];
-                    if(cycle.ContainsKey(_cType))
-                        { _output[_y, _x] = cells.RunPolicy(cycle[_cType], _x, _y);}
+                    var _policies = cycle.FindAll(p => p.Input == _cType);
+                    if(_policies.Count > 0)
+                    { 
+                        foreach(Policy _p in _policies)
+                        {
+                            _output[_y, _x] = cells.RunPolicy(_p, _x, _y);
+                        }
+                    }
                     else
                         { _output[_y, _x] = _cType; }
                 }

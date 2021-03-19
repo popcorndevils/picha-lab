@@ -107,15 +107,12 @@ static class PDefaults
             return new SortedList<int, Cycle>() {
                 {0, new Cycle() {
                     Name = "DEGRADE",
-                    Policies = new Dictionary<int, Policy>() {
-                        {(int)PDefaults.PIXEL_IDS.BODY1, _policy1},
-                        {(int)PDefaults.PIXEL_IDS.BODY2, _policy2}
+                    Policies = new List<Policy>() {
+                        _policy1, _policy2
                     }}},
                 {1, new Cycle() {
                     Name = "OUTLINE",
-                    Policies = new Dictionary<int, Policy>() {
-                        {(int)PDefaults.PIXEL_IDS.EMPTY, _policy3}
-                    }}
+                    Policies = new List<Policy>() { _policy3 }}
                 }};
         }
     }

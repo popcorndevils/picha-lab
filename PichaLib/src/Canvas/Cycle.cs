@@ -5,6 +5,6 @@ namespace PichaLib
     public class Cycle
     {
         public string Name;
-        public Dictionary<int, Policy> Policies;
+        public List<Policy> Policies;
     }
 }

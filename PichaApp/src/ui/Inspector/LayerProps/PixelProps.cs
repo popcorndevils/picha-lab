@@ -18,11 +18,17 @@ public class PixelProps : BaseSection
     private OptionButton _FadeDirectionEdit;
     private SpinBox _BrightNoiseEdit;
     private SpinBox _MinSaturationEdit;
+    private Button _Delete;
 
     public override void _Ready()
     {
         base._Ready();
         this.SectionGrid.Columns = 2;
+
+        this._Delete = new Button() {
+            Icon = GD.Load<Texture>("res://res/icons/clear-white.svg"),
+            SizeFlagsHorizontal = 0,
+        };
 
         this._NameEdit = new LineEdit() {
             SizeFlagsHorizontal = (int)Control.SizeFlags.ExpandFill
@@ -93,6 +99,8 @@ public class PixelProps : BaseSection
             Align = Label.AlignEnum.Right,
         }; 
 
+        this.HeaderContainer.AddChild(this._Delete);
+
         this.SectionGrid.AddChild(_nameLabel);
         this.SectionGrid.AddChild(this._NameEdit);
 
@@ -114,6 +122,7 @@ public class PixelProps : BaseSection
         this.SectionGrid.AddChild(_minSaturationLabel);
         this.SectionGrid.AddChild(this._MinSaturationEdit);
         
+        this._Delete.Connect("pressed", this, "OnDeletePixel");
         this._NameEdit.Connect("text_changed", this, "OnPixelSettingEdit");
         this._ColorEdit.Connect("color_changed", this, "OnPixelSettingEdit");
         this._PaintEdit.Connect("color_changed", this, "OnPixelSettingEdit");
@@ -167,5 +176,11 @@ public class PixelProps : BaseSection
         this.Pixel.FadeDirection = (FadeDirection)this._FadeDirectionEdit.Selected;
 
         this.PixelChanged?.Invoke(this.Pixel);
+    }
+
+    public void OnDeletePixel()
+    {
+        this.GetTree().CallGroup("gp_layer_gui", "DeletePixel", this);
+        this.GetParent().RemoveChild(this);
     }
 }

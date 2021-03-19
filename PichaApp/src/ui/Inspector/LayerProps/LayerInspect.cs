@@ -143,6 +143,11 @@ public class LayerInspect : ScrollContainer
                 break;
         }
     }
+
+    public void DeletePixel(PixelProps p)
+    {
+        GD.Print($"DELETING {p.Pixel.Name}");
+    }
 }
 
 public enum AddMenuOption
