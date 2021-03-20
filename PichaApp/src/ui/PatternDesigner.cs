@@ -24,6 +24,7 @@ public class PatternDesigner : AcceptDialog
         else
         {
             this.GetTree().CallGroup("gp_canvas_handler", "AddLayer", this.Layer);
+            this.GetTree().CallGroup("layers_list", "AddNewLayer", this.Layer);
         }
     }
 

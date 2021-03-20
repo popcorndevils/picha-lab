@@ -7,8 +7,6 @@ static class PDefaults
     internal const int LAYER_WIDTH = 8;
     internal const int LAYER_HEIGHT = 8;
 
-    
-
     internal static GenLayer Layer {
         get {
             return new GenLayer() 
@@ -124,6 +122,19 @@ static class PDefaults
                     Name = "OUTLINE",
                     Policies = new List<Policy>() { _policy3 }}
                 }};
+        }
+    }
+
+    internal static Policy Policy {
+        get {
+            return new Policy() {
+                Input = PDefaults.PIXEL_IDS.EMPTY,
+                Output = PDefaults.PIXEL_IDS.EMPTY,
+                Rate = 0f,
+                ConditionA = ConditionTarget.NONE,
+                ConditionLogic = ConditionExpression.NONE,
+                ConditionB = PDefaults.PIXEL_IDS.EMPTY,
+            };
         }
     }
 

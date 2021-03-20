@@ -48,6 +48,7 @@ rect_min_size = Vector2( 400, 140 )
 window_title = "Save New Canvas"
 resizable = true
 access = 2
+filters = PoolStringArray( "*.plab ; Picha Lab" )
 current_dir = "/Projects/Picha/PichaApp"
 current_path = "/Projects/Picha/PichaApp/"
 
@@ -59,5 +60,6 @@ window_title = "Open a File"
 resizable = true
 mode = 0
 access = 2
+filters = PoolStringArray( "*.plab ; Picha Lab" )
 current_dir = "/Projects/Picha/PichaApp"
 current_path = "/Projects/Picha/PichaApp/"

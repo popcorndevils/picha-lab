@@ -20,8 +20,8 @@ public class GenLayer : TextureRect
         }
     }
 
-    private Timer _Timer;
-    private SortedList<int, Texture> _Textures;
+    private Timer _Timer = new Timer();
+    private SortedList<int, Texture> _Textures = new SortedList<int, Texture>();
 
     private bool _Hover;
     public bool Hover {
@@ -66,8 +66,7 @@ public class GenLayer : TextureRect
 
     public override void _Ready()
     {
-        this._Textures = new SortedList<int, Texture>();
-        this._Timer = new Timer() { WaitTime = this.FrameTime };
+        this._Timer.WaitTime = this.FrameTime;
 
         this.AddChild(this._Timer);
 
@@ -79,7 +78,6 @@ public class GenLayer : TextureRect
 
     public override void _GuiInput(InputEvent @event)
     {
-        base._GuiInput(@event);
         if(@event is InputEventMouseButton btn)
         {
             if(btn.ButtonIndex == (int)ButtonList.Left)
@@ -87,6 +85,7 @@ public class GenLayer : TextureRect
                 if(btn.Pressed && this.Hover)
                 {
                     this._Dragging = true;
+                    this.GetTree().CallGroup("gp_layer_gui", "LoadLayer", this);
                 }
                 else
                 {

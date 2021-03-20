@@ -15,7 +15,7 @@ _global_script_class_icons={
 
 [application]
 
-config/name="Picha"
+config/name="Picha Lab"
 run/main_scene="res://src/Application.tscn"
 config/icon="res://icon.png"
 

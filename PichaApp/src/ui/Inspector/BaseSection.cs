@@ -37,6 +37,7 @@ public class BaseSection : VBoxContainer
         
         this.SectionContent.Visible = false;
         this.SizeFlagsHorizontal = (int)Control.SizeFlags.ExpandFill;
+        this.SizeFlagsVertical = (int)Control.SizeFlags.ExpandFill;
         this.SectionContent.SizeFlagsHorizontal = (int)Control.SizeFlags.ExpandFill;
         this.SectionGrid.SizeFlagsHorizontal = (int)Control.SizeFlags.ExpandFill;
     }

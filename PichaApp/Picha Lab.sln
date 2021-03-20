@@ -1,6 +1,6 @@
 ﻿Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Picha", "Picha.csproj", "{234D291F-7C2D-4720-9FA0-3D5F817EB013}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Picha Lab", "Picha Lab.csproj", "{234D291F-7C2D-4720-9FA0-3D5F817EB013}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

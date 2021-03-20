@@ -7,6 +7,8 @@ public class Inspector : TabContainer
 
     public override void _Ready()
     {
+        this.RectMinSize = new Vector2(0, 200);
+
         this.TabAlign = TabAlignEnum.Left;
         this.DragToRearrangeEnabled = true;
 

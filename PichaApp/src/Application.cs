@@ -37,7 +37,7 @@ public class Application : Node
         switch(menu.Action)
         {
             case "new_canvas":
-                this.GetTree().CallGroup("gp_canvas_handler", "AddCanvas", new GenCanvas() { Name = "[new canvas]"});
+                this.GetTree().CallGroup("gp_canvas_handler", "AddCanvas", new GenCanvas());
                 break;
             case "open_canvas":
                 this._OpenCanvas.PopupCentered();
@@ -70,13 +70,13 @@ public class Application : Node
     {
         var _can = new GenCanvas() {
             FileExists = true,
-            FilePath = path,
+            PathName = path,
         };
+
+        this._Canvases.AddCanvas(_can);
 
         var _dat = JsonConvert.DeserializeObject<Canvas>(System.IO.File.ReadAllText(path));
 
         _can.LoadData(_dat);
-        
-        this.GetTree().CallGroup("gp_canvas_handler", "AddCanvas", _can);
     }
 }

@@ -7,49 +7,115 @@ using PichaLib;
 
 public class GenCanvas : Node2D
 {
-    public bool FileExists = false;
-    public string FilePath = "";
-
-    private bool _AutoGen = false;
-    public bool AutoGen {
-        get => this._AutoGen;
-        set {
-            this._AutoGen = value;
-            if(_Timer != null)
-            {
-                if(value) { this._Timer.Start(); }
-                else { this._Timer.Stop(); }
-            }
-        }
-    }
-
-    private float _TimeToGen = 3f;
-    public float TimeToGen {
-        get => this._TimeToGen;
-        set {
-            this._TimeToGen = value;
-            if(_Timer != null)
-            {
-                this._Timer.WaitTime = value;
-                if(this.AutoGen){ this._Timer.Start(); }
-            }
-        }
-    }
-
+    private Canvas _Data;
     private Timer _Timer;
+    private bool _FileSaved = false;
+    private ColorRect _BG;
+    private TextureRect _FG;
+    private Color _BGCol = new Color(.1f, .1f, .1f, 0f);
 
-    private Vector2 _Size = new Vector2(16, 16);
-    public Vector2 Size {
-        get => this._Size;
+    public bool FileExists = false;
+
+    public Canvas Data {
+        get => this._Data;
         set {
-            this._Size = value;
+            this._Data = value;
+            this._Timer.WaitTime = this.TimeToGen;
+            if(this.AutoGen)
+                { this._Timer.Start(); }
+        }
+    }
+
+    public bool FileSaved {
+        get => this._FileSaved;
+        set {
+            if(value != this._FileSaved)
+            {
+                this._FileSaved = value;
+                this.GetTree().CallGroup("gp_canvas_handler", "NameCurrentTab", this.CanvasName);
+            }
+        }
+    }
+
+    public string PathName = "";
+
+    public string CanvasName {
+        get { 
+            var _output = "";
+
+            if(this.FileExists)
+                { _output += System.IO.Path.GetFileNameWithoutExtension(this.PathName); }
+            else
+                { _output += "[new canvas]"; }
+
+            if(!this.FileSaved) 
+                { _output += "*"; }
+
+            return _output;
+        }
+    }
+    
+    public bool AutoGen {
+        get {
+            if(this.Data != null) 
+                { return this.Data.AutoGen; }
+            else 
+                { return false; }
+        }
+        set {
+            if(this.Data != null) 
+            {
+                this.Data.AutoGen = value;
+                if(_Timer != null)
+                {
+                    if(value) 
+                        { this._Timer.Start(); }
+                    else 
+                        { this._Timer.Stop(); }
+                }
+            }
+        }
+    }
+
+    public float TimeToGen {
+        get {
+            if(this.Data != null) 
+                { return this.Data.TimeToGen; }
+            else 
+                { return .1f; }
+        }
+        set {
+            if(this.Data != null) 
+            {
+                this.Data.TimeToGen = value;
+                if(_Timer != null)
+                {
+                    this._Timer.WaitTime = value;
+                    if(this.AutoGen)
+                        { this._Timer.Start(); }
+                }
+            }
+        }
+    }
+
+    public Vector2 Size {
+        get {
+            if(this.Data != null) 
+                { return this.Data.Size.ToVector2(); }
+            else 
+                { return new Vector2(16f, 16f); }
+        }
+        set {
+            if(this.Data != null) 
+                { this.Data.Size = value.ToIntPair(); }
+
             if(this._BG != null)
             {
                 this._BG.RectSize = value;
                 this._FG.RectSize = value;
                 this._FG.Texture = this._GetFG((int)value.x, (int)value.y);
             }
-        }
+        } 
     }
 
     private SortedList<int, GenLayer> _Layers = new SortedList<int, GenLayer>();
@@ -57,10 +123,7 @@ public class GenCanvas : Node2D
         get => this._Layers;
         set => this._Layers = value;
     }
-    private ColorRect _BG;
-    private TextureRect _FG;
 
-    private Color _BGCol = new Color(.4f, .4f, .4f, 1f);
     public Color BG {
         get => this._BGCol;
         set {
@@ -70,7 +133,7 @@ public class GenCanvas : Node2D
         }
     }
 
-    private Color _FGCol = new Color(.1f, .1f, .1f, 1f);
+    private Color _FGCol = Chroma.CreateFromHex("#298c8c8c").ToGodotColor();
     public Color FG {
         get => this._FGCol;
         set {
@@ -113,7 +176,9 @@ public class GenCanvas : Node2D
         this.Layers.Add(this.Layers.Count, l);
         this.AddChild(l);
         this.Generate();
-        this.GetTree().CallGroup("gp_layer_gui", "LoadLayer", l);
+        if(this.GetTree() != null)
+            { this.GetTree().CallGroup("gp_layer_gui", "LoadLayer", l); }
+        this.FileSaved = false;
     }
 
     public void Generate()
@@ -172,18 +237,21 @@ public class GenCanvas : Node2D
 
     public void Save() 
     { 
-        this._WriteFile(this.FilePath); 
+        this._WriteFile(this.PathName); 
     }
 
     public void SaveAsFile(string path)
     {
         this.FileExists = true;
-        this.FilePath = path;
+        this.PathName = path;
         this._WriteFile(path);
     }
 
     public void _WriteFile(string path)
-        { System.IO.File.WriteAllText(path, JsonConvert.SerializeObject(this.SaveData())); }
+    { 
+        System.IO.File.WriteAllText(path, JsonConvert.SerializeObject(this.SaveData()));
+        this.FileSaved = true;
+    }
 
     public Canvas SaveData()
     {
@@ -205,11 +273,7 @@ public class GenCanvas : Node2D
 
     public void LoadData(Canvas c) 
     {
-        this.Size = new Vector2(c.Size.W, c.Size.H);
-        this.AutoGen = c.AutoGen;
-        this.TimeToGen = c.TimeToGen;
-        this.FG = c.TransparencyFG.ToGodotColor();
-        this.BG = c.TransparencyBG.ToGodotColor();
+        this.Data = c;
 
         foreach(KeyValuePair<int, Layer> _pair in c.Layers)
         {
@@ -217,5 +281,7 @@ public class GenCanvas : Node2D
             _l.Data = _pair.Value;
             this.AddLayer(_l);
         }
+
+        this.FileSaved = true;
     }
 }

@@ -24,7 +24,7 @@ public class CanvasView : TabContainer
         c.Position = new Vector2(_view.RectSize.x / 2, _view.RectSize.y / 2);
         _view.Canvas = c;
         this.CurrentTab = _i;
-        this.SetTabTitle(this.CurrentTab, c.Name);
+        this.SetTabTitle(this.CurrentTab, c.CanvasName);
     }
 
     public void AddLayer(GenLayer l)
@@ -32,6 +32,7 @@ public class CanvasView : TabContainer
         if(this.Active != null)
         {
             this.Active.AddLayer(l);
+            this.GetTree().CallGroup("gp_layer_gui", "LoadLayer", l);
         }
     }
 

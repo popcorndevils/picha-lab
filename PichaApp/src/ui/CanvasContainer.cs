@@ -14,10 +14,6 @@ public class CanvasContainer : Control
             this.AddChild(value);
             value.Scale = new Vector2(20, 20);
             value.Position = (this.RectSize / 2) - ((value.Size / 2) * value.Scale);
-
-            this.GetParent<CanvasView>().NameCurrentTab(value.Name);
-
-            // this.GetTree().CallGroup("gp_canvas_gui", "LoadCanvas", value);
         }
     }
 

@@ -7,6 +7,7 @@ public delegate void ItemSelectedHandler(MenuBarItem action);
 public class MenuBar : MarginContainer
 {
     public event ItemSelectedHandler ItemSelected;
+    
     private Dictionary<int, MenuBarItem> _ActionList;
     private Dictionary<string, (PopupMenu pop, int idx)> _ItemList;
 

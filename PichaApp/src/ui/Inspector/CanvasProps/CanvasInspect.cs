@@ -18,7 +18,8 @@ public class CanvasInspect : VBoxContainer
     public override void _Ready()
     {
         this.AddToGroup("gp_canvas_gui");
-        this.SizeFlagsHorizontal = (int)SizeFlags.ExpandFill;
+        this.SizeFlagsVertical = (int)SizeFlags.Fill;
+        this.SizeFlagsHorizontal = (int)SizeFlags.Fill;
 
         this._Settings = new GridContainer() {
             Columns = 2,
@@ -50,7 +51,7 @@ public class CanvasInspect : VBoxContainer
         };
 
         this._AutoGenTimeEdit = new SpinBox() {
-            MinValue = 0,
+            MinValue = .1,
             MaxValue = 99,
             Step = .1f,
         };
@@ -87,7 +88,6 @@ public class CanvasInspect : VBoxContainer
         };
 
         this.AddChild(this._Settings);
-        this.AddChild(new LayersList());
 
         _bgColorsBox.AddChildren(this._FGEdit, this._BGEdit);
         _sizeBox.AddChildren(this._WidthEdit, this._HeightEdit);

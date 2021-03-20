@@ -11,6 +11,11 @@ public class LayersList : VBoxContainer
         SizeFlagsHorizontal = (int)SizeFlags.ExpandFill,
     };
 
+    private VBoxContainer _Buttons = new VBoxContainer() {
+        SizeFlagsHorizontal = (int)SizeFlags.ExpandFill,
+        SizeFlagsVertical = (int)SizeFlags.ExpandFill,
+    };
+
     private Button _NewLayer = new Button() {
         Text = "+",
         SizeFlagsHorizontal = (int)SizeFlags.ShrinkCenter,
@@ -21,10 +26,16 @@ public class LayersList : VBoxContainer
     public override void _Ready()
     {
         this.AddToGroup("gp_canvas_gui");
+        this.AddToGroup("layers_list");
 
-        this._HeaderContainer.AddChildren(
-            new Label() { Text = "Layers" },
-            this._NewLayer );
+        var _Title = new Label() {
+            Text = "Layers",
+            Align = Label.AlignEnum.Center,
+            SizeFlagsHorizontal = (int)SizeFlags.ExpandFill
+        };
+
+        this._HeaderContainer.AddChildren(_Title, this._NewLayer);
+        this._Contents.AddChild(_Buttons);
 
         this.AddChildren(
             this._HeaderContainer,
@@ -35,8 +46,18 @@ public class LayersList : VBoxContainer
 
     public void LoadCanvas(GenCanvas c)
     {
-        // TODO
         this.Canvas = c;
+        
+        this._Buttons.ClearChildren();
+        foreach(GenLayer _l in c.Layers.Values)
+        {
+            this._Buttons.AddChild(new LayerButton() { Layer = _l });
+        }
+    }
+
+    public void AddNewLayer(GenLayer l)
+    {
+        this._Buttons.AddChild(new LayerButton() { Layer = l });
     }
 
     public void OnNewLayerPressed()

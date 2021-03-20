@@ -22,7 +22,7 @@ public class LayerInspect : ScrollContainer
     public override void _Ready()
     {
         this.AddToGroup("gp_layer_gui");
-
+        
         this._Contents = new VBoxContainer() {
             SizeFlagsHorizontal = (int)SizeFlags.ExpandFill,
         };

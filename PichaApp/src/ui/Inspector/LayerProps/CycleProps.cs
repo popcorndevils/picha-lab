@@ -53,7 +53,7 @@ public class CycleProps : BaseSection
             SectionTitle = $"NONE -> NONE",
         };
 
-        var _policy = new Policy();
+        var _policy = PDefaults.Policy;
 
         this.SectionGrid.AddChild(_props);
         _props.SectionHeader.Align = Button.TextAlign.Left;
