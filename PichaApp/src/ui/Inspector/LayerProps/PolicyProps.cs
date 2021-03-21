@@ -140,9 +140,7 @@ public class PolicyProps : BaseSection
         this._ConditionBEdit.Selected = this._PixelTable[p.ConditionB];
     }
 
-    public void OnPolicySettingEdit(params object[] args)
-        { this.OnPolicySettingEdit(); }
-
+    public void OnPolicySettingEdit(params object[] args) { this.OnPolicySettingEdit(); }
     public void OnPolicySettingEdit()
     {
         var _inputName = $"{this._PixelTable[this._InputEdit.Selected]}";

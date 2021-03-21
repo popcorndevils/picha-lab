@@ -10,9 +10,10 @@ public class GenCanvas : Node2D
     private Canvas _Data;
     private Timer _Timer;
     private bool _FileSaved = false;
-    private ColorRect _BG;
-    private TextureRect _FG;
+    private ColorRect _BG = new ColorRect();
+    private TextureRect _FG = new TextureRect();
     private Color _BGCol = new Color(.1f, .1f, .1f, 0f);
+    private Color _FGCol = Chroma.CreateFromHex("#298c8c8c").ToGodotColor();
 
     public bool FileExists = false;
 
@@ -20,10 +21,12 @@ public class GenCanvas : Node2D
         get => this._Data;
         set {
             this._Data = value;
-            this._Timer.WaitTime = this.TimeToGen;
+            if(this._Timer == null) {this._Timer = new Timer();}
+            this._Timer.WaitTime = 1f;
             this.BG = value.TransparencyBG.ToGodotColor();
             this.FG = value.TransparencyFG.ToGodotColor();
             if(this.AutoGen) { this._Timer.Start(); }
+            this._FG.Texture = this._GetFG(value.Size.W, value.Size.H);
         }
     }
 
@@ -134,7 +137,6 @@ public class GenCanvas : Node2D
         }
     }
 
-    private Color _FGCol = Chroma.CreateFromHex("#298c8c8c").ToGodotColor();
     public Color FG {
         get => this._FGCol;
         set {
@@ -148,18 +150,6 @@ public class GenCanvas : Node2D
     {
         this._Timer = new Timer() {
             WaitTime = this.TimeToGen,
-        };
-
-        this._BG = new ColorRect() {
-            Color = new Color(1f, 1f, 1f, 1f),
-            RectSize = this.Size,
-            Modulate = this.BG,
-        };
-
-        this._FG = new TextureRect() {
-            Texture = this._GetFG(this.Size),
-            RectSize = this.Size,
-            Modulate = this.FG,
         };
 
         this.AddChild(this._Timer);

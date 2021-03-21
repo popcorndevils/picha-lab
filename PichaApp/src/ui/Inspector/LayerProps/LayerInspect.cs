@@ -107,9 +107,7 @@ public class LayerInspect : ScrollContainer
         this._MirrorYEdit.Connect("pressed", this, "OnLayerSettingEdit");
     }
 
-    public void OnLayerSettingEdit(params object[] args)
-        { this.OnLayerSettingEdit(); }
-
+    public void OnLayerSettingEdit(params object[] args) { this.OnLayerSettingEdit(); } 
     public void OnLayerSettingEdit()
     {
         this.Layer.Name = this._NameEdit.Text;

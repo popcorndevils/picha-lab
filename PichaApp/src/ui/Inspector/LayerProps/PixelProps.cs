@@ -159,9 +159,7 @@ public class PixelProps : BaseSection
         this._MinSaturationEdit.Connect("value_changed", this, "OnPixelSettingEdit");
     }
 
-    public void OnPixelSettingEdit(params object[] args)
-        { this.OnPixelSettingEdit(); }
-
+    public void OnPixelSettingEdit(params object[] args) { this.OnPixelSettingEdit(); }
     public void OnPixelSettingEdit()
     {
         this.SectionTitle = this._NameEdit.Text; 

@@ -129,8 +129,7 @@ public class CanvasInspect : VBoxContainer
             { this.GetTree().CallGroup("gp_layer_gui", "LoadLayer", c.Layers[0]); }
     }
 
-    public void OnCanvasEdit(params object[] args)
-        { this.OnCanvasEdit(); }
+    public void OnCanvasEdit(params object[] args) { this.OnCanvasEdit(); }
     public void OnCanvasEdit()
     {
         this.Canvas.BG = this._BGEdit.Color;
