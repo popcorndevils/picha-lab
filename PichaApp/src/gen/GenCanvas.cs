@@ -221,6 +221,7 @@ public class GenCanvas : Node2D
             }
         }
         
+        _im.Unlock();
         _imTex.CreateFromImage(_im, 0);
 
         return _imTex;

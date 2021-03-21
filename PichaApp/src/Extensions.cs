@@ -33,6 +33,7 @@ public static class PichaExtensions
             }
         }
 
+        _i.Unlock();
         _output.CreateFromImage(_i, 0);
         return _output;
     }

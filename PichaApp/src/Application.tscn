@@ -4,7 +4,7 @@
 [ext_resource path="res://src/ui/MenuBar.tscn" type="PackedScene" id=2]
 [ext_resource path="res://res/theme/Application.theme" type="Theme" id=3]
 [ext_resource path="res://src/ui/WorkArea.tscn" type="PackedScene" id=4]
-[ext_resource path="res://src/ui/Patterns/PatternDesigner.cs" type="Script" id=5]
+[ext_resource path="res://src/ui/Patterns/PatternDesigner.tscn" type="PackedScene" id=5]
 
 [node name="Application" type="Node"]
 script = ExtResource( 1 )
@@ -36,13 +36,7 @@ margin_top = 34.0
 margin_right = 1024.0
 margin_bottom = 600.0
 
-[node name="PatternDesigner" type="AcceptDialog" parent="PichaGUI"]
-margin_right = 48.0
-margin_bottom = 40.0
-size_flags_horizontal = 3
-size_flags_vertical = 3
-resizable = true
-script = ExtResource( 5 )
+[node name="PatternDesigner" parent="PichaGUI" instance=ExtResource( 5 )]
 
 [node name="SaveDialog" type="FileDialog" parent="PichaGUI"]
 margin_right = 600.0
@@ -66,3 +60,7 @@ access = 2
 filters = PoolStringArray( "*.plab ; Picha Lab" )
 current_dir = "/Projects/Picha/PichaApp"
 current_path = "/Projects/Picha/PichaApp/"
+
+[node name="PopupMenu" type="PopupMenu" parent="."]
+margin_right = 20.0
+margin_bottom = 20.0

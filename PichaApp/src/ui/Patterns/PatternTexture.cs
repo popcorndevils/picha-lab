@@ -1,9 +1,23 @@
+using System.Collections.Generic;
+
 using Godot;
+
+using OctavianLib;
+using PichaLib;
 
 public class PatternTexture : TextureRect
 {
     private bool _Hover = false;
     private bool _Drawing = false;
+    private PatternDesigner _Owner;
+    private (int x, int y) _PrevLoc;
+
+    private Image _Image = new Image();
+    private ImageTexture _ImageTex = new ImageTexture();
+    private Pixel Current => this._Owner.PaintBtn.Selected;
+
+    private string[,] _Frame;
+    private Dictionary<string, Pixel> _Pixels;
 
     private TextureRect _PixelOutline = new TextureRect() {
         Name = "PixelOutline",
@@ -22,6 +36,30 @@ public class PatternTexture : TextureRect
         this.Connect("mouse_exited", this, "OnMouseExit");
         this._PixelOutline.Texture = this._GetOutline();
         this.AddChild(this._PixelOutline);
+        this._Owner = this.GetTree().Root.GetNode<PatternDesigner>("Application/PichaGUI/PatternDesigner");
+    }
+
+    public void LoadLayer(string[,] frame, Dictionary<string, Pixel> pixels)
+    {
+        this._Frame = frame;
+        this._Pixels = pixels;
+
+        this._Image.Create(frame.GetWidth(), frame.GetWidth(), false, Image.Format.Rgba8);
+        this._Image.Lock();
+
+        for(int _x = 0; _x < frame.GetWidth(); _x++)
+        {
+            for(int _y = 0; _y < frame.GetHeight(); _y++)
+            {
+                var _cell = frame[_y, _x];
+                var _col = pixels[_cell].Paint;
+                this._Image.SetPixel(_x, _y, _col.ToGodotColor());
+            }
+        }
+
+        this._Image.Unlock();
+        this._ImageTex.CreateFromImage(this._Image, 0);
+        this.Texture = this._ImageTex;
     }
 
     public override void _GuiInput(InputEvent @event)
@@ -42,7 +80,7 @@ public class PatternTexture : TextureRect
             
             if(this._Drawing)
             {
-                GD.Print(_p.ToIntPair());
+                this.SetPixel((int)_p.x, (int)_p.y, this.Current);
             }
         }
         else
@@ -54,7 +92,11 @@ public class PatternTexture : TextureRect
         {
             if(b.ButtonIndex == (int)ButtonList.Left)
             {
-                if(b.Pressed) { this._Drawing = true; }
+                if(b.Pressed) 
+                { 
+                    this._Drawing = true;
+                    this.SetPixel((int)b.Position.x, (int)b.Position.y, this.Current);
+                }
                 else { this._Drawing = false; }
             }
         }
@@ -64,7 +106,6 @@ public class PatternTexture : TextureRect
     {
         var _im = new Image();
         var _imTex = new ImageTexture();
-    
         var _s = 8;
 
         _im.Create(_s, _s, false, Image.Format.Rgba8);
@@ -78,9 +119,19 @@ public class PatternTexture : TextureRect
                     { _im.SetPixel(_x, _y, new Color(1f, 1f, 1f, 0f)); }
             }
         }
+        _im.Unlock();
         _imTex.CreateFromImage(_im, 0);
 
         return _imTex;
+    }
+
+    public void SetPixel(int x, int y, Pixel p)
+    {
+        this._Image.Lock();
+        this._Image.SetPixel(x, y, p.Paint.ToGodotColor());
+        this._Image.Unlock();
+        this._ImageTex.SetData(this._Image);
+        this._Frame[y, x] = p.Name;
     }
     
     public void OnMouseEnter()
