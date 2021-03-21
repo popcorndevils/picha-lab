@@ -6,7 +6,6 @@ using PichaLib;
 
 public class FrameControl : Node2D
 {
-    public Vector2 Size => this._Texture.Size * this.Scale;
     private PatternDesigner _Owner;
 
     private PatternTexture _Texture = new PatternTexture() {
@@ -18,6 +17,8 @@ public class FrameControl : Node2D
     public string[,] Frame;
     public Dictionary<string, Pixel> Pixels;
 
+    public string[,] FinalizedFrame => this._Texture.Frame;
+
     public override void _Ready()
     {
         this._Owner = this.GetTree().Root.GetNode<PatternDesigner>("Application/PichaGUI/PatternDesigner");
@@ -26,6 +27,10 @@ public class FrameControl : Node2D
         this.AddChild(this._Texture);
 
         this._Texture.LoadLayer(this.Frame, this.Pixels);
-        this.GetParent<TabContainer>().RectMinSize = this.Size;
+    }
+
+    public void SetSize(int w, int h)
+    {
+        this._Texture.OverwriteSize(w, h);
     }
 }

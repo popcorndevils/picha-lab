@@ -16,7 +16,7 @@ public class PatternTexture : TextureRect
     private ImageTexture _ImageTex = new ImageTexture();
     private Pixel Current => this._Owner.PaintBtn.Selected;
 
-    private string[,] _Frame;
+    public string[,] Frame;
     private Dictionary<string, Pixel> _Pixels;
 
     private TextureRect _PixelOutline = new TextureRect() {
@@ -41,7 +41,7 @@ public class PatternTexture : TextureRect
 
     public void LoadLayer(string[,] frame, Dictionary<string, Pixel> pixels)
     {
-        this._Frame = frame;
+        this.Frame = new string[frame.GetHeight(), frame.GetWidth()];
         this._Pixels = pixels;
 
         this._Image.Create(frame.GetWidth(), frame.GetWidth(), false, Image.Format.Rgba8);
@@ -52,6 +52,7 @@ public class PatternTexture : TextureRect
             for(int _y = 0; _y < frame.GetHeight(); _y++)
             {
                 var _cell = frame[_y, _x];
+                this.Frame[_y, _x] = _cell;
                 var _col = pixels[_cell].Paint;
                 this._Image.SetPixel(_x, _y, _col.ToGodotColor());
             }
@@ -102,6 +103,43 @@ public class PatternTexture : TextureRect
         }
     }
 
+    public void OverwriteSize(int w, int h)
+    {
+        var _newFrame = new string[h, w];
+        var _oldHeight = this.Frame.GetHeight();
+        var _oldWidth = this.Frame.GetWidth();
+
+        this._Image.Create(_newFrame.GetWidth(), _newFrame.GetHeight(), false, Image.Format.Rgba8);
+        this._Image.Lock();
+
+        for(int _x = 0; _x < _newFrame.GetWidth(); _x++)
+        {
+            for(int _y = 0; _y < _newFrame.GetHeight(); _y++)
+            {
+                if(_x >= _oldWidth || _y >= _oldHeight)
+                {
+                    var _cell = this.Current.Name;
+                    _newFrame[_y, _x] = _cell;
+                    var _col = this._Pixels[_cell].Paint;
+                    this._Image.SetPixel(_x, _y, _col.ToGodotColor());
+                }
+                else 
+                {
+                    var _cell = this.Frame[_y, _x];
+                    _newFrame[_y, _x] = _cell;
+                    var _col = this._Pixels[_cell].Paint;
+                    this._Image.SetPixel(_x, _y, _col.ToGodotColor());
+                }
+            }
+        }
+
+        this.Frame = _newFrame;
+
+        this._Image.Unlock();
+        this._ImageTex.CreateFromImage(this._Image, 0);
+        this.Texture = this._ImageTex;
+    }
+
     private ImageTexture _GetOutline()
     {
         var _im = new Image();
@@ -131,7 +169,7 @@ public class PatternTexture : TextureRect
         this._Image.SetPixel(x, y, p.Paint.ToGodotColor());
         this._Image.Unlock();
         this._ImageTex.SetData(this._Image);
-        this._Frame[y, x] = p.Name;
+        this.Frame[y, x] = p.Name;
     }
     
     public void OnMouseEnter()

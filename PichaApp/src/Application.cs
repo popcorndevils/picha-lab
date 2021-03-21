@@ -8,7 +8,7 @@ public class Application : Node
 {
     private MenuBar _Menu;
     private Control _GUI;
-    private AcceptDialog _PatternDesigner;
+    private WindowDialog _PatternDesigner;
     private FileDialog _SaveAs;
     private FileDialog _OpenCanvas;
     private CanvasView _Canvases;
@@ -17,7 +17,7 @@ public class Application : Node
     {
         this._Menu = this.GetNode<MenuBar>("PichaGUI/WSVert/MenuBar");
         this._GUI = this.GetNode<Control>("PichaGUI");
-        this._PatternDesigner = this.GetNode<AcceptDialog>("PichaGUI/PatternDesigner");
+        this._PatternDesigner = this.GetNode<WindowDialog>("PichaGUI/PatternDesigner");
         this._SaveAs = this.GetNode<FileDialog>("PichaGUI/SaveDialog");
         this._OpenCanvas = this.GetNode<FileDialog>("PichaGUI/OpenDialog");
         this._Canvases = this.GetNode<CanvasView>("PichaGUI/WSVert/WorkArea/WorkSpace/CanvasView");

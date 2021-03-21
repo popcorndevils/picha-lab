@@ -64,6 +64,7 @@ public class PaintBtn : MenuButton
         var _pixel = this._Pixels[this._PixelIDs[0]];
 
         this.Color = _pixel.Paint.ToGodotColor();
+        this.Text = _pixel.Name;
         this.Selected = _pixel;
     }
 
@@ -71,6 +72,7 @@ public class PaintBtn : MenuButton
     {
         var _pixel = this._Pixels[this._PixelIDs[i]];
         this.Color = _pixel.Paint.ToGodotColor();
+        this.Text = _pixel.Name;
         this.Selected = _pixel;
     }
 
