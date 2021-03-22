@@ -9,6 +9,7 @@ public class PatternDesigner : WindowDialog
 {
     private GenLayer Layer;
     private bool _Editing = false;
+    private bool _IgnoreSizeSignal = true;
     private TabContainer FramesView;
     public PaintBtn PaintBtn;
     public SpinBox WEdit;
@@ -39,6 +40,8 @@ public class PatternDesigner : WindowDialog
         this.AddToGroup("pattern_designer");
 
         this.Connect("confirmed", this, "OnConfirmedLayers");
+        this.Connect("about_to_show", this, "OnShow");
+        this.Connect("popup_hide", this, "OnHide");
 
         this.FramesView = this.GetNode<TabContainer>("Contents/HBox/FramesView");
         this.PaintBtn = this.GetNode<PaintBtn>("Contents/HBox/ToolBar/PaintBtn");
@@ -55,6 +58,56 @@ public class PatternDesigner : WindowDialog
         this._NavPrev.Connect("pressed", this, "OnNavPrev");
         this._NavNext.Connect("pressed", this, "OnNavNext");
         this._AddFrame.Connect("pressed", this, "OnAddFrame");
+    }
+
+    public void EditLayer(GenLayer c)
+    {
+        this._Editing = true;
+        this.Layer = c;
+        this.PopupCentered();
+    }
+
+    public void NewLayer()
+    {
+        this._Editing = false;
+        
+        this._CurrentFrame = 0;
+        this._FrameIndex.Text = "Frame 1/1";
+
+        this.Layer = PDefaults.Layer;
+        this.PaintBtn.LoadLayer(this.Layer);
+
+        var _w = this.Layer.Data.Frames[0].GetWidth();
+        var _h = this.Layer.Data.Frames[0].GetHeight();
+
+        this._PopulateView(this.Layer.Data.Frames, this.Layer.Data.Pixels);
+        this.FramesView.RectMinSize = new Vector2((float)_w, (float)_h) * new Vector2(20f, 20f);
+
+        this.WEdit.Value = _w;
+        this.HEdit.Value = _h;
+
+        this.PopupCenteredMinsize();
+    }
+
+    private void _PopulateView(SortedList<int, string[,]> frames, Dictionary<string, Pixel> Pixels)
+    {
+        foreach(Node n in this.FramesView.GetChildren())
+            { n.QueueFree(); }
+
+        this.FramesView.AddChild(new FrameControl() {
+            Frame = this.Layer.Data.Frames[0],
+            Pixels = this.Layer.Data.Pixels,
+        });
+    }
+
+    public void OnShow()
+    {
+        this._IgnoreSizeSignal = false;
+    }
+
+    public void OnHide()
+    {
+        this._IgnoreSizeSignal = true;
     }
 
     public void OnConfirmedLayers()
@@ -79,60 +132,22 @@ public class PatternDesigner : WindowDialog
         }
     }
 
-    public void EditLayer(GenLayer c)
-    {
-        this._Editing = true;
-        this.Layer = c;
-        this.PopupCentered();
-    }
-
-    public void NewLayer()
-    {
-        this._Editing = false;
-        
-        this.Layer = PDefaults.Layer;
-        this.PaintBtn.LoadLayer(this.Layer);
-
-        var _w = this.Layer.Data.Frames[0].GetWidth();
-        var _h = this.Layer.Data.Frames[0].GetHeight();
-
-        this._PopulateView(this.Layer.Data.Frames, this.Layer.Data.Pixels);
-        this.FramesView.RectMinSize = new Vector2((float)_w, (float)_h) * new Vector2(20f, 20f);
-
-        this.WEdit.Disconnect("value_changed", this, "OnSizeEdit");
-        this.HEdit.Disconnect("value_changed", this, "OnSizeEdit");
-        this.WEdit.Value = _w;
-        this.HEdit.Value = _h;
-        this.WEdit.Connect("value_changed", this, "OnSizeEdit");
-        this.HEdit.Connect("value_changed", this, "OnSizeEdit");
-
-        this.PopupCenteredMinsize();
-    }
-
-    private void _PopulateView(SortedList<int, string[,]> frames, Dictionary<string, Pixel> Pixels)
-    {
-        foreach(Node n in this.FramesView.GetChildren())
-            { n.QueueFree(); }
-
-        this.FramesView.AddChild(new FrameControl() {
-            Frame = this.Layer.Data.Frames[0],
-            Pixels = this.Layer.Data.Pixels,
-        });
-    }
-
     public void OnSizeEdit(float value)
     {
-        var _w = this.WEdit.Value;
-        var _h = this.HEdit.Value;
-
-        this.FramesView.RectMinSize = new Vector2((float)_w, (float)_h) * new Vector2(20f, 20f);
-
-        foreach(FrameControl _f in this.FramesView.GetChildren())
+        if(!this._IgnoreSizeSignal)
         {
-            _f.SetSize((int)_w, (int)_h);
-        }
+            var _w = this.WEdit.Value;
+            var _h = this.HEdit.Value;
 
-        this.RectSize = this.FramesView.RectMinSize;
+            this.FramesView.RectMinSize = new Vector2((float)_w, (float)_h) * new Vector2(20f, 20f);
+
+            foreach(FrameControl _f in this.FramesView.GetChildren())
+            {
+                _f.SetSize((int)_w, (int)_h);
+            }
+
+            this.RectSize = this.FramesView.RectMinSize;
+        }
     }
 
     public void OnNavPrev()
