@@ -46,7 +46,7 @@ public class GenLayer : TextureRect
         }
     }
 
-    private float _FrameTime = 3f;
+    private float _FrameTime = .5f;
     public float FrameTime {
         get => this._FrameTime;
         set {

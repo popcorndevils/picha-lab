@@ -15,7 +15,9 @@ public class PixelSection : BaseSection
 
     public void LoadLayer(Layer l)
     {
-        this.SectionGrid.ClearChildren();
+        foreach(Node n in this.SectionGrid.GetChildren())
+        { this.SectionGrid.RemoveChild(n); }
+
         foreach(Pixel p in l.Pixels.Values)
         { 
             var _props = new PixelProps() {

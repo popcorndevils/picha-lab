@@ -47,8 +47,11 @@ public class LayersList : VBoxContainer
     public void LoadCanvas(GenCanvas c)
     {
         this.Canvas = c;
-        
-        this._Buttons.ClearChildren();
+
+        foreach(Node n in this._Buttons.GetChildren())
+        {
+            this._Buttons.RemoveChild(n);
+        }
         foreach(GenLayer _l in c.Layers.Values)
         {
             this._Buttons.AddChild(new LayerButton() { Layer = _l });

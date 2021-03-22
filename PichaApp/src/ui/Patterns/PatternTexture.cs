@@ -41,15 +41,18 @@ public class PatternTexture : TextureRect
 
     public void LoadLayer(string[,] frame, Dictionary<string, Pixel> pixels)
     {
-        this.Frame = new string[frame.GetHeight(), frame.GetWidth()];
+        int _w = frame.GetWidth();
+        int _h = frame.GetHeight();
+
+        this.Frame = new string[_h, _w];
         this._Pixels = pixels;
 
-        this._Image.Create(frame.GetWidth(), frame.GetWidth(), false, Image.Format.Rgba8);
+        this._Image.Create(_w, _h, false, Image.Format.Rgba8);
         this._Image.Lock();
 
-        for(int _x = 0; _x < frame.GetWidth(); _x++)
+        for(int _x = 0; _x < _w; _x++)
         {
-            for(int _y = 0; _y < frame.GetHeight(); _y++)
+            for(int _y = 0; _y < _h; _y++)
             {
                 var _cell = frame[_y, _x];
                 this.Frame[_y, _x] = _cell;
