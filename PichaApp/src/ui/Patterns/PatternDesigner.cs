@@ -116,23 +116,27 @@ public class PatternDesigner : WindowDialog
 
     public void OnConfirmedLayers()
     {
+        var _output = this.Layer;
+
         if(this._Editing)
         {
             GD.Print("EDIT DONE");
         }
         else
         {
-            var _newLayers = new SortedList<int, string[,]>();
+            var _newFrames = new SortedList<int, string[,]>();
 
             foreach(FrameControl _f in this.FramesView.GetChildren())
             {
-                _newLayers.Add(_newLayers.Count, _f.FinalizedFrame);
+                _newFrames.Add(_newFrames.Count, _f.FinalizedFrame);
             }
 
-            this.Layer.Data.Frames = _newLayers;
+            _output.Data.Frames = _newFrames;
 
-            this.GetTree().CallGroup("gp_canvas_handler", "AddLayer", this.Layer);
-            this.GetTree().CallGroup("layers_list", "AddNewLayer", this.Layer);
+            this.Layer = null;
+
+            this.GetTree().CallGroup("gp_canvas_handler", "AddLayer", _output);
+            this.GetTree().CallGroup("layers_list", "AddNewLayer", _output);
         }
     }
 
