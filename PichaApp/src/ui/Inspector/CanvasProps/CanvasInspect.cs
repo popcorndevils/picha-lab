@@ -5,9 +5,9 @@ public class CanvasInspect : VBoxContainer
 {
     public GenCanvas Canvas;
 
-    // private VBoxContainer _Contents;
-    private GridContainer _Settings;
+    private bool _IgnoreSignals = false;
 
+    private GridContainer _Settings;
     private CheckBox _AutoGenEdit;
     private SpinBox _AutoGenTimeEdit;
     private ColorPickerButton _FGEdit;
@@ -109,21 +109,17 @@ public class CanvasInspect : VBoxContainer
     public void LoadCanvas(GenCanvas c)
     {
         this.Canvas = c;
+        var _size = c.Size;
 
         this._AutoGenEdit.Pressed = c.AutoGen;
         this._FGEdit.Color = c.FG;
         this._BGEdit.Color = c.BG;
 
-        this._AutoGenTimeEdit.Disconnect("value_changed", this, "OnCanvasEdit");
-        this._WidthEdit.Disconnect("value_changed", this, "OnCanvasEdit");
-        this._HeightEdit.Disconnect("value_changed", this, "OnCanvasEdit");
+        this._IgnoreSignals = true;
         this._AutoGenTimeEdit.Value = c.TimeToGen;
-        var _size = c.Size;
         this._WidthEdit.Value = _size.x;
         this._HeightEdit.Value = _size.y;
-        this._AutoGenTimeEdit.Connect("value_changed", this, "OnCanvasEdit");
-        this._WidthEdit.Connect("value_changed", this, "OnCanvasEdit");
-        this._HeightEdit.Connect("value_changed", this, "OnCanvasEdit");
+        this._IgnoreSignals = false;
         
         if(c.Layers.Count > 0)
             { this.GetTree().CallGroup("gp_layer_gui", "LoadLayer", c.Layers[0]); }
@@ -132,10 +128,13 @@ public class CanvasInspect : VBoxContainer
     public void OnCanvasEdit(params object[] args) { this.OnCanvasEdit(); }
     public void OnCanvasEdit()
     {
-        this.Canvas.BG = this._BGEdit.Color;
-        this.Canvas.FG = this._FGEdit.Color;
-        this.Canvas.AutoGen = this._AutoGenEdit.Pressed;
-        this.Canvas.TimeToGen = (float)this._AutoGenTimeEdit.Value;
-        this.Canvas.Size = new Vector2((int)this._WidthEdit.Value, (int)this._HeightEdit.Value);
+        if(!this._IgnoreSignals)
+        {
+            this.Canvas.BG = this._BGEdit.Color;
+            this.Canvas.FG = this._FGEdit.Color;
+            this.Canvas.AutoGen = this._AutoGenEdit.Pressed;
+            this.Canvas.TimeToGen = (float)this._AutoGenTimeEdit.Value;
+            this.Canvas.Size = new Vector2((int)this._WidthEdit.Value, (int)this._HeightEdit.Value);
+        }
     }
 }

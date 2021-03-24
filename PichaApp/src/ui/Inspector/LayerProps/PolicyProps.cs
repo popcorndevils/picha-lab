@@ -14,6 +14,8 @@ public class PolicyProps : BaseSection
     public Policy Policy;
     public Layer Layer;
 
+    private bool _IgnoreSignals = false;
+
     // SETTINGS
     private OptionButton _InputEdit;
     private OptionButton _OutputEdit;
@@ -131,9 +133,9 @@ public class PolicyProps : BaseSection
         this._InputEdit.Selected = this._PixelTable[p.Input];
         this._OutputEdit.Selected = this._PixelTable[p.Output];
 
-        this._RateEdit.Disconnect("value_changed", this, "OnPolicySettingEdit");
+        this._IgnoreSignals = true;
         this._RateEdit.Value = p.Rate;
-        this._RateEdit.Connect("value_changed", this, "OnPolicySettingEdit");
+        this._IgnoreSignals = false;
 
         this._ConditionAEdit.Selected = (int)p.ConditionA;
         this._ConditionLogicEdit.Selected = (int)p.ConditionLogic;
@@ -143,16 +145,19 @@ public class PolicyProps : BaseSection
     public void OnPolicySettingEdit(params object[] args) { this.OnPolicySettingEdit(); }
     public void OnPolicySettingEdit()
     {
-        var _inputName = $"{this._PixelTable[this._InputEdit.Selected]}";
-        var _outputName = $"{this._PixelTable[this._OutputEdit.Selected]}";
+        if(!this._IgnoreSignals)
+        {
+            var _inputName = $"{this._PixelTable[this._InputEdit.Selected]}";
+            var _outputName = $"{this._PixelTable[this._OutputEdit.Selected]}";
 
-        this.SectionTitle = $"{_inputName} -> {_outputName}";
+            this.SectionTitle = $"{_inputName} -> {_outputName}";
 
-        this.Policy.Input = this._PixelTable[this._InputEdit.Selected];
-        this.Policy.Output = this._PixelTable[this._OutputEdit.Selected];
-        this.Policy.Rate = (float)this._RateEdit.Value;
-        this.Policy.ConditionA = (ConditionTarget)this._ConditionAEdit.Selected;
-        this.Policy.ConditionLogic = (ConditionExpression)this._ConditionLogicEdit.Selected;
-        this.Policy.ConditionB = this._PixelTable[this._ConditionBEdit.Selected];
+            this.Policy.Input = this._PixelTable[this._InputEdit.Selected];
+            this.Policy.Output = this._PixelTable[this._OutputEdit.Selected];
+            this.Policy.Rate = (float)this._RateEdit.Value;
+            this.Policy.ConditionA = (ConditionTarget)this._ConditionAEdit.Selected;
+            this.Policy.ConditionLogic = (ConditionExpression)this._ConditionLogicEdit.Selected;
+            this.Policy.ConditionB = this._PixelTable[this._ConditionBEdit.Selected];
+        }
     }
 }

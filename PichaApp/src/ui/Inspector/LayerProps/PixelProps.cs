@@ -10,6 +10,8 @@ public class PixelProps : BaseSection
     public event PixelChangedHandler PixelChanged;
     public Pixel Pixel;
 
+    private bool _IgnoreSignals = false;
+
     // SETTINGS
     private LineEdit _NameEdit;
     private ColorPickerButton _ColorEdit;
@@ -149,31 +151,32 @@ public class PixelProps : BaseSection
 
         this._FadeDirectionEdit.Selected = (int)p.FadeDirection;
         
-        this._BrightNoiseEdit.Disconnect("value_changed", this, "OnPixelSettingEdit");
-        this._MinSaturationEdit.Disconnect("value_changed", this, "OnPixelSettingEdit");
+        this._IgnoreSignals = true;
 
         this._BrightNoiseEdit.Value = p.BrightNoise;
         this._MinSaturationEdit.Value = p.MinSaturation;
 
-        this._BrightNoiseEdit.Connect("value_changed", this, "OnPixelSettingEdit");
-        this._MinSaturationEdit.Connect("value_changed", this, "OnPixelSettingEdit");
+        this._IgnoreSignals = false;
     }
 
     public void OnPixelSettingEdit(params object[] args) { this.OnPixelSettingEdit(); }
     public void OnPixelSettingEdit()
     {
-        this.SectionTitle = this._NameEdit.Text; 
-        this.Pixel.Name = this._NameEdit.Text;
-        this.Pixel.RandomCol = this._RandomColEdit.Pressed;
-        this._ColorEdit.Disabled = this._RandomColEdit.Pressed;
+        if(!this._IgnoreSignals)
+        {
+            this.SectionTitle = this._NameEdit.Text; 
+            this.Pixel.Name = this._NameEdit.Text;
+            this.Pixel.RandomCol = this._RandomColEdit.Pressed;
+            this._ColorEdit.Disabled = this._RandomColEdit.Pressed;
 
-        this.Pixel.BrightNoise = (float)this._BrightNoiseEdit.Value;
-        this.Pixel.MinSaturation = (float)this._MinSaturationEdit.Value;
-        this.Pixel.Color = this._ColorEdit.Color.ToChroma();
-        this.Pixel.Paint = this._PaintEdit.Color.ToChroma();
-        this.Pixel.FadeDirection = (FadeDirection)this._FadeDirectionEdit.Selected;
+            this.Pixel.BrightNoise = (float)this._BrightNoiseEdit.Value;
+            this.Pixel.MinSaturation = (float)this._MinSaturationEdit.Value;
+            this.Pixel.Color = this._ColorEdit.Color.ToChroma();
+            this.Pixel.Paint = this._PaintEdit.Color.ToChroma();
+            this.Pixel.FadeDirection = (FadeDirection)this._FadeDirectionEdit.Selected;
 
-        this.PixelChanged?.Invoke(this.Pixel);
+            this.PixelChanged?.Invoke(this.Pixel);
+        }
     }
 
     public void OnDeletePixel()

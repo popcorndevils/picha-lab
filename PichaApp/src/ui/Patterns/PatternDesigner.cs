@@ -60,33 +60,37 @@ public class PatternDesigner : WindowDialog
         this._AddFrame.Connect("pressed", this, "OnAddFrame");
     }
 
-    public void EditLayer(GenLayer c)
+    public void EditLayer(GenLayer l)
     {
         this._Editing = true;
-        this.Layer = c;
-        this.PopupCentered();
+        this.Layer = l;
     }
 
-    public void NewLayer()
+    private void _OpenLayer(GenLayer l)
     {
-        this._Editing = false;
-        
+        this.Layer = l;
         this._CurrentFrame = 0;
         this._FrameIndex.Text = "Frame 1/1";
-
-        this.Layer = PDefaults.Layer;
         this.PaintBtn.LoadLayer(this.Layer);
 
         var _w = this.Layer.Data.Frames[0].GetWidth();
         var _h = this.Layer.Data.Frames[0].GetHeight();
 
         this._PopulateView(this.Layer.Data.Frames, this.Layer.Data.Pixels);
+
         this.FramesView.RectMinSize = new Vector2((float)_w, (float)_h) * new Vector2(20f, 20f);
 
         this.WEdit.Value = _w;
         this.HEdit.Value = _h;
-
+        
         this.PopupCenteredMinsize();
+    }
+
+    public void NewLayer()
+    {
+        this._Editing = false;
+        var _l = PDefaults.Layer;
+        this._OpenLayer(_l);
     }
 
     private void _PopulateView(SortedList<int, string[,]> frames, Dictionary<string, Pixel> Pixels)
