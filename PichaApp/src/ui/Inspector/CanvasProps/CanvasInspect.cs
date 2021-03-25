@@ -9,6 +9,7 @@ public class CanvasInspect : VBoxContainer
 
     private GridContainer _Settings;
     private CheckBox _AutoGenEdit;
+    private Button _Regen;
     private SpinBox _AutoGenTimeEdit;
     private ColorPickerButton _FGEdit;
     private ColorPickerButton _BGEdit;
@@ -31,9 +32,16 @@ public class CanvasInspect : VBoxContainer
             Align = Label.AlignEnum.Right,
         };
 
+        var _genBox = new HBoxContainer() {
+            SizeFlagsHorizontal = 0,
+        };
 
         this._AutoGenEdit = new CheckBox() {
             SizeFlagsHorizontal = 0,
+        };
+
+        this._Regen = new Button() {
+            Text = "R",
         };
 
         var _autoGenTimeLabel = new Label() {
@@ -89,17 +97,19 @@ public class CanvasInspect : VBoxContainer
 
         this.AddChild(this._Settings);
 
+        _genBox.AddChildren(this._AutoGenEdit, this._Regen);
         _bgColorsBox.AddChildren(this._FGEdit, this._BGEdit);
         _sizeBox.AddChildren(this._WidthEdit, this._HeightEdit);
 
         this._Settings.AddChildren(
-            _autoGenLabel, this._AutoGenEdit,
+            _autoGenLabel, _genBox,
             _autoGenTimeLabel, this._AutoGenTimeEdit,
             _bgColorsLabel, _bgColorsBox,
             _sizeLabel, _sizeBox);
 
         this._AutoGenEdit.Connect("pressed", this, "OnCanvasEdit");
         this._AutoGenTimeEdit.Connect("value_changed", this, "OnCanvasEdit");
+        this._Regen.Connect("pressed", this, "OnRegen");
         this._WidthEdit.Connect("value_changed", this, "OnCanvasEdit");
         this._HeightEdit.Connect("value_changed", this, "OnCanvasEdit");
         this._BGEdit.Connect("color_changed", this, "OnCanvasEdit");
@@ -123,6 +133,11 @@ public class CanvasInspect : VBoxContainer
         
         if(c.Layers.Count > 0)
             { this.GetTree().CallGroup("gp_layer_gui", "LoadLayer", c.Layers[0]); }
+    }
+
+    public void OnRegen()
+    {
+        this.Canvas.Generate();
     }
 
     public void OnCanvasEdit(params object[] args) { this.OnCanvasEdit(); }

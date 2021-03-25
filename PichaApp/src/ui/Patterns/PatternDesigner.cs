@@ -160,7 +160,6 @@ public class PatternDesigner : WindowDialog
 
     public void OnNavPrev()
     {
-        GD.Print("PREV");
         if(this.FrameCount > 1)
         {
             this.CurrentFrame = this.CurrentFrame <= 0 ? this.FrameCount - 1 : this.CurrentFrame - 1;
@@ -169,7 +168,6 @@ public class PatternDesigner : WindowDialog
 
     public void OnNavNext()
     {
-        GD.Print("NEXT");
         if(this.FrameCount > 1)
         {
             this.CurrentFrame = this.CurrentFrame >= this.FrameCount - 1 ? 0 : this.CurrentFrame + 1;
@@ -178,7 +176,7 @@ public class PatternDesigner : WindowDialog
 
     public void OnAddFrame()
     {
-        var _sample = this.FramesView.GetChild<FrameControl>(this.FramesView.CurrentTab).FinalizedFrame;
+        var _sample = this.FramesView.GetChild<FrameControl>(CurrentFrame).FinalizedFrame;
 
         this.FramesView.AddChild(new FrameControl() {
             Frame = _sample,
