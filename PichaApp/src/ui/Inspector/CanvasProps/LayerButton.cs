@@ -27,6 +27,30 @@ public class LayerButton : Button
         this.GetTree().CallGroup("gp_layer_gui", "LoadLayer", this.Layer);
     }
 
+    public override void DropData(Vector2 position, object data)
+    {
+        if(data is LayerButton b)
+        {
+            this.GetParent().MoveChild(b, this.GetIndex());
+            this.Layer.GetParent().MoveChild(b.Layer, this.Layer.GetIndex());
+        }
+    }
+
+    public override object GetDragData(Vector2 position)
+    {
+        this.SetDragPreview(new Label() {Text = this.Text});
+        return this;
+    }
+
+    public override bool CanDropData(Vector2 position, object data)
+    {
+        if(data is LayerButton b)
+        {
+            return true;
+        }
+        return false;
+    }
+
     public void HandleLayerChange(Layer l)
     {
         this.Text = l.Name;

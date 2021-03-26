@@ -15,6 +15,8 @@ public class Application : Node
 
     public override void _Ready()
     {
+        this.AddToGroup("application");
+
         this._Menu = this.GetNode<MenuBar>("PichaGUI/WSVert/MenuBar");
         this._GUI = this.GetNode<Control>("PichaGUI");
         this._PatternDesigner = this.GetNode<WindowDialog>("PichaGUI/PatternDesigner");
