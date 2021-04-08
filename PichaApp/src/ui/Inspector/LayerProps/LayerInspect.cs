@@ -5,6 +5,7 @@ using PichaLib;
 
 public class LayerInspect : ScrollContainer
 {
+    public GenLayer GenLayer;
     public Layer Layer;
 
     private VBoxContainer _Contents;
@@ -102,6 +103,7 @@ public class LayerInspect : ScrollContainer
         this._GenSettings.AddChild(_mirrorLabel);
         this._GenSettings.AddChild(_mirrorGroup);
 
+        this._OpenTemplate.Connect("pressed", this, "OnEditTemplate");
         this._NameEdit.Connect("text_changed", this, "OnLayerSettingEdit");
         this._MirrorXEdit.Connect("pressed", this, "OnLayerSettingEdit");
         this._MirrorYEdit.Connect("pressed", this, "OnLayerSettingEdit");
@@ -115,11 +117,17 @@ public class LayerInspect : ScrollContainer
         this.Layer.MirrorY = this._MirrorYEdit.Pressed;
     }
 
+    public void OnEditTemplate()
+    {
+        this.GetTree().CallGroup("pattern_designer", "EditLayer", this.GenLayer);
+    }
+
     public void LoadLayer(GenLayer l)
     {
         this._Pixels.LoadLayer(l.Data);
         this._Cycles.LoadLayer(l.Data);
 
+        this.GenLayer = l;
         this.Layer = l.Data;
         this._NameEdit.Text = l.Data.Name;
         this._MirrorXEdit.Pressed = l.Data.MirrorX;

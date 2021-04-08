@@ -60,12 +60,6 @@ public class PatternDesigner : WindowDialog
         this._AddFrame.Connect("pressed", this, "OnAddFrame");
     }
 
-    public void EditLayer(GenLayer l)
-    {
-        this._Editing = true;
-        this.Layer = l;
-    }
-
     private void _OpenLayer(GenLayer l)
     {
         this.Layer = l;
@@ -89,8 +83,13 @@ public class PatternDesigner : WindowDialog
     public void NewLayer()
     {
         this._Editing = false;
-        var _l = PDefaults.Layer;
-        this._OpenLayer(_l);
+        this._OpenLayer(PDefaults.Layer);
+    }
+
+    public void EditLayer(GenLayer l)
+    {
+        this._Editing = true;
+        this._OpenLayer(l);
     }
 
     private void _PopulateView(SortedList<int, string[,]> frames, Dictionary<string, Pixel> Pixels)
@@ -136,7 +135,6 @@ public class PatternDesigner : WindowDialog
             this.Layer = null;
 
             this.GetTree().CallGroup("gp_canvas_handler", "AddLayer", _output);
-            this.GetTree().CallGroup("layers_list", "AddNewLayer", _output);
         }
     }
 
