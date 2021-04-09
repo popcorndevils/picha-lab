@@ -7,10 +7,15 @@ using OctavianLib;
 
 public class PatternDesigner : WindowDialog
 {
-    private GenLayer Layer;
+    private GenLayer _Layer;
+    public GenLayer Layer {
+        get => this._Layer;
+        set => this._Layer = value;
+    }
+
     private bool _Editing = false;
     private bool _IgnoreSizeSignal = true;
-    private TabContainer FramesView;
+    private CenterContainer FramesView;
     public PaintBtn PaintBtn;
     public SpinBox WEdit;
     public SpinBox HEdit;
@@ -43,7 +48,7 @@ public class PatternDesigner : WindowDialog
         this.Connect("about_to_show", this, "OnShow");
         this.Connect("popup_hide", this, "OnHide");
 
-        this.FramesView = this.GetNode<TabContainer>("Contents/HBox/FramesView");
+        this.FramesView = this.GetNode<CenterContainer>("Contents/HBox/FramesView");
         this.PaintBtn = this.GetNode<PaintBtn>("Contents/HBox/ToolBar/PaintBtn");
         this.WEdit = this.GetNode<SpinBox>("Contents/HBox/ToolBar/WBox/WEdit");
         this.HEdit = this.GetNode<SpinBox>("Contents/HBox/ToolBar/HBox/HEdit");
@@ -63,8 +68,6 @@ public class PatternDesigner : WindowDialog
     private void _OpenLayer(GenLayer l)
     {
         this.Layer = l;
-        this._CurrentFrame = 0;
-        this._FrameIndex.Text = "Frame 1/1";
         this.PaintBtn.LoadLayer(this.Layer);
 
         var _w = this.Layer.Data.Frames[0].GetWidth();
@@ -92,15 +95,21 @@ public class PatternDesigner : WindowDialog
         this._OpenLayer(l);
     }
 
-    private void _PopulateView(SortedList<int, string[,]> frames, Dictionary<string, Pixel> Pixels)
+    private void _PopulateView(SortedList<int, string[,]> frames, Dictionary<string, Pixel> pixels)
     {
-        foreach(Node n in this.FramesView.GetChildren())
-            { n.QueueFree(); }
 
-        this.FramesView.AddChild(new FrameControl() {
-            Frame = this.Layer.Data.Frames[0],
-            Pixels = this.Layer.Data.Pixels,
-        });
+        foreach(KeyValuePair<int, string[,]> _pair in frames)
+        {
+            this.FramesView.AddChild(new FrameControl() {
+                Frame = _pair.Value,
+                Pixels = pixels,
+                Visible = false,
+            });
+        }
+
+        this.CurrentFrame = 0;
+        this.FramesView.GetChild<FrameControl>(0).Visible = true;
+        this._FrameIndex.Text = $"Frame 1/{this.Layer.Data.Frames.Count}";
     }
 
     public void OnShow()
@@ -111,6 +120,9 @@ public class PatternDesigner : WindowDialog
     public void OnHide()
     {
         this._IgnoreSizeSignal = true;
+        
+        foreach(Node n in this.FramesView.GetChildren())
+            { n.QueueFree(); }
     }
 
     public void OnConfirmedLayers()
@@ -159,17 +171,13 @@ public class PatternDesigner : WindowDialog
     public void OnNavPrev()
     {
         if(this.FrameCount > 1)
-        {
-            this.CurrentFrame = this.CurrentFrame <= 0 ? this.FrameCount - 1 : this.CurrentFrame - 1;
-        }
+            { this.CurrentFrame = this.CurrentFrame <= 0 ? this.FrameCount - 1 : this.CurrentFrame - 1; }
     }
 
     public void OnNavNext()
     {
         if(this.FrameCount > 1)
-        {
-            this.CurrentFrame = this.CurrentFrame >= this.FrameCount - 1 ? 0 : this.CurrentFrame + 1;
-        }
+            { this.CurrentFrame = this.CurrentFrame >= this.FrameCount - 1 ? 0 : this.CurrentFrame + 1; }
     }
 
     public void OnAddFrame()

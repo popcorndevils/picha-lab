@@ -86,8 +86,6 @@ margin_right = 12.0
 margin_bottom = 20.0
 text = "+"
 
-[node name="FramesView" type="TabContainer" parent="Contents/HBox"]
+[node name="FramesView" type="CenterContainer" parent="Contents/HBox"]
 margin_right = 8.0
 margin_bottom = 36.0
-custom_constants/top_margin = 0
-custom_constants/side_margin = 0
