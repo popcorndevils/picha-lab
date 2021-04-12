@@ -6,20 +6,6 @@ using PichaLib;
 
 public class GenLayer : TextureRect
 {
-    public Layer _Data = new Layer();
-    public Layer Data {
-        get {
-            this._Data.X = (int)this.RectPosition.x;
-            this._Data.Y = (int)this.RectPosition.y;
-            return this._Data;
-        }
-        set {
-            this._Data = value;
-            this.RectPosition = (value.X, value.Y).ToVector2();
-            this._AnimTime = value.AnimTime;
-        }
-    }
-
     private Timer _Timer = new Timer();
     private SortedList<int, Texture> _Textures = new SortedList<int, Texture>();
 
@@ -35,16 +21,6 @@ public class GenLayer : TextureRect
     }
 
     private bool _Dragging;
-
-    private float _AnimTime = 2f;
-    public float AnimTime {
-        get => this._AnimTime;
-        set {
-            this._AnimTime = value;
-            this.Data.AnimTime = value;
-            this.FrameTime = value / this._Textures.Count;
-        }
-    }
 
     private float _FrameTime = .5f;
     public float FrameTime {
@@ -63,6 +39,54 @@ public class GenLayer : TextureRect
             this.Texture = this._Textures[value];
         }
     }
+
+    //*************************\\ 
+    // ** ACCESS DATA LAYER ** \\
+    //*************************\\ 
+
+    public Layer _Data = new Layer();
+    public Layer Data {
+        get {
+            this._Data.X = (int)this.RectPosition.x;
+            this._Data.Y = (int)this.RectPosition.y;
+            return this._Data;
+        }
+        set {
+            this._Data = value;
+            this.RectPosition = (value.X, value.Y).ToVector2();
+        }
+    }
+
+    public SortedList<int, string[,]> Frames {
+        get => this.Data.Frames;
+        set {
+            this.Data.Frames = value;
+            this.Generate();
+        }
+    }
+
+    public Dictionary<string, Pixel> Pixels {
+        get => this.Data.Pixels;
+        set => this.Data.Pixels = value;
+    }
+
+    public SortedList<int, Cycle> Cycles {
+        get => this.Data.Cycles;
+        set => this.Data.Cycles = value;
+    }
+
+    // private float _AnimTime = 2f;
+    public float AnimTime {
+        get => this.Data.AnimTime;
+        set {
+            this.Data.AnimTime = value;
+            this.FrameTime = value / this._Textures.Count;
+        }
+    }
+    
+    //******************\\ 
+    // ** OPERATIONS ** \\
+    //******************\\ 
 
     public override void _Ready()
     {
@@ -132,7 +156,7 @@ public class GenLayer : TextureRect
 
     public void DeletePixel(Pixel p)
     {
-        foreach(Cycle _c in this.Data.Cycles.Values)
+        foreach(Cycle _c in this.Cycles.Values)
         {
             foreach(Policy _p in _c.Policies)
             {

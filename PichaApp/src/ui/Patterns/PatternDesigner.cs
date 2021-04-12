@@ -70,10 +70,10 @@ public class PatternDesigner : WindowDialog
         this.Layer = l;
         this.PaintBtn.LoadLayer(this.Layer);
 
-        var _w = this.Layer.Data.Frames[0].GetWidth();
-        var _h = this.Layer.Data.Frames[0].GetHeight();
+        var _w = this.Layer.Frames[0].GetWidth();
+        var _h = this.Layer.Frames[0].GetHeight();
 
-        this._PopulateView(this.Layer.Data.Frames, this.Layer.Data.Pixels);
+        this._PopulateView(this.Layer.Frames, this.Layer.Pixels);
 
         this.FramesView.RectMinSize = new Vector2((float)_w, (float)_h) * new Vector2(20f, 20f);
 
@@ -107,7 +107,6 @@ public class PatternDesigner : WindowDialog
             });
         }
 
-        this.CurrentFrame = 0;
         this.FramesView.GetChild<FrameControl>(0).Visible = true;
         this._FrameIndex.Text = $"Frame 1/{this.Layer.Data.Frames.Count}";
     }
@@ -115,6 +114,7 @@ public class PatternDesigner : WindowDialog
     public void OnShow()
     {
         this._IgnoreSizeSignal = false;
+        this._CurrentFrame = 0;
     }
 
     public void OnHide()
@@ -127,27 +127,19 @@ public class PatternDesigner : WindowDialog
 
     public void OnConfirmedLayers()
     {
-        var _output = this.Layer;
+        var _newFrames = new SortedList<int, string[,]>();
 
-        if(this._Editing)
+        foreach(FrameControl _f in this.FramesView.GetChildren())
         {
-            GD.Print("EDIT DONE");
+            _newFrames.Add(_newFrames.Count, _f.FinalizedFrame);
         }
-        else
-        {
-            var _newFrames = new SortedList<int, string[,]>();
 
-            foreach(FrameControl _f in this.FramesView.GetChildren())
-            {
-                _newFrames.Add(_newFrames.Count, _f.FinalizedFrame);
-            }
+        this.Layer.Frames = _newFrames;
 
-            _output.Data.Frames = _newFrames;
+        if(!this._Editing)
+            { this.GetTree().CallGroup("gp_canvas_handler", "AddLayer", this.Layer); }
 
-            this.Layer = null;
-
-            this.GetTree().CallGroup("gp_canvas_handler", "AddLayer", _output);
-        }
+        this.Layer = null;
     }
 
     public void OnSizeEdit(float value)
