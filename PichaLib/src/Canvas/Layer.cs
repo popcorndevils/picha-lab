@@ -1,5 +1,7 @@
 using System.Collections.Generic;
 
+using OctavianLib;
+
 namespace PichaLib
 {
     public delegate void LayerEditedHandler(Layer layer);
@@ -57,6 +59,9 @@ namespace PichaLib
                 this.OnLayerChanged?.Invoke(this);
             }
         }
+
+        public (int w, int h) Size => (this._Frames[0].GetWidth(), this._Frames[0].GetHeight());
+        public (int w, int h) Position => (this.X, this.Y);
 
         private SortedList<int, string[,]> _Frames = new SortedList<int, string[,]>();
         public SortedList<int, string[,]> Frames {

@@ -4,12 +4,16 @@
 [ext_resource path="res://src/ui/Patterns/PaintBtn.cs" type="Script" id=2]
 
 [node name="PatternDesigner" type="AcceptDialog"]
+visible = true
 margin_right = 48.0
 margin_bottom = 40.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 window_title = "Pattern Designer"
 script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="Contents" type="VBoxContainer" parent="."]
 margin_left = 8.0
@@ -21,71 +25,82 @@ size_flags_vertical = 3
 alignment = 1
 
 [node name="HBox" type="HBoxContainer" parent="Contents"]
-margin_right = 40.0
-margin_bottom = 40.0
+margin_right = 139.0
+margin_bottom = 118.0
 
 [node name="ToolBar" type="VBoxContainer" parent="Contents/HBox"]
-margin_right = 40.0
-margin_bottom = 40.0
+margin_right = 91.0
+margin_bottom = 118.0
 
 [node name="PaintBtn" type="MenuButton" parent="Contents/HBox/ToolBar"]
-margin_right = 12.0
+margin_right = 91.0
 margin_bottom = 20.0
 flat = false
 items = [ "Item 0", null, 0, false, false, 0, 0, null, "", false, "Item 1", null, 0, false, false, 1, 0, null, "", false, "Item 2", null, 0, false, false, 2, 0, null, "", false ]
 script = ExtResource( 2 )
 
 [node name="WBox" type="HBoxContainer" parent="Contents/HBox/ToolBar"]
-margin_right = 40.0
-margin_bottom = 40.0
+margin_top = 24.0
+margin_right = 91.0
+margin_bottom = 48.0
 
 [node name="WLabel" type="Label" parent="Contents/HBox/ToolBar/WBox"]
-margin_right = 40.0
-margin_bottom = 14.0
+margin_top = 5.0
+margin_right = 13.0
+margin_bottom = 19.0
 text = "W"
 
 [node name="WEdit" type="SpinBox" parent="Contents/HBox/ToolBar/WBox"]
-margin_right = 58.0
+margin_left = 17.0
+margin_right = 91.0
 margin_bottom = 24.0
 
 [node name="HBox" type="HBoxContainer" parent="Contents/HBox/ToolBar"]
-margin_right = 40.0
-margin_bottom = 40.0
+margin_top = 52.0
+margin_right = 91.0
+margin_bottom = 76.0
 
 [node name="HLabel" type="Label" parent="Contents/HBox/ToolBar/HBox"]
-margin_right = 40.0
-margin_bottom = 14.0
+margin_top = 5.0
+margin_right = 10.0
+margin_bottom = 19.0
 text = "H"
 
 [node name="HEdit" type="SpinBox" parent="Contents/HBox/ToolBar/HBox"]
-margin_right = 58.0
+margin_left = 14.0
+margin_right = 88.0
 margin_bottom = 24.0
 
 [node name="FrameIndex" type="Label" parent="Contents/HBox/ToolBar"]
-margin_right = 40.0
-margin_bottom = 14.0
+margin_top = 80.0
+margin_right = 91.0
+margin_bottom = 94.0
 text = "Frame 1/1"
 align = 1
 
 [node name="FrameNav" type="HBoxContainer" parent="Contents/HBox/ToolBar"]
-margin_right = 40.0
-margin_bottom = 40.0
+margin_top = 98.0
+margin_right = 91.0
+margin_bottom = 118.0
 
 [node name="NavPrev" type="Button" parent="Contents/HBox/ToolBar/FrameNav"]
-margin_right = 12.0
+margin_right = 20.0
 margin_bottom = 20.0
 text = "<"
 
 [node name="NavNext" type="Button" parent="Contents/HBox/ToolBar/FrameNav"]
-margin_right = 12.0
+margin_left = 24.0
+margin_right = 44.0
 margin_bottom = 20.0
 text = ">"
 
 [node name="AddFrame" type="Button" parent="Contents/HBox/ToolBar/FrameNav"]
-margin_right = 12.0
+margin_left = 48.0
+margin_right = 68.0
 margin_bottom = 20.0
 text = "+"
 
 [node name="FramesView" type="CenterContainer" parent="Contents/HBox"]
-margin_right = 8.0
-margin_bottom = 36.0
+margin_left = 95.0
+margin_right = 95.0
+margin_bottom = 118.0

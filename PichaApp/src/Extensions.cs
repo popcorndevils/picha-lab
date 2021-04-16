@@ -46,6 +46,12 @@ public static class PichaExtensions
         }
     }
 
+    public static void InsertChild(this Node self, int i, Node child)
+    {
+        self.AddChild(child);
+        self.MoveChild(child, i);
+    }
+
     public static void ClearChildren(this Node self)
     {
         foreach(Node n in self.GetChildren())

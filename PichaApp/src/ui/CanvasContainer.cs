@@ -3,6 +3,8 @@ using Godot;
 public class CanvasContainer : Control
 {
     private bool _Dragging;
+    private RulerGrid _Grid = new RulerGrid();
+
     private GenCanvas _Canvas;
     public GenCanvas Canvas {
         get => this._Canvas;
@@ -12,6 +14,7 @@ public class CanvasContainer : Control
                 { this.RemoveChild(value); }
             this._Canvas = value;
             this.AddChild(value);
+            this.MoveChild(value, 0);
             value.Scale = new Vector2(20, 20);
             value.Position = (this.RectSize / 2) - ((value.Size / 2) * value.Scale);
         }
@@ -21,6 +24,8 @@ public class CanvasContainer : Control
     {
         this.RectClipContent = true;
         this.Connect("visibility_changed", this, "OnVisibleChanged");
+
+        this.AddChild(this._Grid);
     }
 
     public override void _GuiInput(InputEvent @event)

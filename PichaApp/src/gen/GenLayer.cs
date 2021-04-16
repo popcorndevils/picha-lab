@@ -21,6 +21,16 @@ public class GenLayer : TextureRect
     }
 
     private bool _Dragging;
+    private bool Dragging {
+        get => this._Dragging;
+        set {
+            this._Dragging = value;
+            if(!value)
+                { this.MouseDefaultCursorShape = CursorShape.PointingHand; }
+            else
+                { this.MouseDefaultCursorShape = CursorShape.Move; }
+        }
+    }
 
     private float _FrameTime = .5f;
     public float FrameTime {
@@ -37,6 +47,7 @@ public class GenLayer : TextureRect
         set {
             this._Frame = value;
             this.Texture = this._Textures[value];
+            this.RectSize = this._Textures[value].GetSize();
         }
     }
 
@@ -53,7 +64,8 @@ public class GenLayer : TextureRect
         }
         set {
             this._Data = value;
-            this.RectPosition = (value.X, value.Y).ToVector2();
+            this.RectPosition = value.Position.ToVector2();
+            this.RectSize = value.Size.ToVector2();
         }
     }
 
@@ -61,6 +73,9 @@ public class GenLayer : TextureRect
         get => this.Data.Frames;
         set {
             this.Data.Frames = value;
+            this.RectSize = (this.Data.Size).ToVector2();
+            GD.Print("SUP");
+            GD.Print(this.Data.Size);
             this.Generate();
         }
     }
@@ -98,6 +113,8 @@ public class GenLayer : TextureRect
         this.Connect("mouse_exited", this, "OnMouseOut");
         this._Timer.Connect("timeout", this, "OnChange");
         this._Timer.Start();
+
+        this.MouseDefaultCursorShape = CursorShape.PointingHand;
     }
 
     public override void _GuiInput(InputEvent @event)
@@ -108,18 +125,18 @@ public class GenLayer : TextureRect
             {
                 if(btn.Pressed && this.Hover)
                 {
-                    this._Dragging = true;
+                    this.Dragging = true;
                     this.GetTree().CallGroup("gp_layer_gui", "LoadLayer", this);
                 }
                 else
                 {
-                    this._Dragging = false;
+                    this.Dragging = false;
                 }
             } 
         }
         else if(@event is InputEventMouseMotion mtn)
         {
-            if(this._Dragging)
+            if(this.Dragging)
             {
                 this.RectPosition += mtn.Relative;
             }

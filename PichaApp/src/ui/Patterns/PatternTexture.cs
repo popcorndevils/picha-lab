@@ -141,6 +141,7 @@ public class PatternTexture : TextureRect
         this._Image.Unlock();
         this._ImageTex.CreateFromImage(this._Image, 0);
         this.Texture = this._ImageTex;
+        this.RectSize = new Vector2(w, h);
     }
 
     private ImageTexture _GetOutline()
