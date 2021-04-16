@@ -112,9 +112,12 @@ public class LayerInspect : ScrollContainer
     public void OnLayerSettingEdit(params object[] args) { this.OnLayerSettingEdit(); } 
     public void OnLayerSettingEdit()
     {
-        this.Layer.Name = this._NameEdit.Text;
-        this.Layer.MirrorX = this._MirrorXEdit.Pressed;
-        this.Layer.MirrorY = this._MirrorYEdit.Pressed;
+        if(this.Layer != null)
+        {
+            this.Layer.Name = this._NameEdit.Text;
+            this.Layer.MirrorX = this._MirrorXEdit.Pressed;
+            this.Layer.MirrorY = this._MirrorYEdit.Pressed;
+        }
     }
 
     public void OnEditTemplate()
