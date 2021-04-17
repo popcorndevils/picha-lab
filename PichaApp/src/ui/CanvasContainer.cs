@@ -3,7 +3,9 @@ using Godot;
 public class CanvasContainer : Control
 {
     private bool _Dragging;
-    private RulerGrid _Grid = new RulerGrid();
+    private RulerGrid Rulers = new RulerGrid();
+
+    public Vector2 Centered => new Vector2(this.RectSize.x / 2, this.RectSize.y / 2);
 
     private GenCanvas _Canvas;
     public GenCanvas Canvas {
@@ -23,9 +25,10 @@ public class CanvasContainer : Control
     public override void _Ready()
     {
         this.RectClipContent = true;
-        this.Connect("visibility_changed", this, "OnVisibleChanged");
+        this.AddChild(this.Rulers);
 
-        this.AddChild(this._Grid);
+        this.Connect("visibility_changed", this, "OnVisibleChanged");
+        this.Rulers.Center.Connect("pressed", this, "OnCenterCanvas");
     }
 
     public override void _GuiInput(InputEvent @event)
@@ -65,5 +68,10 @@ public class CanvasContainer : Control
         { 
             this.GetTree().CallGroup("gp_canvas_gui", "LoadCanvas", this.Canvas);
         }
+    }
+
+    public void OnCenterCanvas()
+    {
+        this._Canvas.Position = (this.RectSize / 2) - ((this._Canvas.Size / 2) * this._Canvas.Scale);
     }
 }

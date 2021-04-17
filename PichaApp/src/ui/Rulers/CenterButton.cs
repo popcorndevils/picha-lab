@@ -8,5 +8,6 @@ public class CenterButton : Button
         this.RectMinSize = new Vector2(20, 20);
         this.SizeFlagsHorizontal = (int)SizeFlags.Fill;
         this.SizeFlagsVertical = (int)SizeFlags.Fill;
+        this.Icon = GD.Load<Texture>("res://res/icons/arrows-move.svg");
     }
 }

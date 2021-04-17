@@ -37,6 +37,7 @@ margin_right = 1024.0
 margin_bottom = 600.0
 
 [node name="PatternDesigner" parent="PichaGUI" instance=ExtResource( 5 )]
+visible = false
 
 [node name="SaveDialog" type="FileDialog" parent="PichaGUI"]
 margin_right = 600.0

@@ -23,7 +23,6 @@ public class CanvasView : TabContainer
         var _i = this.GetChildren().Count;
         var _view = new CanvasContainer();
         this.AddChild(_view);
-        c.Position = new Vector2(_view.RectSize.x / 2, _view.RectSize.y / 2);
         _view.Canvas = c;
         if(c.Data == null) { c.Data = new Canvas(); }
         this.CurrentTab = _i;
