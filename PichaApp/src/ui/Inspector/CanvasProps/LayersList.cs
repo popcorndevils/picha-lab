@@ -28,6 +28,8 @@ public class LayersList : VBoxContainer
         this.AddToGroup("gp_canvas_gui");
         this.AddToGroup("layers_list");
 
+        this.RectMinSize = new Vector2(260, 200);
+
         var _Title = new Label() {
             Text = "Layers",
             Align = Label.AlignEnum.Center,

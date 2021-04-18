@@ -16,6 +16,14 @@ public class CanvasView : TabContainer
     public override void _Ready()
     {
         this.AddToGroup("gp_canvas_handler");
+
+        this.RectMinSize = new Vector2(500, 0);
+
+        this.TabAlign = TabAlignEnum.Left;
+        this.TabsVisible = true;
+        DragToRearrangeEnabled = true;
+        this.SizeFlagsHorizontal = (int)SizeFlags.ExpandFill;
+        this.SizeFlagsVertical = (int)SizeFlags.ExpandFill;
     }
 
     public void AddCanvas(GenCanvas c)

@@ -7,17 +7,19 @@ public class Inspector : TabContainer
 
     public override void _Ready()
     {
-        this.RectMinSize = new Vector2(0, 200);
+        this.RectMinSize = new Vector2(260, 200);
 
         this.TabAlign = TabAlignEnum.Left;
         this.DragToRearrangeEnabled = true;
 
         this._CanvasProps = new CanvasInspect() {
-            Name = "Canvas"
+            Name = "Canvas",
+            RectMinSize = new Vector2(260, 200),
         };
 
         this._LayerProps = new LayerInspect() {
-            Name = "Layer"
+            Name = "Layer",
+            RectMinSize = new Vector2(260, 200),
         };
 
         this.AddChild(this._CanvasProps);

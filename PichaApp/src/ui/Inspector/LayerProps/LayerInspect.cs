@@ -42,6 +42,7 @@ public class LayerInspect : ScrollContainer
             SizeFlagsHorizontal = (int)SizeFlags.ShrinkEnd,
             Flat = false,
         };
+        
 
         var _pop = this._AddMenu.GetPopup();
         _pop.Connect("id_pressed", this, "OnAddMenuSelected");

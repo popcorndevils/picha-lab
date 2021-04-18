@@ -22,7 +22,7 @@ public class Application : Node
         this._PatternDesigner = this.GetNode<WindowDialog>("PichaGUI/PatternDesigner");
         this._SaveAs = this.GetNode<FileDialog>("PichaGUI/SaveDialog");
         this._OpenCanvas = this.GetNode<FileDialog>("PichaGUI/OpenDialog");
-        this._Canvases = this.GetNode<CanvasView>("PichaGUI/WSVert/WorkArea/WorkSpace/CanvasView");
+        this._Canvases = this.GetNode<WorkArea>("PichaGUI/WSVert/WorkArea").CanvasView;
 
         this._RegisterSignals();
     }
