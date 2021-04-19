@@ -17,6 +17,8 @@ public class Application : Node
     {
         this.AddToGroup("application");
 
+        OS.MinWindowSize = new Vector2(820, 550);
+
         this._Menu = this.GetNode<MenuBar>("PichaGUI/WSVert/MenuBar");
         this._GUI = this.GetNode<Control>("PichaGUI");
         this._PatternDesigner = this.GetNode<WindowDialog>("PichaGUI/PatternDesigner");
@@ -51,7 +53,7 @@ public class Application : Node
                     else { this._SaveAs.PopupCentered(); }
                 }
                 break;
-            case "save_as_canvas":
+            case "save_canvas_as":
                 if(this._Canvases.Active != null)
                 { 
                     this._SaveAs.PopupCentered();

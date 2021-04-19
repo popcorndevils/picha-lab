@@ -19,6 +19,7 @@ public class LayersList : VBoxContainer
     private Button _NewLayer = new Button() {
         Text = "+",
         SizeFlagsHorizontal = (int)SizeFlags.ShrinkCenter,
+        FocusMode = FocusModeEnum.None,
     };
 
     public GenCanvas Canvas;

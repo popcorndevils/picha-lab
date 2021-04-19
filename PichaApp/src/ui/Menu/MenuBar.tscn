@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=2]
 
-[ext_resource path="res://src/ui/MenuBar.cs" type="Script" id=1]
-[ext_resource path="res://src/ui/MenuBarItem.tscn" type="PackedScene" id=2]
+[ext_resource path="res://src/ui/Menu/MenuBar.cs" type="Script" id=1]
+[ext_resource path="res://src/ui/Menu/MenuBarItem.tscn" type="PackedScene" id=2]
 
 [node name="MenuBar" type="MarginContainer"]
 margin_right = 1024.0
@@ -22,17 +22,27 @@ margin_bottom = 30.0
 text = "File"
 
 [node name="NewCanvas" parent="OptButtons/OptFile" instance=ExtResource( 2 )]
-Text = "New"
+Text = "New Canvas"
 Action = "new_canvas"
 
 [node name="OpenCanvas" parent="OptButtons/OptFile" instance=ExtResource( 2 )]
-Text = "Open..."
+Text = "Open Canvas"
 Action = "open_canvas"
 
 [node name="SaveCanvas" parent="OptButtons/OptFile" instance=ExtResource( 2 )]
-Text = "Save"
+Text = "Save Canvas"
 Action = "save_canvas"
 
-[node name="SaveAsCanvas" parent="OptButtons/OptFile" instance=ExtResource( 2 )]
-Text = "Save As..."
-Action = "save_as_canvas"
+[node name="SaveCanvasAs" parent="OptButtons/OptFile" instance=ExtResource( 2 )]
+Text = "Save Canvas As..."
+Action = "save_canvas_as"
+
+[node name="Help" type="MenuButton" parent="OptButtons"]
+margin_left = 39.0
+margin_right = 81.0
+margin_bottom = 30.0
+text = "Help"
+
+[node name="Test" parent="OptButtons/Help" instance=ExtResource( 2 )]
+Text = "Test"
+Action = "TESTME"

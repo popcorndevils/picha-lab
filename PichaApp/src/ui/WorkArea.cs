@@ -2,12 +2,15 @@ using Godot;
 
 public class WorkArea : MarginContainer
 {
+    [Export] public int Margins = 5;
+
+    public CanvasView CanvasView = new CanvasView();
+
+    private PanelContainer _WorkBG = new PanelContainer();
     private HSplitContainer _WorkSpace = new HSplitContainer();
     private MarginContainer _PropertyView = new MarginContainer();
     private VSplitContainer _PropertyPanel = new VSplitContainer();
     private PanelContainer _PropertyBackGround = new PanelContainer();
-
-    public CanvasView CanvasView = new CanvasView();
 
     public override void _Ready()
     {
@@ -21,10 +24,12 @@ public class WorkArea : MarginContainer
 
         this._PropertyPanel.RectMinSize = new Vector2(260, 0);
 
-        this.AddChild(this._WorkSpace);
+        this._WorkBG.AddChild(this._WorkSpace);
 
-        this.AddConstantOverride("margin_left", 10);
-        this.AddConstantOverride("margin_right", 10);
-        this.AddConstantOverride("margin_bottom", 10);
+        this.AddChild(this._WorkBG);
+
+        this.AddConstantOverride("margin_left", Margins);
+        this.AddConstantOverride("margin_right", Margins);
+        this.AddConstantOverride("margin_bottom", Margins);
     }
 }
