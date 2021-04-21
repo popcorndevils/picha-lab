@@ -74,8 +74,6 @@ public class GenLayer : TextureRect
         set {
             this.Data.Frames = value;
             this.RectSize = (this.Data.Size).ToVector2();
-            GD.Print("SUP");
-            GD.Print(this.Data.Size);
             this.Generate();
         }
     }
@@ -90,7 +88,6 @@ public class GenLayer : TextureRect
         set => this.Data.Cycles = value;
     }
 
-    // private float _AnimTime = 2f;
     public float AnimTime {
         get => this.Data.AnimTime;
         set {

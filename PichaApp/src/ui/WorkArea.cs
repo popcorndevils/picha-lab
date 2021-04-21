@@ -16,8 +16,7 @@ public class WorkArea : MarginContainer
     {
         this._PropertyBackGround.AddChild(new LayersList());
 
-        this._PropertyPanel.AddChild(new Inspector());
-        this._PropertyPanel.AddChild(this._PropertyBackGround);
+        this._PropertyPanel.AddChildren(new Inspector(), this._PropertyBackGround);
         
         this._PropertyView.AddChild(this._PropertyPanel);
         this._WorkSpace.AddChildren(this.CanvasView, this._PropertyView);

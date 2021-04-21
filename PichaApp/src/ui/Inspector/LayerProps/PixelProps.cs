@@ -28,7 +28,7 @@ public class PixelProps : BaseSection
         this.SectionGrid.Columns = 2;
 
         this._Delete = new Button() {
-            Icon = GD.Load<Texture>("res://res/icons/clear-white.svg"),
+            Text = "x",
             SizeFlagsHorizontal = 0,
         };
 

@@ -61,7 +61,3 @@ access = 2
 filters = PoolStringArray( "*.plab ; Picha Lab" )
 current_dir = "/Projects/Picha/PichaApp"
 current_path = "/Projects/Picha/PichaApp/"
-
-[node name="PopupMenu" type="PopupMenu" parent="."]
-margin_right = 20.0
-margin_bottom = 20.0

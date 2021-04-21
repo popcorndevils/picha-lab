@@ -15,7 +15,7 @@ public class CycleProps : BaseSection
         base._Ready();
 
         this._Delete = new Button() {
-            Icon = GD.Load<Texture>("res://res/icons/clear-white.svg"),
+            Text = "x",
             SizeFlagsHorizontal = 0,
         };
 
