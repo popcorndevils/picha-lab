@@ -7,28 +7,26 @@ public class CycleProps : BaseSection
     public Layer Layer;
     public Cycle Cycle;
 
-    private Button _Delete;
-    private Button _AddPolicy;
+    private Button _Delete = new Button() {
+        Text = "x",
+        SizeFlagsHorizontal = 0,
+        FocusMode = FocusModeEnum.None,
+    };
+
+    private Button _NewPolicy = new Button() {
+        Text = "Add Policy",
+        RectMinSize = new Vector2(0, 30),
+        FocusMode = FocusModeEnum.None,
+    };
 
     public override void _Ready()
     {
+        this.SectionContent.AddChild(this._NewPolicy);
+        this._Delete.Connect("pressed", this, "OnCycleDelete");
+
         base._Ready();
 
-        this._Delete = new Button() {
-            Text = "x",
-            SizeFlagsHorizontal = 0,
-        };
-
-        this._AddPolicy = new Button() {
-            Text = "+",
-            SizeFlagsHorizontal = 0,
-        };
-
-        this.HeaderContainer.AddChild(this._AddPolicy);
         this.HeaderContainer.AddChild(this._Delete);
-
-        this._AddPolicy.Connect("pressed", this, "OnAddPolicy");
-        this._Delete.Connect("pressed", this, "OnCycleDelete");
     }
 
     public void LoadCycle(Layer l, Cycle c)

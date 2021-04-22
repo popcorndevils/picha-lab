@@ -16,6 +16,12 @@ public class PolicyProps : BaseSection
 
     private bool _IgnoreSignals = false;
 
+    private Button _Delete = new Button() {
+        Text = "x",
+        SizeFlagsHorizontal = 0,
+        FocusMode = FocusModeEnum.None,
+    };
+
     // SETTINGS
     private OptionButton _InputEdit;
     private OptionButton _OutputEdit;
@@ -29,6 +35,7 @@ public class PolicyProps : BaseSection
     public override void _Ready()
     {
         base._Ready();
+
         this.SectionGrid.Columns = 2;
         this.Theme = GD.Load<Theme>("res://res/theme/PolicyProps.tres");
 
@@ -79,21 +86,9 @@ public class PolicyProps : BaseSection
             Align = Label.AlignEnum.Center,
         };
 
-        this.SectionGrid.AddChild(_inputLabel);
-        this.SectionGrid.AddChild(this._InputEdit);
-
-        this.SectionGrid.AddChild(_outputLabel);
-        this.SectionGrid.AddChild(this._OutputEdit);
-
-        this.SectionGrid.AddChild(_rateLabel);
-        this.SectionGrid.AddChild(this._RateEdit);
-
-        this.SectionGrid.AddChild(_conditionLabel);
-        this.SectionGrid.AddChild(this._ConditionAEdit);
-        this.SectionGrid.AddChild(new Control());
-        this.SectionGrid.AddChild(this._ConditionLogicEdit);
-        this.SectionGrid.AddChild(new Control());
-        this.SectionGrid.AddChild(this._ConditionBEdit);
+        this.SectionGrid.AddChildren(_inputLabel, this._InputEdit, _outputLabel, this._OutputEdit, 
+            _rateLabel, this._RateEdit, _conditionLabel, this._ConditionAEdit, new Control(),
+            this._ConditionLogicEdit, new Control(), this._ConditionBEdit);
 
         this._InputEdit.Connect("item_selected", this, "OnPolicySettingEdit");
         this._OutputEdit.Connect("item_selected", this, "OnPolicySettingEdit");
@@ -101,6 +96,8 @@ public class PolicyProps : BaseSection
         this._ConditionAEdit.Connect("item_selected", this, "OnPolicySettingEdit");
         this._ConditionLogicEdit.Connect("item_selected", this, "OnPolicySettingEdit");
         this._ConditionBEdit.Connect("item_selected", this, "OnPolicySettingEdit");
+
+        this.HeaderContainer.AddChild(this._Delete);
     }
 
     public void LoadPolicy(Layer l, Policy p)

@@ -16,8 +16,6 @@ public class LayerInspect : ScrollContainer
     private LineEdit _NameEdit;
     private CheckBox _MirrorXEdit;
     private CheckBox _MirrorYEdit;
-
-    private MenuButton _AddMenu;
     private Button _OpenTemplate;
 
     public override void _Ready()
@@ -36,24 +34,10 @@ public class LayerInspect : ScrollContainer
         this._Pixels = new PixelSection();
         this._Cycles = new CycleSection();
 
-        this._AddMenu = new MenuButton() {
-            Text = "+",
-            Align = Button.TextAlign.Right,
-            SizeFlagsHorizontal = (int)SizeFlags.ShrinkEnd,
-            Flat = false,
-        };
-        
-
-        var _pop = this._AddMenu.GetPopup();
-        _pop.Connect("id_pressed", this, "OnAddMenuSelected");
-        foreach(int v in Enum.GetValues(typeof(AddMenuOption)))
-        {
-            _pop.AddItem(Enum.GetName(typeof(AddMenuOption), v), v);
-        }
-
         this._OpenTemplate = new Button() {
             SizeFlagsHorizontal = (int)SizeFlags.ShrinkEnd,
             Icon = GD.Load<Texture>("res://res/icons/grid-white.svg"),
+            FocusMode = FocusModeEnum.None,
         };
 
         var _buttons = new HBoxContainer() {
@@ -87,22 +71,14 @@ public class LayerInspect : ScrollContainer
             Align = Label.AlignEnum.Right,
         };
 
-        this._Contents.AddChild(this._GenSettings);
-        this._Contents.AddChild(this._Pixels);
-        this._Contents.AddChild(this._Cycles);
+        this._Contents.AddChildren(this._GenSettings, this._Pixels, this._Cycles);
         this.AddChild(this._Contents);
 
-        _mirrorGroup.AddChild(this._MirrorXEdit);
-        _mirrorGroup.AddChild(this._MirrorYEdit);
-
+        _mirrorGroup.AddChildren(this._MirrorXEdit, this._MirrorYEdit);
         _buttons.AddChild(this._OpenTemplate);
-        _buttons.AddChild(this._AddMenu);
-        this._GenSettings.AddChild(new Control());
-        this._GenSettings.AddChild(_buttons);
-        this._GenSettings.AddChild(_nameLabel);
-        this._GenSettings.AddChild(this._NameEdit);
-        this._GenSettings.AddChild(_mirrorLabel);
-        this._GenSettings.AddChild(_mirrorGroup);
+
+        this._GenSettings.AddChildren(new Control(), _buttons, _nameLabel, 
+            this._NameEdit, _mirrorLabel, _mirrorGroup);
 
         this._OpenTemplate.Connect("pressed", this, "OnEditTemplate");
         this._NameEdit.Connect("text_changed", this, "OnLayerSettingEdit");

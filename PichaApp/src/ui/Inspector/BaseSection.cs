@@ -12,30 +12,23 @@ public class BaseSection : PanelContainer
         }
     }
 
-    public VBoxContainer _ALL;
-    public Button SectionHeader;
-    public MarginContainer SectionContent;
-    public GridContainer SectionGrid;
-    public HBoxContainer HeaderContainer;
+    public VBoxContainer _ALL = new VBoxContainer() {
+        SizeFlagsHorizontal = (int)Control.SizeFlags.ExpandFill,
+        SizeFlagsVertical = (int)Control.SizeFlags.ExpandFill,
+    };
+    public Button SectionHeader = new Button() {
+        Text = "BLANK",
+        Flat = true,
+        SizeFlagsHorizontal = (int)Control.SizeFlags.ExpandFill,
+        FocusMode = FocusModeEnum.None,
+    };
+    public VBoxContainer SectionContent = new VBoxContainer();
+    public GridContainer SectionGrid = new GridContainer();
+    public HBoxContainer HeaderContainer = new HBoxContainer();
 
     public override void _Ready()
     {
-
-        this._ALL = new VBoxContainer() {
-            SizeFlagsHorizontal = (int)Control.SizeFlags.ExpandFill,
-            SizeFlagsVertical = (int)Control.SizeFlags.ExpandFill,
-        };
-
-        this.SectionHeader = new Button() {
-            Text = this.SectionTitle,
-            Flat = true,
-            SizeFlagsHorizontal = (int)Control.SizeFlags.ExpandFill,
-            FocusMode = FocusModeEnum.None,
-        };
-
-        this.HeaderContainer = new HBoxContainer();
-        this.SectionContent = new MarginContainer();
-        this.SectionGrid = new GridContainer();
+        this.SectionHeader.Text = this.SectionTitle;
 
         this.HeaderContainer.AddChild(this.SectionHeader);
         this.SectionContent.AddChild(this.SectionGrid);

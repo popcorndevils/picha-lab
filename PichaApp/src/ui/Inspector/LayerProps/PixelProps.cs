@@ -30,6 +30,7 @@ public class PixelProps : BaseSection
         this._Delete = new Button() {
             Text = "x",
             SizeFlagsHorizontal = 0,
+            FocusMode = FocusModeEnum.None,
         };
 
         this._NameEdit = new LineEdit() {
