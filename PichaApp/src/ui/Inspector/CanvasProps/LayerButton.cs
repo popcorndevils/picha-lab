@@ -14,10 +14,12 @@ public class LayerButton : Button
             this.Text = value.Data.Name;
             this._Layer.Data.OnLayerChanged += this.HandleLayerChange;
         }
-    }
+    } 
 
     public override void _Ready()
     {
+        this.FocusMode = FocusModeEnum.None;
+        
         this.Connect("mouse_entered", this, "OnMouseEnter");
         this.Connect("mouse_exited", this, "OnMouseExit");
     }

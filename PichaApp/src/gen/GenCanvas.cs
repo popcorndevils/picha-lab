@@ -21,7 +21,6 @@ public class GenCanvas : Node2D
         get => this._Data;
         set {
             this._Data = value;
-            if(this._Timer == null) {this._Timer = new Timer();}
             this._Timer.WaitTime = 1f;
             this.BG = value.TransparencyBG.ToGodotColor();
             this.FG = value.TransparencyFG.ToGodotColor();

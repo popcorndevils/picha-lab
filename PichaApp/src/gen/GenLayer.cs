@@ -6,7 +6,7 @@ using PichaLib;
 
 public class GenLayer : TextureRect
 {
-    private Timer _Timer = new Timer();
+    private Timer _Timer;
     private SortedList<int, Texture> _Textures = new SortedList<int, Texture>();
 
     private bool _Hover;
@@ -101,8 +101,11 @@ public class GenLayer : TextureRect
     //******************\\ 
 
     public override void _Ready()
-    {
-        this._Timer.WaitTime = this.FrameTime;
+    { 
+        this._Timer = new Timer() {
+            Autostart = true,
+            WaitTime = this.FrameTime,
+        }; 
 
         this.AddChild(this._Timer);
 
@@ -164,6 +167,7 @@ public class GenLayer : TextureRect
             {
                 this.Texture = this._Textures[0];
                 this._Frame = 0;
+                if(this.IsInsideTree()) { this._Timer.Start(); }
             }
         }
     }
