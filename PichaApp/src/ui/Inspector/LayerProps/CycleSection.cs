@@ -18,6 +18,9 @@ public class CycleSection : BaseSection
     {
         this.SectionTitle = "Gen Cycles";
         this.SectionContent.AddChild(this._NewCycle);
+
+        this._NewCycle.Connect("pressed", this, "OnNewCycle");
+
         base._Ready();
     }
 
@@ -37,5 +40,10 @@ public class CycleSection : BaseSection
             _props.SectionHeader.Align = Button.TextAlign.Left;
             _props.LoadCycle(l, _c);
         }
+    }
+
+    public void OnNewCycle()
+    {
+        GD.Print("NEW CYCLE");
     }
 }

@@ -182,7 +182,8 @@ public class PixelProps : BaseSection
 
     public void OnDeletePixel()
     {
-        this.GetTree().CallGroup("gp_layer_gui", "DeletePixel", this);
-        this.GetParent().RemoveChild(this);
+        GD.Print($"DELETE PIXEL {this.SectionTitle}");
+        // this.GetTree().CallGroup("gp_layer_gui", "DeletePixel", this);
+        // this.GetParent().RemoveChild(this);
     }
 }

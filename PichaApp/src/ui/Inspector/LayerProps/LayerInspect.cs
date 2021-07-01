@@ -120,7 +120,6 @@ public class LayerInspect : ScrollContainer
     public void DeletePixel(PixelProps p)
     {
         GD.Print($"DELETING {p.Pixel.Name}");
-        // this.Layer.DeletePixel(p.Pixel);
     }
 }
 

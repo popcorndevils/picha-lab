@@ -96,6 +96,7 @@ public class PolicyProps : BaseSection
         this._ConditionAEdit.Connect("item_selected", this, "OnPolicySettingEdit");
         this._ConditionLogicEdit.Connect("item_selected", this, "OnPolicySettingEdit");
         this._ConditionBEdit.Connect("item_selected", this, "OnPolicySettingEdit");
+        this._Delete.Connect("pressed", this, "OnPolicyDelete");
 
         this.HeaderContainer.AddChild(this._Delete);
     }
@@ -157,5 +158,10 @@ public class PolicyProps : BaseSection
             this.Policy.ConditionLogic = (ConditionExpression)this._ConditionLogicEdit.Selected;
             this.Policy.ConditionB = this._PixelTable[this._ConditionBEdit.Selected];
         }
+    }
+
+    public void OnPolicyDelete()
+    {
+        GD.Print($"DELETING POLICY {this.SectionTitle}");
     }
 }

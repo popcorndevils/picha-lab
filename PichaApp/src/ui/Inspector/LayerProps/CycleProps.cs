@@ -23,6 +23,7 @@ public class CycleProps : BaseSection
     {
         this.SectionContent.AddChild(this._NewPolicy);
         this._Delete.Connect("pressed", this, "OnCycleDelete");
+        this._NewPolicy.Connect("pressed", this, "OnAddPolicy");
 
         base._Ready();
 
@@ -47,21 +48,21 @@ public class CycleProps : BaseSection
 
     public void OnAddPolicy()
     {
-        var _props = new PolicyProps() { 
-            SectionTitle = $"NONE -> NONE",
-        };
+        GD.Print("NEW POLICY");
+        // var _props = new PolicyProps() { 
+        //     SectionTitle = $"NONE -> NONE",
+        // };
 
-        var _policy = PDefaults.Policy;
+        // var _policy = PDefaults.Policy;
 
-        this.SectionGrid.AddChild(_props);
-        _props.SectionHeader.Align = Button.TextAlign.Left;
-        _props.LoadPolicy(this.Layer, _policy);
-        this.Cycle.Policies.Add(_policy);
+        // this.SectionGrid.AddChild(_props);
+        // _props.SectionHeader.Align = Button.TextAlign.Left;
+        // _props.LoadPolicy(this.Layer, _policy);
+        // this.Cycle.Policies.Add(_policy);
     }
 
     public void OnCycleDelete()
     {
-        GD.Print($"DELETING {this.Name}");
-        this.GetParent().RemoveChild(this);
+        GD.Print($"DELETING CYCLE {this.SectionTitle}");
     }
 }

@@ -17,6 +17,9 @@ public class PixelSection : BaseSection
     {
         this.SectionTitle = "Pixel Types";
         this.SectionContent.AddChild(this._NewPixel);
+
+        this._NewPixel.Connect("pressed", this, "OnNewPixel");
+
         base._Ready();
     }
 
@@ -38,5 +41,10 @@ public class PixelSection : BaseSection
             _props.SectionHeader.Align = Button.TextAlign.Left;
             _props.PixelLoad(p);
         }
+    }
+
+    public void OnNewPixel()
+    {
+        GD.Print("NEW PIXEL");
     }
 }
