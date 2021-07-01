@@ -16,7 +16,6 @@ public class LayerInspect : ScrollContainer
     private LineEdit _NameEdit;
     private CheckBox _MirrorXEdit;
     private CheckBox _MirrorYEdit;
-    private Button _OpenTemplate;
 
     public override void _Ready()
     {
@@ -33,16 +32,6 @@ public class LayerInspect : ScrollContainer
 
         this._Pixels = new PixelSection();
         this._Cycles = new CycleSection();
-
-        this._OpenTemplate = new Button() {
-            SizeFlagsHorizontal = (int)SizeFlags.ShrinkEnd,
-            Icon = GD.Load<Texture>("res://res/icons/grid-white.svg"),
-            FocusMode = FocusModeEnum.None,
-        };
-
-        var _buttons = new HBoxContainer() {
-            SizeFlagsHorizontal = (int)SizeFlags.ShrinkEnd,
-        };
 
         this._NameEdit = new LineEdit() {
             SizeFlagsHorizontal = (int)Control.SizeFlags.ExpandFill
@@ -75,12 +64,10 @@ public class LayerInspect : ScrollContainer
         this.AddChild(this._Contents);
 
         _mirrorGroup.AddChildren(this._MirrorXEdit, this._MirrorYEdit);
-        _buttons.AddChild(this._OpenTemplate);
 
-        this._GenSettings.AddChildren(new Control(), _buttons, _nameLabel, 
+        this._GenSettings.AddChildren(_nameLabel, 
             this._NameEdit, _mirrorLabel, _mirrorGroup);
 
-        this._OpenTemplate.Connect("pressed", this, "OnEditTemplate");
         this._NameEdit.Connect("text_changed", this, "OnLayerSettingEdit");
         this._MirrorXEdit.Connect("pressed", this, "OnLayerSettingEdit");
         this._MirrorYEdit.Connect("pressed", this, "OnLayerSettingEdit");

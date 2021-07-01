@@ -57,13 +57,13 @@ public class LayersList : VBoxContainer
         }
         foreach(GenLayer _l in c.Layers.Values)
         {
-            this._Buttons.AddChild(new LayerButton() { Layer = _l });
+            this._Buttons.AddChild(new LayerButtonControl() { Layer = _l });
         }
     }
 
     public void AddNewLayer(GenLayer l)
     {
-        this._Buttons.AddChild(new LayerButton() { Layer = l });
+        this._Buttons.AddChild(new LayerButtonControl() { Layer = l });
     }
 
     public void OnNewLayerPressed()

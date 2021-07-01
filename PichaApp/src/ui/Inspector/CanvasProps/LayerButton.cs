@@ -18,8 +18,11 @@ public class LayerButton : Button
 
     public override void _Ready()
     {
+        this.AddToGroup("LayerButtons");
+
         this.FocusMode = FocusModeEnum.None;
-        
+        this.SizeFlagsHorizontal = (int)SizeFlags.ExpandFill;
+
         this.Connect("mouse_entered", this, "OnMouseEnter");
         this.Connect("mouse_exited", this, "OnMouseExit");
     }
@@ -33,7 +36,10 @@ public class LayerButton : Button
     {
         if(data is LayerButton b)
         {
-            this.GetParent().MoveChild(b, this.GetIndex());
+            Node _control = this.GetParent();
+            Node _list = _control.GetParent();
+
+            _list.MoveChild(b.GetParent(), _control.GetIndex());
             this.Layer.GetParent().MoveChild(b.Layer, this.Layer.GetIndex());
         }
     }
@@ -66,5 +72,17 @@ public class LayerButton : Button
     public void OnMouseExit()
     {
         this.Layer.Modulate = new Color(1f, 1f, 1f, 1f);
+    }
+
+    public void OnLayerHover(bool hover, GenLayer layer)
+    {
+        if(hover & layer == this._Layer)
+        {
+            this.Modulate = new Color(.8f, .8f, .8f, 1f);
+        }
+        else
+        {
+            this.Modulate = new Color(1f, 1f, 1f, 1f);
+        }
     }
 }

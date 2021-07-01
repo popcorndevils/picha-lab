@@ -11,6 +11,7 @@ public class CanvasInspect : VBoxContainer
     private CheckBox _AutoGenEdit;
     private Button _Regen;
     private SpinBox _AutoGenTimeEdit;
+    private SpinBox _AnimTimeEdit;
     private ColorPickerButton _FGEdit;
     private ColorPickerButton _BGEdit;
     private SpinBox _WidthEdit;

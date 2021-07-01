@@ -15,8 +15,16 @@ public class GenLayer : TextureRect
         set {
             this._Hover = value;
 
-            if(value) { this.Modulate = new Color(.3f, .3f, .3f, 1f); }
-            else { this.Modulate = new Color(1f, 1f, 1f, 1f); }
+            if(value) 
+            { 
+                this.Modulate = new Color(.3f, .3f, .3f, 1f); 
+                this.GetTree().CallGroup("LayerButtons", "OnLayerHover", true, this);
+            }
+            else 
+            { 
+                this.Modulate = new Color(1f, 1f, 1f, 1f); 
+                this.GetTree().CallGroup("LayerButtons", "OnLayerHover", false, this);
+            }
         }
     }
 
