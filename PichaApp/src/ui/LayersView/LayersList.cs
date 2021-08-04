@@ -1,6 +1,6 @@
 using Godot;
 
-public class LayersList : VBoxContainer
+public class LayersView : VBoxContainer
 {
     private ScrollContainer _Contents = new ScrollContainer() {
         SizeFlagsVertical = (int)SizeFlags.ExpandFill,

@@ -1,9 +1,9 @@
 using Godot;
 
-public class Inspector : TabContainer
+public class InspectorView : TabContainer
 {
-    private LayerInspect _LayerProps;
-    private CanvasInspect _CanvasProps;
+    private LayerInspector _LayerProps;
+    private CanvasInspector _CanvasProps;
 
     public override void _Ready()
     {
@@ -12,12 +12,12 @@ public class Inspector : TabContainer
         this.TabAlign = TabAlignEnum.Left;
         this.DragToRearrangeEnabled = true;
 
-        this._CanvasProps = new CanvasInspect() {
+        this._CanvasProps = new CanvasInspector() {
             Name = "Canvas",
             RectMinSize = new Vector2(260, 200),
         };
 
-        this._LayerProps = new LayerInspect() {
+        this._LayerProps = new LayerInspector() {
             Name = "Layer",
             RectMinSize = new Vector2(260, 200),
         };

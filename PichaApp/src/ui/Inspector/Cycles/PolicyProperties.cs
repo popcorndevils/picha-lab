@@ -8,7 +8,7 @@ using OctavianLib;
 
 public delegate void PolicyChangedHandler(Policy p);
 
-public class PolicyProps : BaseSection
+public class PolicyProperties : BaseSection
 {
     public event PolicyChangedHandler PolicyChanged;
     public Policy Policy;

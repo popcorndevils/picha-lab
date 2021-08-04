@@ -3,7 +3,7 @@ using Godot;
 
 using PichaLib;
 
-public class LayerInspect : ScrollContainer
+public class LayerInspector : ScrollContainer
 {
     public GenLayer GenLayer;
     public Layer Layer;
@@ -11,7 +11,7 @@ public class LayerInspect : ScrollContainer
     private VBoxContainer _Contents;
     private GridContainer _GenSettings;
     private PixelSection _Pixels;
-    private CycleSection _Cycles;
+    private CycleProperties _Cycles;
 
     private LineEdit _NameEdit;
     private CheckBox _MirrorXEdit;
@@ -31,7 +31,7 @@ public class LayerInspect : ScrollContainer
         };
 
         this._Pixels = new PixelSection();
-        this._Cycles = new CycleSection();
+        this._Cycles = new CycleProperties();
 
         this._NameEdit = new LineEdit() {
             SizeFlagsHorizontal = (int)Control.SizeFlags.ExpandFill
@@ -99,22 +99,6 @@ public class LayerInspect : ScrollContainer
         this._NameEdit.Text = l.Data.Name;
         this._MirrorXEdit.Pressed = l.Data.MirrorX;
         this._MirrorYEdit.Pressed = l.Data.MirrorY;
-    }
-
-    public void OnAddMenuSelected(int i)
-    {
-        switch((AddMenuOption)i)
-        {
-            case AddMenuOption.Pixel:
-                GD.Print("PIXEL");
-                break;
-            case AddMenuOption.Cycle:
-                GD.Print("CYCLE");
-                break;
-            default:
-                GD.PrintErr($"Unable to Parse Add Menu action \"{(AddMenuOption)i}\".");
-                break;
-        }
     }
 
     public void DeletePixel(PixelProps p)

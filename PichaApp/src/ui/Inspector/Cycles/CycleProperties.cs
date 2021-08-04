@@ -37,7 +37,7 @@ public class CycleProps : BaseSection
 
         foreach(Policy _p in c.Policies)
         {
-            var _props = new PolicyProps() { 
+            var _props = new PolicyProperties() { 
                 SectionTitle = $"{l.Pixels[_p.Input].Name} -> {l.Pixels[_p.Output].Name}",
             };
             this.SectionGrid.AddChild(_props);

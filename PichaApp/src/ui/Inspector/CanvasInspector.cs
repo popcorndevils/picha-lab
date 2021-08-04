@@ -1,7 +1,7 @@
 using System;
 using Godot;
 
-public class CanvasInspect : VBoxContainer
+public class CanvasInspector : VBoxContainer
 {
     public GenCanvas Canvas;
 

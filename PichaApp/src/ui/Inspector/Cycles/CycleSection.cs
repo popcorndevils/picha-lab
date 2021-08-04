@@ -3,7 +3,7 @@ using Godot;
 
 using PichaLib;
 
-public class CycleSection : BaseSection
+public class CycleProperties : BaseSection
 {
     private GenLayer _Layer;
 
@@ -16,7 +16,7 @@ public class CycleSection : BaseSection
 
     public override void _Ready()
     {
-        this.SectionTitle = "Gen Cycles";
+        this.SectionTitle = "Cycles";
         this.SectionContent.AddChild(this._NewCycle);
 
         this._NewCycle.Connect("pressed", this, "OnNewCycle");
