@@ -24,7 +24,7 @@ public class CycleProperties : BaseSection
         base._Ready();
     }
 
-    public void LoadLayer(Layer l)
+    public void LoadLayer(GenLayer l)
     {
         this._NewCycle.Disabled = false;
         
@@ -33,7 +33,7 @@ public class CycleProperties : BaseSection
             this.SectionGrid.RemoveChild(n);
         }
 
-        foreach(Cycle _c in l.Cycles.Values)
+        foreach(Cycle _c in l.Data.Cycles.Values)
         {
             var _props = new CycleProps() { SectionTitle = _c.Name };
             this.SectionGrid.AddChild(_props);

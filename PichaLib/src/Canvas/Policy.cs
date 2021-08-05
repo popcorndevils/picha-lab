@@ -9,10 +9,13 @@ namespace PichaLib
         public ConditionExpression ConditionLogic = ConditionExpression.NONE;
         public string ConditionB;
 
-        public void VoidValue(Pixel p)
+        public bool HasPixel(Pixel p)
         {
-            if(this.Input == p.Name) { this.Input = "[NULL]"; }
-            if(this.Output == p.Name) { this.Output = "[NULL]"; }
+            if(this.Input == p.Name || this.Output == p.Name || this.ConditionB == p.Name)
+            {
+                return true;
+            }
+            return false;
         }
     }
 

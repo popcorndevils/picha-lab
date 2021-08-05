@@ -3,11 +3,13 @@ using Godot;
 
 using PichaLib;
 
-public delegate void PixelChangedHandler(Pixel p);
+public delegate void PixelChangedHandler(PixelProperties p);
+public delegate void PixelDeleteHandler(PixelProperties p);
 
-public class PixelProps : BaseSection
+public class PixelProperties : BaseSection
 {
     public event PixelChangedHandler PixelChanged;
+    public event PixelDeleteHandler PixelDeleted;
     public Pixel Pixel;
 
     private bool _IgnoreSignals = false;
@@ -182,10 +184,9 @@ public class PixelProps : BaseSection
         this._PaintEdit.Color = p.Paint.ToGodotColor();
         this._RandomColEdit.Pressed = p.RandomCol;
         this.GenColDisabled = p.RandomCol;
-
         this._PanelStyle.BorderColor = p.Paint.ToGodotColor();
-
         this._FadeDirectionEdit.Clear();
+
         foreach(int i in Enum.GetValues(typeof(FadeDirection)))  
         {  
             this._FadeDirectionEdit.AddItem(Enum.GetName(typeof(FadeDirection), i), i);
@@ -217,12 +218,12 @@ public class PixelProps : BaseSection
             this.Pixel.FadeDirection = (FadeDirection)this._FadeDirectionEdit.Selected;
             this._PanelStyle.BorderColor = this._PaintEdit.Color;
 
-            this.PixelChanged?.Invoke(this.Pixel);
+            this.PixelChanged?.Invoke(this);
         }
     }
 
     public void OnDeletePixel()
     {
-        GD.Print($"DELETE PIXEL {this.SectionTitle}");
+        this.PixelDeleted?.Invoke(this);
     }
 }

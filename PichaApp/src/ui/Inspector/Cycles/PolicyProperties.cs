@@ -12,7 +12,7 @@ public class PolicyProperties : BaseSection
 {
     public event PolicyChangedHandler PolicyChanged;
     public Policy Policy;
-    public Layer Layer;
+    public GenLayer Layer;
 
     private bool _IgnoreSignals = false;
 
@@ -101,7 +101,7 @@ public class PolicyProperties : BaseSection
         this.HeaderContainer.AddChild(this._Delete);
     }
 
-    public void LoadPolicy(Layer l, Policy p)
+    public void LoadPolicy(GenLayer l, Policy p)
     {
         this.Layer = l;
         this.Policy = p;

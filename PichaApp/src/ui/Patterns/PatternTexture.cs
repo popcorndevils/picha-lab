@@ -54,9 +54,19 @@ public class PatternTexture : TextureRect
         {
             for(int _y = 0; _y < _h; _y++)
             {
+                Chroma _col;
                 var _cell = frame[_y, _x];
                 this.Frame[_y, _x] = _cell;
-                var _col = pixels[_cell].Paint;
+
+                if(_cell != Pixel.NULL)
+                {
+                    _col = pixels[_cell].Paint;
+                }
+                else
+                {
+                    _col = new Chroma(0f, 0f, 0f, 0f);
+                }
+
                 this._Image.SetPixel(_x, _y, _col.ToGodotColor());
             }
         }

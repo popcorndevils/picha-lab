@@ -54,13 +54,42 @@ namespace OctavianLib
         
         public static string ToPrintOut<T>(this T[,] matrix) 
         {
-            var _matrix_lines = matrix.GetLength(0);
-            string[] _output = new string[_matrix_lines];
-            
-            for (int i = 0; i < _matrix_lines; i++)
-                { _output[i] = "[" + string.Join(", ", matrix.GetRow(i)) + "]"; }
+            if(matrix is null)
+                { throw new ArgumentNullException("matrix"); }
 
-            return string.Join("\n", _output);
+            var _matrix_height = matrix.GetLength(0);
+            var _matrix_width = matrix.GetLength(1);
+
+            string _output = "[";
+            int _max = 0;
+
+            for(int y = 0; y < _matrix_height; y++)
+            {
+                for(int x = 0; x < _matrix_width; x++)
+                {
+                    var _l = matrix[y, x].ToString().Length;
+                    if(_l > _max)
+                    {
+                        _max = _l;
+                    }
+                }
+            }
+            
+            for(int y = 0; y < _matrix_height; y++)
+            {
+                _output = $"{_output}\n\t";
+                for(int x = 0; x < _matrix_width; x++)
+                {
+                    var _val = matrix[y, x].ToString();
+                    _output = $"{_output}{_val},";
+                    for(int r = 0; r < (_max - _val.Length + 1); r++)
+                    {
+                        _output = $"{_output} ";
+                    }
+                }
+            }
+
+            return $"{_output}\n]";
         }
 
         public static T[] GetRow<T>(this T[,] array, int row)

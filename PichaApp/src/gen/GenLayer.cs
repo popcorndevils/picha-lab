@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Godot;
 
 using PichaLib;
+using OctavianLib;
 
 public class GenLayer : TextureRect
 {
@@ -180,14 +181,57 @@ public class GenLayer : TextureRect
         }
     }
 
+    /// <summary>
+    /// Deletes pixels from the layer, accounting for affected policies and cycles.
+    /// </summary>
+    /// <param name="p">Pixel being deleted from the layer.</param>
     public void DeletePixel(Pixel p)
     {
-        foreach(Cycle _c in this.Cycles.Values)
+        this.Data.Pixels.Remove(p.Name);
+        this._RemovePixelCycles(p);
+        this._RemovePixelFrames(p);
+    }
+
+    private void _RemovePixelCycles(Pixel p)
+    {
+        var _badCycles = new List<int>();
+        foreach(KeyValuePair<int, Cycle> _c in this.Cycles)
         {
-            foreach(Policy _p in _c.Policies)
+            var _badPolicies = new List<Policy>();
+            foreach(Policy _pol in _c.Value.Policies)
             {
-                _p.VoidValue(p);
+                if(_pol.HasPixel(p))
+                {
+                    _badPolicies.Add(_pol);
+                }
+            }
+
+            foreach(Policy _del in _badPolicies)
+            {   
+                _c.Value.Policies.Remove(_del);
+            }
+
+            if(_c.Value.Policies.Count <= 0)
+            {
+                _badCycles.Add(_c.Key);
             }
         }
+
+        foreach(int i in _badCycles)
+        {
+            this.Cycles.Remove(i);
+        }
+    }
+
+    private void _RemovePixelFrames(Pixel p)
+    {
+        var _newFrames = new SortedList<int, string[,]>();
+
+        foreach(KeyValuePair<int, string[,]> frame in this.Frames)
+        {
+            _newFrames.Add(frame.Key, frame.Value.ReplaceVal(p.Name, Pixel.NULL));
+        }
+
+        this.Frames = _newFrames;
     }
 }

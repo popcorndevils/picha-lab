@@ -4,7 +4,7 @@ using PichaLib;
 
 public class CycleProps : BaseSection
 {
-    public Layer Layer;
+    public GenLayer Layer;
     public Cycle Cycle;
 
     private Button _Delete = new Button() {
@@ -30,7 +30,7 @@ public class CycleProps : BaseSection
         this.HeaderContainer.AddChild(this._Delete);
     }
 
-    public void LoadCycle(Layer l, Cycle c)
+    public void LoadCycle(GenLayer l, Cycle c)
     {
         this.Layer = l;
         this.Cycle = c;

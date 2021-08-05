@@ -91,19 +91,14 @@ public class LayerInspector : ScrollContainer
 
     public void LoadLayer(GenLayer l)
     {
-        this._Pixels.LoadLayer(l.Data);
-        this._Cycles.LoadLayer(l.Data);
+        this._Pixels.LoadLayer(l);
+        this._Cycles.LoadLayer(l);
 
         this.GenLayer = l;
         this.Layer = l.Data;
         this._NameEdit.Text = l.Data.Name;
         this._MirrorXEdit.Pressed = l.Data.MirrorX;
         this._MirrorYEdit.Pressed = l.Data.MirrorY;
-    }
-
-    public void DeletePixel(PixelProps p)
-    {
-        GD.Print($"DELETING {p.Pixel.Name}");
     }
 }
 

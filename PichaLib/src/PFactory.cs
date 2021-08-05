@@ -68,33 +68,40 @@ namespace PichaLib
                     for(int _x = 0; _x < _w; _x++)
                     {
                         var _cell = _pair.Value[_y, _x];
-                        var _cSet = _cellColors[_cell];
-                        float _grade = 0f;
-
-                        switch(l.Pixels[_cell].FadeDirection)
+                        CellData _cSet;
+                        if(_cell != Pixel.NULL)
                         {
-                            case FadeDirection.NORTH:
-                                _grade = (float)((_y + 1f) / _h);
-                                break;
-                            case FadeDirection.WEST:
-                                _grade = (float)((_x + 1f) / _w);
-                                break;
-                            case FadeDirection.SOUTH:
-                                _grade = 1f - (float)((_y + 1f) / _h);
-                                break;
-                            case FadeDirection.EAST:
-                                _grade = 1f - (float)((_x + 1f) / _w);
-                                break;
-                            case FadeDirection.NONE:
-                                _grade = 1f;
-                                break;
+                            _cSet = _cellColors[_cell];float _grade = 0f;
+
+                            switch(l.Pixels[_cell].FadeDirection)
+                            {
+                                case FadeDirection.NORTH:
+                                    _grade = (float)((_y + 1f) / _h);
+                                    break;
+                                case FadeDirection.WEST:
+                                    _grade = (float)((_x + 1f) / _w);
+                                    break;
+                                case FadeDirection.SOUTH:
+                                    _grade = 1f - (float)((_y + 1f) / _h);
+                                    break;
+                                case FadeDirection.EAST:
+                                    _grade = 1f - (float)((_x + 1f) / _w);
+                                    break;
+                                case FadeDirection.NONE:
+                                    _grade = 1f;
+                                    break;
+                            }
+
+                            float u_sin = (float)Math.Cos(_grade * Math.PI);
+                            float _l = (float)(PFactory._Random.RandfRange(0f, l.Pixels[_cell].BrightNoise) * u_sin) + _cSet.HSL.l;
+
+                            _frameOut[_y, _x] = Chroma.CreateFromHSL(_cSet.HSL.h, _cSet.Sat, _l, _cSet.HSL.a);
                         }
-
-                        float u_sin = (float)Math.Cos(_grade * Math.PI);
-                        float _l = (float)(PFactory._Random.RandfRange(0f, l.Pixels[_cell].BrightNoise) * u_sin) + _cSet.HSL.l;
-
-                        _frameOut[_y, _x] = Chroma.CreateFromHSL(_cSet.HSL.h, _cSet.Sat, _l, _cSet.HSL.a);
-
+                        else
+                        {
+                            // is the cell is null just fill with transparent pixel.
+                            _frameOut[_y, _x] = Chroma.CreateFromBytes(0, 0, 0, 0);
+                        }
                     }
                 }
 

@@ -2,6 +2,8 @@ namespace PichaLib
 {
     public class Pixel
     {
+        public static string NULL = "[NULL]";
+
         public string Name;
         public Chroma Color;
         public Chroma Paint;
