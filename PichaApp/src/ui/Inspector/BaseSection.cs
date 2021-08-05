@@ -2,6 +2,21 @@ using Godot;
 
 public class BaseSection : PanelContainer
 {
+    public bool ContentVisibility {
+        get => this.SectionContent.Visible;
+        set {
+            this.SectionContent.Visible = value;
+            if(value)
+            {
+                this.SectionHeader.Icon = this._ContractIcon;
+            }
+            else
+            {
+                this.SectionHeader.Icon = this._ExpandIcon;
+            }
+        }
+    }
+
     private string _SectionTitle;
     public string SectionTitle {
         get => this._SectionTitle;
@@ -9,14 +24,7 @@ public class BaseSection : PanelContainer
             this._SectionTitle = value;
             if(this.SectionHeader != null)
             {
-                if(this.SectionContent.Visible)
-                {
-                    this.SectionHeader.Text = $"-{value}"; 
-                }
-                else
-                {
-                    this.SectionHeader.Text = $"+{value}";
-                }
+                this.SectionHeader.Text = value; 
             }
         }
     }
@@ -25,15 +33,20 @@ public class BaseSection : PanelContainer
         SizeFlagsHorizontal = (int)Control.SizeFlags.ExpandFill,
         SizeFlagsVertical = (int)Control.SizeFlags.ExpandFill,
     };
+
     public Button SectionHeader = new Button() {
+        ExpandIcon = true,
         Text = "BLANK",
         Flat = true,
         SizeFlagsHorizontal = (int)Control.SizeFlags.ExpandFill,
         FocusMode = FocusModeEnum.None,
     };
+
     public VBoxContainer SectionContent = new VBoxContainer();
     public GridContainer SectionGrid = new GridContainer();
     public HBoxContainer HeaderContainer = new HBoxContainer();
+    private Texture _ExpandIcon = GD.Load<Texture>("res/icons/section_expand.png");
+    private Texture _ContractIcon = GD.Load<Texture>("res/icons/section_contract.png");
 
     public override void _Ready()
     {
@@ -47,33 +60,15 @@ public class BaseSection : PanelContainer
 
         this.SectionHeader.Connect("pressed", this, "_SectionClicked");
         
-        this.SectionContent.Visible = false;
+        this.ContentVisibility = false;
         this.SizeFlagsHorizontal = (int)Control.SizeFlags.ExpandFill;
         this.SizeFlagsVertical = (int)Control.SizeFlags.ExpandFill;
         this.SectionContent.SizeFlagsHorizontal = (int)Control.SizeFlags.ExpandFill;
         this.SectionGrid.SizeFlagsHorizontal = (int)Control.SizeFlags.ExpandFill;
-
-        if(this.SectionContent.Visible)
-        {
-            this.SectionHeader.Text = $"-{this.SectionTitle}"; 
-        }
-        else
-        {
-            this.SectionHeader.Text = $"+{this.SectionTitle}";
-        }
     }
 
     public void _SectionClicked()
     { 
-        this.SectionContent.Visible = !this.SectionContent.Visible; 
-        
-        if(this.SectionContent.Visible)
-        {
-            this.SectionHeader.Text = $"-{this.SectionTitle}"; 
-        }
-        else
-        {
-            this.SectionHeader.Text = $"+{this.SectionTitle}";
-        }
+        this.ContentVisibility = !this.ContentVisibility; 
     }
 }

@@ -12,6 +12,23 @@ public class PixelProps : BaseSection
 
     private bool _IgnoreSignals = false;
 
+    public bool GenColDisabled {
+        get => this._ColorEdit.Disabled;
+        set {
+            this._ColorEdit.Disabled = value;
+            if(value) 
+            {
+                this._GenColLabel.Modulate = new Color(.75f, .75f, .75f);
+                this._ColorEdit.Modulate = new Color(.75f, .75f, .75f);
+            }
+            else
+            {
+                this._ColorEdit.Modulate = new Color(1f, 1f, 1f);
+                this._GenColLabel.Modulate = new Color(1f, 1f, 1f);
+            }
+        }
+    }
+
     // SETTINGS
     private LineEdit _NameEdit;
     private ColorPickerButton _ColorEdit;
@@ -22,6 +39,10 @@ public class PixelProps : BaseSection
     private SpinBox _MinSaturationEdit;
     private Button _Delete;
     private StyleBoxFlat _PanelStyle;
+    private Label _GenColLabel;
+
+    // Tool Hints
+    private const string _HintColor = "When enabled, sets color used in\ngenerated layer for pixel type.";
 
     public override void _Ready()
     {
@@ -29,19 +50,15 @@ public class PixelProps : BaseSection
         this.SectionGrid.Columns = 2;
 
         this._PanelStyle = new StyleBoxFlat() {
-            CornerRadiusBottomLeft = 3,
-            CornerRadiusBottomRight = 3,
-            CornerRadiusTopLeft = 3,
-            CornerRadiusTopRight = 3,
-            BorderWidthTop = 3,
-            BorderWidthBottom = 3,
-            BorderWidthLeft = 3,
-            BorderWidthRight = 3,
+            BorderWidthTop = 0,
+            BorderWidthBottom = 0,
+            BorderWidthLeft = 5,
+            BorderWidthRight = 0,
             ContentMarginBottom = 6,
-            ContentMarginLeft = 6,
+            ContentMarginLeft = 10,
             ContentMarginRight = 6,
             ContentMarginTop = 6,
-            BgColor = new Color(0f, 0f, 0f, 0f),
+            BgColor = Chroma.CreateFromHex("#44463C").ToGodotColor(),
         };
 
         this.AddStyleboxOverride("panel", this._PanelStyle);
@@ -56,9 +73,17 @@ public class PixelProps : BaseSection
             SizeFlagsHorizontal = (int)Control.SizeFlags.ExpandFill
         };
 
+        this._GenColLabel = new Label() {
+            Text = "Color",
+            Align = Label.AlignEnum.Right,
+            HintTooltip = _HintColor,
+            MouseFilter = MouseFilterEnum.Pass,
+        }; 
+
         this._ColorEdit = new ColorPickerButton() {
             SizeFlagsHorizontal = (int)Control.SizeFlags.Expand,
             RectMinSize = new Vector2(40, 0),
+            HintTooltip = _HintColor,
         };
 
         this._PaintEdit = new ColorPickerButton() {
@@ -91,33 +116,28 @@ public class PixelProps : BaseSection
             Align = Label.AlignEnum.Right,
         };
 
-        var _colorLabel = new Label() {
-            Text = "Gen Color",
-            Align = Label.AlignEnum.Right,
-        }; 
-
         var _paintLabel = new Label() {
-            Text = "Template Color",
+            Text = "Paint",
             Align = Label.AlignEnum.Right,
         }; 
 
         var _randomColLabel = new Label() {
-            Text = "Randomize Color",
+            Text = "Gen Color",
             Align = Label.AlignEnum.Right,
         }; 
 
         var _fadeDirectionLabel = new Label() {
-            Text = "Fade Direction",
+            Text = "Fade",
             Align = Label.AlignEnum.Right,
         }; 
 
         var _brightNoiseLabel = new Label() {
-            Text = "Brightness Noise",
+            Text = "Noise",
             Align = Label.AlignEnum.Right,
         }; 
 
         var _minSaturationLabel = new Label() {
-            Text = "Minimum Saturation",
+            Text = "Min Sat",
             Align = Label.AlignEnum.Right,
         }; 
 
@@ -126,14 +146,14 @@ public class PixelProps : BaseSection
         this.SectionGrid.AddChild(_nameLabel);
         this.SectionGrid.AddChild(this._NameEdit);
 
-        this.SectionGrid.AddChild(_colorLabel);
+        this.SectionGrid.AddChild(_randomColLabel);
+        this.SectionGrid.AddChild(this._RandomColEdit);
+
+        this.SectionGrid.AddChild(this._GenColLabel);
         this.SectionGrid.AddChild(this._ColorEdit);
 
         this.SectionGrid.AddChild(_paintLabel);
         this.SectionGrid.AddChild(this._PaintEdit);
-
-        this.SectionGrid.AddChild(_randomColLabel);
-        this.SectionGrid.AddChild(this._RandomColEdit);
 
         this.SectionGrid.AddChild(_fadeDirectionLabel);
         this.SectionGrid.AddChild(this._FadeDirectionEdit);
@@ -159,9 +179,9 @@ public class PixelProps : BaseSection
         this.Pixel = p;
         this._NameEdit.Text = p.Name;
         this._ColorEdit.Color = p.Color.ToGodotColor();
-        this._ColorEdit.Disabled = p.RandomCol;
         this._PaintEdit.Color = p.Paint.ToGodotColor();
         this._RandomColEdit.Pressed = p.RandomCol;
+        this.GenColDisabled = p.RandomCol;
 
         this._PanelStyle.BorderColor = p.Paint.ToGodotColor();
 
@@ -189,14 +209,12 @@ public class PixelProps : BaseSection
             this.SectionTitle = this._NameEdit.Text; 
             this.Pixel.Name = this._NameEdit.Text;
             this.Pixel.RandomCol = this._RandomColEdit.Pressed;
-            this._ColorEdit.Disabled = this._RandomColEdit.Pressed;
-
+            this.GenColDisabled = this._RandomColEdit.Pressed;
             this.Pixel.BrightNoise = (float)this._BrightNoiseEdit.Value;
             this.Pixel.MinSaturation = (float)this._MinSaturationEdit.Value;
             this.Pixel.Color = this._ColorEdit.Color.ToChroma();
             this.Pixel.Paint = this._PaintEdit.Color.ToChroma();
             this.Pixel.FadeDirection = (FadeDirection)this._FadeDirectionEdit.Selected;
-
             this._PanelStyle.BorderColor = this._PaintEdit.Color;
 
             this.PixelChanged?.Invoke(this.Pixel);
@@ -206,7 +224,5 @@ public class PixelProps : BaseSection
     public void OnDeletePixel()
     {
         GD.Print($"DELETE PIXEL {this.SectionTitle}");
-        // this.GetTree().CallGroup("gp_layer_gui", "DeletePixel", this);
-        // this.GetParent().RemoveChild(this);
     }
 }
