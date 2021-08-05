@@ -3,6 +3,7 @@ using Godot;
 
 using PichaLib;
 
+
 public class PixelSection : BaseSection
 {
     private GenLayer _Layer;
@@ -52,7 +53,10 @@ public class PixelSection : BaseSection
         GD.Print("NEW PIXEL NOW!");
     }
 
-    public void OnChangePixel(PixelProperties p) { }
+    public void OnChangePixel(PixelProperties p)
+    {
+
+    }
     public void OnDeletePixel(PixelProperties p)
     {
         this._Layer.DeletePixel(p.Pixel);

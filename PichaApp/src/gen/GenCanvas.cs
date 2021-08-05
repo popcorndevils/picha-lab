@@ -165,6 +165,7 @@ public class GenCanvas : Node2D
     {
         this.Layers.Add(this.Layers.Count, l);
         this.AddChild(l);
+        l.LayerChanged += this.OnLayerChange;
         l.Generate();
         if(this.GetTree() != null)
             { this.GetTree().CallGroup("gp_layer_gui", "LoadLayer", l); }
@@ -274,5 +275,10 @@ public class GenCanvas : Node2D
         }
 
         this.FileSaved = true;
+    }
+
+    public void OnLayerChange(GenLayer layer)
+    {
+        this.Generate();
     }
 }

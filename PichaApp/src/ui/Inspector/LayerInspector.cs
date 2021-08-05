@@ -6,7 +6,7 @@ using PichaLib;
 public class LayerInspector : ScrollContainer
 {
     public GenLayer GenLayer;
-    public Layer Layer;
+    public GenLayer Layer;
 
     private VBoxContainer _Contents;
     private GridContainer _GenSettings;
@@ -68,18 +68,31 @@ public class LayerInspector : ScrollContainer
         this._GenSettings.AddChildren(_nameLabel, 
             this._NameEdit, _mirrorLabel, _mirrorGroup);
 
-        this._NameEdit.Connect("text_changed", this, "OnLayerSettingEdit");
-        this._MirrorXEdit.Connect("pressed", this, "OnLayerSettingEdit");
-        this._MirrorYEdit.Connect("pressed", this, "OnLayerSettingEdit");
+        this._NameEdit.Connect("text_changed", this, "OnLayerNameChange");
+        this._MirrorXEdit.Connect("pressed", this, "OnLayerMirrorXChange");
+        this._MirrorYEdit.Connect("pressed", this, "OnLayerMirrorYChange");
     }
 
-    public void OnLayerSettingEdit(params object[] args) { this.OnLayerSettingEdit(); } 
-    public void OnLayerSettingEdit()
+    public void OnLayerNameChange(string s)
+    {
+        if(this.Layer != null)
+        {   
+            this.Layer.LayerName = this._NameEdit.Text;
+        }
+    }
+
+    public void OnLayerMirrorXChange()
     {
         if(this.Layer != null)
         {
-            this.Layer.Name = this._NameEdit.Text;
             this.Layer.MirrorX = this._MirrorXEdit.Pressed;
+        }
+    }
+
+    public void OnLayerMirrorYChange()
+    {
+        if(this.Layer != null)
+        {
             this.Layer.MirrorY = this._MirrorYEdit.Pressed;
         }
     }
@@ -95,7 +108,7 @@ public class LayerInspector : ScrollContainer
         this._Cycles.LoadLayer(l);
 
         this.GenLayer = l;
-        this.Layer = l.Data;
+        this.Layer = l;
         this._NameEdit.Text = l.Data.Name;
         this._MirrorXEdit.Pressed = l.Data.MirrorX;
         this._MirrorYEdit.Pressed = l.Data.MirrorY;

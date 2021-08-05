@@ -5,8 +5,12 @@ using Godot;
 using PichaLib;
 using OctavianLib;
 
+public delegate void LayerChangedHandler(GenLayer Layer);
+
 public class GenLayer : TextureRect
 {
+    public LayerChangedHandler LayerChanged;
+
     private Timer _Timer;
     private SortedList<int, Texture> _Textures = new SortedList<int, Texture>();
 
@@ -75,6 +79,7 @@ public class GenLayer : TextureRect
             this._Data = value;
             this.RectPosition = value.Position.ToVector2();
             this.RectSize = value.Size.ToVector2();
+            this.LayerChanged?.Invoke(this);
         }
     }
 
@@ -83,18 +88,24 @@ public class GenLayer : TextureRect
         set {
             this.Data.Frames = value;
             this.RectSize = (this.Data.Size).ToVector2();
-            this.Generate();
+            this.LayerChanged?.Invoke(this);
         }
     }
 
     public Dictionary<string, Pixel> Pixels {
         get => this.Data.Pixels;
-        set => this.Data.Pixels = value;
+        set {
+            this.Data.Pixels = value;
+            this.LayerChanged?.Invoke(this);
+        }
     }
 
     public SortedList<int, Cycle> Cycles {
         get => this.Data.Cycles;
-        set => this.Data.Cycles = value;
+        set {
+            this.Data.Cycles = value;
+            this.LayerChanged?.Invoke(this);
+        }
     }
 
     public float AnimTime {
@@ -102,6 +113,30 @@ public class GenLayer : TextureRect
         set {
             this.Data.AnimTime = value;
             this.FrameTime = value / this._Textures.Count;
+            this.LayerChanged?.Invoke(this);
+        }
+    }
+
+    public string LayerName {
+        get => this.Data.Name;
+        set {
+            this.Data.Name = value;
+        }
+    }
+
+    public bool MirrorX {
+        get => this.Data.MirrorX;
+        set {
+            this.Data.MirrorX = value;
+            this.LayerChanged?.Invoke(this);
+        }
+    }
+
+    public bool MirrorY {
+        get => this.Data.MirrorY;
+        set {
+            this.Data.MirrorY = value;
+            this.LayerChanged?.Invoke(this);
         }
     }
     
