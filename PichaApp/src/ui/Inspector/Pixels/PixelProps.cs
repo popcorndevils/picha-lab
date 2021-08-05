@@ -21,11 +21,30 @@ public class PixelProps : BaseSection
     private SpinBox _BrightNoiseEdit;
     private SpinBox _MinSaturationEdit;
     private Button _Delete;
+    private StyleBoxFlat _PanelStyle;
 
     public override void _Ready()
     {
         base._Ready();
         this.SectionGrid.Columns = 2;
+
+        this._PanelStyle = new StyleBoxFlat() {
+            CornerRadiusBottomLeft = 3,
+            CornerRadiusBottomRight = 3,
+            CornerRadiusTopLeft = 3,
+            CornerRadiusTopRight = 3,
+            BorderWidthTop = 3,
+            BorderWidthBottom = 3,
+            BorderWidthLeft = 3,
+            BorderWidthRight = 3,
+            ContentMarginBottom = 6,
+            ContentMarginLeft = 6,
+            ContentMarginRight = 6,
+            ContentMarginTop = 6,
+            BgColor = new Color(0f, 0f, 0f, 0f),
+        };
+
+        this.AddStyleboxOverride("panel", this._PanelStyle);
 
         this._Delete = new Button() {
             Text = "x",
@@ -144,6 +163,8 @@ public class PixelProps : BaseSection
         this._PaintEdit.Color = p.Paint.ToGodotColor();
         this._RandomColEdit.Pressed = p.RandomCol;
 
+        this._PanelStyle.BorderColor = p.Paint.ToGodotColor();
+
         this._FadeDirectionEdit.Clear();
         foreach(int i in Enum.GetValues(typeof(FadeDirection)))  
         {  
@@ -175,6 +196,8 @@ public class PixelProps : BaseSection
             this.Pixel.Color = this._ColorEdit.Color.ToChroma();
             this.Pixel.Paint = this._PaintEdit.Color.ToChroma();
             this.Pixel.FadeDirection = (FadeDirection)this._FadeDirectionEdit.Selected;
+
+            this._PanelStyle.BorderColor = this._PaintEdit.Color;
 
             this.PixelChanged?.Invoke(this.Pixel);
         }

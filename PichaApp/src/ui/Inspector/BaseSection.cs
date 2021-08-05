@@ -8,7 +8,16 @@ public class BaseSection : PanelContainer
         set {
             this._SectionTitle = value;
             if(this.SectionHeader != null)
-                { this.SectionHeader.Text = value; }
+            {
+                if(this.SectionContent.Visible)
+                {
+                    this.SectionHeader.Text = $"-{value}"; 
+                }
+                else
+                {
+                    this.SectionHeader.Text = $"+{value}";
+                }
+            }
         }
     }
 
@@ -28,8 +37,6 @@ public class BaseSection : PanelContainer
 
     public override void _Ready()
     {
-        this.SectionHeader.Text = this.SectionTitle;
-
         this.HeaderContainer.AddChild(this.SectionHeader);
         this.SectionContent.AddChild(this.SectionGrid);
 
@@ -45,8 +52,28 @@ public class BaseSection : PanelContainer
         this.SizeFlagsVertical = (int)Control.SizeFlags.ExpandFill;
         this.SectionContent.SizeFlagsHorizontal = (int)Control.SizeFlags.ExpandFill;
         this.SectionGrid.SizeFlagsHorizontal = (int)Control.SizeFlags.ExpandFill;
+
+        if(this.SectionContent.Visible)
+        {
+            this.SectionHeader.Text = $"-{this.SectionTitle}"; 
+        }
+        else
+        {
+            this.SectionHeader.Text = $"+{this.SectionTitle}";
+        }
     }
 
     public void _SectionClicked()
-        { this.SectionContent.Visible = !this.SectionContent.Visible; }
+    { 
+        this.SectionContent.Visible = !this.SectionContent.Visible; 
+        
+        if(this.SectionContent.Visible)
+        {
+            this.SectionHeader.Text = $"-{this.SectionTitle}"; 
+        }
+        else
+        {
+            this.SectionHeader.Text = $"+{this.SectionTitle}";
+        }
+    }
 }
