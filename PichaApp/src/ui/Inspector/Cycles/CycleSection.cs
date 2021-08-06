@@ -2,7 +2,7 @@ using Godot;
 
 using PichaLib;
 
-public class CycleProperties : BaseSection
+public class CycleSection : BaseSection
 {
     private GenLayer _Layer;
 
@@ -25,6 +25,7 @@ public class CycleProperties : BaseSection
 
     public void LoadLayer(GenLayer l)
     {
+        this._Layer = l;
         this._NewCycle.Disabled = false;
         
         foreach(Node n in this.SectionGrid.GetChildren())
@@ -32,12 +33,34 @@ public class CycleProperties : BaseSection
             this.SectionGrid.RemoveChild(n);
         }
 
-        foreach(Cycle _c in l.Data.Cycles.Values)
+        foreach(Cycle _c in l.Cycles.Values)
         {
-            var _props = new CycleProps() { SectionTitle = _c.Name };
+            var _props = new CycleProperties() { SectionTitle = _c.Name };
             this.SectionGrid.AddChild(_props);
             _props.SectionHeader.Align = Button.TextAlign.Left;
             _props.LoadCycle(l, _c);
+        }
+    }
+
+    public void PixelNameChange(string oldName, string newName)
+    {
+        foreach(Node n in this.SectionGrid.GetChildren())
+        {
+            if(n is CycleProperties c)
+            {
+                c.RenamePixel(oldName, newName);
+            }
+        }
+    }
+
+    public void AddNewPixel(Pixel p)
+    {
+        foreach(Node n in this.SectionGrid.GetChildren())
+        {
+            if(n is CycleProperties c)
+            {
+                c.AddNewPixel(p);
+            }
         }
     }
 

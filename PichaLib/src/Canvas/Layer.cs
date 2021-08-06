@@ -4,18 +4,13 @@ using OctavianLib;
 
 namespace PichaLib
 {
-    public delegate void LayerEditedHandler(Layer layer);
-
     public class Layer
     {
-        public event LayerEditedHandler OnLayerChanged;
-
         private string _Name;
         public string Name {
             get => this._Name;
             set {
                 this._Name = value;
-                this.OnLayerChanged?.Invoke(this);
             }
         }
 
@@ -24,7 +19,6 @@ namespace PichaLib
             get => this._AnimTime;
             set {
                 this._AnimTime = value;
-                this.OnLayerChanged?.Invoke(this);
             }
         }
 
@@ -33,14 +27,12 @@ namespace PichaLib
             get => this._MirrorX;
             set {
                 this._MirrorX = value;
-                this.OnLayerChanged?.Invoke(this);
             }
         }
         public bool MirrorY {
             get => this._MirrorY;
             set {
                 this._MirrorY = value;
-                this.OnLayerChanged?.Invoke(this);
             }
         }
 
@@ -49,14 +41,12 @@ namespace PichaLib
             get => this._X;
             set {
                 this._X = value;
-                this.OnLayerChanged?.Invoke(this);
             }
         }
         public int Y {
             get => this._Y;
             set {
                 this._Y = value;
-                this.OnLayerChanged?.Invoke(this);
             }
         }
 
@@ -68,7 +58,6 @@ namespace PichaLib
             get => this._Frames;
             set {
                 this._Frames = value;
-                this.OnLayerChanged?.Invoke(this);
             }
         }
 

@@ -1,11 +1,15 @@
-using System;
 using Godot;
 
 using PichaLib;
 
+public delegate void PixelNameChangeHandler(string oldName, string newName);
+public delegate void NewPixelAddedHandler(Pixel p);
 
 public class PixelSection : BaseSection
 {
+    public event PixelNameChangeHandler PixelNameChange;
+    public event NewPixelAddedHandler NewPixelAdded;
+
     private GenLayer _Layer;
     private Button _NewPixel;
 
@@ -35,32 +39,51 @@ public class PixelSection : BaseSection
 
         foreach(Pixel p in l.Pixels.Values)
         { 
-            var _props = new PixelProperties() {
-                SectionTitle = p.Name
-            };
-
-            _props.PixelDeleted += this.OnDeletePixel;
-            _props.PixelChanged += this.OnChangePixel;
-
-            this.SectionGrid.AddChild(_props);
-            _props.SectionHeader.Align = Button.TextAlign.Left;
-            _props.PixelLoad(p);
+            this.AddNewPixel(p);
         }
+    }
+
+    public void AddNewPixel(Pixel p)
+    {
+        var _props = new PixelProperties() {
+            SectionTitle = p.Name
+        };
+
+        _props.PixelDeleted += this.OnDeletePixel;
+        _props.PixelChanged += this.OnChangePixel;
+
+        this.SectionGrid.AddChild(_props);
+        _props.SectionHeader.Align = Button.TextAlign.Left;
+        _props.PixelLoad(p);
     }
 
     public void OnNewPixel()
     {
-        GD.Print("NEW PIXEL NOW!");
+        var _newPixel = this._Layer.NewPixel();
+        this.AddNewPixel(_newPixel);
+        this.NewPixelAdded?.Invoke(_newPixel);
     }
 
-    public void OnChangePixel(PixelProperties p)
+    public void OnChangePixel(PixelProperties p, string property, object value)
     {
+        switch(property)
+        {
+            case "Name":
+                var _oldName = p.Pixel.Name;
+                var _newName = this._Layer.ChangePixelName(p.Pixel, (string)value);
+                if(_newName != (string)value)
+                {
+                    p.NameEdit.Text = _newName;
+                }
 
+                this.PixelNameChange?.Invoke(_oldName, _newName);
+                break;
+        }
     }
-    public void OnDeletePixel(PixelProperties p)
+
+    public void OnDeletePixel(Pixel p)
     {
-        this._Layer.DeletePixel(p.Pixel);
-        p.QueueFree();
+        this._Layer.DeletePixel(p);
         this.GetTree().CallGroup("gp_layer_gui", "LoadLayer", this._Layer);
     }
 }

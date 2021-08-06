@@ -113,6 +113,7 @@ public class PolicyProperties : BaseSection
 
         foreach(OptionButton _b in _optBtns)
         {
+            _b.Clear();
             foreach(KeyValuePair<string, int> _pair in this._PixelTable)
             {
                 _b.AddItem(_pair.Key, _pair.Value);
@@ -157,6 +158,49 @@ public class PolicyProperties : BaseSection
             this.Policy.ConditionA = (ConditionTarget)this._ConditionAEdit.Selected;
             this.Policy.ConditionLogic = (ConditionExpression)this._ConditionLogicEdit.Selected;
             this.Policy.ConditionB = this._PixelTable[this._ConditionBEdit.Selected];
+        }
+    }
+
+    public void RenamePixel(string oldName, string newName)
+    {
+        var _optBtns = new OptionButton[] {this._InputEdit, this._OutputEdit, this._ConditionBEdit};
+
+        int[] _selected = new int[] {
+            this._InputEdit.Selected,
+            this._OutputEdit.Selected,
+            this._ConditionBEdit.Selected
+        };
+
+        int _sel = this._PixelTable[oldName];
+        this._PixelTable.Remove(oldName);
+        this._PixelTable.Add(newName, _sel);
+
+        foreach(OptionButton _b in _optBtns)
+        {
+            _b.Clear();
+            foreach(KeyValuePair<string, int> _pair in this._PixelTable)
+            {
+                _b.AddItem(_pair.Key, _pair.Value);
+            }
+        }
+
+        this._InputEdit.Selected = _selected[0];
+        this._OutputEdit.Selected = _selected[1];
+        this._ConditionBEdit.Selected = _selected[2];
+        
+        var _inputName = $"{this._PixelTable[this._InputEdit.Selected]}";
+        var _outputName = $"{this._PixelTable[this._OutputEdit.Selected]}";
+        this.SectionTitle = $"{_inputName} -> {_outputName}";
+    }
+
+    public void AddNewPixel(Pixel p)
+    {
+        this._PixelTable.Add(p.Name, this._PixelTable.Count); 
+        var _optBtns = new OptionButton[] {this._InputEdit, this._OutputEdit, this._ConditionBEdit};
+
+        foreach(OptionButton _b in _optBtns)
+        {
+            _b.AddItem(p.Name, this._PixelTable.Count);
         }
     }
 

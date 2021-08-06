@@ -3,42 +3,43 @@ using Godot;
 
 using PichaLib;
 
-public delegate void PixelChangedHandler(PixelProperties p);
-public delegate void PixelDeleteHandler(PixelProperties p);
+public delegate void PixelChangedHandler(PixelProperties p, string property, object value);
+public delegate void PixelDeleteHandler(Pixel p);
 
 public class PixelProperties : BaseSection
 {
     public event PixelChangedHandler PixelChanged;
     public event PixelDeleteHandler PixelDeleted;
+
     public Pixel Pixel;
 
     private bool _IgnoreSignals = false;
 
     public bool GenColDisabled {
-        get => this._ColorEdit.Disabled;
+        get => this.ColorEdit.Disabled;
         set {
-            this._ColorEdit.Disabled = value;
+            this.ColorEdit.Disabled = value;
             if(value) 
             {
                 this._GenColLabel.Modulate = new Color(.75f, .75f, .75f);
-                this._ColorEdit.Modulate = new Color(.75f, .75f, .75f);
+                this.ColorEdit.Modulate = new Color(.75f, .75f, .75f);
             }
             else
             {
-                this._ColorEdit.Modulate = new Color(1f, 1f, 1f);
+                this.ColorEdit.Modulate = new Color(1f, 1f, 1f);
                 this._GenColLabel.Modulate = new Color(1f, 1f, 1f);
             }
         }
     }
 
     // SETTINGS
-    private LineEdit _NameEdit;
-    private ColorPickerButton _ColorEdit;
-    private ColorPickerButton _PaintEdit;
-    private CheckBox _RandomColEdit;
-    private OptionButton _FadeDirectionEdit;
-    private SpinBox _BrightNoiseEdit;
-    private SpinBox _MinSaturationEdit;
+    public LineEdit NameEdit;
+    public ColorPickerButton ColorEdit;
+    public ColorPickerButton PaintEdit;
+    public CheckBox RandomColEdit;
+    public OptionButton FadeDirectionEdit;
+    public SpinBox BrightNoiseEdit;
+    public SpinBox MinSaturationEdit;
     private Button _Delete;
     private StyleBoxFlat _PanelStyle;
     private Label _GenColLabel;
@@ -71,7 +72,7 @@ public class PixelProperties : BaseSection
             FocusMode = FocusModeEnum.None,
         };
 
-        this._NameEdit = new LineEdit() {
+        this.NameEdit = new LineEdit() {
             SizeFlagsHorizontal = (int)Control.SizeFlags.ExpandFill
         };
 
@@ -82,31 +83,31 @@ public class PixelProperties : BaseSection
             MouseFilter = MouseFilterEnum.Pass,
         }; 
 
-        this._ColorEdit = new ColorPickerButton() {
+        this.ColorEdit = new ColorPickerButton() {
             SizeFlagsHorizontal = (int)Control.SizeFlags.Expand,
             RectMinSize = new Vector2(40, 0),
             HintTooltip = _HintColor,
         };
 
-        this._PaintEdit = new ColorPickerButton() {
+        this.PaintEdit = new ColorPickerButton() {
             SizeFlagsHorizontal = (int)Control.SizeFlags.Expand,
             RectMinSize = new Vector2(40, 0),
         };
 
-        this._RandomColEdit = new CheckBox();
+        this.RandomColEdit = new CheckBox();
 
-        this._FadeDirectionEdit = new OptionButton() {
+        this.FadeDirectionEdit = new OptionButton() {
             SizeFlagsHorizontal = (int)Control.SizeFlags.ExpandFill
         };
 
-        this._BrightNoiseEdit = new SpinBox() {
+        this.BrightNoiseEdit = new SpinBox() {
             SizeFlagsHorizontal = (int)Control.SizeFlags.ExpandFill,
             MinValue = 0.0f,
             MaxValue = 1.0f,
             Step = .05f,
         };
 
-        this._MinSaturationEdit = new SpinBox() {
+        this.MinSaturationEdit = new SpinBox() {
             SizeFlagsHorizontal = (int)Control.SizeFlags.ExpandFill,
             MinValue = 0.0f,
             MaxValue = 1.0f,
@@ -146,84 +147,113 @@ public class PixelProperties : BaseSection
         this.HeaderContainer.AddChild(this._Delete);
 
         this.SectionGrid.AddChild(_nameLabel);
-        this.SectionGrid.AddChild(this._NameEdit);
+        this.SectionGrid.AddChild(this.NameEdit);
 
         this.SectionGrid.AddChild(_randomColLabel);
-        this.SectionGrid.AddChild(this._RandomColEdit);
+        this.SectionGrid.AddChild(this.RandomColEdit);
 
         this.SectionGrid.AddChild(this._GenColLabel);
-        this.SectionGrid.AddChild(this._ColorEdit);
+        this.SectionGrid.AddChild(this.ColorEdit);
 
         this.SectionGrid.AddChild(_paintLabel);
-        this.SectionGrid.AddChild(this._PaintEdit);
+        this.SectionGrid.AddChild(this.PaintEdit);
 
         this.SectionGrid.AddChild(_fadeDirectionLabel);
-        this.SectionGrid.AddChild(this._FadeDirectionEdit);
+        this.SectionGrid.AddChild(this.FadeDirectionEdit);
 
         this.SectionGrid.AddChild(_brightNoiseLabel);
-        this.SectionGrid.AddChild(this._BrightNoiseEdit);
+        this.SectionGrid.AddChild(this.BrightNoiseEdit);
 
         this.SectionGrid.AddChild(_minSaturationLabel);
-        this.SectionGrid.AddChild(this._MinSaturationEdit);
+        this.SectionGrid.AddChild(this.MinSaturationEdit);
         
         this._Delete.Connect("pressed", this, "OnDeletePixel");
-        this._NameEdit.Connect("text_changed", this, "OnPixelSettingEdit");
-        this._ColorEdit.Connect("color_changed", this, "OnPixelSettingEdit");
-        this._PaintEdit.Connect("color_changed", this, "OnPixelSettingEdit");
-        this._RandomColEdit.Connect("pressed", this, "OnPixelSettingEdit");
-        this._FadeDirectionEdit.Connect("item_selected", this, "OnPixelSettingEdit");
-        this._BrightNoiseEdit.Connect("value_changed", this, "OnPixelSettingEdit");
-        this._MinSaturationEdit.Connect("value_changed", this, "OnPixelSettingEdit");
+
+        // Setting Signals
+        this.NameEdit.Connect("text_changed", this, "OnNameEdit");
+        this.ColorEdit.Connect("color_changed", this, "OnColorEdit");
+        this.PaintEdit.Connect("color_changed", this, "OnPaintEdit");
+        this.RandomColEdit.Connect("pressed", this, "OnRandomColEdit");
+        this.FadeDirectionEdit.Connect("item_selected", this, "OnDirectionEdit");
+        this.BrightNoiseEdit.Connect("value_changed", this, "OnBrightEdit");
+        this.MinSaturationEdit.Connect("value_changed", this, "OnMinSatEdit");
     }
 
     public void PixelLoad(Pixel p)
     {
         this.Pixel = p;
-        this._NameEdit.Text = p.Name;
-        this._ColorEdit.Color = p.Color.ToGodotColor();
-        this._PaintEdit.Color = p.Paint.ToGodotColor();
-        this._RandomColEdit.Pressed = p.RandomCol;
+        this.NameEdit.Text = p.Name;
+        this.ColorEdit.Color = p.Color.ToGodotColor();
+        this.PaintEdit.Color = p.Paint.ToGodotColor();
+        this.RandomColEdit.Pressed = p.RandomCol;
         this.GenColDisabled = p.RandomCol;
         this._PanelStyle.BorderColor = p.Paint.ToGodotColor();
-        this._FadeDirectionEdit.Clear();
+        this.FadeDirectionEdit.Clear();
 
         foreach(int i in Enum.GetValues(typeof(FadeDirection)))  
         {  
-            this._FadeDirectionEdit.AddItem(Enum.GetName(typeof(FadeDirection), i), i);
+            this.FadeDirectionEdit.AddItem(Enum.GetName(typeof(FadeDirection), i), i);
         }
 
-        this._FadeDirectionEdit.Selected = (int)p.FadeDirection;
+        this.FadeDirectionEdit.Selected = (int)p.FadeDirection;
         
         this._IgnoreSignals = true;
 
-        this._BrightNoiseEdit.Value = p.BrightNoise;
-        this._MinSaturationEdit.Value = p.MinSaturation;
+        this.BrightNoiseEdit.Value = p.BrightNoise;
+        this.MinSaturationEdit.Value = p.MinSaturation;
 
         this._IgnoreSignals = false;
     }
 
-    public void OnPixelSettingEdit(params object[] args) { this.OnPixelSettingEdit(); }
-    public void OnPixelSettingEdit()
+
+    // HANDLE SIGNALS
+    public void OnNameEdit(string text)
+    {
+        this.SectionTitle = text; 
+        this.PixelChanged?.Invoke(this, "Name", text);
+    }
+
+    public void OnRandomColEdit()
+    {
+        this.GenColDisabled = this.RandomColEdit.Pressed;
+        this.PixelChanged?.Invoke(this, "RandomCol", this.GenColDisabled);
+    }
+
+    public void OnBrightEdit(float value)
     {
         if(!this._IgnoreSignals)
         {
-            this.SectionTitle = this._NameEdit.Text; 
-            this.Pixel.Name = this._NameEdit.Text;
-            this.Pixel.RandomCol = this._RandomColEdit.Pressed;
-            this.GenColDisabled = this._RandomColEdit.Pressed;
-            this.Pixel.BrightNoise = (float)this._BrightNoiseEdit.Value;
-            this.Pixel.MinSaturation = (float)this._MinSaturationEdit.Value;
-            this.Pixel.Color = this._ColorEdit.Color.ToChroma();
-            this.Pixel.Paint = this._PaintEdit.Color.ToChroma();
-            this.Pixel.FadeDirection = (FadeDirection)this._FadeDirectionEdit.Selected;
-            this._PanelStyle.BorderColor = this._PaintEdit.Color;
-
-            this.PixelChanged?.Invoke(this);
+            this.PixelChanged?.Invoke(this, "BrightNoise", value);
         }
+    }
+
+    public void OnMinSatEdit(float value)
+    {
+        if(!this._IgnoreSignals)
+        {
+            this.PixelChanged?.Invoke(this, "MinSaturation", value);
+        }
+    }
+
+    public void OnColorEdit(Color c)
+    {
+        this.PixelChanged.Invoke(this, "Color", c.ToChroma());
+    }
+
+    public void OnPaintEdit(Color c)
+    {
+        this._PanelStyle.BorderColor = this.PaintEdit.Color;
+        this.PixelChanged.Invoke(this, "Paint", c.ToChroma());
+    }
+
+    public void OnDirectionEdit(int selected)
+    {
+        this.PixelChanged?.Invoke(this, "FadeDirection", (FadeDirection)this.FadeDirectionEdit.Selected);
     }
 
     public void OnDeletePixel()
     {
-        this.PixelDeleted?.Invoke(this);
+        this.QueueFree();
+        this.PixelDeleted?.Invoke(this.Pixel);
     }
 }

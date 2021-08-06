@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 
 using PichaLib;
@@ -134,6 +135,28 @@ static class PDefaults
                 ConditionA = ConditionTarget.NONE,
                 ConditionLogic = ConditionExpression.NONE,
                 ConditionB = PDefaults.PIXEL_IDS.EMPTY,
+            };
+        }
+    }
+
+    internal static Pixel Pixel {
+        get {
+            var _ran = new Random();
+            var _r = (byte)(_ran.NextDouble() * 255);
+            var _g = (byte)(_ran.NextDouble() * 255);
+            var _b = (byte)(_ran.NextDouble() * 255);
+            
+            var _rP = (byte)(_ran.NextDouble() * 255);
+            var _gP = (byte)(_ran.NextDouble() * 255);
+            var _bP = (byte)(_ran.NextDouble() * 255);
+
+            return new Pixel() {
+                Color = Chroma.CreateFromBytes(_r, _g, _b, 255),
+                Paint = Chroma.CreateFromBytes(_rP, _gP, _bP, 255),
+                RandomCol = true,
+                FadeDirection = FadeDirection.NORTH,
+                BrightNoise = .5f,
+                MinSaturation = .5f,
             };
         }
     }

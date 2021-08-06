@@ -1,6 +1,4 @@
-using System;
 using Godot;
-
 using PichaLib;
 
 public class LayerInspector : ScrollContainer
@@ -11,7 +9,7 @@ public class LayerInspector : ScrollContainer
     private VBoxContainer _Contents;
     private GridContainer _GenSettings;
     private PixelSection _Pixels;
-    private CycleProperties _Cycles;
+    private CycleSection _Cycles;
 
     private LineEdit _NameEdit;
     private CheckBox _MirrorXEdit;
@@ -31,7 +29,10 @@ public class LayerInspector : ScrollContainer
         };
 
         this._Pixels = new PixelSection();
-        this._Cycles = new CycleProperties();
+        this._Cycles = new CycleSection();
+
+        this._Pixels.PixelNameChange += this.OnPixelNameChange;
+        this._Pixels.NewPixelAdded += this.OnNewPixelAdded;
 
         this._NameEdit = new LineEdit() {
             SizeFlagsHorizontal = (int)Control.SizeFlags.ExpandFill
@@ -71,6 +72,16 @@ public class LayerInspector : ScrollContainer
         this._NameEdit.Connect("text_changed", this, "OnLayerNameChange");
         this._MirrorXEdit.Connect("pressed", this, "OnLayerMirrorXChange");
         this._MirrorYEdit.Connect("pressed", this, "OnLayerMirrorYChange");
+    }
+
+    public void OnPixelNameChange(string oldName, string newName)
+    {
+        this._Cycles.PixelNameChange(oldName, newName);
+    }
+
+    public void OnNewPixelAdded(Pixel p)
+    {
+        this._Cycles.AddNewPixel(p);
     }
 
     public void OnLayerNameChange(string s)

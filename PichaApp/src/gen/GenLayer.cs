@@ -216,15 +216,67 @@ public class GenLayer : TextureRect
         }
     }
 
+    public string ChangePixelName(Pixel p, string n)
+    {
+        string _oldName = p.Name;
+        string _newName = n;
+
+        if(this.Pixels.ContainsKey(_newName))
+        {
+            int _num = 1;
+            while(this.Pixels.ContainsKey($"{n}{_num}"))
+            {
+                _num = _num + 1;
+            }
+
+            _newName = $"{n}{_num}";
+        }
+
+        this.Pixels.Remove(_oldName);
+        this.Pixels.Add(_newName, p);
+
+        p.Name = _newName;        
+        
+        this.Data.Frames = this._RenamePixelFrames(_oldName, _newName);
+
+        foreach(KeyValuePair<int, Cycle> cycle in this.Cycles)
+        {
+            foreach(Policy policy in cycle.Value.Policies)
+            {
+                policy.RenamePixel(_oldName, _newName);
+            }
+        }
+
+        return _newName;
+    }
+
+    public Pixel NewPixel()
+    {
+        var _num = this.Pixels.Count;
+
+        while(this.Pixels.ContainsKey($"Pixel_{_num}"))
+        {
+            _num = _num + 1;
+        }
+
+        var _newPixelName = $"Pixel_{_num}";
+        var _newPixel = PDefaults.Pixel;
+        _newPixel.Name = _newPixelName;
+
+        this.Data.Pixels.Add(_newPixelName, _newPixel);
+
+        return _newPixel;
+    }
+
     /// <summary>
     /// Deletes pixels from the layer, accounting for affected policies and cycles.
     /// </summary>
     /// <param name="p">Pixel being deleted from the layer.</param>
     public void DeletePixel(Pixel p)
     {
-        this.Data.Pixels.Remove(p.Name);
+        this.Pixels.Remove(p.Name);
         this._RemovePixelCycles(p);
-        this._RemovePixelFrames(p);
+        this.Frames = this._RenamePixelFrames(p.Name, Pixel.NULL);
     }
 
     private void _RemovePixelCycles(Pixel p)
@@ -258,15 +310,15 @@ public class GenLayer : TextureRect
         }
     }
 
-    private void _RemovePixelFrames(Pixel p)
+    private SortedList<int, string[,]> _RenamePixelFrames(string oldName, string newName)
     {
         var _newFrames = new SortedList<int, string[,]>();
 
         foreach(KeyValuePair<int, string[,]> frame in this.Frames)
         {
-            _newFrames.Add(frame.Key, frame.Value.ReplaceVal(p.Name, Pixel.NULL));
+            _newFrames.Add(frame.Key, frame.Value.ReplaceVal(oldName, newName));
         }
 
-        this.Frames = _newFrames;
+        return _newFrames;
     }
 }

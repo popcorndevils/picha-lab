@@ -17,6 +17,22 @@ namespace PichaLib
             }
             return false;
         }
+
+        public void RenamePixel(string oldName, string newName)
+        {
+            if(this.Input == oldName)
+            {
+                this.Input = newName;
+            }
+            if(this.Output == oldName)
+            {
+                this.Output = newName;
+            }
+            if(this.ConditionB == oldName)
+            {
+                this.ConditionB = newName;
+            }
+        }
     }
 
     public enum ConditionTarget
