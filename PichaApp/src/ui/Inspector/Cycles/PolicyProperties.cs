@@ -35,9 +35,8 @@ public class PolicyProperties : BaseSection
     public override void _Ready()
     {
         base._Ready();
-
+        this.Theme = GD.Load<Theme>("res://res/theme/Section.tres");
         this.SectionGrid.Columns = 2;
-        this.Theme = GD.Load<Theme>("res://res/theme/PolicyProps.tres");
 
         this._InputEdit = new OptionButton() {
             SizeFlagsHorizontal = (int)Control.SizeFlags.ExpandFill

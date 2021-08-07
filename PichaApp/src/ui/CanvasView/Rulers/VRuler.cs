@@ -8,7 +8,7 @@ public class VRuler : Button
         this.SizeFlagsVertical = (int)SizeFlags.ExpandFill;
         this.FocusMode = FocusModeEnum.None;
         this.MouseDefaultCursorShape = CursorShape.Hsize;
-        // this.Flat = true;
+        this.Flat = true;
         // this.MouseFilter = MouseFilterEnum.Ignore;
     }
 }

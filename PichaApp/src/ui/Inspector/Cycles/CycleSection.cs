@@ -7,26 +7,27 @@ public class CycleSection : BaseSection
     private GenLayer _Layer;
 
     private Button _NewCycle = new Button() {
-        Text = "Add Cycle",
-        RectMinSize = new Vector2(0, 30),
+        Text = "+",
         Disabled = true,
         FocusMode = FocusModeEnum.None,
     };
 
     public override void _Ready()
     {
+        base._Ready();
+
+        this.SectionHeader.Disabled = true;
         this.SectionTitle = "Cycles";
-        this.SectionContent.AddChild(this._NewCycle);
+        this.HeaderContainer.AddChild(this._NewCycle);
 
         this._NewCycle.Connect("pressed", this, "OnNewCycle");
-
-        base._Ready();
     }
 
     public void LoadLayer(GenLayer l)
     {
         this._Layer = l;
         this._NewCycle.Disabled = false;
+        this.SectionHeader.Disabled = false;
         
         foreach(Node n in this.SectionGrid.GetChildren())
         {

@@ -16,10 +16,14 @@ public class PixelSection : BaseSection
     public override void _Ready()
     {
         base._Ready();
+
+        this.SectionHeader.Disabled = true;
+
         this._NewPixel = new Button() {
             Text = "+",
             SizeFlagsHorizontal = 0,
             FocusMode = FocusModeEnum.None,
+            Disabled = true,
         };
 
         this.HeaderContainer.AddChild(this._NewPixel);
@@ -33,6 +37,7 @@ public class PixelSection : BaseSection
     {
         this._Layer = l;
         this._NewPixel.Disabled = false;
+        this.SectionHeader.Disabled = false;
 
         foreach(Node n in this.SectionGrid.GetChildren())
         { this.SectionGrid.RemoveChild(n); }

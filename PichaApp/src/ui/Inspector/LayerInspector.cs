@@ -35,17 +35,23 @@ public class LayerInspector : ScrollContainer
         this._Pixels.NewPixelAdded += this.OnNewPixelAdded;
 
         this._NameEdit = new LineEdit() {
-            SizeFlagsHorizontal = (int)Control.SizeFlags.ExpandFill
+            SizeFlagsHorizontal = (int)Control.SizeFlags.ExpandFill,
+            Editable = false,
+            FocusMode = FocusModeEnum.None,
         };
         
         this._MirrorXEdit = new CheckBox() {
             SizeFlagsHorizontal = 0,
             Text = "X",
+            Disabled = true,
+            FocusMode = FocusModeEnum.None,
         };
 
         this._MirrorYEdit = new CheckBox() {
             SizeFlagsHorizontal = 0,
             Text = "Y",
+            Disabled = true,
+            FocusMode = FocusModeEnum.None,
         };
 
         var _mirrorGroup = new HBoxContainer() {
@@ -117,6 +123,10 @@ public class LayerInspector : ScrollContainer
     {
         this._Pixels.LoadLayer(l);
         this._Cycles.LoadLayer(l);
+
+        this._NameEdit.Editable = true;
+        this._MirrorXEdit.Disabled = false;
+        this._MirrorYEdit.Disabled = false;
 
         this.GenLayer = l;
         this.Layer = l;

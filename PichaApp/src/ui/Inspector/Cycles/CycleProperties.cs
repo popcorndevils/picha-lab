@@ -14,20 +14,17 @@ public class CycleProperties : BaseSection
     };
 
     private Button _NewPolicy = new Button() {
-        Text = "Add Policy",
-        RectMinSize = new Vector2(0, 30),
+        Text = "+",
         FocusMode = FocusModeEnum.None,
     };
 
     public override void _Ready()
     {
-        this.SectionContent.AddChild(this._NewPolicy);
+        base._Ready();
+        this.Theme = GD.Load<Theme>("./res/theme/SectionAlt.tres");
         this._Delete.Connect("pressed", this, "OnCycleDelete");
         this._NewPolicy.Connect("pressed", this, "OnAddPolicy");
-
-        base._Ready();
-
-        this.HeaderContainer.AddChild(this._Delete);
+        this.HeaderContainer.AddChildren(this._NewPolicy, this._Delete);
     }
 
     public void LoadCycle(GenLayer l, Cycle c)

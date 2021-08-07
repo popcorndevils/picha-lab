@@ -52,16 +52,18 @@ public class PixelProperties : BaseSection
         base._Ready();
         this.SectionGrid.Columns = 2;
 
+        this.Theme = GD.Load<Theme>("./res/theme/SectionAlt.tres");
+
         this._PanelStyle = new StyleBoxFlat() {
             BorderWidthTop = 0,
             BorderWidthBottom = 0,
             BorderWidthLeft = 5,
             BorderWidthRight = 0,
             ContentMarginBottom = 6,
-            ContentMarginLeft = 10,
+            ContentMarginLeft = 15,
             ContentMarginRight = 6,
             ContentMarginTop = 6,
-            BgColor = Chroma.CreateFromHex("#44463C").ToGodotColor(),
+            BgColor = Chroma.CreateFromBytes(60, 60, 60, 255).ToGodotColor(),
         };
 
         this.AddStyleboxOverride("panel", this._PanelStyle);

@@ -1,5 +1,7 @@
 using Godot;
 
+using PichaLib;
+
 public class BaseSection : PanelContainer
 {
     public bool ContentVisibility {
@@ -37,7 +39,7 @@ public class BaseSection : PanelContainer
     public Button SectionHeader = new Button() {
         ExpandIcon = true,
         Text = "BLANK",
-        Flat = true,
+        Flat = false,
         SizeFlagsHorizontal = (int)Control.SizeFlags.ExpandFill,
         FocusMode = FocusModeEnum.None,
     };
@@ -47,9 +49,12 @@ public class BaseSection : PanelContainer
     public HBoxContainer HeaderContainer = new HBoxContainer();
     private Texture _ExpandIcon = GD.Load<Texture>("res/icons/section_expand.png");
     private Texture _ContractIcon = GD.Load<Texture>("res/icons/section_contract.png");
+    private StyleBoxFlat _PanelStyle;
 
     public override void _Ready()
     {
+        this.Theme = GD.Load<Theme>("./res/theme/Section.tres");
+
         this.HeaderContainer.AddChild(this.SectionHeader);
         this.SectionContent.AddChild(this.SectionGrid);
 

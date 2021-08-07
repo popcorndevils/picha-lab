@@ -1,6 +1,58 @@
-[gd_resource type="Theme" load_steps=2 format=2]
+[gd_resource type="Theme" load_steps=10 format=2]
 
-[sub_resource type="StyleBoxFlat" id=1]
+[sub_resource type="StyleBoxFlat" id=4]
+content_margin_left = 4.0
+content_margin_right = 4.0
+content_margin_top = 2.0
+content_margin_bottom = 2.0
+bg_color = Color( 0.196078, 0.196078, 0.196078, 1 )
+
+[sub_resource type="StyleBoxFlat" id=3]
+content_margin_left = 4.0
+content_margin_right = 4.0
+content_margin_top = 2.0
+content_margin_bottom = 2.0
+bg_color = Color( 0.294118, 0.294118, 0.294118, 1 )
+
+[sub_resource type="StyleBoxFlat" id=5]
+content_margin_left = 4.0
+content_margin_right = 4.0
+content_margin_top = 2.0
+content_margin_bottom = 2.0
+bg_color = Color( 0.196078, 0.196078, 0.196078, 1 )
+
+[sub_resource type="StyleBoxFlat" id=11]
+bg_color = Color( 0.294118, 0.294118, 0.294118, 1 )
+
+[sub_resource type="StyleBoxFlat" id=7]
+content_margin_left = 10.0
+content_margin_right = 10.0
+content_margin_top = 10.0
+content_margin_bottom = 10.0
+bg_color = Color( 0.235294, 0.235294, 0.235294, 1 )
+
+[sub_resource type="StyleBoxFlat" id=8]
+content_margin_left = 6.0
+content_margin_right = 6.0
+content_margin_top = 4.0
+content_margin_bottom = 4.0
+bg_color = Color( 0.352941, 0.352941, 0.352941, 1 )
+
+[sub_resource type="StyleBoxFlat" id=9]
+content_margin_left = 6.0
+content_margin_right = 6.0
+content_margin_top = 4.0
+content_margin_bottom = 4.0
+bg_color = Color( 0.156863, 0.156863, 0.156863, 1 )
+
+[sub_resource type="StyleBoxFlat" id=10]
+content_margin_left = 6.0
+content_margin_right = 6.0
+content_margin_top = 4.0
+content_margin_bottom = 4.0
+bg_color = Color( 0.235294, 0.235294, 0.235294, 1 )
+
+[sub_resource type="StyleBoxFlat" id=6]
 content_margin_left = 7.0
 content_margin_right = 10.0
 content_margin_top = 10.0
@@ -12,6 +64,18 @@ border_width_right = 2
 border_width_bottom = 2
 
 [resource]
+Button/colors/font_color = Color( 0.88, 0.88, 0.88, 1 )
+Button/colors/font_color_disabled = Color( 0.9, 0.9, 0.9, 0.2 )
+Button/colors/font_color_hover = Color( 0.94, 0.94, 0.94, 1 )
+Button/colors/font_color_pressed = Color( 1, 1, 1, 1 )
+Button/constants/hseparation = 2
+Button/fonts/font = null
+Button/styles/disabled = SubResource( 4 )
+Button/styles/focus = SubResource( 4 )
+Button/styles/hover = SubResource( 3 )
+Button/styles/normal = SubResource( 4 )
+Button/styles/pressed = SubResource( 5 )
+PanelContainer/styles/panel = SubResource( 11 )
 TabContainer/colors/font_color_bg = Color( 0.69, 0.69, 0.69, 1 )
 TabContainer/colors/font_color_disabled = Color( 0.9, 0.9, 0.9, 0.2 )
 TabContainer/colors/font_color_fg = Color( 0.94, 0.94, 0.94, 1 )
@@ -27,13 +91,13 @@ TabContainer/icons/increment = null
 TabContainer/icons/increment_highlight = null
 TabContainer/icons/menu = null
 TabContainer/icons/menu_highlight = null
-TabContainer/styles/panel = null
-TabContainer/styles/tab_bg = null
-TabContainer/styles/tab_disabled = null
-TabContainer/styles/tab_fg = null
+TabContainer/styles/panel = SubResource( 7 )
+TabContainer/styles/tab_bg = SubResource( 8 )
+TabContainer/styles/tab_disabled = SubResource( 9 )
+TabContainer/styles/tab_fg = SubResource( 10 )
 TooltipLabel/colors/font_color = Color( 0.831373, 0.8, 0.8, 1 )
 TooltipLabel/colors/font_color_shadow = Color( 0, 0, 0, 0.1 )
 TooltipLabel/constants/shadow_offset_x = 1
 TooltipLabel/constants/shadow_offset_y = 1
 TooltipLabel/fonts/font = null
-TooltipPanel/styles/panel = SubResource( 1 )
+TooltipPanel/styles/panel = SubResource( 6 )

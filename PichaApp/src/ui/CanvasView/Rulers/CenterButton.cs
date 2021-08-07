@@ -9,5 +9,8 @@ public class CenterButton : Button
         this.SizeFlagsHorizontal = (int)SizeFlags.Fill;
         this.SizeFlagsVertical = (int)SizeFlags.Fill;
         this.Icon = GD.Load<Texture>("res://res/icons/arrows-move.svg");
+        this.MouseDefaultCursorShape = CursorShape.Move;
+        this.Flat = true;
+        this.HintTooltip = "Center Sprite in View.";
     }
 }

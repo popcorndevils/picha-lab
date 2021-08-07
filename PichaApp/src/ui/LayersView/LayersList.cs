@@ -1,7 +1,12 @@
 using Godot;
 
-public class LayersView : VBoxContainer
+public class LayersView : TabContainer
 {
+    private VBoxContainer _LayersViewList = new VBoxContainer() {
+        Name = "Layers",
+        RectMinSize = new Vector2(260, 200)
+    };
+
     private ScrollContainer _Contents = new ScrollContainer() {
         SizeFlagsVertical = (int)SizeFlags.ExpandFill,
         SizeFlagsHorizontal = (int)SizeFlags.ExpandFill,
@@ -26,23 +31,20 @@ public class LayersView : VBoxContainer
 
     public override void _Ready()
     {
+        this.TabAlign = TabAlignEnum.Left;
+        this.DragToRearrangeEnabled = true;
+
         this.AddToGroup("gp_canvas_gui");
         this.AddToGroup("layers_list");
 
-        this.RectMinSize = new Vector2(260, 200);
+        this.AddChild(this._LayersViewList);
 
-        var _Title = new Label() {
-            Text = "Layers",
-            Align = Label.AlignEnum.Center,
-            SizeFlagsHorizontal = (int)SizeFlags.ExpandFill
-        };
-
-        this._HeaderContainer.AddChildren(_Title, this._NewLayer);
+        this._HeaderContainer.AddChildren(this._NewLayer);
         this._Contents.AddChild(_Buttons);
 
-        this.AddChildren(
+        this._LayersViewList.AddChildren(
             this._HeaderContainer,
-            this._Contents );
+            this._Contents);
 
         this._NewLayer.Connect("pressed", this, "OnNewLayerPressed");
     }

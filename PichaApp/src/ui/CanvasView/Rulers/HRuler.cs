@@ -8,7 +8,7 @@ public class HRuler : Button
         this.SizeFlagsHorizontal = (int)SizeFlags.ExpandFill;
         this.FocusMode = FocusModeEnum.None;
         this.MouseDefaultCursorShape = CursorShape.Vsize;
-        // this.Flat = true;
+        this.Flat = true;
         // this.MouseFilter = MouseFilterEnum.Ignore;
     }
 }
