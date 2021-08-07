@@ -44,7 +44,8 @@ public class CanvasInspector : VBoxContainer
         };
 
         this._Regen = new Button() {
-            Text = "R",
+            SizeFlagsHorizontal = (int)SizeFlags.ShrinkEnd,
+            Icon = GD.Load<Texture>("res://res/icons/all_inclusive_white.svg"),
             FocusMode = FocusModeEnum.None,
         };
 

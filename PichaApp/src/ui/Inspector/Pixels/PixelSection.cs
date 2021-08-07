@@ -20,11 +20,11 @@ public class PixelSection : BaseSection
         this.SectionHeader.Disabled = true;
 
         this._NewPixel = new Button() {
-            Text = "+",
-            SizeFlagsHorizontal = 0,
+            SizeFlagsHorizontal = (int)SizeFlags.ShrinkEnd,
+            Icon = GD.Load<Texture>("res://res/icons/add_white.svg"),
             FocusMode = FocusModeEnum.None,
-            Disabled = true,
             HintTooltip = "Create new Pixel Type",
+            Disabled = true,
         };
 
         this.HeaderContainer.AddChild(this._NewPixel);

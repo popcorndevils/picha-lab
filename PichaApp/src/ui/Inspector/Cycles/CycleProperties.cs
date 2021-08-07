@@ -8,13 +8,15 @@ public class CycleProperties : BaseSection
     public Cycle Cycle;
 
     private Button _Delete = new Button() {
-        Text = "x",
-        SizeFlagsHorizontal = 0,
+        SizeFlagsHorizontal = (int)SizeFlags.ShrinkEnd,
+        Icon = GD.Load<Texture>("res://res/icons/delete_white.svg"),
         FocusMode = FocusModeEnum.None,
+        HintTooltip = "Delete Cycle",
     };
 
     private Button _NewPolicy = new Button() {
-        Text = "+",
+        SizeFlagsHorizontal = (int)SizeFlags.ShrinkEnd,
+        Icon = GD.Load<Texture>("res://res/icons/add_white.svg"),
         FocusMode = FocusModeEnum.None,
     };
 

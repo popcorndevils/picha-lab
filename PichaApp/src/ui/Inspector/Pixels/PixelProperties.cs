@@ -59,19 +59,20 @@ public class PixelProperties : BaseSection
             BorderWidthBottom = 0,
             BorderWidthLeft = 5,
             BorderWidthRight = 0,
-            ContentMarginBottom = 6,
+            ContentMarginBottom = 4,
             ContentMarginLeft = 15,
-            ContentMarginRight = 6,
-            ContentMarginTop = 6,
+            ContentMarginRight = 4,
+            ContentMarginTop = 4,
             BgColor = Chroma.CreateFromBytes(60, 60, 60, 255).ToGodotColor(),
         };
 
         this.AddStyleboxOverride("panel", this._PanelStyle);
 
         this._Delete = new Button() {
-            Text = "x",
-            SizeFlagsHorizontal = 0,
+            SizeFlagsHorizontal = (int)SizeFlags.ShrinkEnd,
+            Icon = GD.Load<Texture>("res://res/icons/delete_white.svg"),
             FocusMode = FocusModeEnum.None,
+            HintTooltip = "Delete Pixel",
         };
 
         this.NameEdit = new LineEdit() {

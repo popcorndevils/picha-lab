@@ -7,9 +7,11 @@ public class CycleSection : BaseSection
     private GenLayer _Layer;
 
     private Button _NewCycle = new Button() {
-        Text = "+",
-        Disabled = true,
+        SizeFlagsHorizontal = (int)SizeFlags.ShrinkEnd,
+        Icon = GD.Load<Texture>("res://res/icons/add_white.svg"),
         FocusMode = FocusModeEnum.None,
+        HintTooltip = "Create new Cycle",
+        Disabled = true,
     };
 
     public override void _Ready()

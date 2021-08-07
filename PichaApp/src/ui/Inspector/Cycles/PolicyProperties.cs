@@ -17,9 +17,10 @@ public class PolicyProperties : BaseSection
     private bool _IgnoreSignals = false;
 
     private Button _Delete = new Button() {
-        Text = "x",
-        SizeFlagsHorizontal = 0,
+        SizeFlagsHorizontal = (int)SizeFlags.ShrinkEnd,
+        Icon = GD.Load<Texture>("res://res/icons/delete_white.svg"),
         FocusMode = FocusModeEnum.None,
+        HintTooltip = "Delete Process from Cycle",
     };
 
     // SETTINGS

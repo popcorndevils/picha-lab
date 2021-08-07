@@ -21,9 +21,8 @@ public class LayerInspector : ScrollContainer
         this.AddToGroup("gp_layer_gui");
 
         this._Delete = new Button() {
-            Text = "x",
             SizeFlagsHorizontal = (int)SizeFlags.ShrinkEnd,
-            RectMinSize = new Vector2(20, 0),
+            Icon = GD.Load<Texture>("res://res/icons/delete_white.svg"),
             FocusMode = FocusModeEnum.None,
             HintTooltip = "Delete Layer from Canvas."
         };
@@ -49,10 +48,10 @@ public class LayerInspector : ScrollContainer
         };
         
         this._MirrorXEdit = new CheckBox() {
-            SizeFlagsHorizontal = 0,
-            Text = "X",
-            Disabled = true,
+            SizeFlagsHorizontal = (int)SizeFlags.ShrinkEnd,
+            Icon = GD.Load<Texture>("res://res/icons/add_white.svg"),
             FocusMode = FocusModeEnum.None,
+            Disabled = true,
         };
 
         this._MirrorYEdit = new CheckBox() {

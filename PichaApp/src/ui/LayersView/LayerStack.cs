@@ -22,8 +22,8 @@ public class LayerStack : TabContainer
     };
 
     private Button _NewLayer = new Button() {
-        Text = "+",
-        SizeFlagsHorizontal = (int)SizeFlags.ShrinkCenter,
+        SizeFlagsHorizontal = (int)SizeFlags.ShrinkEnd,
+        Icon = GD.Load<Texture>("res://res/icons/queue_white.svg"),
         FocusMode = FocusModeEnum.None,
     };
 
