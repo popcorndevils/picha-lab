@@ -35,14 +35,17 @@ public class CanvasInspector : VBoxContainer
 
         var _genBox = new HBoxContainer() {
             SizeFlagsHorizontal = 0,
+            FocusMode = FocusModeEnum.None,
         };
 
         this._AutoGenEdit = new CheckBox() {
             SizeFlagsHorizontal = 0,
+            FocusMode = FocusModeEnum.None,
         };
 
         this._Regen = new Button() {
             Text = "R",
+            FocusMode = FocusModeEnum.None,
         };
 
         var _autoGenTimeLabel = new Label() {
@@ -63,6 +66,7 @@ public class CanvasInspector : VBoxContainer
             MinValue = .1,
             MaxValue = 99,
             Step = .1f,
+            FocusMode = FocusModeEnum.None,
         };
 
         var _sizeLabel = new Label() {
@@ -78,22 +82,26 @@ public class CanvasInspector : VBoxContainer
             MinValue = 1,
             MaxValue = 9999,
             Step = 1f,
+            FocusMode = FocusModeEnum.None,
         };
 
         this._HeightEdit = new SpinBox() {
             MinValue = 1,
             MaxValue = 9999,
             Step = 1f,
+            FocusMode = FocusModeEnum.None,
         };
 
         this._BGEdit = new ColorPickerButton() {
             SizeFlagsHorizontal = (int)Control.SizeFlags.Expand,
             RectMinSize = new Vector2(40, 0),
+            FocusMode = FocusModeEnum.None,
         };
 
         this._FGEdit = new ColorPickerButton() {
             SizeFlagsHorizontal = (int)Control.SizeFlags.Expand,
             RectMinSize = new Vector2(40, 0),
+            FocusMode = FocusModeEnum.None,
         };
 
         this.AddChild(this._Settings);
