@@ -44,5 +44,5 @@ margin_bottom = 30.0
 text = "Help"
 
 [node name="Test" parent="OptButtons/Help" instance=ExtResource( 2 )]
-Text = "Test"
-Action = "TESTME"
+Text = "Documentation"
+Action = "open_docs"

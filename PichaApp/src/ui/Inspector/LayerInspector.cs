@@ -8,6 +8,7 @@ public class LayerInspector : ScrollContainer
 
     private VBoxContainer _Contents;
     private GridContainer _GenSettings;
+    private Button _Delete;
     private PixelSection _Pixels;
     private CycleSection _Cycles;
 
@@ -18,6 +19,14 @@ public class LayerInspector : ScrollContainer
     public override void _Ready()
     {
         this.AddToGroup("gp_layer_gui");
+
+        this._Delete = new Button() {
+            Text = "x",
+            SizeFlagsHorizontal = (int)SizeFlags.ShrinkEnd,
+            RectMinSize = new Vector2(20, 0),
+            FocusMode = FocusModeEnum.None,
+            HintTooltip = "Delete Layer from Canvas."
+        };
         
         this._Contents = new VBoxContainer() {
             SizeFlagsHorizontal = (int)SizeFlags.ExpandFill,
@@ -56,6 +65,7 @@ public class LayerInspector : ScrollContainer
         var _mirrorGroup = new HBoxContainer() {
             SizeFlagsHorizontal = (int)Control.SizeFlags.Fill
         };
+
         var _nameLabel = new Label() {
             Text = "Layer Name",
             Align = Label.AlignEnum.Right,
@@ -66,13 +76,17 @@ public class LayerInspector : ScrollContainer
             Align = Label.AlignEnum.Right,
         };
 
+        var _nameDeleteBox = new HBoxContainer() {
+            SizeFlagsHorizontal = (int)SizeFlags.ExpandFill,
+        };
+
         this._Contents.AddChildren(this._GenSettings, this._Pixels, this._Cycles);
         this.AddChild(this._Contents);
 
         _mirrorGroup.AddChildren(this._MirrorXEdit, this._MirrorYEdit);
+        _nameDeleteBox.AddChildren(this._NameEdit, this._Delete);
 
-        this._GenSettings.AddChildren(_nameLabel, 
-            this._NameEdit, _mirrorLabel, _mirrorGroup);
+        this._GenSettings.AddChildren(_nameLabel, _nameDeleteBox, _mirrorLabel, _mirrorGroup);
 
         this._NameEdit.Connect("text_changed", this, "OnLayerNameChange");
         this._MirrorXEdit.Connect("pressed", this, "OnLayerMirrorXChange");

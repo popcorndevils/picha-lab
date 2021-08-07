@@ -24,6 +24,7 @@ public class PixelSection : BaseSection
             SizeFlagsHorizontal = 0,
             FocusMode = FocusModeEnum.None,
             Disabled = true,
+            HintTooltip = "Create new Pixel Type",
         };
 
         this.HeaderContainer.AddChild(this._NewPixel);

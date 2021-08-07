@@ -11,6 +11,7 @@ public class Application : Node
     private WindowDialog _PatternDesigner;
     private FileDialog _SaveAs;
     private FileDialog _OpenCanvas;
+    private HelpDialog _HelpDialog;
     private CanvasView _Canvases;
 
     public override void _Ready()
@@ -24,6 +25,7 @@ public class Application : Node
         this._PatternDesigner = this.GetNode<WindowDialog>("PichaGUI/PatternDesigner");
         this._SaveAs = this.GetNode<FileDialog>("PichaGUI/SaveDialog");
         this._OpenCanvas = this.GetNode<FileDialog>("PichaGUI/OpenDialog");
+        this._HelpDialog = this.GetNode<HelpDialog>("PichaGUI/HelpDialog");
         this._Canvases = this.GetNode<WorkArea>("PichaGUI/WSVert/WorkArea").CanvasView;
 
         this._RegisterSignals();
@@ -58,6 +60,9 @@ public class Application : Node
                 { 
                     this._SaveAs.PopupCentered();
                 }
+                break;
+            case "open_docs":
+                this._HelpDialog.PopupCentered();
                 break;
             default:
                 GD.PrintErr($"Unable to Parse MenuItem action \"{menu.Action}\".");

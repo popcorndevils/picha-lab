@@ -30,6 +30,7 @@ public class LayerButton : Button
     public override void _Pressed()
     {
         this.GetTree().CallGroup("gp_layer_gui", "LoadLayer", this.Layer);
+        this.GetTree().CallGroup("gp_inspector_view", "LayerLoaded");
     }
 
     public override void DropData(Vector2 position, object data)

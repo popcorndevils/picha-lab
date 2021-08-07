@@ -14,7 +14,7 @@ public class WorkArea : MarginContainer
 
     public override void _Ready()
     {
-        this._PropertyBackGround.AddChild(new LayersView());
+        this._PropertyBackGround.AddChild(new LayerStack());
 
         this._PropertyPanel.AddChildren(new InspectorView(), this._PropertyBackGround);
         

@@ -1,9 +1,9 @@
 using Godot;
 
-public class LayersView : TabContainer
+public class LayerStack : TabContainer
 {
     private VBoxContainer _LayersViewList = new VBoxContainer() {
-        Name = "Layers",
+        Name = "Layer Stack",
         RectMinSize = new Vector2(260, 200)
     };
 
@@ -12,7 +12,7 @@ public class LayersView : TabContainer
         SizeFlagsHorizontal = (int)SizeFlags.ExpandFill,
     };
 
-    private HBoxContainer _HeaderContainer = new HBoxContainer() {
+    private HBoxContainer _FooterContainer = new HBoxContainer() {
         SizeFlagsHorizontal = (int)SizeFlags.ExpandFill,
     };
 
@@ -39,12 +39,13 @@ public class LayersView : TabContainer
 
         this.AddChild(this._LayersViewList);
 
-        this._HeaderContainer.AddChildren(this._NewLayer);
+        this._FooterContainer.AddChildren(this._NewLayer);
         this._Contents.AddChild(_Buttons);
 
         this._LayersViewList.AddChildren(
-            this._HeaderContainer,
-            this._Contents);
+            this._Contents,
+            this._FooterContainer
+        );
 
         this._NewLayer.Connect("pressed", this, "OnNewLayerPressed");
     }

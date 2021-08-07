@@ -7,6 +7,7 @@ public class InspectorView : TabContainer
 
     public override void _Ready()
     {
+        this.AddToGroup("gp_inspector_view");
         this.RectMinSize = new Vector2(260, 200);
 
         this.TabAlign = TabAlignEnum.Left;
@@ -24,5 +25,10 @@ public class InspectorView : TabContainer
 
         this.AddChild(this._CanvasProps);
         this.AddChild(this._LayerProps);
+    }
+
+    public void LayerLoaded()
+    {
+        this.CurrentTab = this._LayerProps.GetIndex();
     }
 }

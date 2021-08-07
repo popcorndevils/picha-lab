@@ -35,7 +35,7 @@ public class PolicyProperties : BaseSection
     public override void _Ready()
     {
         base._Ready();
-        this.Theme = GD.Load<Theme>("res://res/theme/Section.tres");
+        
         this.SectionGrid.Columns = 2;
 
         this._InputEdit = new OptionButton() {

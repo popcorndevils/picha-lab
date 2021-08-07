@@ -1,0 +1,31 @@
+[   
+    {
+        "section_name": "part1",
+        "section_text": "Some Text",
+        "sub_section": 
+        [
+            {
+                "section_name": "part A",
+                "section_text": "Some Additional Details"
+            }
+        ]
+    },
+    {
+        "section_name": "part2",
+        "section_text": "Some Text Distinct from Part 1",
+        "sub_section": 
+        [
+            {
+                "section_name": "part A",
+                "section_text":"Some Additional Details distinct from part 1 part A",
+                "sub_section":
+                [
+                    {
+                        "section_name": "part i",
+                        "section_text": "There is even more you need to know."
+                    }
+                ]
+            }
+        ]
+    }
+]
