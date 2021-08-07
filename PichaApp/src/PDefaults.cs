@@ -161,6 +161,46 @@ static class PDefaults
         }
     }
 
+    internal static class ToolHints
+    {
+        internal static class Canvas
+        {
+            internal static string AutoGenerate = "Automatically Re-Generate the Sprite\nat intervals set by 'Time-to-Gen'.";
+            internal static string ReGenerate = "Re-Generate Sprite";
+        }
+
+        internal static class Layer
+        {
+            internal static string NewLayer = "Add new Layer to the stack.\nCreates new Canvas if necessary.";
+            internal static string DeleteLayer = "Delete Layer from Canvas.";
+            internal static string OpenTemplate = "Open Template Editor";
+        }
+
+        internal static class Pixel
+        {
+            internal static string NewPixel = "Create new Pixel Type";
+            internal static string Color = "When enabled, sets color used in\ngenerated layer for pixel type.";
+            internal static string DeletePixel = "Delete Pixel";
+        }
+
+        internal static class Cycle
+        {
+            internal static string DeleteCycle = "Delete Cycle";
+            internal static string AddPolicy = "Add New Policy to Cycle";
+            internal static string NewCycle = "Create new Cycle";
+        }
+
+        internal static class Policy
+        {
+            internal static string DeletePolicy = "Delete Policy from Cycle";
+        }
+
+        internal static class ViewPort
+        {
+            internal static string CenterButton = "Center Sprite in View.";
+        }
+    }
+
     private static class PIXEL_IDS
     {
         public static string EMPTY = "EMPTY";

@@ -6,7 +6,8 @@ public class LayerButtonControl : HBoxContainer
     public Button Grid = new Button() {
         SizeFlagsHorizontal = (int)SizeFlags.ShrinkEnd,
         Icon = GD.Load<Texture>("res://res/icons/grid-white.svg"),
-        FocusMode = FocusModeEnum.None
+        FocusMode = FocusModeEnum.None,
+        HintTooltip = PDefaults.ToolHints.Layer.OpenTemplate,
     };
 
     private GenLayer _Layer;

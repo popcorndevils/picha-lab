@@ -20,7 +20,7 @@ public class PolicyProperties : BaseSection
         SizeFlagsHorizontal = (int)SizeFlags.ShrinkEnd,
         Icon = GD.Load<Texture>("res://res/icons/delete_white.svg"),
         FocusMode = FocusModeEnum.None,
-        HintTooltip = "Delete Process from Cycle",
+        HintTooltip = PDefaults.ToolHints.Policy.DeletePolicy,
     };
 
     // SETTINGS

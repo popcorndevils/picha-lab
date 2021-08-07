@@ -44,9 +44,6 @@ public class PixelProperties : BaseSection
     private StyleBoxFlat _PanelStyle;
     private Label _GenColLabel;
 
-    // Tool Hints
-    private const string _HintColor = "When enabled, sets color used in\ngenerated layer for pixel type.";
-
     public override void _Ready()
     {
         base._Ready();
@@ -72,7 +69,7 @@ public class PixelProperties : BaseSection
             SizeFlagsHorizontal = (int)SizeFlags.ShrinkEnd,
             Icon = GD.Load<Texture>("res://res/icons/delete_white.svg"),
             FocusMode = FocusModeEnum.None,
-            HintTooltip = "Delete Pixel",
+            HintTooltip = PDefaults.ToolHints.Pixel.DeletePixel,
         };
 
         this.NameEdit = new LineEdit() {
@@ -82,14 +79,14 @@ public class PixelProperties : BaseSection
         this._GenColLabel = new Label() {
             Text = "Color",
             Align = Label.AlignEnum.Right,
-            HintTooltip = _HintColor,
+            HintTooltip = PDefaults.ToolHints.Pixel.Color,
             MouseFilter = MouseFilterEnum.Pass,
         }; 
 
         this.ColorEdit = new ColorPickerButton() {
             SizeFlagsHorizontal = (int)Control.SizeFlags.Expand,
             RectMinSize = new Vector2(40, 0),
-            HintTooltip = _HintColor,
+            HintTooltip = PDefaults.ToolHints.Pixel.Color,
         };
 
         this.PaintEdit = new ColorPickerButton() {

@@ -11,6 +11,6 @@ public class CenterButton : Button
         this.Icon = GD.Load<Texture>("res://res/icons/arrows-move.svg");
         this.MouseDefaultCursorShape = CursorShape.Move;
         this.Flat = true;
-        this.HintTooltip = "Center Sprite in View.";
+        this.HintTooltip = PDefaults.ToolHints.ViewPort.CenterButton;
     }
 }

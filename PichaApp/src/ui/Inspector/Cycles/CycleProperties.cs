@@ -11,13 +11,14 @@ public class CycleProperties : BaseSection
         SizeFlagsHorizontal = (int)SizeFlags.ShrinkEnd,
         Icon = GD.Load<Texture>("res://res/icons/delete_white.svg"),
         FocusMode = FocusModeEnum.None,
-        HintTooltip = "Delete Cycle",
+        HintTooltip = PDefaults.ToolHints.Cycle.DeleteCycle,
     };
 
     private Button _NewPolicy = new Button() {
         SizeFlagsHorizontal = (int)SizeFlags.ShrinkEnd,
         Icon = GD.Load<Texture>("res://res/icons/add_white.svg"),
         FocusMode = FocusModeEnum.None,
+        HintTooltip = PDefaults.ToolHints.Cycle.AddPolicy,
     };
 
     public override void _Ready()

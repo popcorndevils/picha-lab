@@ -41,12 +41,14 @@ public class CanvasInspector : VBoxContainer
         this._AutoGenEdit = new CheckBox() {
             SizeFlagsHorizontal = 0,
             FocusMode = FocusModeEnum.None,
+            HintTooltip = PDefaults.ToolHints.Canvas.AutoGenerate,
         };
 
         this._Regen = new Button() {
             SizeFlagsHorizontal = (int)SizeFlags.ShrinkEnd,
             Icon = GD.Load<Texture>("res://res/icons/all_inclusive_white.svg"),
             FocusMode = FocusModeEnum.None,
+            HintTooltip = PDefaults.ToolHints.Canvas.ReGenerate,
         };
 
         var _autoGenTimeLabel = new Label() {

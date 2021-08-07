@@ -25,6 +25,7 @@ public class LayerStack : TabContainer
         SizeFlagsHorizontal = (int)SizeFlags.ShrinkEnd,
         Icon = GD.Load<Texture>("res://res/icons/queue_white.svg"),
         FocusMode = FocusModeEnum.None,
+        HintTooltip = PDefaults.ToolHints.Layer.NewLayer,
     };
 
     public GenCanvas Canvas;

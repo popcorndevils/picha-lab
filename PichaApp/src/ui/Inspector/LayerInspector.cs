@@ -24,7 +24,7 @@ public class LayerInspector : ScrollContainer
             SizeFlagsHorizontal = (int)SizeFlags.ShrinkEnd,
             Icon = GD.Load<Texture>("res://res/icons/delete_white.svg"),
             FocusMode = FocusModeEnum.None,
-            HintTooltip = "Delete Layer from Canvas."
+            HintTooltip = PDefaults.ToolHints.Layer.DeleteLayer,
         };
         
         this._Contents = new VBoxContainer() {

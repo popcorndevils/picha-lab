@@ -10,7 +10,7 @@ public class CycleSection : BaseSection
         SizeFlagsHorizontal = (int)SizeFlags.ShrinkEnd,
         Icon = GD.Load<Texture>("res://res/icons/add_white.svg"),
         FocusMode = FocusModeEnum.None,
-        HintTooltip = "Create new Cycle",
+        HintTooltip = PDefaults.ToolHints.Cycle.NewCycle,
         Disabled = true,
     };
 
