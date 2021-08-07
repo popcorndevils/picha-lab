@@ -32,7 +32,7 @@ public class LayersView : TabContainer
     public override void _Ready()
     {
         this.TabAlign = TabAlignEnum.Left;
-        this.DragToRearrangeEnabled = true;
+        this.DragToRearrangeEnabled = false;
 
         this.AddToGroup("gp_canvas_gui");
         this.AddToGroup("layers_list");

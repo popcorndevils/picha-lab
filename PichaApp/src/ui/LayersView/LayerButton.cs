@@ -9,10 +9,10 @@ public class LayerButton : Button
         get => this._Layer;
         set {
             if(this._Layer != null)
-                { this._Layer.LayerChanged -= this.HandleLayerChange; }
+                { this._Layer.LayerNameChanged -= this.HandleLayerNameChange; }
             this._Layer = value;
             this.Text = value.Data.Name;
-            this._Layer.LayerChanged += this.HandleLayerChange;
+            this._Layer.LayerNameChanged += this.HandleLayerNameChange;
         }
     } 
 
@@ -59,9 +59,9 @@ public class LayerButton : Button
         return false;
     }
 
-    public void HandleLayerChange(GenLayer l)
+    public void HandleLayerNameChange(string name)
     {
-        this.Text = l.LayerName;
+        this.Text = name;
     }
 
     public void OnMouseEnter()

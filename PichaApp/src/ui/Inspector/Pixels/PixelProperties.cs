@@ -67,6 +67,7 @@ public class PixelProperties : BaseSection
         };
 
         this.AddStyleboxOverride("panel", this._PanelStyle);
+        this.AddStyleboxOverride("tooltippanel", GD.Load<StyleBoxFlat>("./res/theme/ToolTipBox.stylebox"));
 
         this._Delete = new Button() {
             Text = "x",

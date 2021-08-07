@@ -37,7 +37,6 @@ public class LayerInspector : ScrollContainer
         this._NameEdit = new LineEdit() {
             SizeFlagsHorizontal = (int)Control.SizeFlags.ExpandFill,
             Editable = false,
-            FocusMode = FocusModeEnum.None,
         };
         
         this._MirrorXEdit = new CheckBox() {

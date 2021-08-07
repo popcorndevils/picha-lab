@@ -6,10 +6,12 @@ using PichaLib;
 using OctavianLib;
 
 public delegate void LayerChangedHandler(GenLayer Layer);
+public delegate void LayerNameChangedHandler(string name);
 
 public class GenLayer : TextureRect
 {
     public LayerChangedHandler LayerChanged;
+    public LayerNameChangedHandler LayerNameChanged;
 
     private Timer _Timer;
     private SortedList<int, Texture> _Textures = new SortedList<int, Texture>();
@@ -121,6 +123,7 @@ public class GenLayer : TextureRect
         get => this.Data.Name;
         set {
             this.Data.Name = value;
+            this.LayerNameChanged?.Invoke(value);
         }
     }
 
