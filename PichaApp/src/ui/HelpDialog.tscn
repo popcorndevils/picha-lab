@@ -25,21 +25,21 @@ margin_bottom = 300.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="LineEdit" type="LineEdit" parent="HBox/VBoxContainer"]
+[node name="DocTitle" type="LineEdit" parent="HBox/VBoxContainer"]
 margin_right = 198.0
 margin_bottom = 24.0
 focus_mode = 0
 text = "test"
 editable = false
 
-[node name="ScrollContainer" type="ScrollContainer" parent="HBox/VBoxContainer"]
+[node name="DocTextBox" type="ScrollContainer" parent="HBox/VBoxContainer"]
 margin_top = 28.0
 margin_right = 198.0
 margin_bottom = 300.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="TextEdit" type="TextEdit" parent="HBox/VBoxContainer/ScrollContainer"]
+[node name="DocText" type="TextEdit" parent="HBox/VBoxContainer/DocTextBox"]
 margin_right = 198.0
 margin_bottom = 272.0
 focus_mode = 0
@@ -47,17 +47,13 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 text = "test"
 readonly = true
+wrap_enabled = true
 
-[node name="ScrollContainer" type="ScrollContainer" parent="HBox"]
+[node name="DocTree" type="Tree" parent="HBox"]
 margin_left = 202.0
 margin_right = 400.0
-margin_bottom = 300.0
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="Tree" type="Tree" parent="HBox/ScrollContainer"]
-margin_right = 198.0
 margin_bottom = 300.0
 focus_mode = 0
 size_flags_horizontal = 3
 size_flags_vertical = 3
+hide_root = true
