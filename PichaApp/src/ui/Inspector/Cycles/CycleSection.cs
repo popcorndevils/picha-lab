@@ -42,6 +42,7 @@ public class CycleSection : BaseSection
             this.SectionGrid.AddChild(_props);
             _props.SectionHeader.Align = Button.TextAlign.Left;
             _props.LoadCycle(l, _c);
+            _props.CycleDelete += this.OnCycleDelete;
         }
     }
 
@@ -69,6 +70,18 @@ public class CycleSection : BaseSection
 
     public void OnNewCycle()
     {
-        GD.Print("NEW CYCLE");
+        var _newCycle = this._Layer.NewCycle();
+
+        var _props = new CycleProperties() { SectionTitle = _newCycle.Name };
+        this.SectionGrid.AddChild(_props);
+        _props.SectionHeader.Align = Button.TextAlign.Left;
+        _props.LoadCycle(this._Layer, _newCycle);
+        _props.CycleDelete += this.OnCycleDelete;
+    }
+
+    public void OnCycleDelete(CycleProperties c)
+    {
+        this._Layer.DeleteCycle(c.Cycle);
+        c.QueueFree();
     }
 }

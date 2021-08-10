@@ -115,11 +115,13 @@ static class PDefaults
 
             return new SortedList<int, Cycle>() {
                 {0, new Cycle() {
+                    Index = 0,
                     Name = "DEGRADE",
                     Policies = new List<Policy>() {
                         _policy1, _policy2
                     }}},
                 {1, new Cycle() {
+                    Index = 1,
                     Name = "OUTLINE",
                     Policies = new List<Policy>() { _policy3 }}
                 }};

@@ -20,40 +20,40 @@ __meta__ = {
 }
 
 [node name="VBoxContainer" type="VBoxContainer" parent="HBox"]
-margin_right = 198.0
-margin_bottom = 300.0
+margin_right = 298.0
+margin_bottom = 400.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="DocTitle" type="LineEdit" parent="HBox/VBoxContainer"]
-margin_right = 198.0
+margin_right = 298.0
 margin_bottom = 24.0
 focus_mode = 0
-text = "test"
 editable = false
 
 [node name="DocTextBox" type="ScrollContainer" parent="HBox/VBoxContainer"]
 margin_top = 28.0
-margin_right = 198.0
-margin_bottom = 300.0
+margin_right = 298.0
+margin_bottom = 400.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="DocText" type="TextEdit" parent="HBox/VBoxContainer/DocTextBox"]
-margin_right = 198.0
-margin_bottom = 272.0
+margin_right = 298.0
+margin_bottom = 372.0
 focus_mode = 0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-text = "test"
 readonly = true
 wrap_enabled = true
 
 [node name="DocTree" type="Tree" parent="HBox"]
-margin_left = 202.0
-margin_right = 400.0
-margin_bottom = 300.0
+margin_left = 302.0
+margin_right = 600.0
+margin_bottom = 400.0
 focus_mode = 0
 size_flags_horizontal = 3
 size_flags_vertical = 3
+custom_constants/draw_guides = 0
+custom_constants/draw_relationship_lines = 1
 hide_root = true

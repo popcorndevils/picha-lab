@@ -18,9 +18,28 @@ public class HelpDialog : WindowDialog
         this._DocTree= this.GetNode<Tree>("HBox/DocTree");
 
         this._DocTree.Connect("item_selected", this, "OnTreeItemSelect");
+        this._DocTree.Connect("item_activated", this, "OnTreeItemActivate");
 
         this._PopulateDocs();
         this._PopulateTree();
+    }
+
+    public void OnTreeItemSelect()
+    {
+        var _item = this._DocTree.GetSelected();
+        var _data = (DocsObject)_item.GetMetadata(0);
+        this._DocTitle.Text = _data.Title;
+        this._DocText.Text = _data.Text;
+    }
+
+    public void OnTreeItemActivate()
+    {
+        var _item = this._DocTree.GetSelected();
+        _item.Collapsed = !_item.Collapsed;
+        
+        var _data = (DocsObject)_item.GetMetadata(0);
+        this._DocTitle.Text = _data.Title;
+        this._DocText.Text = _data.Text;
     }
 
     private void _PopulateDocs()
@@ -99,14 +118,6 @@ public class HelpDialog : WindowDialog
         }
 
         return _output;
-    }
-
-    public void OnTreeItemSelect()
-    {
-        var _item = this._DocTree.GetSelected();
-        var _data = (DocsObject)_item.GetMetadata(0);
-        this._DocTitle.Text = _data.Title;
-        this._DocText.Text = _data.Text;
     }
 }
 

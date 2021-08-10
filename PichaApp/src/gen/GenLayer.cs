@@ -1,3 +1,4 @@
+using System.Linq;
 using System.Collections.Generic;
 
 using Godot;
@@ -280,6 +281,52 @@ public class GenLayer : TextureRect
         this.Pixels.Remove(p.Name);
         this._RemovePixelCycles(p);
         this.Frames = this._RenamePixelFrames(p.Name, Pixel.NULL);
+    }
+
+    public void DeleteCycle(Cycle c)
+    {
+        this.Cycles.Remove(c.Index);
+        this.LayerChanged?.Invoke(this);
+    }
+
+    public void DeletePolicy(Cycle c, Policy p)
+    {
+        c.Policies.Remove(p);
+        this.LayerChanged?.Invoke(this);
+    }
+
+    public Cycle NewCycle()
+    {
+        var _num = this.Cycles.Count;
+
+        var _output = new Cycle() {
+            Index = _num,
+            Name = $"Cycle_{_num}",
+            Policies = new List<Policy>(),
+        };
+
+        this.Cycles.Add(_num, _output);
+
+        return _output;
+    }
+
+    public Policy NewPolicy(Cycle c)
+    {
+
+        var _pix = this.Pixels[this.Pixels.Keys.First()].Name;
+
+        var _output = new Policy(){
+            Input = _pix,
+            Output = _pix,
+            Rate = 0f,
+            ConditionA = ConditionTarget.NONE,
+            ConditionLogic = ConditionExpression.NONE,
+            ConditionB = _pix,
+        };
+        
+        c.Policies.Add(_output);
+
+        return _output;
     }
 
     private void _RemovePixelCycles(Pixel p)

@@ -2,8 +2,12 @@ using Godot;
 
 using PichaLib;
 
+public delegate void OnCycleDeleteHandler(CycleProperties c);
+
 public class CycleProperties : BaseSection
 {
+    public event OnCycleDeleteHandler CycleDelete;
+
     public GenLayer Layer;
     public Cycle Cycle;
 
@@ -43,6 +47,7 @@ public class CycleProperties : BaseSection
             this.SectionGrid.AddChild(_props);
             _props.SectionHeader.Align = Button.TextAlign.Left;
             _props.LoadPolicy(l, _p);
+            _props.PolicyDeleted += this.OnPolicyDeleted;
         }
     }
 
@@ -70,21 +75,24 @@ public class CycleProperties : BaseSection
 
     public void OnAddPolicy()
     {
-        GD.Print("NEW POLICY");
-        // var _props = new PolicyProps() { 
-        //     SectionTitle = $"NONE -> NONE",
-        // };
+        var _policy = this.Layer.NewPolicy(this.Cycle);
 
-        // var _policy = PDefaults.Policy;
-
-        // this.SectionGrid.AddChild(_props);
-        // _props.SectionHeader.Align = Button.TextAlign.Left;
-        // _props.LoadPolicy(this.Layer, _policy);
-        // this.Cycle.Policies.Add(_policy);
+        var _props = new PolicyProperties() { 
+            SectionTitle = $"{this.Layer.Pixels[_policy.Input].Name} -> {this.Layer.Pixels[_policy.Output].Name}",
+        };
+        this.SectionGrid.AddChild(_props);
+        _props.SectionHeader.Align = Button.TextAlign.Left;
+        _props.LoadPolicy(this.Layer, _policy);
     }
 
     public void OnCycleDelete()
     {
-        GD.Print($"DELETING CYCLE {this.SectionTitle}");
+        this.CycleDelete?.Invoke(this);
+    }
+
+    public void OnPolicyDeleted(PolicyProperties p)
+    {
+        this.Layer.DeletePolicy(this.Cycle, p.Policy);
+        p.QueueFree();
     }
 }

@@ -7,10 +7,13 @@ using PichaLib;
 using OctavianLib;
 
 public delegate void PolicyChangedHandler(Policy p);
+public delegate void PolicyDeletedHandler(PolicyProperties p);
 
 public class PolicyProperties : BaseSection
 {
     public event PolicyChangedHandler PolicyChanged;
+    public event PolicyDeletedHandler PolicyDeleted;
+
     public Policy Policy;
     public GenLayer Layer;
 
@@ -206,6 +209,6 @@ public class PolicyProperties : BaseSection
 
     public void OnPolicyDelete()
     {
-        GD.Print($"DELETING POLICY {this.SectionTitle}");
+        this.PolicyDeleted?.Invoke(this);
     }
 }

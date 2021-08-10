@@ -48,10 +48,10 @@ public class LayerInspector : ScrollContainer
         };
         
         this._MirrorXEdit = new CheckBox() {
-            SizeFlagsHorizontal = (int)SizeFlags.ShrinkEnd,
-            Icon = GD.Load<Texture>("res://res/icons/add_white.svg"),
-            FocusMode = FocusModeEnum.None,
+            SizeFlagsHorizontal = 0,
+            Text = "X",
             Disabled = true,
+            FocusMode = FocusModeEnum.None,
         };
 
         this._MirrorYEdit = new CheckBox() {
