@@ -5,7 +5,7 @@ using Godot;
 using PichaLib;
 using OctavianLib;
 
-public class PatternDesigner : WindowDialog
+public class PatternDesigner : AcceptDialog
 {
     private GenLayer _Layer;
     public GenLayer Layer {
@@ -42,20 +42,21 @@ public class PatternDesigner : WindowDialog
 
     public override void _Ready()
     {
-        this.AddToGroup("pattern_designer");
+        this.GetOk().Visible = false;
 
-        this.Connect("confirmed", this, "OnConfirmedLayers");
+        this.AddToGroup("pattern_designer");
+        // this.Connect("confirmed", this, "OnConfirmedLayers");
         this.Connect("about_to_show", this, "OnShow");
         this.Connect("popup_hide", this, "OnHide");
 
-        this.FramesView = this.GetNode<CenterContainer>("Contents/HBox/FramesView");
-        this.PaintBtn = this.GetNode<PaintBtn>("Contents/HBox/ToolBar/PaintBtn");
-        this.WEdit = this.GetNode<SpinBox>("Contents/HBox/ToolBar/WBox/WEdit");
-        this.HEdit = this.GetNode<SpinBox>("Contents/HBox/ToolBar/HBox/HEdit");
-        this._NavPrev = this.GetNode<Button>("Contents/HBox/ToolBar/FrameNav/NavPrev");
-        this._NavNext = this.GetNode<Button>("Contents/HBox/ToolBar/FrameNav/NavNext");
-        this._AddFrame = this.GetNode<Button>("Contents/HBox/ToolBar/FrameNav/AddFrame");
-        this._FrameIndex = this.GetNode<Label>("Contents/HBox/ToolBar/FrameIndex");
+        this.FramesView = this.GetNode<CenterContainer>("Center/Contents/HBox/FramesView");
+        this.PaintBtn = this.GetNode<PaintBtn>("Center/Contents/HBox/ToolBar/PaintBtn");
+        this.WEdit = this.GetNode<SpinBox>("Center/Contents/HBox/ToolBar/WBox/WEdit");
+        this.HEdit = this.GetNode<SpinBox>("Center/Contents/HBox/ToolBar/HBox/HEdit");
+        this._NavPrev = this.GetNode<Button>("Center/Contents/HBox/ToolBar/FrameNav/NavPrev");
+        this._NavNext = this.GetNode<Button>("Center/Contents/HBox/ToolBar/FrameNav/NavNext");
+        this._AddFrame = this.GetNode<Button>("Center/Contents/HBox/ToolBar/FrameNav/AddFrame");
+        this._FrameIndex = this.GetNode<Label>("Center/Contents/HBox/ToolBar/FrameIndex");
 
 
         this.WEdit.Connect("value_changed", this, "OnSizeEdit");
