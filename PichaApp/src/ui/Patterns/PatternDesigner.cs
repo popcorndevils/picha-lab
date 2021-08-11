@@ -24,6 +24,7 @@ public class PatternDesigner : AcceptDialog
     private Button _NavPrev;
     private Button _NavNext;
     private Button _AddFrame;
+    private Button _Accept;
 
     public int FrameCount => this.FramesView.GetChildren().Count;
 
@@ -56,6 +57,7 @@ public class PatternDesigner : AcceptDialog
         this._NavPrev = this.GetNode<Button>("Center/Contents/HBox/ToolBar/FrameNav/NavPrev");
         this._NavNext = this.GetNode<Button>("Center/Contents/HBox/ToolBar/FrameNav/NavNext");
         this._AddFrame = this.GetNode<Button>("Center/Contents/HBox/ToolBar/FrameNav/AddFrame");
+        this._Accept = this.GetNode<Button>("Center/Contents/Accept");
         this._FrameIndex = this.GetNode<Label>("Center/Contents/HBox/ToolBar/FrameIndex");
 
 
@@ -64,6 +66,7 @@ public class PatternDesigner : AcceptDialog
         this._NavPrev.Connect("pressed", this, "OnNavPrev");
         this._NavNext.Connect("pressed", this, "OnNavNext");
         this._AddFrame.Connect("pressed", this, "OnAddFrame");
+        this._Accept.Connect("pressed", this, "OnConfirmedLayers");
     }
 
     private void _OpenLayer(GenLayer l)
@@ -141,6 +144,7 @@ public class PatternDesigner : AcceptDialog
             { this.GetTree().CallGroup("gp_canvas_handler", "AddLayer", this.Layer); }
 
         this.Layer = null;
+        this.Hide();
     }
 
     public void OnSizeEdit(float value)

@@ -8,13 +8,13 @@ public class HelpDialog : WindowDialog
     public SortedList<int, DocsObject> Docs = new SortedList<int, DocsObject>();
 
     private LineEdit _DocTitle;
-    private TextEdit _DocText;
+    private RichTextLabel _DocText;
     private Tree _DocTree;
 
     public override void _Ready()
     {
         this._DocTitle = this.GetNode<LineEdit>("HBox/VBoxContainer/DocTitle");
-        this._DocText = this.GetNode<TextEdit>("HBox/VBoxContainer/DocTextBox/DocText");
+        this._DocText = this.GetNode<RichTextLabel>("HBox/VBoxContainer/DocTextBox/Margins/DocText");
         this._DocTree= this.GetNode<Tree>("HBox/DocTree");
 
         this._DocTree.Connect("item_selected", this, "OnTreeItemSelect");
@@ -29,7 +29,8 @@ public class HelpDialog : WindowDialog
         var _item = this._DocTree.GetSelected();
         var _data = (DocsObject)_item.GetMetadata(0);
         this._DocTitle.Text = _data.Title;
-        this._DocText.Text = _data.Text;
+        this._DocText.Clear();
+        this._DocText.AppendBbcode(_data.Text);
     }
 
     public void OnTreeItemActivate()
@@ -39,7 +40,8 @@ public class HelpDialog : WindowDialog
         
         var _data = (DocsObject)_item.GetMetadata(0);
         this._DocTitle.Text = _data.Title;
-        this._DocText.Text = _data.Text;
+        this._DocText.Clear();
+        this._DocText.AppendBbcode(_data.Text);
     }
 
     private void _PopulateDocs()
@@ -67,8 +69,6 @@ public class HelpDialog : WindowDialog
     private void _PopulateTree()
     {
         var _root = this._DocTree.CreateItem();
-        _root.SetText(0, "ROOT");
-
         if(this.Docs.Count > 0)
         {
             foreach(DocsObject d in this.Docs.Values)

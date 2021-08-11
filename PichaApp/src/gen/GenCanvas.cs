@@ -280,5 +280,6 @@ public class GenCanvas : Node2D
     public void OnLayerChange(GenLayer layer)
     {
         this.Generate();
+        this.FileSaved = false;
     }
 }

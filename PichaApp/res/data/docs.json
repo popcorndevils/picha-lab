@@ -1,12 +1,12 @@
 [   
     {
         "section_name": "part1",
-        "section_text": "Some Text",
+        "section_text": "Some [b][i]Text[/i][/b] is here",
         "sub_section": 
         [
             {
                 "section_name": "part A",
-                "section_text": "Some Additional Details"
+                "section_text": "Some Additional\n[img=50x50]./res/data/im/test.png[/img]\nDetails\n[img=50x50]./res/data/im/test.gif[/img]"
             }
         ]
     },

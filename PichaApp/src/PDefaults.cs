@@ -14,7 +14,7 @@ static class PDefaults
             {
                 Data = new Layer() 
                 {
-                    Name = "[unamed]",
+                    Name = "[unnamed]",
                     AnimTime = 3f,
                     Cycles = PDefaults.Cycles,
                     Frames = PDefaults.Frames,

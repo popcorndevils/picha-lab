@@ -1,3 +1,4 @@
+using System.Linq;
 using System.Collections.Generic;
 
 using OctavianLib;
@@ -50,7 +51,15 @@ namespace PichaLib
             }
         }
 
-        public (int w, int h) Size => (this._Frames[0].GetWidth(), this._Frames[0].GetHeight());
+        public (int w, int h) Size {
+            get {
+                foreach(KeyValuePair<int, string[,]> pair in this._Frames)
+                {
+                    return (pair.Value.GetWidth(), pair.Value.GetHeight());
+                }
+                return (0, 0);
+            }
+        }
         public (int w, int h) Position => (this.X, this.Y);
 
         private SortedList<int, string[,]> _Frames = new SortedList<int, string[,]>();

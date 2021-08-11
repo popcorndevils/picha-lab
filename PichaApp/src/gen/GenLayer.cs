@@ -25,7 +25,7 @@ public class GenLayer : TextureRect
 
             if(value) 
             { 
-                this.Modulate = new Color(.3f, .3f, .3f, 1f); 
+                this.Modulate = new Color(.75f, .75f, .75f, 1f); 
                 this.GetTree().CallGroup("LayerButtons", "OnLayerHover", true, this);
             }
             else 
@@ -67,20 +67,27 @@ public class GenLayer : TextureRect
         }
     }
 
+    public Vector2 _Position;
+    public Vector2 Position {
+        get => this._Position;
+        set {
+            this._Position = value;
+            this.Data.X = (int)(value.x);
+            this.Data.Y = (int)(value.y);
+            this.RectPosition = new Vector2(this.Data.X, this.Data.Y);
+        }
+    }
+
     //*************************\\ 
     // ** ACCESS DATA LAYER ** \\
     //*************************\\ 
 
     public Layer _Data = new Layer();
     public Layer Data {
-        get {
-            this._Data.X = (int)this.RectPosition.x;
-            this._Data.Y = (int)this.RectPosition.y;
-            return this._Data;
-        }
+        get => this._Data;
         set {
             this._Data = value;
-            this.RectPosition = value.Position.ToVector2();
+            this.Position = value.Position.ToVector2();
             this.RectSize = value.Size.ToVector2();
             this.LayerChanged?.Invoke(this);
         }
@@ -165,6 +172,12 @@ public class GenLayer : TextureRect
         this.MouseDefaultCursorShape = CursorShape.PointingHand;
     }
 
+    public override void _Draw()
+    {
+        this.RectPosition = new Vector2((int)this.RectPosition.x, (int)this.RectPosition.y);
+        base._Draw();
+    }
+
     public override void _GuiInput(InputEvent @event)
     {
         if(@event is InputEventMouseButton btn)
@@ -186,7 +199,7 @@ public class GenLayer : TextureRect
         {
             if(this.Dragging)
             {
-                this.RectPosition += mtn.Relative;
+                this.Position += mtn.Relative;
             }
         }
     }

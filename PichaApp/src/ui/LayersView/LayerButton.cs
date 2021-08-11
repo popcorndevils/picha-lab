@@ -67,7 +67,7 @@ public class LayerButton : Button
 
     public void OnMouseEnter()
     {
-        this.Layer.Modulate = new Color(.3f, .3f, .3f, 1f);
+        this.Layer.Modulate = new Color(.75f, .75f, .75f, 1f);
     }
 
     public void OnMouseExit()
@@ -79,7 +79,7 @@ public class LayerButton : Button
     {
         if(hover & layer == this._Layer)
         {
-            this.Modulate = new Color(.8f, .8f, .8f, 1f);
+            this.Modulate = new Color(.75f, .75f, .75f, 1f);
         }
         else
         {

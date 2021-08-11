@@ -3,6 +3,7 @@
 [ext_resource path="res://src/ui/HelpDialog.cs" type="Script" id=1]
 
 [node name="HelpDialog" type="WindowDialog"]
+visible = true
 margin_right = 48.0
 margin_bottom = 40.0
 rect_min_size = Vector2( 600, 400 )
@@ -37,15 +38,28 @@ margin_right = 298.0
 margin_bottom = 400.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
+scroll_horizontal_enabled = false
 
-[node name="DocText" type="TextEdit" parent="HBox/VBoxContainer/DocTextBox"]
+[node name="Margins" type="MarginContainer" parent="HBox/VBoxContainer/DocTextBox"]
 margin_right = 298.0
 margin_bottom = 372.0
-focus_mode = 0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-readonly = true
-wrap_enabled = true
+custom_constants/margin_right = 10
+custom_constants/margin_top = 10
+custom_constants/margin_left = 10
+custom_constants/margin_bottom = 10
+
+[node name="DocText" type="RichTextLabel" parent="HBox/VBoxContainer/DocTextBox/Margins"]
+margin_left = 10.0
+margin_top = 10.0
+margin_right = 288.0
+margin_bottom = 362.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+bbcode_enabled = true
+bbcode_text = "[b][wave amp=50 freq=2]Test[/wave][/b]"
+text = "Test"
 
 [node name="DocTree" type="Tree" parent="HBox"]
 margin_left = 302.0
