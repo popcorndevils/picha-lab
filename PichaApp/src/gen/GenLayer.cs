@@ -22,12 +22,12 @@ public class GenLayer : TextureRect
             if(value) 
             { 
                 this.Modulate = new Color(.75f, .75f, .75f, 1f); 
-                this.GetTree().CallGroup("LayerButtons", "OnLayerHover", true, this);
+                this.GetTree().CallGroup("layers_list", "OnLayerHover", true, this);
             }
             else 
             { 
                 this.Modulate = new Color(1f, 1f, 1f, 1f); 
-                this.GetTree().CallGroup("LayerButtons", "OnLayerHover", false, this);
+                this.GetTree().CallGroup("layers_list", "OnLayerHover", false, this);
             }
         }
     }
@@ -68,17 +68,7 @@ public class GenLayer : TextureRect
         get => this._Position;
         set {
             this._Position = value;
-
-            if(this.Data.X != (int)value.x)
-            {
-                this.Data.X = (int)value.x;
-            }
-
-            if(this.Data.Y!= (int)value.y)
-            {
-                this.Data.Y = (int)value.y;
-            }
-            this.RectPosition = new Vector2(this.Data.X, this.Data.Y);
+            this.RectPosition = new Vector2((int)value.x, (int)value.y);
         }
     }
 
@@ -173,12 +163,6 @@ public class GenLayer : TextureRect
         this.MouseDefaultCursorShape = CursorShape.PointingHand;
     }
 
-    public override void _Draw()
-    {
-        this.RectPosition = new Vector2((int)this.RectPosition.x, (int)this.RectPosition.y);
-        base._Draw();
-    }
-
     public override void _GuiInput(InputEvent @event)
     {
         if(@event is InputEventMouseButton btn)
@@ -190,9 +174,10 @@ public class GenLayer : TextureRect
                     this.Dragging = true;
                     this.GetTree().CallGroup("gp_layer_gui", "LoadLayer", this);
                 }
-                else
+                else if(!btn.Pressed && this.Dragging)
                 {
                     this.Dragging = false;
+                    this.Data.Position = this.RectPosition.ToIntPair();
                 }
             } 
         }

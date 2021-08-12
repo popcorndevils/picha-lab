@@ -1,3 +1,4 @@
+using System.Linq;
 using System.Collections.Generic;
 
 using Godot;
@@ -12,12 +13,13 @@ public class GenCanvas : Node2D
     public CanvasChangedHandler GenCanvasChanged;
 
     private Canvas _Data;
-    private Timer _Timer;
+    private Timer _Timer = new Timer();
     private bool _FileSaved = false;
     private ColorRect _BG = new ColorRect();
     private TextureRect _FG = new TextureRect();
     private Color _BGCol = new Color(.1f, .1f, .1f, 0f);
     private Color _FGCol = Chroma.CreateFromHex("#298c8c8c").ToGodotColor();
+    public List<Canvas> CanvasChanges = new List<Canvas>();
 
     public string PathName = "";
     public bool FileExists = false;
@@ -124,8 +126,8 @@ public class GenCanvas : Node2D
         } 
     }
 
-    private SortedList<int, GenLayer> _Layers = new SortedList<int, GenLayer>();
-    public SortedList<int, GenLayer> Layers {
+    private List<GenLayer> _Layers = new List<GenLayer>();
+    public List<GenLayer> Layers {
         get => this._Layers;
         set => this._Layers = value;
     }
@@ -150,9 +152,7 @@ public class GenCanvas : Node2D
 
     public override void _Ready()
     {
-        this._Timer = new Timer() {
-            WaitTime = this.TimeToGen,
-        };
+        this._Timer.WaitTime = this.TimeToGen;
 
         this.AddChild(this._Timer);
         this.AddChild(this._BG);
@@ -166,7 +166,7 @@ public class GenCanvas : Node2D
 
     public void AddLayer(GenLayer l)
     {
-        this.Layers.Add(this.Layers.Count, l);
+        this.Layers.Add(l);
         this.AddChild(l);
         l.LayerChanged += this.OnLayerChange;
         l.Generate();
@@ -177,7 +177,7 @@ public class GenCanvas : Node2D
 
     public void Generate()
     {
-        foreach(GenLayer _l in this.Layers.Values)
+        foreach(GenLayer _l in this.Layers)
         {
             _l.Generate();
         }
@@ -258,26 +258,40 @@ public class GenCanvas : Node2D
             TransparencyBG = this.BG.ToChroma(),
         };
 
-        foreach(KeyValuePair<int, GenLayer> _pair in this.Layers)
+        foreach(GenLayer _pair in this.Layers)
         {
-            _output.Layers.Add(_pair.Key, _pair.Value.Data);
+            _output.Layers.Add(_pair.Data);
         }
 
         return _output;
+    }
+
+    public void UndoChange()
+    {
+        // TODO
     }
 
     public void LoadData(Canvas c) 
     {
         this.Data = c;
 
-        foreach(KeyValuePair<int, Layer> _pair in c.Layers)
+        foreach(GenLayer l in this.Layers)
+        {
+            this.RemoveChild(l);
+            l.QueueFree();
+        }
+
+        foreach(Layer layer in c.Layers)
         {
             var _l = new GenLayer();
-            _l.Data = _pair.Value;
+            _l.Data = layer;
             this.AddLayer(_l);
         }
 
-        this.FileSaved = true;
+        if(this.PathName.Length > 0)
+        {
+            this.FileSaved = true;
+        }
     }
 
     public void OnLayerChange(Layer layer, bool major)
@@ -287,5 +301,6 @@ public class GenCanvas : Node2D
             this.Generate();
         }
         this.FileSaved = false;
+        // this.CanvasChanges.Add(this.SaveData());
     }
 }

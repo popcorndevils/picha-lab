@@ -30,43 +30,43 @@ bg_color = Color( 0.156863, 0.156863, 0.156863, 1 )
 [sub_resource type="StyleBoxFlat" id=3]
 bg_color = Color( 0.294118, 0.294118, 0.294118, 1 )
 
-[sub_resource type="DynamicFont" id=8]
+[sub_resource type="DynamicFont" id=4]
 font_data = ExtResource( 10 )
 
-[sub_resource type="DynamicFont" id=9]
+[sub_resource type="DynamicFont" id=5]
 font_data = ExtResource( 11 )
 
-[sub_resource type="DynamicFont" id=10]
+[sub_resource type="DynamicFont" id=6]
 font_data = ExtResource( 7 )
 
-[sub_resource type="DynamicFont" id=12]
+[sub_resource type="DynamicFont" id=7]
 font_data = ExtResource( 8 )
 
-[sub_resource type="DynamicFont" id=11]
+[sub_resource type="DynamicFont" id=8]
 font_data = ExtResource( 9 )
 
-[sub_resource type="StyleBoxFlat" id=4]
+[sub_resource type="StyleBoxFlat" id=9]
 content_margin_left = 10.0
 content_margin_right = 10.0
 content_margin_top = 10.0
 content_margin_bottom = 10.0
 bg_color = Color( 0.235294, 0.235294, 0.235294, 1 )
 
-[sub_resource type="StyleBoxFlat" id=5]
+[sub_resource type="StyleBoxFlat" id=10]
 content_margin_left = 6.0
 content_margin_right = 6.0
 content_margin_top = 4.0
 content_margin_bottom = 4.0
 bg_color = Color( 0.352941, 0.352941, 0.352941, 1 )
 
-[sub_resource type="StyleBoxFlat" id=6]
+[sub_resource type="StyleBoxFlat" id=11]
 content_margin_left = 6.0
 content_margin_right = 6.0
 content_margin_top = 4.0
 content_margin_bottom = 4.0
 bg_color = Color( 0.156863, 0.156863, 0.156863, 1 )
 
-[sub_resource type="StyleBoxFlat" id=7]
+[sub_resource type="StyleBoxFlat" id=12]
 content_margin_left = 6.0
 content_margin_right = 6.0
 content_margin_top = 4.0
@@ -109,11 +109,11 @@ RichTextLabel/constants/shadow_offset_x = 1
 RichTextLabel/constants/shadow_offset_y = 1
 RichTextLabel/constants/table_hseparation = 3
 RichTextLabel/constants/table_vseparation = 3
-RichTextLabel/fonts/bold_font = SubResource( 8 )
-RichTextLabel/fonts/bold_italics_font = SubResource( 9 )
-RichTextLabel/fonts/italics_font = SubResource( 10 )
-RichTextLabel/fonts/mono_font = SubResource( 12 )
-RichTextLabel/fonts/normal_font = SubResource( 11 )
+RichTextLabel/fonts/bold_font = SubResource( 4 )
+RichTextLabel/fonts/bold_italics_font = SubResource( 5 )
+RichTextLabel/fonts/italics_font = SubResource( 6 )
+RichTextLabel/fonts/mono_font = SubResource( 7 )
+RichTextLabel/fonts/normal_font = SubResource( 8 )
 RichTextLabel/styles/focus = null
 RichTextLabel/styles/normal = null
 TabContainer/colors/font_color_bg = Color( 0.69, 0.69, 0.69, 1 )
@@ -131,10 +131,10 @@ TabContainer/icons/increment = null
 TabContainer/icons/increment_highlight = null
 TabContainer/icons/menu = null
 TabContainer/icons/menu_highlight = null
-TabContainer/styles/panel = SubResource( 4 )
-TabContainer/styles/tab_bg = SubResource( 5 )
-TabContainer/styles/tab_disabled = SubResource( 6 )
-TabContainer/styles/tab_fg = SubResource( 7 )
+TabContainer/styles/panel = SubResource( 9 )
+TabContainer/styles/tab_bg = SubResource( 10 )
+TabContainer/styles/tab_disabled = SubResource( 11 )
+TabContainer/styles/tab_fg = SubResource( 12 )
 TooltipLabel/colors/font_color = Color( 0.8, 0.8, 0.8, 1 )
 TooltipLabel/colors/font_color_shadow = Color( 0, 0, 0, 0.1 )
 TooltipLabel/constants/shadow_offset_x = 1

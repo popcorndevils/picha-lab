@@ -53,13 +53,20 @@ public class LayerStack : TabContainer
 
     public void LoadCanvas(GenCanvas c)
     {
+        GD.Print("HERE");
         this.Canvas = c;
 
         foreach(Node n in this._Buttons.GetChildren())
         {
-            this._Buttons.RemoveChild(n);
+            if(n is LayerButtonControl b)
+            {
+                GD.Print(b);
+                b.Layer = null;
+                b.QueueFree();
+                this._Buttons.RemoveChild(b);
+            }
         }
-        foreach(GenLayer _l in c.Layers.Values)
+        foreach(GenLayer _l in c.Layers)
         {
             this._Buttons.AddChild(new LayerButtonControl() { Layer = _l });
         }
@@ -73,5 +80,24 @@ public class LayerStack : TabContainer
     public void OnNewLayerPressed()
     {
         this.GetTree().CallGroup("pattern_designer", "NewLayer");
+    }
+
+    public void OnLayerHover(bool hover, GenLayer layer)
+    {
+
+        foreach(Node n in this._Buttons.GetChildren())
+        {
+            if(n is LayerButtonControl b)
+            {
+                if(hover & layer == b.Layer)
+                {
+                    b.Modulate = new Color(.75f, .75f, .75f, 1f);
+                }
+                else
+                {
+                    b.Modulate = new Color(1f, 1f, 1f, 1f);
+                }
+            }
+        }
     }
 }

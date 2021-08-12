@@ -30,6 +30,14 @@ public class Application : Node
 
         this._RegisterSignals();
     }
+    
+    public override void _Process(float delta)
+    {
+        if (Input.IsActionJustPressed("undo"))
+        {
+            // this._Canvases.Active.UndoChange();
+        }
+    }
 
     private void _RegisterSignals()
     {

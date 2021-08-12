@@ -17,13 +17,22 @@ public class SectionHeader : Button
 
     public override object GetDragData(Vector2 position)
     {
-        this.SetDragPreview(new Label() {Text = this.Text});
+        var _preview = new SectionHeader() {
+            Text = this.Text,
+            RectMinSize = this.RectSize
+        };        
+        
+        var c = new Control();
+        c.AddChild(_preview);
+        _preview.RectPosition = new Vector2(_preview.RectMinSize.x * -.5f, _preview.RectMinSize.y * -.5f);
+
+        this.SetDragPreview(c);
         return this;
     }
 
     public override bool CanDropData(Vector2 position, object data)
     {
-        if(data is SectionHeader b)
+        if(data is SectionHeader b && data != this)
         {
             return true;
         }

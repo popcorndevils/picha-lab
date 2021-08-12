@@ -73,7 +73,17 @@ namespace PichaLib
             }
         }
         
-        public (int w, int h) Position => (this.X, this.Y);
+        public (int x, int y) Position {
+            get => (this.X, this.Y);
+            set {
+                if(this.X != value.x || this.Y != value.y)
+                {
+                    this._X = value.x;
+                    this._Y = value.y;
+                    this.LayerChanged?.Invoke(this, false);
+                }
+            }
+        }
 
         private List<string[,]> _Frames = new List<string[,]>();
         public List<string[,]> Frames {

@@ -9,17 +9,20 @@ public class LayerButton : Button
         get => this._Layer;
         set {
             if(this._Layer != null)
-                { this._Layer.LayerChanged -= this.OnLayerChange; }
-            this._Layer = value;
-            this.Text = value.Data.Name;
-            this._Layer.LayerChanged += this.OnLayerChange;
+            {
+                this._Layer.LayerChanged -= this.OnLayerChange; 
+            }
+            if(value != null)
+            {
+                this._Layer = value;
+                this.Text = value.Data.Name;
+                this._Layer.LayerChanged += this.OnLayerChange;
+            }
         }
     } 
 
     public override void _Ready()
     {
-        this.AddToGroup("LayerButtons");
-
         this.FocusMode = FocusModeEnum.None;
         this.SizeFlagsHorizontal = (int)SizeFlags.ExpandFill;
 
@@ -47,13 +50,22 @@ public class LayerButton : Button
 
     public override object GetDragData(Vector2 position)
     {
-        this.SetDragPreview(new Label() {Text = this.Text});
+        var _preview = new LayerButton() {
+            Text = this.Text,
+            RectMinSize = this.RectSize,
+        };
+
+        var c = new Control();
+        c.AddChild(_preview);
+        _preview.RectPosition = new Vector2(_preview.RectMinSize.x * -.5f, _preview.RectMinSize.y * -.5f);
+
+        this.SetDragPreview(c);
         return this;
     }
 
     public override bool CanDropData(Vector2 position, object data)
     {
-        if(data is LayerButton b)
+        if(data is LayerButton b && data != this)
         {
             return true;
         }
@@ -73,17 +85,5 @@ public class LayerButton : Button
     public void OnMouseExit()
     {
         this.Layer.Modulate = new Color(1f, 1f, 1f, 1f);
-    }
-
-    public void OnLayerHover(bool hover, GenLayer layer)
-    {
-        if(hover & layer == this._Layer)
-        {
-            this.Modulate = new Color(.75f, .75f, .75f, 1f);
-        }
-        else
-        {
-            this.Modulate = new Color(1f, 1f, 1f, 1f);
-        }
     }
 }

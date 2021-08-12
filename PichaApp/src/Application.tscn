@@ -4,7 +4,7 @@
 [ext_resource path="res://src/ui/Menu/MenuBar.tscn" type="PackedScene" id=2]
 [ext_resource path="res://res/theme/Application.tres" type="Theme" id=3]
 [ext_resource path="res://src/ui/WorkArea.tscn" type="PackedScene" id=4]
-[ext_resource path="res://src/ui/Patterns/PatternDesigner.tscn" type="PackedScene" id=5]
+[ext_resource path="res://src/ui/PatternDesigner/PatternDesigner.tscn" type="PackedScene" id=5]
 [ext_resource path="res://src/ui/HelpDialog.tscn" type="PackedScene" id=6]
 
 [node name="Application" type="Node"]
@@ -38,10 +38,7 @@ margin_right = 1024.0
 margin_bottom = 600.0
 
 [node name="PatternDesigner" parent="PichaGUI" instance=ExtResource( 5 )]
-margin_right = 48.0
-margin_bottom = 40.0
-window_title = "Pattern Designer"
-resizable = true
+margin_bottom = 182.0
 
 [node name="SaveDialog" type="FileDialog" parent="PichaGUI"]
 margin_right = 600.0

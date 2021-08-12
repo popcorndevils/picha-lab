@@ -4,7 +4,7 @@ namespace PichaLib
 {
     public class Canvas
     {
-        public SortedDictionary<int, Layer> Layers = new SortedDictionary<int, Layer>();
+        public List<Layer> Layers = new List<Layer>();
         public (int W, int H) Size = (16, 16);
 
         // useful for the app only.

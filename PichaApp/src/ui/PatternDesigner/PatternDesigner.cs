@@ -46,7 +46,6 @@ public class PatternDesigner : AcceptDialog
         this.GetOk().Visible = false;
 
         this.AddToGroup("pattern_designer");
-        // this.Connect("confirmed", this, "OnConfirmedLayers");
         this.Connect("about_to_show", this, "OnShow");
         this.Connect("popup_hide", this, "OnHide");
 
