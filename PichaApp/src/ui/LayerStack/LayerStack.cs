@@ -7,6 +7,8 @@ public class LayerStack : TabContainer
         RectMinSize = new Vector2(260, 200)
     };
 
+    public GenCanvas Canvas;
+
     private ScrollContainer _Contents = new ScrollContainer() {
         SizeFlagsVertical = (int)SizeFlags.ExpandFill,
         SizeFlagsHorizontal = (int)SizeFlags.ExpandFill,
@@ -28,15 +30,12 @@ public class LayerStack : TabContainer
         HintTooltip = PDefaults.ToolHints.Layer.NewLayer,
     };
 
-    public GenCanvas Canvas;
-
     public override void _Ready()
     {
+        this.AddToGroup("gp_layer_gui");
+
         this.TabAlign = TabAlignEnum.Left;
         this.DragToRearrangeEnabled = false;
-
-        this.AddToGroup("gp_canvas_gui");
-        this.AddToGroup("layers_list");
 
         this.AddChild(this._LayersViewList);
 
@@ -53,7 +52,6 @@ public class LayerStack : TabContainer
 
     public void LoadCanvas(GenCanvas c)
     {
-        GD.Print("HERE");
         this.Canvas = c;
 
         foreach(Node n in this._Buttons.GetChildren())
@@ -72,7 +70,7 @@ public class LayerStack : TabContainer
         }
     }
 
-    public void AddNewLayer(GenLayer l)
+    public void AddLayer(GenLayer l)
     {
         this._Buttons.AddChild(new LayerButtonControl() { Layer = l });
     }

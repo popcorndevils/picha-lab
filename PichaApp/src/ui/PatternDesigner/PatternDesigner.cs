@@ -24,6 +24,7 @@ public class PatternDesigner : AcceptDialog
     private Button _NavPrev;
     private Button _NavNext;
     private Button _AddFrame;
+    private Button _DelFrame;
     private Button _Accept;
 
     public int FrameCount => this.FramesView.GetChildren().Count;
@@ -32,9 +33,15 @@ public class PatternDesigner : AcceptDialog
     public int CurrentFrame {
         get => this._CurrentFrame;
         set {
-            var _prevFrame = this.FramesView.GetChild<FrameControl>(this._CurrentFrame);
+            if(this.FramesView.GetChildCount() >= this._CurrentFrame + 1)
+            {
+                var _prevFrame = this.FramesView.GetChild<FrameControl>(this._CurrentFrame);
+                if(_prevFrame != null)
+                {
+                    _prevFrame.Visible = false;
+                }
+            }
             var _frame = this.FramesView.GetChild<FrameControl>(value);
-            _prevFrame.Visible = false;
             _frame.Visible = true;
             this._CurrentFrame = value;
             this._FrameIndex.Text = $"Frame {value + 1}/{this.FrameCount}";
@@ -56,6 +63,7 @@ public class PatternDesigner : AcceptDialog
         this._NavPrev = this.GetNode<Button>("Center/Contents/HBox/ToolBar/FrameNav/NavPrev");
         this._NavNext = this.GetNode<Button>("Center/Contents/HBox/ToolBar/FrameNav/NavNext");
         this._AddFrame = this.GetNode<Button>("Center/Contents/HBox/ToolBar/FrameNav/AddFrame");
+        this._DelFrame = this.GetNode<Button>("Center/Contents/HBox/ToolBar/FrameNav/DelFrame");
         this._Accept = this.GetNode<Button>("Center/Contents/Accept");
         this._FrameIndex = this.GetNode<Label>("Center/Contents/HBox/ToolBar/FrameIndex");
 
@@ -65,6 +73,7 @@ public class PatternDesigner : AcceptDialog
         this._NavPrev.Connect("pressed", this, "OnNavPrev");
         this._NavNext.Connect("pressed", this, "OnNavNext");
         this._AddFrame.Connect("pressed", this, "OnAddFrame");
+        this._DelFrame.Connect("pressed", this, "OnDelFrame");
         this._Accept.Connect("pressed", this, "OnConfirmedLayers");
     }
 
@@ -186,5 +195,25 @@ public class PatternDesigner : AcceptDialog
         });
 
         this.CurrentFrame = this.FrameCount - 1;
+    }
+
+    public void OnDelFrame()
+    {
+        if(this.FramesView.GetChildCount() > 1)
+        {
+            this.FramesView.RemoveChild(this.FramesView.GetChild(this.CurrentFrame));
+            if(this.CurrentFrame == 0)
+            {
+                this.CurrentFrame = 0;
+            }
+            else if(this.CurrentFrame >= this.FrameCount)
+            {
+                this.CurrentFrame = this.FrameCount - 1;
+            }
+            else
+            {
+                this.CurrentFrame = this.CurrentFrame;
+            }
+        }
     }
 }

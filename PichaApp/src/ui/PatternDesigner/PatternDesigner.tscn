@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://src/ui/PatternDesigner/PatternDesigner.cs" type="Script" id=1]
-[ext_resource path="res://src/ui/PatternDesigner/PaintBtn.cs" type="Script" id=2]
+[ext_resource path="res://src/ui/PatternDesigner/_c/PaintBtn.cs" type="Script" id=2]
 
 [node name="PatternDesigner" type="AcceptDialog"]
 margin_right = 146.0
@@ -25,8 +25,8 @@ __meta__ = {
 }
 
 [node name="Contents" type="VBoxContainer" parent="Center"]
-margin_left = 17.0
-margin_right = 112.0
+margin_left = 22.0
+margin_right = 117.0
 margin_bottom = 142.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -96,19 +96,29 @@ margin_bottom = 118.0
 [node name="NavPrev" type="Button" parent="Center/Contents/HBox/ToolBar/FrameNav"]
 margin_right = 20.0
 margin_bottom = 20.0
+focus_mode = 0
 text = "<"
 
 [node name="NavNext" type="Button" parent="Center/Contents/HBox/ToolBar/FrameNav"]
 margin_left = 24.0
 margin_right = 44.0
 margin_bottom = 20.0
+focus_mode = 0
 text = ">"
 
 [node name="AddFrame" type="Button" parent="Center/Contents/HBox/ToolBar/FrameNav"]
 margin_left = 48.0
 margin_right = 68.0
 margin_bottom = 20.0
+focus_mode = 0
 text = "+"
+
+[node name="DelFrame" type="Button" parent="Center/Contents/HBox/ToolBar/FrameNav"]
+margin_left = 72.0
+margin_right = 89.0
+margin_bottom = 20.0
+focus_mode = 0
+text = "-"
 
 [node name="FramesView" type="CenterContainer" parent="Center/Contents/HBox"]
 margin_left = 95.0

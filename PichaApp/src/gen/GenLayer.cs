@@ -22,12 +22,12 @@ public class GenLayer : TextureRect
             if(value) 
             { 
                 this.Modulate = new Color(.75f, .75f, .75f, 1f); 
-                this.GetTree().CallGroup("layers_list", "OnLayerHover", true, this);
+                this.GetTree().CallGroup("gp_canvas_gui", "OnLayerHover", true, this);
             }
             else 
             { 
                 this.Modulate = new Color(1f, 1f, 1f, 1f); 
-                this.GetTree().CallGroup("layers_list", "OnLayerHover", false, this);
+                this.GetTree().CallGroup("gp_canvas_gui", "OnLayerHover", false, this);
             }
         }
     }

@@ -42,8 +42,7 @@ public class CanvasView : TabContainer
         if(this.Active != null)
         {
             this.Active.AddLayer(l);
-            this.GetTree().CallGroup("gp_layer_gui", "LoadLayer", l);
-            this.GetTree().CallGroup("layers_list", "AddNewLayer", l);
+            this.GetTree().CallGroup("gp_layer_gui", "AddLayer", l);
         }
         else {
             this.AddCanvas(new GenCanvas());

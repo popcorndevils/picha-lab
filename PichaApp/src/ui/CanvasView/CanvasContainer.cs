@@ -67,6 +67,7 @@ public class CanvasContainer : Control
         if(this.Visible) 
         { 
             this.GetTree().CallGroup("gp_canvas_gui", "LoadCanvas", this.Canvas);
+            this.GetTree().CallGroup("gp_layer_gui", "LoadCanvas", this.Canvas);
         }
     }
 

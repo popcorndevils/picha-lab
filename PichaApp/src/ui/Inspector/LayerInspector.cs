@@ -126,6 +126,11 @@ public class LayerInspector : ScrollContainer
         }
     }
 
+    public void AddLayer(GenLayer layer)
+    {
+        this.LoadLayer(layer);
+    }
+
     public void OnNewPixelAdded(Pixel p)
     {
         this._Cycles.AddNewPixel(p);
@@ -173,6 +178,14 @@ public class LayerInspector : ScrollContainer
         this._NameEdit.Text = l.Data.Name;
         this._MirrorXEdit.Pressed = l.Data.MirrorX;
         this._MirrorYEdit.Pressed = l.Data.MirrorY;
+    }
+
+    public void LoadCanvas(GenCanvas c)
+    {
+        if(c.Layers.Count > 0)
+        {
+            this.LoadLayer(c.Layers[0]);
+        }
     }
 }
 
