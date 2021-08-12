@@ -268,7 +268,7 @@ public class GenCanvas : Node2D
 
     public void UndoChange()
     {
-        // TODO
+        // TODO Implement Undo function
     }
 
     public void LoadData(Canvas c) 
@@ -301,6 +301,6 @@ public class GenCanvas : Node2D
             this.Generate();
         }
         this.FileSaved = false;
-        // this.CanvasChanges.Add(this.SaveData());
+        // TODO this.CanvasChanges.Add(this.SaveData());
     }
 }
