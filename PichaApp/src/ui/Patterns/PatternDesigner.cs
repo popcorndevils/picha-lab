@@ -99,13 +99,13 @@ public class PatternDesigner : AcceptDialog
         this._OpenLayer(l);
     }
 
-    private void _PopulateView(SortedList<int, string[,]> frames, Dictionary<string, Pixel> pixels)
+    private void _PopulateView(List<string[,]> frames, Dictionary<string, Pixel> pixels)
     {
 
-        foreach(KeyValuePair<int, string[,]> _pair in frames)
+        foreach(string[,] _pair in frames)
         {
             this.FramesView.AddChild(new FrameControl() {
-                Frame = _pair.Value,
+                Frame = _pair,
                 Pixels = pixels,
                 Visible = false,
             });
@@ -131,11 +131,11 @@ public class PatternDesigner : AcceptDialog
 
     public void OnConfirmedLayers()
     {
-        var _newFrames = new SortedList<int, string[,]>();
+        var _newFrames = new List<string[,]>();
 
         foreach(FrameControl _f in this.FramesView.GetChildren())
         {
-            _newFrames.Add(_newFrames.Count, _f.FinalizedFrame);
+            _newFrames.Add(_f.FinalizedFrame);
         }
 
         this.Layer.Frames = _newFrames;

@@ -3,7 +3,7 @@ using Godot;
 
 using PichaLib;
 
-public delegate void PixelChangedHandler(PixelProperties p, string property, object value);
+public delegate void PixelChangedHandler(Pixel p, string property, object value);
 public delegate void PixelDeleteHandler(Pixel p);
 
 public class PixelProperties : BaseSection
@@ -47,6 +47,7 @@ public class PixelProperties : BaseSection
     public override void _Ready()
     {
         base._Ready();
+        this.AddToGroup("gp_pixel_props");
         this.SectionGrid.Columns = 2;
 
         this.Theme = GD.Load<Theme>("./res/theme/SectionAlt.tres");
@@ -210,20 +211,20 @@ public class PixelProperties : BaseSection
     public void OnNameEdit(string text)
     {
         this.SectionTitle = text; 
-        this.PixelChanged?.Invoke(this, "Name", text);
+        this.PixelChanged?.Invoke(this.Pixel, "Name", text);
     }
 
     public void OnRandomColEdit()
     {
         this.GenColDisabled = this.RandomColEdit.Pressed;
-        this.PixelChanged?.Invoke(this, "RandomCol", this.GenColDisabled);
+        this.PixelChanged?.Invoke(this.Pixel, "RandomCol", this.GenColDisabled);
     }
 
     public void OnBrightEdit(float value)
     {
         if(!this._IgnoreSignals)
         {
-            this.PixelChanged?.Invoke(this, "BrightNoise", value);
+            this.PixelChanged?.Invoke(this.Pixel, "BrightNoise", value);
         }
     }
 
@@ -231,29 +232,39 @@ public class PixelProperties : BaseSection
     {
         if(!this._IgnoreSignals)
         {
-            this.PixelChanged?.Invoke(this, "MinSaturation", value);
+            this.PixelChanged?.Invoke(this.Pixel, "MinSaturation", value);
         }
     }
 
     public void OnColorEdit(Color c)
     {
-        this.PixelChanged.Invoke(this, "Color", c.ToChroma());
+        this.PixelChanged.Invoke(this.Pixel, "Color", c.ToChroma());
     }
 
     public void OnPaintEdit(Color c)
     {
         this._PanelStyle.BorderColor = this.PaintEdit.Color;
-        this.PixelChanged.Invoke(this, "Paint", c.ToChroma());
+        this.PixelChanged.Invoke(this.Pixel, "Paint", c.ToChroma());
     }
 
     public void OnDirectionEdit(int selected)
     {
-        this.PixelChanged?.Invoke(this, "FadeDirection", (FadeDirection)this.FadeDirectionEdit.Selected);
+        this.PixelChanged?.Invoke(this.Pixel, "FadeDirection", (FadeDirection)this.FadeDirectionEdit.Selected);
     }
 
     public void OnDeletePixel()
     {
         this.QueueFree();
         this.PixelDeleted?.Invoke(this.Pixel);
+    }
+
+    public void CorrectName(string oldName, string newName)
+    {
+        if(this.NameEdit.Text != this.Pixel.Name)
+        {
+            this.NameEdit.Text = newName;
+            this.NameEdit.CaretPosition = newName.Length;
+            this.SectionTitle = newName;
+        }
     }
 }

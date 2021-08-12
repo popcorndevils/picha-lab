@@ -3,15 +3,22 @@ using System.Collections.Generic;
 
 using OctavianLib;
 
+
 namespace PichaLib
 {
+
+    public delegate void LayerChangeHandler(Layer layer, bool major);
+
     public class Layer
     {
+        public event LayerChangeHandler LayerChanged;
+
         private string _Name;
         public string Name {
             get => this._Name;
             set {
                 this._Name = value;
+                this.LayerChanged?.Invoke(this, false);
             }
         }
 
@@ -20,6 +27,7 @@ namespace PichaLib
             get => this._AnimTime;
             set {
                 this._AnimTime = value;
+                this.LayerChanged?.Invoke(this, false);
             }
         }
 
@@ -28,12 +36,14 @@ namespace PichaLib
             get => this._MirrorX;
             set {
                 this._MirrorX = value;
+                this.LayerChanged?.Invoke(this, true);
             }
         }
         public bool MirrorY {
             get => this._MirrorY;
             set {
                 this._MirrorY = value;
+                this.LayerChanged?.Invoke(this, true);
             }
         }
 
@@ -42,44 +52,54 @@ namespace PichaLib
             get => this._X;
             set {
                 this._X = value;
+                this.LayerChanged?.Invoke(this, false);
             }
         }
         public int Y {
             get => this._Y;
             set {
                 this._Y = value;
+                this.LayerChanged?.Invoke(this, false);
             }
         }
 
         public (int w, int h) Size {
             get {
-                foreach(KeyValuePair<int, string[,]> pair in this._Frames)
+                foreach(string[,] f in this._Frames)
                 {
-                    return (pair.Value.GetWidth(), pair.Value.GetHeight());
+                    return (f.GetWidth(), f.GetHeight());
                 }
                 return (0, 0);
             }
         }
+        
         public (int w, int h) Position => (this.X, this.Y);
 
-        private SortedList<int, string[,]> _Frames = new SortedList<int, string[,]>();
-        public SortedList<int, string[,]> Frames {
+        private List<string[,]> _Frames = new List<string[,]>();
+        public List<string[,]> Frames {
             get => this._Frames;
             set {
                 this._Frames = value;
+                this.LayerChanged?.Invoke(this, true);
             }
         }
 
         private Dictionary<string, Pixel> _Pixels = new Dictionary<string, Pixel>();
         public Dictionary<string, Pixel> Pixels {
             get => this._Pixels;
-            set => this._Pixels = value;
+            set {
+                this._Pixels = value;
+                this.LayerChanged?.Invoke(this, false);
+            }
         }
         
-        private SortedList<int, Cycle> _Cycles = new SortedList<int, Cycle>();
-        public SortedList<int, Cycle> Cycles {
+        private List<Cycle> _Cycles = new List<Cycle>();
+        public List<Cycle> Cycles {
             get => this._Cycles;
-            set => this._Cycles = value;
+            set {
+                this._Cycles = value;
+                this.LayerChanged?.Invoke(this, true);
+            }
         }
     }
 

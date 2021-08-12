@@ -2,11 +2,13 @@ using Godot;
 
 using PichaLib;
 
-public delegate void OnCycleDeleteHandler(CycleProperties c);
+public delegate void CycleDeleteHandler(CycleProperties c);
+public delegate void CycleChangeHandler(Cycle c);
 
 public class CycleProperties : BaseSection
 {
-    public event OnCycleDeleteHandler CycleDelete;
+    public event CycleDeleteHandler CycleDeleted;
+    public event CycleChangeHandler CycleChanged;
 
     public GenLayer Layer;
     public Cycle Cycle;
@@ -28,6 +30,8 @@ public class CycleProperties : BaseSection
     public override void _Ready()
     {
         base._Ready();
+        this.SectionHeader.Draggable = true;
+        this.SectionHeader.HeaderDropped += this.OnHeaderDrop;
         this.Theme = GD.Load<Theme>("./res/theme/SectionAlt.tres");
         this._Delete.Connect("pressed", this, "OnCycleDelete");
         this._NewPolicy.Connect("pressed", this, "OnAddPolicy");
@@ -83,16 +87,32 @@ public class CycleProperties : BaseSection
         this.SectionGrid.AddChild(_props);
         _props.SectionHeader.Align = Button.TextAlign.Left;
         _props.LoadPolicy(this.Layer, _policy);
+        _props.PolicyDeleted += this.OnPolicyDeleted;
     }
 
     public void OnCycleDelete()
     {
-        this.CycleDelete?.Invoke(this);
+        this.CycleDeleted?.Invoke(this);
     }
 
     public void OnPolicyDeleted(PolicyProperties p)
     {
         this.Layer.DeletePolicy(this.Cycle, p.Policy);
         p.QueueFree();
+    }
+
+    public void OnHeaderDrop(SectionHeader header, SectionHeader dropped)
+    {
+        Node _headerControl = header.GetParent().GetParent().GetParent();
+        Node _droppedControl = dropped.GetParent().GetParent().GetParent();
+        Node _list = _headerControl.GetParent();
+
+        if(_droppedControl is CycleProperties _d)
+        {
+            var _h = (CycleProperties)_headerControl;
+            _d.Layer.MoveCycle(_d.Cycle, _h.GetIndex());
+        }
+
+        _list.MoveChild(_droppedControl, _headerControl.GetIndex());
     }
 }

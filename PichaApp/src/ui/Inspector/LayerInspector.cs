@@ -3,7 +3,7 @@ using PichaLib;
 
 public class LayerInspector : ScrollContainer
 {
-    public GenLayer GenLayer;
+    // public GenLayer GenLayer;
     public GenLayer Layer;
 
     private VBoxContainer _Contents;
@@ -39,7 +39,7 @@ public class LayerInspector : ScrollContainer
         this._Pixels = new PixelSection();
         this._Cycles = new CycleSection();
 
-        this._Pixels.PixelNameChange += this.OnPixelNameChange;
+        this._Pixels.PixelChanged += this.OnPixelChange;
         this._Pixels.NewPixelAdded += this.OnNewPixelAdded;
 
         this._NameEdit = new LineEdit() {
@@ -92,9 +92,38 @@ public class LayerInspector : ScrollContainer
         this._MirrorYEdit.Connect("pressed", this, "OnLayerMirrorYChange");
     }
 
-    public void OnPixelNameChange(string oldName, string newName)
+    public void OnPixelChange(Pixel p, string property, object value)
     {
-        this._Cycles.PixelNameChange(oldName, newName);
+        switch(property)
+        {
+            case "Name":
+                var _oldName = p.Name;
+                var _newName = this.Layer.ChangePixelName(p, (string)value);
+                this._Cycles.PixelNameChange(_oldName, _newName);
+                if(_newName != (string)value)
+                {
+                    this.GetTree().CallGroup("gp_pixel_props", "CorrectName", (string)value, _newName);
+                }
+                break;
+            case "RandomCol":
+                p.RandomCol = (bool)value;
+                break;
+            case "BrightNoise":
+                p.BrightNoise = (float)value;
+                break;
+            case "MinSaturation":
+                p.MinSaturation = (float)value;
+                break;
+            case "Color":
+                p.Color = (Chroma)value;
+                break;
+            case "Paint":
+                p.Paint = (Chroma)value;
+                break;
+            case "FadeDirection":
+                p.FadeDirection = (FadeDirection)value;
+                break;
+        }
     }
 
     public void OnNewPixelAdded(Pixel p)
@@ -128,7 +157,7 @@ public class LayerInspector : ScrollContainer
 
     public void OnEditTemplate()
     {
-        this.GetTree().CallGroup("pattern_designer", "EditLayer", this.GenLayer);
+        this.GetTree().CallGroup("pattern_designer", "EditLayer", this.Layer);
     }
 
     public void LoadLayer(GenLayer l)
@@ -140,7 +169,6 @@ public class LayerInspector : ScrollContainer
         this._MirrorXEdit.Disabled = false;
         this._MirrorYEdit.Disabled = false;
 
-        this.GenLayer = l;
         this.Layer = l;
         this._NameEdit.Text = l.Data.Name;
         this._MirrorXEdit.Pressed = l.Data.MirrorX;

@@ -36,7 +36,7 @@ public class BaseSection : PanelContainer
         SizeFlagsVertical = (int)Control.SizeFlags.ExpandFill,
     };
 
-    public Button SectionHeader = new Button() {
+    public SectionHeader SectionHeader = new SectionHeader() {
         ExpandIcon = true,
         Text = "BLANK",
         Flat = false,

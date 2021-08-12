@@ -2,12 +2,11 @@ using Godot;
 
 using PichaLib;
 
-public delegate void PixelNameChangeHandler(string oldName, string newName);
 public delegate void NewPixelAddedHandler(Pixel p);
 
 public class PixelSection : BaseSection
 {
-    public event PixelNameChangeHandler PixelNameChange;
+    public event PixelChangedHandler PixelChanged;
     public event NewPixelAddedHandler NewPixelAdded;
 
     private GenLayer _Layer;
@@ -70,21 +69,9 @@ public class PixelSection : BaseSection
         this.NewPixelAdded?.Invoke(_newPixel);
     }
 
-    public void OnChangePixel(PixelProperties p, string property, object value)
+    public void OnChangePixel(Pixel p, string property, object value)
     {
-        switch(property)
-        {
-            case "Name":
-                var _oldName = p.Pixel.Name;
-                var _newName = this._Layer.ChangePixelName(p.Pixel, (string)value);
-                if(_newName != (string)value)
-                {
-                    p.NameEdit.Text = _newName;
-                }
-
-                this.PixelNameChange?.Invoke(_oldName, _newName);
-                break;
-        }
+        this.PixelChanged?.Invoke(p, property, value);
     }
 
     public void OnDeletePixel(Pixel p)

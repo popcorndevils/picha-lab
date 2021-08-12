@@ -5,8 +5,12 @@ using Godot;
 using Newtonsoft.Json;
 using PichaLib;
 
+public delegate void CanvasChangedHandler(Canvas canvas);
+
 public class GenCanvas : Node2D
 {
+    public CanvasChangedHandler GenCanvasChanged;
+
     private Canvas _Data;
     private Timer _Timer;
     private bool _FileSaved = false;
@@ -15,6 +19,7 @@ public class GenCanvas : Node2D
     private Color _BGCol = new Color(.1f, .1f, .1f, 0f);
     private Color _FGCol = Chroma.CreateFromHex("#298c8c8c").ToGodotColor();
 
+    public string PathName = "";
     public bool FileExists = false;
 
     public Canvas Data {
@@ -40,8 +45,6 @@ public class GenCanvas : Node2D
         }
     }
 
-    public string PathName = "";
-
     public string CanvasName {
         get { 
             var _output = "";
@@ -57,7 +60,7 @@ public class GenCanvas : Node2D
             return _output;
         }
     }
-    
+
     public bool AutoGen {
         get {
             if(this.Data != null) 
@@ -277,9 +280,12 @@ public class GenCanvas : Node2D
         this.FileSaved = true;
     }
 
-    public void OnLayerChange(GenLayer layer)
+    public void OnLayerChange(Layer layer, bool major)
     {
-        this.Generate();
+        if(major)
+        {
+            this.Generate();
+        }
         this.FileSaved = false;
     }
 }

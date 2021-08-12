@@ -24,10 +24,10 @@ static class PDefaults
         }
     }
 
-    internal static SortedList<int, string[,]> Frames {
+    internal static List<string[,]> Frames {
         get {
-            return new SortedList<int, string[,]>() {
-                {0, new string[,] {
+            return new List<string[,]>() {
+                new string[,] {
                     {PIXEL_IDS.EMPTY, PIXEL_IDS.EMPTY, PIXEL_IDS.EMPTY, PIXEL_IDS.EMPTY, PIXEL_IDS.EMPTY, PIXEL_IDS.EMPTY, PIXEL_IDS.EMPTY, PIXEL_IDS.EMPTY,},
                     {PIXEL_IDS.EMPTY, PIXEL_IDS.BODY1, PIXEL_IDS.BODY1, PIXEL_IDS.BODY1, PIXEL_IDS.BODY1, PIXEL_IDS.BODY1, PIXEL_IDS.BODY1, PIXEL_IDS.EMPTY,},
                     {PIXEL_IDS.EMPTY, PIXEL_IDS.BODY1, PIXEL_IDS.BODY2, PIXEL_IDS.BODY2, PIXEL_IDS.BODY2, PIXEL_IDS.BODY2, PIXEL_IDS.BODY1, PIXEL_IDS.EMPTY,},
@@ -36,7 +36,7 @@ static class PDefaults
                     {PIXEL_IDS.EMPTY, PIXEL_IDS.BODY1, PIXEL_IDS.BODY2, PIXEL_IDS.BODY2, PIXEL_IDS.BODY2, PIXEL_IDS.BODY2, PIXEL_IDS.BODY1, PIXEL_IDS.EMPTY,},
                     {PIXEL_IDS.EMPTY, PIXEL_IDS.BODY1, PIXEL_IDS.BODY1, PIXEL_IDS.BODY1, PIXEL_IDS.BODY1, PIXEL_IDS.BODY1, PIXEL_IDS.BODY1, PIXEL_IDS.EMPTY,},
                     {PIXEL_IDS.EMPTY, PIXEL_IDS.EMPTY, PIXEL_IDS.EMPTY, PIXEL_IDS.EMPTY, PIXEL_IDS.EMPTY, PIXEL_IDS.EMPTY, PIXEL_IDS.EMPTY, PIXEL_IDS.EMPTY,},
-                }}
+                }
             };
         }
     }
@@ -84,7 +84,7 @@ static class PDefaults
         }
     }
 
-    internal static SortedList<int, Cycle> Cycles {
+    internal static List<Cycle> Cycles {
         get {
             var _policy1 = new Policy() {
                 Input = PDefaults.PIXEL_IDS.BODY1,
@@ -113,15 +113,13 @@ static class PDefaults
                 ConditionB = PDefaults.PIXEL_IDS.EMPTY,
             };
 
-            return new SortedList<int, Cycle>() {
-                {0, new Cycle() {
-                    Index = 0,
+            return new List<Cycle>() {
+                {new Cycle() {
                     Name = "DEGRADE",
                     Policies = new List<Policy>() {
                         _policy1, _policy2
                     }}},
-                {1, new Cycle() {
-                    Index = 1,
+                {new Cycle() {
                     Name = "OUTLINE",
                     Policies = new List<Policy>() { _policy3 }}
                 }};

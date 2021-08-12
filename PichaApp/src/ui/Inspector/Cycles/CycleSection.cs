@@ -36,13 +36,13 @@ public class CycleSection : BaseSection
             this.SectionGrid.RemoveChild(n);
         }
 
-        foreach(Cycle _c in l.Cycles.Values)
+        foreach(Cycle _c in l.Cycles)
         {
             var _props = new CycleProperties() { SectionTitle = _c.Name };
             this.SectionGrid.AddChild(_props);
             _props.SectionHeader.Align = Button.TextAlign.Left;
             _props.LoadCycle(l, _c);
-            _props.CycleDelete += this.OnCycleDelete;
+            _props.CycleDeleted += this.OnCycleDelete;
         }
     }
 
@@ -76,7 +76,7 @@ public class CycleSection : BaseSection
         this.SectionGrid.AddChild(_props);
         _props.SectionHeader.Align = Button.TextAlign.Left;
         _props.LoadCycle(this._Layer, _newCycle);
-        _props.CycleDelete += this.OnCycleDelete;
+        _props.CycleDeleted += this.OnCycleDelete;
     }
 
     public void OnCycleDelete(CycleProperties c)

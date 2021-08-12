@@ -96,9 +96,15 @@ public class HelpDialog : WindowDialog
 
     private DocsObject _GetDocsObject(Godot.Collections.Dictionary document)
     {
+        var _file = new File();
+        var _textPath = (string)document["text_path"];
+        _file.Open(_textPath, File.ModeFlags.Read);
+        var _text = _file.GetAsText();
+        _file.Close();
+
         var _output = new DocsObject(){
             Title = (string)document["section_name"],
-            Text = (string)document["section_text"],
+            Text = _text,
         };
 
         if(document.Contains("sub_section"))

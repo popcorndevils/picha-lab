@@ -1,28 +1,28 @@
 [   
     {
         "section_name": "part1",
-        "section_text": "Some [b][i]Text[/i][/b] is here",
+        "text_path": "./res/data/_doc/part_1.md",
         "sub_section": 
         [
             {
                 "section_name": "part A",
-                "section_text": "Some Additional\n[img=50x50]./res/data/im/test.png[/img]\nDetails\n[img=50x50]./res/data/im/test.gif[/img]"
+                "text_path": "./res/data/_doc/part_a.md"
             }
         ]
     },
     {
         "section_name": "part2",
-        "section_text": "Some Text Distinct from Part 1",
+        "text_path": "./res/data/_doc/part_2.md",
         "sub_section": 
         [
             {
                 "section_name": "part A",
-                "section_text":"Some Additional Details distinct from part 1",
+                "text_path":"./res/data/_doc/part_a2.md",
                 "sub_section":
                 [
                     {
                         "section_name": "part i",
-                        "section_text": "There is even more you need to know."
+                        "text_path": "./res/data/_doc/part_i.md"
                     }
                 ]
             }

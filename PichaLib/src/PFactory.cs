@@ -9,31 +9,31 @@ namespace PichaLib
     {
         private static Random _Random = new Random();
 
-        public static SortedList<int, Chroma[,]> ProcessLayer(Layer l)
+        public static List<Chroma[,]> ProcessLayer(Layer l)
         {
             return PFactory._GenColors(PFactory._GenShape(l), l);
         }
 
-        private static SortedList<int, string[,]> _GenShape(Layer l)
+        private static List<string[,]> _GenShape(Layer l)
         {
-            var _output = new SortedList<int, string[,]>();
+            var _output = new List<string[,]>();
 
-            foreach(KeyValuePair<int, string[,]> _frame in l.Frames)
+            foreach(string[,] _frame in l.Frames)
             {
-                string[,] _frameCopy = (string[,])_frame.Value.Clone();
+                string[,] _frameCopy = (string[,])_frame.Clone();
 
-                foreach(KeyValuePair<int, Cycle> _cycle in l.Cycles)
+                foreach(Cycle _cycle in l.Cycles)
                 {
-                    _frameCopy = PFactory._RunCycle(_frameCopy, _cycle.Value.Policies);
+                    _frameCopy = PFactory._RunCycle(_frameCopy, _cycle.Policies);
                 }
-                _output.Add(_frame.Key, _frameCopy);
+                _output.Add(_frameCopy);
             }
             return _output;
         }
 
-        private static SortedList<int, Chroma[,]> _GenColors(SortedList<int, string[,]> cells, Layer l)
+        private static List<Chroma[,]> _GenColors(List<string[,]> cells, Layer l)
         {
-            var _output = new SortedList<int, Chroma[,]>();
+            var _output = new List<Chroma[,]>();
             var _cellColors = new Dictionary<string, CellData>();
 
             foreach(Pixel _type in l.Pixels.Values)
@@ -57,17 +57,17 @@ namespace PichaLib
                 _cellColors.Add(_type.Name, _dat);
             }
 
-            foreach(KeyValuePair<int, string[,]> _pair in cells)
+            foreach(string[,] _pair in cells)
             {
-                int _w = _pair.Value.GetWidth();
-                int _h = _pair.Value.GetHeight();
+                int _w = _pair.GetWidth();
+                int _h = _pair.GetHeight();
                 var _frameOut = new Chroma[_h, _w];
 
                 for(int _y = 0; _y < _h; _y++)
                 {
                     for(int _x = 0; _x < _w; _x++)
                     {
-                        var _cell = _pair.Value[_y, _x];
+                        var _cell = _pair[_y, _x];
                         CellData _cSet;
                         if(_cell != Pixel.NULL)
                         {
@@ -108,7 +108,7 @@ namespace PichaLib
                 if(l.MirrorX) { _frameOut = _frameOut.MirrorX(); }
                 if(l.MirrorY) { _frameOut = _frameOut.MirrorY(); }
 
-                _output.Add(_pair.Key, _frameOut);
+                _output.Add(_frameOut);
             }
 
 

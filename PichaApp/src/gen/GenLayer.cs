@@ -6,16 +6,12 @@ using Godot;
 using PichaLib;
 using OctavianLib;
 
-public delegate void LayerChangedHandler(GenLayer Layer);
-public delegate void LayerNameChangedHandler(string name);
-
 public class GenLayer : TextureRect
 {
-    public LayerChangedHandler LayerChanged;
-    public LayerNameChangedHandler LayerNameChanged;
+    public LayerChangeHandler LayerChanged;
 
     private Timer _Timer;
-    private SortedList<int, Texture> _Textures = new SortedList<int, Texture>();
+    private List<Texture> _Textures = new List<Texture>();
 
     private bool _Hover;
     public bool Hover {
@@ -72,8 +68,16 @@ public class GenLayer : TextureRect
         get => this._Position;
         set {
             this._Position = value;
-            this.Data.X = (int)(value.x);
-            this.Data.Y = (int)(value.y);
+
+            if(this.Data.X != (int)value.x)
+            {
+                this.Data.X = (int)value.x;
+            }
+
+            if(this.Data.Y!= (int)value.y)
+            {
+                this.Data.Y = (int)value.y;
+            }
             this.RectPosition = new Vector2(this.Data.X, this.Data.Y);
         }
     }
@@ -82,23 +86,26 @@ public class GenLayer : TextureRect
     // ** ACCESS DATA LAYER ** \\
     //*************************\\ 
 
-    public Layer _Data = new Layer();
+    public Layer _Data;
     public Layer Data {
         get => this._Data;
         set {
+            if(this._Data != null)
+            {
+                this._Data.LayerChanged -= this.OnLayerChanged;
+            }
             this._Data = value;
             this.Position = value.Position.ToVector2();
             this.RectSize = value.Size.ToVector2();
-            this.LayerChanged?.Invoke(this);
+            this._Data.LayerChanged += this.OnLayerChanged;
         }
     }
 
-    public SortedList<int, string[,]> Frames {
+    public List<string[,]> Frames {
         get => this.Data.Frames;
         set {
             this.Data.Frames = value;
             this.RectSize = (this.Data.Size).ToVector2();
-            this.LayerChanged?.Invoke(this);
         }
     }
 
@@ -106,15 +113,13 @@ public class GenLayer : TextureRect
         get => this.Data.Pixels;
         set {
             this.Data.Pixels = value;
-            this.LayerChanged?.Invoke(this);
         }
     }
 
-    public SortedList<int, Cycle> Cycles {
+    public List<Cycle> Cycles {
         get => this.Data.Cycles;
         set {
             this.Data.Cycles = value;
-            this.LayerChanged?.Invoke(this);
         }
     }
 
@@ -123,7 +128,6 @@ public class GenLayer : TextureRect
         set {
             this.Data.AnimTime = value;
             this.FrameTime = value / this._Textures.Count;
-            this.LayerChanged?.Invoke(this);
         }
     }
 
@@ -131,7 +135,6 @@ public class GenLayer : TextureRect
         get => this.Data.Name;
         set {
             this.Data.Name = value;
-            this.LayerNameChanged?.Invoke(value);
         }
     }
 
@@ -139,7 +142,6 @@ public class GenLayer : TextureRect
         get => this.Data.MirrorX;
         set {
             this.Data.MirrorX = value;
-            this.LayerChanged?.Invoke(this);
         }
     }
 
@@ -147,7 +149,6 @@ public class GenLayer : TextureRect
         get => this.Data.MirrorY;
         set {
             this.Data.MirrorY = value;
-            this.LayerChanged?.Invoke(this);
         }
     }
     
@@ -221,8 +222,8 @@ public class GenLayer : TextureRect
         {
             this._Textures.Clear();
 
-            foreach(KeyValuePair<int, Chroma[,]> _p in PFactory.ProcessLayer(this.Data))
-                { this._Textures.Add(_p.Key, _p.Value.ToGodotTex()); }
+            foreach(Chroma[,] _p in PFactory.ProcessLayer(this.Data))
+                { this._Textures.Add(_p.ToGodotTex()); }
 
             if(this._Textures.Count > 0)
             {
@@ -254,15 +255,16 @@ public class GenLayer : TextureRect
 
         p.Name = _newName;        
         
-        this.Data.Frames = this._RenamePixelFrames(_oldName, _newName);
 
-        foreach(KeyValuePair<int, Cycle> cycle in this.Cycles)
+        foreach(Cycle cycle in this.Cycles)
         {
-            foreach(Policy policy in cycle.Value.Policies)
+            foreach(Policy policy in cycle.Policies)
             {
                 policy.RenamePixel(_oldName, _newName);
             }
         }
+
+        this.Frames = this._RenamePixelFrames(_oldName, _newName);
 
         return _newName;
     }
@@ -280,7 +282,7 @@ public class GenLayer : TextureRect
         var _newPixel = PDefaults.Pixel;
         _newPixel.Name = _newPixelName;
 
-        this.Data.Pixels.Add(_newPixelName, _newPixel);
+        this.Pixels.Add(_newPixelName, _newPixel);
 
         return _newPixel;
     }
@@ -298,14 +300,14 @@ public class GenLayer : TextureRect
 
     public void DeleteCycle(Cycle c)
     {
-        this.Cycles.Remove(c.Index);
-        this.LayerChanged?.Invoke(this);
+        this.Cycles.Remove(c);
+        this.LayerChanged?.Invoke(this.Data, true);
     }
 
     public void DeletePolicy(Cycle c, Policy p)
     {
         c.Policies.Remove(p);
-        this.LayerChanged?.Invoke(this);
+        this.LayerChanged?.Invoke(this.Data, true);
     }
 
     public Cycle NewCycle()
@@ -313,19 +315,24 @@ public class GenLayer : TextureRect
         var _num = this.Cycles.Count;
 
         var _output = new Cycle() {
-            Index = _num,
             Name = $"Cycle_{_num}",
             Policies = new List<Policy>(),
         };
 
-        this.Cycles.Add(_num, _output);
+        this.Cycles.Add(_output);
 
         return _output;
     }
 
+    public void MoveCycle(Cycle cycle, int location)
+    {
+        this.Cycles.Remove(cycle);
+        this.Cycles.Insert(location, cycle);
+        this.LayerChanged?.Invoke(this.Data, true);
+    }
+
     public Policy NewPolicy(Cycle c)
     {
-
         var _pix = this.Pixels[this.Pixels.Keys.First()].Name;
 
         var _output = new Policy(){
@@ -344,11 +351,12 @@ public class GenLayer : TextureRect
 
     private void _RemovePixelCycles(Pixel p)
     {
-        var _badCycles = new List<int>();
-        foreach(KeyValuePair<int, Cycle> _c in this.Cycles)
+        var _badCycles = new List<Cycle>();
+
+        foreach(Cycle _c in this.Cycles)
         {
             var _badPolicies = new List<Policy>();
-            foreach(Policy _pol in _c.Value.Policies)
+            foreach(Policy _pol in _c.Policies)
             {
                 if(_pol.HasPixel(p))
                 {
@@ -358,30 +366,35 @@ public class GenLayer : TextureRect
 
             foreach(Policy _del in _badPolicies)
             {   
-                _c.Value.Policies.Remove(_del);
+                _c.Policies.Remove(_del);
             }
 
-            if(_c.Value.Policies.Count <= 0)
+            if(_c.Policies.Count <= 0)
             {
-                _badCycles.Add(_c.Key);
+                _badCycles.Add(_c);
             }
         }
 
-        foreach(int i in _badCycles)
+        foreach(Cycle c in _badCycles)
         {
-            this.Cycles.Remove(i);
+            this.Cycles.Remove(c);
         }
     }
 
-    private SortedList<int, string[,]> _RenamePixelFrames(string oldName, string newName)
+    private List<string[,]> _RenamePixelFrames(string oldName, string newName)
     {
-        var _newFrames = new SortedList<int, string[,]>();
+        var _newFrames = new List<string[,]>();
 
-        foreach(KeyValuePair<int, string[,]> frame in this.Frames)
+        foreach(string[,] frame in this.Frames)
         {
-            _newFrames.Add(frame.Key, frame.Value.ReplaceVal(oldName, newName));
+            _newFrames.Add(frame.ReplaceVal(oldName, newName));
         }
 
         return _newFrames;
+    }
+
+    public void OnLayerChanged(Layer layer, bool major)
+    {
+        this.LayerChanged?.Invoke(layer, major);
     }
 }

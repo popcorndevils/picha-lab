@@ -3,7 +3,6 @@
 [ext_resource path="res://src/ui/HelpDialog.cs" type="Script" id=1]
 
 [node name="HelpDialog" type="WindowDialog"]
-visible = true
 margin_right = 48.0
 margin_bottom = 40.0
 rect_min_size = Vector2( 600, 400 )
@@ -58,8 +57,6 @@ margin_bottom = 362.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 bbcode_enabled = true
-bbcode_text = "[b][wave amp=50 freq=2]Test[/wave][/b]"
-text = "Test"
 
 [node name="DocTree" type="Tree" parent="HBox"]
 margin_left = 302.0
