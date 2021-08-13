@@ -19,6 +19,10 @@ config/name="Picha Lab"
 run/main_scene="res://src/Application.tscn"
 config/icon="res://icon.png"
 
+[editor_plugins]
+
+enabled=PoolStringArray( "godot-notes" )
+
 [input]
 
 undo={

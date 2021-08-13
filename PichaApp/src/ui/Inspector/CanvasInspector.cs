@@ -142,9 +142,6 @@ public class CanvasInspector : VBoxContainer
         this._WidthEdit.Value = _size.x;
         this._HeightEdit.Value = _size.y;
         this._IgnoreSignals = false;
-        
-        if(c.Layers.Count > 0)
-            { this.GetTree().CallGroup("gp_layer_gui", "LoadLayer", c.Layers[0]); }
     }
 
     public void OnRegen() { if(this.Canvas != null) { this.Canvas.Generate(); } }

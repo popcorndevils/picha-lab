@@ -18,6 +18,7 @@ public class LayerButtonControl : HBoxContainer
 
     public override void _Ready()
     {
+        this.Name = "TEST";
         this.SizeFlagsHorizontal = (int)SizeFlags.ExpandFill;
         this.AddChildren(this.Button, this.Grid);
         this.Grid.Connect("pressed", this, "OnGridOpen");

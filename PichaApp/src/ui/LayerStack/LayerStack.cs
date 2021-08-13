@@ -58,7 +58,7 @@ public class LayerStack : TabContainer
         {
             if(n is LayerButtonControl b)
             {
-                GD.Print(b);
+                GD.Print(b.Layer.Name);
                 b.Layer = null;
                 b.QueueFree();
                 this._Buttons.RemoveChild(b);
@@ -72,7 +72,7 @@ public class LayerStack : TabContainer
 
     public void AddLayer(GenLayer l)
     {
-        this._Buttons.AddChild(new LayerButtonControl() { Layer = l });
+        // this._Buttons.AddChild(new LayerButtonControl() { Layer = l });
     }
 
     public void OnNewLayerPressed()
