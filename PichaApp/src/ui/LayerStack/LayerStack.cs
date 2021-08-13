@@ -9,6 +9,11 @@ public class LayerStack : TabContainer
         RectMinSize = new Vector2(260, 200)
     };
 
+    private ChangeLog _Log = new ChangeLog() {
+        Name = "Change Log",
+        RectMinSize = new Vector2(260, 200)
+    };
+
     private ScrollContainer _Contents = new ScrollContainer() {
         SizeFlagsVertical = (int)SizeFlags.ExpandFill,
         SizeFlagsHorizontal = (int)SizeFlags.ExpandFill,
@@ -37,7 +42,7 @@ public class LayerStack : TabContainer
         this.TabAlign = TabAlignEnum.Left;
         this.DragToRearrangeEnabled = false;
 
-        this.AddChild(this._LayersViewList);
+        this.AddChildren(this._LayersViewList, _Log);
 
         this._FooterContainer.AddChildren(this._NewLayer);
         this._Contents.AddChild(_Buttons);
