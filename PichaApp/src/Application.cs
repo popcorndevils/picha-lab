@@ -16,8 +16,6 @@ public class Application : Node
 
     public override void _Ready()
     {
-        this.AddToGroup("application");
-
         OS.MinWindowSize = new Vector2(820, 550);
 
         this._Menu = this.GetNode<MenuBar>("PichaGUI/WSVert/MenuBar");
@@ -35,7 +33,7 @@ public class Application : Node
     {
         if (Input.IsActionJustPressed("undo"))
         {
-            // this._Canvases.Active.UndoChange();
+            this._Canvases.UndoChange();
         }
     }
 
@@ -59,8 +57,14 @@ public class Application : Node
             case "save_canvas":
                 if(this._Canvases.Active != null)
                 {
-                    if(this._Canvases.Active.FileExists) { this._Canvases.Active.Save(); }
-                    else { this._SaveAs.PopupCentered(); }
+                    if(this._Canvases.FileExists) 
+                    { 
+                        this._Canvases.Save(); 
+                    }
+                    else 
+                    { 
+                        this._SaveAs.PopupCentered(); 
+                    }
                 }
                 break;
             case "save_canvas_as":
@@ -80,7 +84,7 @@ public class Application : Node
 
     public void OnFileSaveAs(string f)
     {
-        this._Canvases.Active.SaveAsFile(f);
+        this._Canvases.SaveAsFile(f);
     }
 
     public void OnOpenCanvas(string path)

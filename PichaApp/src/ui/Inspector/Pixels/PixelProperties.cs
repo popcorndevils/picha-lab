@@ -47,7 +47,6 @@ public class PixelProperties : BaseSection
     public override void _Ready()
     {
         base._Ready();
-        this.AddToGroup("gp_pixel_props");
         this.SectionGrid.Columns = 2;
 
         this.Theme = GD.Load<Theme>("./res/theme/SectionAlt.tres");
@@ -256,15 +255,5 @@ public class PixelProperties : BaseSection
     {
         this.QueueFree();
         this.PixelDeleted?.Invoke(this.Pixel);
-    }
-
-    public void CorrectName(string oldName, string newName)
-    {
-        if(this.NameEdit.Text != this.Pixel.Name)
-        {
-            this.NameEdit.Text = newName;
-            this.NameEdit.CaretPosition = newName.Length;
-            this.SectionTitle = newName;
-        }
     }
 }

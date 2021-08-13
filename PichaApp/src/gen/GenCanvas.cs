@@ -6,12 +6,8 @@ using Godot;
 using Newtonsoft.Json;
 using PichaLib;
 
-public delegate void CanvasChangedHandler(Canvas canvas);
-
 public class GenCanvas : Node2D
 {
-    public CanvasChangedHandler GenCanvasChanged;
-
     private Canvas _Data;
     private Timer _Timer = new Timer();
     private bool _FileSaved = false;
@@ -19,6 +15,7 @@ public class GenCanvas : Node2D
     private TextureRect _FG = new TextureRect();
     private Color _BGCol = new Color(.1f, .1f, .1f, 0f);
     private Color _FGCol = Chroma.CreateFromHex("#298c8c8c").ToGodotColor();
+    private Control _LayerBox = new Control();
     public List<Canvas> CanvasChanges = new List<Canvas>();
 
     public string PathName = "";
@@ -157,6 +154,7 @@ public class GenCanvas : Node2D
         this.AddChild(this._Timer);
         this.AddChild(this._BG);
         this.AddChild(this._FG);
+        this.AddChild(this._LayerBox);
 
         this._Timer.Connect("timeout", this, "Generate");
         if(this.AutoGen) { this._Timer.Start(); }
@@ -167,11 +165,9 @@ public class GenCanvas : Node2D
     public void AddLayer(GenLayer l)
     {
         this.Layers.Add(l);
-        this.AddChild(l);
+        this._LayerBox.AddChild(l);
         l.LayerChanged += this.OnLayerChange;
         l.Generate();
-        if(this.GetTree() != null)
-            { this.GetTree().CallGroup("gp_layer_gui", "LoadLayer", l); }
         this.FileSaved = false;
     }
 
@@ -240,6 +236,8 @@ public class GenCanvas : Node2D
         this.FileExists = true;
         this.PathName = path;
         this._WriteFile(path);
+        this.CanvasChanges.Clear();
+        this.CanvasChanges.Add(this.SaveData());
     }
 
     public void _WriteFile(string path)
@@ -258,33 +256,38 @@ public class GenCanvas : Node2D
             TransparencyBG = this.BG.ToChroma(),
         };
 
-        foreach(GenLayer _pair in this.Layers)
+        foreach(GenLayer _l in this.Layers)
         {
-            _output.Layers.Add(_pair.Data);
+            _output.Layers.Add(new Layer() {
+                Name = _l.Data.Name,
+                AnimTime = _l.Data.AnimTime,
+                MirrorX = _l.Data.MirrorX,
+                MirrorY = _l.Data.MirrorY,
+                Position = _l.Data.Position,
+                Frames = _l.Data.Frames,
+                Pixels = _l.Data.Pixels,
+                Cycles = _l.Data.Cycles,
+            });
         }
 
         return _output;
-    }
-
-    public void UndoChange()
-    {
-        // TODO Implement Undo function
     }
 
     public void LoadData(Canvas c) 
     {
         this.Data = c;
 
-        foreach(GenLayer l in this.Layers)
+        foreach(GenLayer _l in this.Layers)
         {
-            this.RemoveChild(l);
-            l.QueueFree();
+            _l.LayerChanged -= this.OnLayerChange;
+            this._LayerBox.RemoveChild(_l);
+            _l.QueueFree();
         }
 
-        foreach(Layer layer in c.Layers)
+        foreach(Layer _dat in c.Layers)
         {
             var _l = new GenLayer();
-            _l.Data = layer;
+            _l.Data = _dat;
             this.AddLayer(_l);
         }
 
@@ -292,6 +295,21 @@ public class GenCanvas : Node2D
         {
             this.FileSaved = true;
         }
+
+        this.CanvasChanges.Clear();
+        this.CanvasChanges.Add(this.SaveData());
+    }
+
+    public void DeleteSelf()
+    {
+        foreach(GenLayer l in this.Layers)
+        {
+            l.LayerChanged -= this.OnLayerChange;
+            l.Free();
+        }
+
+        this.Layers.Clear();
+        this.QueueFree();
     }
 
     public void OnLayerChange(Layer layer, bool major)
@@ -301,6 +319,6 @@ public class GenCanvas : Node2D
             this.Generate();
         }
         this.FileSaved = false;
-        // TODO this.CanvasChanges.Add(this.SaveData());
+        this.CanvasChanges.Add(this.SaveData());
     }
 }

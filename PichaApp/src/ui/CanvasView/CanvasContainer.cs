@@ -11,9 +11,12 @@ public class CanvasContainer : Control
     public GenCanvas Canvas {
         get => this._Canvas;
         set {
-            
             if(this._Canvas != null)
-                { this.RemoveChild(value); }
+            { 
+                var _old = this._Canvas;
+                this.RemoveChild(this._Canvas);
+                _old.DeleteSelf();
+            }
             this._Canvas = value;
             this.AddChild(value);
             this.MoveChild(value, 0);

@@ -2,12 +2,12 @@ using Godot;
 
 public class LayerStack : TabContainer
 {
+    public GenCanvas Canvas;
+
     private VBoxContainer _LayersViewList = new VBoxContainer() {
         Name = "Layer Stack",
         RectMinSize = new Vector2(260, 200)
     };
-
-    public GenCanvas Canvas;
 
     private ScrollContainer _Contents = new ScrollContainer() {
         SizeFlagsVertical = (int)SizeFlags.ExpandFill,
@@ -58,7 +58,6 @@ public class LayerStack : TabContainer
         {
             if(n is LayerButtonControl b)
             {
-                GD.Print(b.Layer.Name);
                 b.Layer = null;
                 b.QueueFree();
                 this._Buttons.RemoveChild(b);
@@ -72,7 +71,7 @@ public class LayerStack : TabContainer
 
     public void AddLayer(GenLayer l)
     {
-        // this._Buttons.AddChild(new LayerButtonControl() { Layer = l });
+        this._Buttons.AddChild(new LayerButtonControl() { Layer = l });
     }
 
     public void OnNewLayerPressed()

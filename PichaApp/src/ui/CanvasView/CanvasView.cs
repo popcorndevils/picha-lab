@@ -1,3 +1,5 @@
+using System.Linq;
+
 using Godot;
 
 using PichaLib;
@@ -13,6 +15,33 @@ public class CanvasView : TabContainer
             return null;
         } 
     }
+
+    public bool FileExists {
+        get {
+            if(this.Active != null)
+            {
+                return this.Active.FileExists;
+            }
+            return false;
+        }
+    }
+
+    public void Save()
+    {
+        if(this.Active != null)
+        {
+            this.Active.Save();
+        }
+    }
+
+    public void SaveAsFile(string f)
+    {
+        if(this.Active != null)
+        {
+            this.Active.SaveAsFile(f);
+        }
+    }
+
     public override void _Ready()
     {
         this.AddToGroup("gp_canvas_handler");
@@ -35,6 +64,22 @@ public class CanvasView : TabContainer
         if(c.Data == null) { c.Data = new Canvas(); }
         this.CurrentTab = _i;
         this.SetTabTitle(this.CurrentTab, c.CanvasName);
+        this.Active.CanvasChanges.Add(this.Active.SaveData());
+    }
+
+    public void UndoChange()
+    {
+        if(this.Active != null)
+        {
+            // TODO NEED TO IMPLEMENT PROPER BACK AND FORTH
+            var _container = this.Active.GetParent() as CanvasContainer;
+            var _new = new GenCanvas();
+            int _index = this.Active.CanvasChanges.Count - 2;
+            _new.LoadData(this.Active.CanvasChanges[_index]);
+            _container.Canvas = _new;
+            this.GetTree().CallGroup("gp_canvas_gui", "LoadCanvas", _new);
+            this.GetTree().CallGroup("gp_layer_gui", "LoadCanvas", _new);
+        }
     }
 
     public void AddLayer(GenLayer l)

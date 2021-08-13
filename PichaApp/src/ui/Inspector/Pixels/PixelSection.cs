@@ -11,6 +11,8 @@ public class PixelSection : BaseSection
 
     private GenLayer _Layer;
     private Button _NewPixel;
+    
+    public Godot.Collections.Array Pixels => this.SectionGrid.GetChildren();
 
     public override void _Ready()
     {

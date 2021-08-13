@@ -102,7 +102,7 @@ public class LayerInspector : ScrollContainer
                 this._Cycles.PixelNameChange(_oldName, _newName);
                 if(_newName != (string)value)
                 {
-                    this.GetTree().CallGroup("gp_pixel_props", "CorrectName", (string)value, _newName);
+                    this.CorrectPixelName((string)value, _newName);
                 }
                 break;
             case "RandomCol":
@@ -186,6 +186,28 @@ public class LayerInspector : ScrollContainer
         {
             this.LoadLayer(c.Layers[0]);
         }
+    }
+
+    public void CorrectPixelName(string oldName, string newName)
+    {
+        foreach(Node n in this._Pixels.Pixels)
+        {
+            if(n is PixelProperties p)
+            {
+                if(p.NameEdit.Text != p.Pixel.Name)
+                {
+                    p.NameEdit.Text = newName;
+                    p.NameEdit.CaretPosition = newName.Length;
+                    p.SectionTitle = newName;
+                }
+            }
+        }
+    }
+
+    public void ActivateLayerInspectorTab()
+    {
+        var _par = this.GetParent<InspectorView>();
+        _par.CurrentTab = this.GetIndex();
     }
 }
 
