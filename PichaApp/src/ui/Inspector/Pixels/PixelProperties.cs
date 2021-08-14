@@ -14,6 +14,8 @@ public class PixelProperties : BaseSection
     public Pixel Pixel;
 
     private bool _IgnoreSignals = false;
+    private bool _NameEdited = false;
+    private string _OldName = "";
 
     public bool GenColDisabled {
         get => this.ColorEdit.Disabled;
@@ -73,7 +75,8 @@ public class PixelProperties : BaseSection
         };
 
         this.NameEdit = new LineEdit() {
-            SizeFlagsHorizontal = (int)Control.SizeFlags.ExpandFill
+            SizeFlagsHorizontal = (int)Control.SizeFlags.ExpandFill,
+            HintTooltip = PDefaults.ToolHints.Pixel.PixelName,
         };
 
         this._GenColLabel = new Label() {
@@ -117,6 +120,7 @@ public class PixelProperties : BaseSection
         var _nameLabel = new Label() {
             Text = "Pixel Name",
             Align = Label.AlignEnum.Right,
+            HintTooltip = PDefaults.ToolHints.Pixel.PixelName,
         };
 
         var _paintLabel = new Label() {
@@ -170,7 +174,9 @@ public class PixelProperties : BaseSection
         this._Delete.Connect("pressed", this, "OnDeletePixel");
 
         // Setting Signals
+        this.SectionHeader.Connect("pressed", this, "OnSectionPress");
         this.NameEdit.Connect("text_changed", this, "OnNameEdit");
+        this.NameEdit.Connect("text_entered", this, "OnNameEntered");
         this.ColorEdit.Connect("color_changed", this, "OnColorEdit");
         this.PaintEdit.Connect("color_changed", this, "OnPaintEdit");
         this.RandomColEdit.Connect("pressed", this, "OnRandomColEdit");
@@ -209,8 +215,37 @@ public class PixelProperties : BaseSection
     // HANDLE SIGNALS
     public void OnNameEdit(string text)
     {
-        this.SectionTitle = text; 
-        this.PixelChanged?.Invoke(this.Pixel, "Name", text);
+        if(!this._NameEdited)
+        {
+            this._OldName = this.SectionTitle;
+            this.SectionTitle = $"*{this.SectionTitle}";
+            this._NameEdited = true;
+        }
+    }
+
+    public void OnSectionPress()
+    {
+        if(this._NameEdited)
+        {
+            this.OnNameEntered(this.NameEdit.Text);
+        }
+    }
+
+    public void OnNameEntered(string text)
+    {
+        if(this._NameEdited)
+        {
+            if(text != this._OldName)
+            {
+                this.SectionTitle = text;
+                this.PixelChanged?.Invoke(this.Pixel, "Name", text);
+            }
+            else
+            {
+                this.SectionTitle = this._OldName;
+            }
+        }
+        this._NameEdited = false;
     }
 
     public void OnRandomColEdit()

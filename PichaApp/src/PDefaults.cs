@@ -181,6 +181,7 @@ static class PDefaults
             internal static string NewPixel = "Create new Pixel Type.";
             internal static string Color = "When enabled, sets color used in\ngenerated layer for pixel type.";
             internal static string DeletePixel = "Delete Pixel.";
+            internal static string PixelName = "Unique identifier for Pixel types. \nChanges are saved when pressing 'Enter' or closing the section.";
         }
 
         internal static class Cycle
