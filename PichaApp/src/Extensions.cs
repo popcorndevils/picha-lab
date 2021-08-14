@@ -1,3 +1,6 @@
+using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
+
 using Godot;
 
 using PichaLib;

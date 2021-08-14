@@ -1,4 +1,4 @@
-using System.Linq;
+using System;
 using System.Collections.Generic;
 
 using Godot;
@@ -258,16 +258,7 @@ public class GenCanvas : Node2D
 
         foreach(GenLayer _l in this.Layers)
         {
-            _output.Layers.Add(new Layer() {
-                Name = _l.Data.Name,
-                AnimTime = _l.Data.AnimTime,
-                MirrorX = _l.Data.MirrorX,
-                MirrorY = _l.Data.MirrorY,
-                Position = _l.Data.Position,
-                Frames = _l.Data.Frames,
-                Pixels = _l.Data.Pixels,
-                Cycles = _l.Data.Cycles,
-            });
+            _output.Layers.Add(_l.Data.Copy());
         }
 
         return _output;

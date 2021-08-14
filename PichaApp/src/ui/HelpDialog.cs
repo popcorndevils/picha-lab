@@ -19,6 +19,7 @@ public class HelpDialog : WindowDialog
 
         this._DocTree.Connect("item_selected", this, "OnTreeItemSelect");
         this._DocTree.Connect("item_activated", this, "OnTreeItemActivate");
+        this._DocText.Connect("meta_clicked", this, "OnMetaClicked");
 
         this._PopulateDocs();
         this._PopulateTree();
@@ -42,6 +43,11 @@ public class HelpDialog : WindowDialog
         this._DocTitle.Text = _data.Title;
         this._DocText.Clear();
         this._DocText.AppendBbcode(_data.Text);
+    }
+
+    public void OnMetaClicked(string meta)
+    {
+        OS.ShellOpen(meta);
     }
 
     private void _PopulateDocs()

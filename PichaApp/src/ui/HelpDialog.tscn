@@ -3,8 +3,8 @@
 [ext_resource path="res://src/ui/HelpDialog.cs" type="Script" id=1]
 
 [node name="HelpDialog" type="WindowDialog"]
-margin_right = 48.0
-margin_bottom = 40.0
+margin_right = 700.0
+margin_bottom = 400.0
 rect_min_size = Vector2( 600, 400 )
 window_title = "Documentation"
 resizable = true
@@ -29,6 +29,7 @@ size_flags_vertical = 3
 margin_right = 298.0
 margin_bottom = 24.0
 focus_mode = 0
+align = 1
 editable = false
 
 [node name="DocTextBox" type="ScrollContainer" parent="HBox/VBoxContainer"]

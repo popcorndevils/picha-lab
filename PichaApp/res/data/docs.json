@@ -27,5 +27,16 @@
                 ]
             }
         ]
+    },
+    {
+        "section_name": "Credits",
+        "text_path": "./res/data/_doc/credit.md",
+        "sub_section": 
+        [
+            {
+                "section_name": "Net Object Deep Copy",
+                "text_path": "./res/data/_doc/credit_objext.md"
+            }
+        ]
     }
 ]
