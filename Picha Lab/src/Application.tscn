@@ -48,8 +48,8 @@ window_title = "Save New Canvas"
 resizable = true
 access = 2
 filters = PoolStringArray( "*.plab ; Picha Lab" )
-current_dir = "/Projects/Picha/PichaApp"
-current_path = "/Projects/Picha/PichaApp/"
+current_dir = "/Projects/Picha/Picha Lab"
+current_path = "/Projects/Picha/Picha Lab/"
 
 [node name="OpenDialog" type="FileDialog" parent="PichaGUI"]
 margin_right = 600.0
@@ -60,7 +60,7 @@ resizable = true
 mode = 0
 access = 2
 filters = PoolStringArray( "*.plab ; Picha Lab" )
-current_dir = "/Projects/Picha/PichaApp"
-current_path = "/Projects/Picha/PichaApp/"
+current_dir = "/Projects/Picha/Picha Lab"
+current_path = "/Projects/Picha/Picha Lab/"
 
 [node name="HelpDialog" parent="PichaGUI" instance=ExtResource( 6 )]
