@@ -13,6 +13,7 @@ public class HelpDialog : WindowDialog
 
     public override void _Ready()
     {
+        this.AddToGroup("gp_helpdialog");
         this._DocTitle = this.GetNode<LineEdit>("HBox/VBoxContainer/DocTitle");
         this._DocText = this.GetNode<RichTextLabel>("HBox/VBoxContainer/DocTextBox/Margins/DocText");
         this._DocTree= this.GetNode<Tree>("HBox/DocTree");
@@ -23,6 +24,11 @@ public class HelpDialog : WindowDialog
 
         this._PopulateDocs();
         this._PopulateTree();
+    }
+
+    public void OpenHelp()
+    {
+        this.PopupCentered();
     }
 
     public void OnTreeItemSelect()

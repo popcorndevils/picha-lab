@@ -39,7 +39,10 @@ public class GenCanvas : Node2D
             if(value != this._FileSaved)
             {
                 this._FileSaved = value;
-                this.GetTree().CallGroup("gp_canvas_handler", "NameCurrentTab", this.CanvasName);
+                if(this.GetParent() != null)
+                {
+                    this.GetTree().CallGroup("gp_canvas_handler", "NameCurrentTab", this.CanvasName);
+                }
             }
         }
     }

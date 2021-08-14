@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://src/Application.cs" type="Script" id=1]
 [ext_resource path="res://src/ui/Menu/MenuBar.tscn" type="PackedScene" id=2]
@@ -6,6 +6,8 @@
 [ext_resource path="res://src/ui/WorkArea.tscn" type="PackedScene" id=4]
 [ext_resource path="res://src/ui/PatternDesigner/PatternDesigner.tscn" type="PackedScene" id=5]
 [ext_resource path="res://src/ui/HelpDialog.tscn" type="PackedScene" id=6]
+[ext_resource path="res://src/ui/ExportDialog.tscn" type="PackedScene" id=7]
+[ext_resource path="res://src/ui/FileBrowse.cs" type="Script" id=8]
 
 [node name="Application" type="Node"]
 script = ExtResource( 1 )
@@ -40,27 +42,21 @@ margin_bottom = 600.0
 [node name="PatternDesigner" parent="PichaGUI" instance=ExtResource( 5 )]
 margin_bottom = 182.0
 
-[node name="SaveDialog" type="FileDialog" parent="PichaGUI"]
+[node name="FileBrowse" type="FileDialog" parent="PichaGUI"]
 margin_right = 600.0
 margin_bottom = 300.0
 rect_min_size = Vector2( 400, 140 )
-window_title = "Save New Canvas"
 resizable = true
 access = 2
 filters = PoolStringArray( "*.plab ; Picha Lab" )
 current_dir = "/Projects/Picha/Picha Lab"
 current_path = "/Projects/Picha/Picha Lab/"
-
-[node name="OpenDialog" type="FileDialog" parent="PichaGUI"]
-margin_right = 600.0
-margin_bottom = 300.0
-rect_min_size = Vector2( 400, 140 )
-window_title = "Open a File"
-resizable = true
-mode = 0
-access = 2
-filters = PoolStringArray( "*.plab ; Picha Lab" )
-current_dir = "/Projects/Picha/Picha Lab"
-current_path = "/Projects/Picha/Picha Lab/"
+script = ExtResource( 8 )
 
 [node name="HelpDialog" parent="PichaGUI" instance=ExtResource( 6 )]
+
+[node name="ExportDialog" parent="PichaGUI" instance=ExtResource( 7 )]
+margin_right = 676.0
+margin_bottom = 583.0
+popup_exclusive = true
+window_title = "Export Sprite"

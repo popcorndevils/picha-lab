@@ -1,4 +1,4 @@
-using System.Linq;
+using Newtonsoft.Json;
 
 using Godot;
 
@@ -26,22 +26,6 @@ public class CanvasView : TabContainer
         }
     }
 
-    public void Save()
-    {
-        if(this.Active != null)
-        {
-            this.Active.Save();
-        }
-    }
-
-    public void SaveAsFile(string f)
-    {
-        if(this.Active != null)
-        {
-            this.Active.SaveAsFile(f);
-        }
-    }
-
     public override void _Ready()
     {
         this.AddToGroup("gp_canvas_handler");
@@ -53,6 +37,47 @@ public class CanvasView : TabContainer
         DragToRearrangeEnabled = true;
         this.SizeFlagsHorizontal = (int)SizeFlags.ExpandFill;
         this.SizeFlagsVertical = (int)SizeFlags.ExpandFill;
+    }
+
+    public void Save()
+    {
+        if(this.Active != null)
+        {
+            if(this.FileExists) 
+                { this.Active.Save(); }
+            else 
+                { this.GetTree().CallGroup("gp_filebrowse", "OpenDialog", DialogMode.SAVE_CANVAS_AS_NEW); }
+        }
+    }
+
+    public void SaveCanvas()
+    {
+        if(this.Active != null)
+        {
+            this.GetTree().CallGroup("gp_filebrowse", "OpenDialog", DialogMode.SAVE_CANVAS_AS_NEW);
+        }
+    }
+
+    public void WriteFile(string f)
+    {
+        if(this.Active != null)
+        {
+            this.Active.SaveAsFile(f);
+        }
+    }
+    
+    public void OpenCanvas(string path)
+    {
+        var _dat = JsonConvert.DeserializeObject<Canvas>(System.IO.File.ReadAllText(path));
+        var _can = new GenCanvas();
+
+        _can.LoadData(_dat);
+
+        _can.PathName = path;
+        _can.FileExists = true;
+        _can.FileSaved = true;
+
+        this.AddCanvas(_can);
     }
 
     public void AddCanvas(GenCanvas c)

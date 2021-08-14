@@ -53,6 +53,7 @@ public class LayerButton : Button
         var _preview = new LayerButton() {
             Text = this.Text,
             RectMinSize = this.RectSize,
+            Modulate = new Color(1f, 1f, 1f, .65f),
         };
 
         var c = new Control();

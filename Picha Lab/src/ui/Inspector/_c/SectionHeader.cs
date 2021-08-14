@@ -21,7 +21,8 @@ public class SectionHeader : Button
         {
             var _preview = new SectionHeader() {
                 Text = this.Text,
-                RectMinSize = this.RectSize
+                RectMinSize = this.RectSize,
+                Modulate = new Color(1f, 1f, 1f, .65f),
             };        
             
             var c = new Control();
