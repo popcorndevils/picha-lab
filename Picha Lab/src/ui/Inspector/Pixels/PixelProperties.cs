@@ -51,7 +51,7 @@ public class PixelProperties : BaseSection
         base._Ready();
         this.SectionGrid.Columns = 2;
 
-        this.Theme = GD.Load<Theme>("./res/theme/SectionAlt.tres");
+        this.Theme = GD.Load<Theme>("./res/theme/SubSection.tres");
 
         this._PanelStyle = new StyleBoxFlat() {
             BorderWidthTop = 0,

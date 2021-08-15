@@ -1,7 +1,4 @@
-
 using Godot;
-
-using PichaLib;
 
 public class Application : Node
 {

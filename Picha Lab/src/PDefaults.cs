@@ -3,6 +3,8 @@ using System.Collections.Generic;
 
 using PichaLib;
 
+using Godot;
+
 static class PDefaults
 {
     internal const int LAYER_WIDTH = 8;
@@ -161,6 +163,13 @@ static class PDefaults
         }
     }
 
+    internal static RichTextEffect[] TextEffects = new RichTextEffect[] {
+        new TfxGhost(),
+        new TfxCuss(),
+        new TfxPulse(),
+        new TfxMatrix(),
+    };
+
     internal static class ToolHints
     {
         internal static class Canvas
@@ -181,7 +190,7 @@ static class PDefaults
             internal static string NewPixel = "Create new Pixel Type.";
             internal static string Color = "When enabled, sets color used in\ngenerated layer for pixel type.";
             internal static string DeletePixel = "Delete Pixel.";
-            internal static string PixelName = "Unique identifier for Pixel types. \nChanges are saved when pressing 'Enter' or closing the section.";
+            internal static string PixelName = "Unique identifier for Pixel types. Changes are saved\nwhen pressing 'Enter' or closing the section.";
         }
 
         internal static class Cycle

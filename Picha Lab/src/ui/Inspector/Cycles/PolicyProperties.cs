@@ -41,6 +41,7 @@ public class PolicyProperties : BaseSection
         base._Ready();
         
         this.SectionGrid.Columns = 2;
+        this.Theme = GD.Load<Theme>("./res/theme/SubSubSection.tres");
 
         this._InputEdit = new OptionButton() {
             SizeFlagsHorizontal = (int)Control.SizeFlags.ExpandFill

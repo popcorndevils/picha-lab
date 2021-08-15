@@ -7,14 +7,14 @@ public class HelpDialog : WindowDialog
 
     public SortedList<int, DocsObject> Docs = new SortedList<int, DocsObject>();
 
-    private LineEdit _DocTitle;
+    private RichTextLabel _DocTitle;
     private RichTextLabel _DocText;
     private Tree _DocTree;
 
     public override void _Ready()
     {
         this.AddToGroup("gp_helpdialog");
-        this._DocTitle = this.GetNode<LineEdit>("HBox/VBoxContainer/DocTitle");
+        this._DocTitle = this.GetNode<RichTextLabel>("HBox/VBoxContainer/TitleMargin/DocTitle");
         this._DocText = this.GetNode<RichTextLabel>("HBox/VBoxContainer/DocTextBox/Margins/DocText");
         this._DocTree= this.GetNode<Tree>("HBox/DocTree");
 
@@ -24,6 +24,7 @@ public class HelpDialog : WindowDialog
 
         this._PopulateDocs();
         this._PopulateTree();
+        this._PopulateEffects();
     }
 
     public void OpenHelp()
@@ -35,7 +36,8 @@ public class HelpDialog : WindowDialog
     {
         var _item = this._DocTree.GetSelected();
         var _data = (DocsObject)_item.GetMetadata(0);
-        this._DocTitle.Text = _data.Title;
+        this._DocTitle.Clear();
+        this._DocTitle.AppendBbcode($"[center][b]{_data.Title}[/b][/center]");
         this._DocText.Clear();
         this._DocText.AppendBbcode(_data.Text);
     }
@@ -54,6 +56,15 @@ public class HelpDialog : WindowDialog
     public void OnMetaClicked(string meta)
     {
         OS.ShellOpen(meta);
+    }
+
+    private void _PopulateEffects()
+    {
+        foreach(RichTextEffect efx in PDefaults.TextEffects)
+        {
+            this._DocTitle.InstallEffect(efx);
+            this._DocText.InstallEffect(efx);
+        }
     }
 
     private void _PopulateDocs()

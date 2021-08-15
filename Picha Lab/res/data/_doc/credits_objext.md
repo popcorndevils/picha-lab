@@ -1,8 +1,10 @@
-[color=lime][i]This little bit of code was a god send for me in figuring out how to handle saving canvas states as the user edits their project for undoing and redoing changes.[/i][/color]
+[color=#8bbca4][i]This little bit of code was a god send for me. Implementing undo/redo functionality requires saving canvas states in-between edits, which was becoming a real challenge. Burtsev Alexy's code greatly simplified the issue.[/i][/color]
 
-Project Link: [url=https://github.com/Burtsev-Alexey/net-object-deep-copy]Github[/url]
+Project Link: [color=teal][url=https://github.com/Burtsev-Alexey/net-object-deep-copy]Github[/url][/color]
 
-[center][u]License[/u][/center]
+[center]-----------
+LICENSE
+-----------[/center]
 
 Source code is released under the MIT license.
 

@@ -72,5 +72,18 @@ public static class PichaExtensions
     {
         return new Vector2(self.x, self.y);
     }
+
+    public static T GetDefault<T>(this Godot.Collections.Dictionary self, object key, T val)
+    {
+        if(self.Contains(key))
+        {
+            return (T)self[key];
+        }
+        else
+        {
+            return val;
+        }
+
+    }
 }
 

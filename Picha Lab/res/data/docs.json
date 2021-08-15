@@ -1,41 +1,24 @@
 [   
     {
-        "section_name": "part1",
-        "text_path": "./res/data/_doc/part_1.md",
-        "sub_section": 
-        [
-            {
-                "section_name": "part A",
-                "text_path": "./res/data/_doc/part_a.md"
-            }
-        ]
-    },
-    {
-        "section_name": "part2",
-        "text_path": "./res/data/_doc/part_2.md",
-        "sub_section": 
-        [
-            {
-                "section_name": "part A",
-                "text_path":"./res/data/_doc/part_a2.md",
-                "sub_section":
-                [
-                    {
-                        "section_name": "part i",
-                        "text_path": "./res/data/_doc/part_i.md"
-                    }
-                ]
-            }
-        ]
+        "section_name": "Welcome",
+        "text_path": "./res/data/_doc/01_welcome.md"
     },
     {
         "section_name": "Credits",
-        "text_path": "./res/data/_doc/credit.md",
+        "text_path": "./res/data/_doc/credits.md",
         "sub_section": 
         [
             {
-                "section_name": "Net Object Deep Copy",
-                "text_path": "./res/data/_doc/credit_objext.md"
+                "section_name": "Fairfax",
+                "text_path": "./res/data/_doc/credits_fairfax.md"
+            },
+            {
+                "section_name": "Deep Copy",
+                "text_path": "./res/data/_doc/credits_objext.md"
+            },
+            {
+                "section_name": "Text Effects",
+                "text_path": "./res/data/_doc/credits_texteffects.md"
             }
         ]
     }
