@@ -15,4 +15,10 @@ The following examples were pulled from the [color=teal][url=https://docs.godote
 
 The following examples were found on teebarjunk's [color=teal][url=https://github.com/teebarjunk/godot-text_effects]Github[/url][/color].
 
-[table=2][cell][b]Bbcode  [/b][/cell][cell][b]Example[/b][/cell][cell]cuss[/cell][cell]My [cuss]fucking[/cuss] toe![/cell][/table]
+[table=2]
+[cell][b]Bbcode  [/b][/cell][cell][b]Example[/b][/cell]
+[cell]cuss[/cell][cell]My [cuss]fucking[/cuss] toe![/cell]
+[cell]heart[/cell][cell]I'm [heart]hopelessly[/heart] in [heart]love[/heart] with you![/cell]
+[cell]jump[/cell][cell]So get out your seat and [jump]jump[/jump] around![/cell]
+[cell]leet[/cell][cell][leet]Hackers are the best![/leet][/cell]
+[/table]

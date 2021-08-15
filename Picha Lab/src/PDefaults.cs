@@ -168,6 +168,9 @@ static class PDefaults
         new TfxCuss(),
         new TfxPulse(),
         new TfxMatrix(),
+        new TfxHeart(),
+        new TfxJump(),
+        new TfxLeet(),
     };
 
     internal static class ToolHints
