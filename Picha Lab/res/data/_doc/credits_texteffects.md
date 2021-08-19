@@ -1,4 +1,4 @@
-[color=#8bbca4][i]While I had to rewrite all of these text effects to work in C#, it was a huge help to have GDScript examples to work from.[/i][/color]
+[color=#8bbca4][i]While I had to rewrite all of these text effects to work in C#, it was a huge help to have examples to work from.[/i][/color]
 
 [center][u]Godot Docs[/u][/center]
 
