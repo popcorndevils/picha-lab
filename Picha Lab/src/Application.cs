@@ -2,17 +2,10 @@ using Godot;
 
 public class Application : Node
 {
-    private MenuBar _Menu;
-    private CanvasView _Canvases;
-
     public override void _Ready()
     {
         OS.MinWindowSize = new Vector2(820, 550);
-
-        this._Menu = this.GetNode<MenuBar>("PichaGUI/WSVert/MenuBar");
-        this._Canvases = this.GetNode<WorkArea>("PichaGUI/WSVert/WorkArea").CanvasView;
-
-        this._Menu.ItemSelected += this.HandleMenu;
+        this.GetNode<MenuBar>("PichaGUI/WSVert/MenuBar").ItemSelected += this.HandleMenu;
     }
     
     public override void _Process(float delta)
