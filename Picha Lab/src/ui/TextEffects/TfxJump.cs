@@ -22,8 +22,14 @@ public class TfxJump : RichTextEffect
         this._last = (int)charFx.AbsoluteIndex;
         var t = Mathf.Abs(Mathf.Sin(charFx.ElapsedTime * 8f + this._w_char * Mathf.Pi * .025f)) * 4f;
 
-        var angle = Mathf.Deg2Rad(charFx.Env.GetDefault<float>("angle", 3.141f));
-        charFx.Offset = new Vector2(charFx.Offset.x + Mathf.Sin(angle) * t, charFx.Offset.y + Mathf.Sin(angle) * t);
+        var _angle = charFx.Env.GetDefault<float>("angle", 0f) + 180f;
+
+        _angle = Mathf.Deg2Rad(Mathf.Wrap(_angle, 0f, 360f));
+        
+        var _x = charFx.Offset.x + (Mathf.Sin(_angle) * t);
+        var _y = charFx.Offset.y + (Mathf.Cos(_angle) * t);
+
+        charFx.Offset = new Vector2(_x, _y);
 
         return true;
     }

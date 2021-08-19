@@ -32,23 +32,19 @@ public class HelpDialog : WindowDialog
         this.PopupCentered();
     }
 
+    public void OnTreeItemActivate()
+    {
+        var _item = this._DocTree.GetSelected();
+        _item.Collapsed = !_item.Collapsed;
+        this.OnTreeItemSelect();
+    }
+
     public void OnTreeItemSelect()
     {
         var _item = this._DocTree.GetSelected();
         var _data = (DocsObject)_item.GetMetadata(0);
         this._DocTitle.Clear();
         this._DocTitle.AppendBbcode($"[center][b]{_data.Title}[/b][/center]");
-        this._DocText.Clear();
-        this._DocText.AppendBbcode(_data.Text);
-    }
-
-    public void OnTreeItemActivate()
-    {
-        var _item = this._DocTree.GetSelected();
-        _item.Collapsed = !_item.Collapsed;
-        
-        var _data = (DocsObject)_item.GetMetadata(0);
-        this._DocTitle.Text = _data.Title;
         this._DocText.Clear();
         this._DocText.AppendBbcode(_data.Text);
     }
