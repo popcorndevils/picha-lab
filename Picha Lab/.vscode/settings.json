@@ -3,6 +3,7 @@
         "btns",
         "horiz",
         "hsize",
+        "lerp",
         "plab",
         "regen",
         "sined",
@@ -18,6 +19,7 @@
         "doc",
         "md",
         "objext",
-        "res"
+        "res",
+        "soooo"
     ]
 }

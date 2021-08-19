@@ -171,6 +171,12 @@ static class PDefaults
         new TfxHeart(),
         new TfxJump(),
         new TfxLeet(),
+        new TfxNervous(),
+        new TfxNumber(),
+        new TfxRain(),
+        new TfxSparkle(),
+        new TfxUwu(),
+        new TfxWoo(),
     };
 
     internal static class ToolHints
