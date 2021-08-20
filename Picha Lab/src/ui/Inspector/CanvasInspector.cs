@@ -20,6 +20,9 @@ public class CanvasInspector : VBoxContainer
     public override void _Ready()
     {
         this.AddToGroup("gp_canvas_gui");
+
+        this.RectMinSize = new Vector2(350, 0);
+
         this.SizeFlagsVertical = (int)SizeFlags.Fill;
         this.SizeFlagsHorizontal = (int)SizeFlags.Fill;
 

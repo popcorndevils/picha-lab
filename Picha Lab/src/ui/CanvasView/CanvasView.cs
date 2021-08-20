@@ -131,7 +131,7 @@ public class CanvasView : TabContainer
         var _data = this.Active.SaveData();
 
         var _output = new Image();
-        var _scale = 10f;
+        var _scale = 50f;
 
         _output.Create(_data.Size.W, _data.Size.H, false, Image.Format.Rgba8);
         _output.Lock();
@@ -139,7 +139,7 @@ public class CanvasView : TabContainer
         var _test = PFactory.ProcessLayer(_data.Layers[0])[0].ToImage();
 
         _test.Unlock();
-        _test.Resize((int)(_data.Size.W * _scale), (int)(_data.Size.H * _scale), Image.Interpolation.Nearest);
+        _test.Resize((int)(_test.GetWidth() * _scale), (int)(_test.GetHeight() * _scale), Image.Interpolation.Nearest);
         _test.Lock();
         
         _test.SavePng("test.png");
