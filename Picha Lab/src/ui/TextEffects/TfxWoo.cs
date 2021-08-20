@@ -10,7 +10,7 @@ public class TfxWoo : RichTextEffect
         var _scale = charFx.Env.GetDefault<float>("scale", 1f);
         var _freq = charFx.Env.GetDefault<float>("freq", 8f);
 
-        if(Mathf.Sin(charFx.ElapsedTime * _freq + charFx.AbsoluteIndex * _scale) < 0)
+        if(Mathf.Sin(charFx.ElapsedTime * _freq + charFx.AbsoluteIndex * -_scale) > 0)
         {
             if(charFx.Character >= 65 && charFx.Character <= 90)
             {
