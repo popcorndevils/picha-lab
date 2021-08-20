@@ -24,7 +24,6 @@ public class HelpDialog : WindowDialog
 
         this._PopulateDocs();
         this._PopulateTree();
-        this._PopulateEffects();
     }
 
     public void OpenHelp()
@@ -52,15 +51,6 @@ public class HelpDialog : WindowDialog
     public void OnMetaClicked(string meta)
     {
         OS.ShellOpen(meta);
-    }
-
-    private void _PopulateEffects()
-    {
-        foreach(RichTextEffect efx in PDefaults.TextEffects)
-        {
-            this._DocTitle.InstallEffect(efx);
-            this._DocText.InstallEffect(efx);
-        }
     }
 
     private void _PopulateDocs()

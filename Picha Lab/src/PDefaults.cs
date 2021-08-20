@@ -162,23 +162,6 @@ static class PDefaults
             };
         }
     }
-
-    internal static RichTextEffect[] TextEffects = new RichTextEffect[] {
-        new TfxGhost(),
-        new TfxCuss(),
-        new TfxPulse(),
-        new TfxMatrix(),
-        new TfxHeart(),
-        new TfxJump(),
-        new TfxLeet(),
-        new TfxNervous(),
-        new TfxNumber(),
-        new TfxRain(),
-        new TfxSparkle(),
-        new TfxUwu(),
-        new TfxWoo(),
-    };
-
     internal static class ToolHints
     {
         internal static class Canvas
