@@ -85,5 +85,54 @@ public static class PichaExtensions
         }
 
     }
+
+
+    public static Image BlitLayer(this Image img, Image layer, Vector2 position) {
+        var _output = img;
+
+        var _i = layer;
+        var _i_p = position;
+        var _i_s = img.GetSize();
+
+        int _x_off = (int)_i_p.x + (int)(img.GetSize().x / 2);
+        int _y_off = (int)_i_p.y + (int)(img.GetSize().y / 2);
+
+        for(int x = 0; x < img.GetSize().x; x++) 
+        {
+            for(int y = 0; y < img.GetSize().y; y++) 
+            {
+                int _x = x - _x_off;
+                int _y = y - _y_off;
+
+                if(!(_x < 0 | _y < 0 | _x >= _i_s.x | _y >= _i_s.y)) 
+                {
+                    var _c = _i.GetPixel(_x, _y);
+                    if(_c.a != 0f) 
+                    { 
+                        _output.SetPixel(x, y, _c); 
+                    }
+                }
+            }
+        }
+
+        return _output;
+    }
+
+    public static Image ToImage(this Chroma[,] layer)
+    {
+        var _output = new Image();
+        _output.Create(layer.GetWidth(), layer.GetHeight(), false, Image.Format.Rgba8);
+        _output.Lock();
+
+        for(int x = 0; x < layer.GetWidth(); x++) 
+        {
+            for(int y = 0; y < layer.GetHeight(); y++) 
+            {   
+                _output.SetPixel(x, y, layer[y, x].ToGodotColor());
+            }
+        }
+
+        return _output;
+    }
 }
 

@@ -14,6 +14,10 @@ public class Application : Node
         {
             this.GetTree().CallGroup("gp_canvas_handler", "UndoChange");
         }
+        else if (Input.IsActionJustPressed("export_test"))
+        {
+            this.GetTree().CallGroup("gp_canvas_handler", "ExportTest");
+        }
     }
 
     public void HandleMenu(MenuBarItem menu)

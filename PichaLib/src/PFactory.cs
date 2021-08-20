@@ -9,26 +9,53 @@ namespace PichaLib
     {
         private static Random _Random = new Random();
 
-        public static List<Chroma[,]> ProcessLayer(Layer l)
+        public static List<Chroma[,]> ProcessCanvas(Canvas c)
         {
-            return PFactory._GenColors(PFactory._GenShape(l), l);
+            var _output = new List<Chroma[,]>();
+
+            foreach(Layer _l in c.Layers)
+            {
+                var _canvasLayer = new Chroma[c.Size.H, c.Size.W];
+                var _layerData = ProcessLayer(_l)[0];
+
+                for(int y = 0; y < _l.Size.H; y++)
+                {
+                    for(int x = 0; x < _l.Size.W; x++)
+                    {
+                        _canvasLayer[y + _l.Position.Y, x + _l.Position.X] = _layerData[y, x].Copy();
+                    }
+                }
+                _output.Add(_canvasLayer);
+            }
+
+            return _output;
         }
 
-        private static List<string[,]> _GenShape(Layer l)
+        public static List<Chroma[,]> ProcessLayer(Layer l)
+        {
+            return PFactory._GenColors(PFactory._GenShapes(l), l);
+        }
+
+        private static List<string[,]> _GenShapes(Layer l)
         {
             var _output = new List<string[,]>();
 
             foreach(string[,] _frame in l.Frames)
             {
-                string[,] _frameCopy = (string[,])_frame.Clone();
-
-                foreach(Cycle _cycle in l.Cycles)
-                {
-                    _frameCopy = PFactory._RunCycle(_frameCopy, _cycle.Policies);
-                }
-                _output.Add(_frameCopy);
+                _output.Add(PFactory._GenShape(_frame, l.Cycles));
             }
             return _output;
+        }
+
+        private static string[,] _GenShape(string[,] frame, List<Cycle> cycles)
+        {
+            string[,] _frameCopy = frame.Copy();
+
+            foreach(Cycle _cycle in cycles)
+            {
+                _frameCopy = PFactory._RunCycle(_frameCopy, _cycle.Policies);
+            }
+            return _frameCopy;
         }
 
         private static List<Chroma[,]> _GenColors(List<string[,]> cells, Layer l)

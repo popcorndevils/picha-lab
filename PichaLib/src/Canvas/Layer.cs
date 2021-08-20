@@ -62,7 +62,7 @@ namespace PichaLib
             }
         }
 
-        public (int w, int h) Size {
+        public (int W, int H) Size {
             get {
                 foreach(string[,] f in this._Frames)
                 {
@@ -72,13 +72,13 @@ namespace PichaLib
             }
         }
         
-        public (int x, int y) Position {
+        public (int X, int Y) Position {
             get => (this.X, this.Y);
             set {
-                if(this.X != value.x || this.Y != value.y)
+                if(this.X != value.X || this.Y != value.Y)
                 {
-                    this._X = value.x;
-                    this._Y = value.y;
+                    this._X = value.X;
+                    this._Y = value.Y;
                     this.LayerChanged?.Invoke(this, false);
                 }
             }
