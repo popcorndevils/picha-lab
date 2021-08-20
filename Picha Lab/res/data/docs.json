@@ -15,10 +15,6 @@
             {
                 "section_name": "Deep Copy",
                 "text_path": "./res/data/_doc/credits_objext.md"
-            },
-            {
-                "section_name": "Text Effects",
-                "text_path": "./res/data/_doc/credits_texteffects.md"
             }
         ]
     }
