@@ -9,6 +9,7 @@ public class HelpDialog : WindowDialog
 
     private RichTextLabel _DocTitle;
     private RichTextLabel _DocText;
+    private TreeItem _Previous;
     private Tree _DocTree;
 
     public override void _Ready()
@@ -41,11 +42,16 @@ public class HelpDialog : WindowDialog
     public void OnTreeItemSelect()
     {
         var _item = this._DocTree.GetSelected();
-        var _data = (DocsObject)_item.GetMetadata(0);
-        this._DocTitle.Clear();
-        this._DocTitle.AppendBbcode($"[center][b]{_data.Title}[/b][/center]");
-        this._DocText.Clear();
-        this._DocText.AppendBbcode(_data.Text);
+        if(this._Previous != _item)
+        {
+            var _data = (DocsObject)_item.GetMetadata(0);
+            this._DocTitle.Clear();
+            this._DocTitle.AppendBbcode($"[center][b]{_data.Title}[/b][/center]");
+            this._DocText.Clear();
+            this._DocText.ScrollToLine(0);
+            this._DocText.AppendBbcode(_data.Text);
+            this._Previous = _item;
+        }
     }
 
     public void OnMetaClicked(string meta)
