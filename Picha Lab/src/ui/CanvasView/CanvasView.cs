@@ -1,3 +1,4 @@
+using System;  
 using Newtonsoft.Json;
 
 using Godot;
@@ -127,21 +128,14 @@ public class CanvasView : TabContainer
 
     public void ExportTest()
     {
-        GD.Print("EXPORT");    
-        var _data = this.Active.SaveData();
+        GD.Print("EXPORT");
+        // var _data = this.Active.SaveData();
 
-        var _output = new Image();
-        var _scale = 50f;
+        // var _images = new PImage(_data);
 
-        _output.Create(_data.Size.W, _data.Size.H, false, Image.Format.Rgba8);
-        _output.Lock();
+        // _images.Scale = 100;
 
-        var _test = PFactory.ProcessLayer(_data.Layers[0])[0].ToImage();
+        // _images.LayerImages[0].Frames[0].SavePng("test.png");
 
-        _test.Unlock();
-        _test.Resize((int)(_test.GetWidth() * _scale), (int)(_test.GetHeight() * _scale), Image.Interpolation.Nearest);
-        _test.Lock();
-        
-        _test.SavePng("test.png");
     }
 }
