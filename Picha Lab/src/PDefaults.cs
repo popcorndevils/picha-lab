@@ -168,6 +168,8 @@ static class PDefaults
         {
             internal static string AutoGenerate = "Automatically Re-Generate the Sprite\nat intervals set by 'Time-to-Gen'.";
             internal static string ReGenerate = "Re-Generate Sprite.";
+            internal static string CanvasWidth = "Set width of sprite.";
+            internal static string CanvasHeight = "Set height of sprite.";
         }
 
         internal static class Layer

@@ -21,7 +21,7 @@ public class CanvasInspector : VBoxContainer
     {
         this.AddToGroup("gp_canvas_gui");
 
-        this.RectMinSize = new Vector2(350, 0);
+        // this.RectMinSize = new Vector2(350, 0);
 
         this.SizeFlagsVertical = (int)SizeFlags.Fill;
         this.SizeFlagsHorizontal = (int)SizeFlags.Fill;
@@ -80,7 +80,7 @@ public class CanvasInspector : VBoxContainer
             Align = Label.AlignEnum.Right,
         };
 
-        var _sizeBox = new HBoxContainer() {
+        var _sizeBox = new VBoxContainer() {
             SizeFlagsHorizontal = (int)SizeFlags.ShrinkEnd,
         };
 
@@ -89,6 +89,9 @@ public class CanvasInspector : VBoxContainer
             MaxValue = 9999,
             Step = 1f,
             FocusMode = FocusModeEnum.None,
+            Prefix = "WD",
+            Suffix = "px",
+            HintTooltip = PDefaults.ToolHints.Canvas.CanvasWidth,
         };
 
         this._HeightEdit = new SpinBox() {
@@ -96,6 +99,9 @@ public class CanvasInspector : VBoxContainer
             MaxValue = 9999,
             Step = 1f,
             FocusMode = FocusModeEnum.None,
+            Prefix = "HT",
+            Suffix = "px",
+            HintTooltip = PDefaults.ToolHints.Canvas.CanvasHeight,
         };
 
         this._BGEdit = new ColorPickerButton() {

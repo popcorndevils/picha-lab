@@ -20,7 +20,7 @@ public class LayerInspector : ScrollContainer
     {
         this.AddToGroup("gp_layer_gui");
 
-        this.RectMinSize = new Vector2(350, 0);
+        // this.RectMinSize = new Vector2(350, 0);
 
         this._Delete = new Button() {
             SizeFlagsHorizontal = (int)SizeFlags.ShrinkEnd,

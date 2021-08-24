@@ -58,8 +58,8 @@ public class PatternDesigner : AcceptDialog
 
         this.FramesView = this.GetNode<CenterContainer>("Center/Contents/HBox/FramesView");
         this.PaintBtn = this.GetNode<PaintBtn>("Center/Contents/HBox/ToolBar/PaintBtn");
-        this.WEdit = this.GetNode<SpinBox>("Center/Contents/HBox/ToolBar/WBox/WEdit");
-        this.HEdit = this.GetNode<SpinBox>("Center/Contents/HBox/ToolBar/HBox/HEdit");
+        this.WEdit = this.GetNode<SpinBox>("Center/Contents/HBox/ToolBar/WEdit");
+        this.HEdit = this.GetNode<SpinBox>("Center/Contents/HBox/ToolBar/HEdit");
         this._NavPrev = this.GetNode<Button>("Center/Contents/HBox/ToolBar/FrameNav/NavPrev");
         this._NavNext = this.GetNode<Button>("Center/Contents/HBox/ToolBar/FrameNav/NavNext");
         this._AddFrame = this.GetNode<Button>("Center/Contents/HBox/ToolBar/FrameNav/AddFrame");

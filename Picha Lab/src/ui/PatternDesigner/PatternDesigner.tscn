@@ -49,37 +49,21 @@ flat = false
 items = [ "Item 0", null, 0, false, false, 0, 0, null, "", false, "Item 1", null, 0, false, false, 1, 0, null, "", false, "Item 2", null, 0, false, false, 2, 0, null, "", false ]
 script = ExtResource( 2 )
 
-[node name="WBox" type="HBoxContainer" parent="Center/Contents/HBox/ToolBar"]
+[node name="WEdit" type="SpinBox" parent="Center/Contents/HBox/ToolBar"]
+margin_left = 17.0
 margin_top = 24.0
 margin_right = 91.0
 margin_bottom = 48.0
+prefix = "WD"
+suffix = "px"
 
-[node name="WLabel" type="Label" parent="Center/Contents/HBox/ToolBar/WBox"]
-margin_top = 5.0
-margin_right = 13.0
-margin_bottom = 19.0
-text = "W"
-
-[node name="WEdit" type="SpinBox" parent="Center/Contents/HBox/ToolBar/WBox"]
-margin_left = 17.0
-margin_right = 91.0
-margin_bottom = 24.0
-
-[node name="HBox" type="HBoxContainer" parent="Center/Contents/HBox/ToolBar"]
-margin_top = 52.0
-margin_right = 91.0
-margin_bottom = 76.0
-
-[node name="HLabel" type="Label" parent="Center/Contents/HBox/ToolBar/HBox"]
-margin_top = 5.0
-margin_right = 10.0
-margin_bottom = 19.0
-text = "H"
-
-[node name="HEdit" type="SpinBox" parent="Center/Contents/HBox/ToolBar/HBox"]
+[node name="HEdit" type="SpinBox" parent="Center/Contents/HBox/ToolBar"]
 margin_left = 14.0
+margin_top = 52.0
 margin_right = 88.0
-margin_bottom = 24.0
+margin_bottom = 76.0
+prefix = "HT"
+suffix = "px"
 
 [node name="FrameIndex" type="Label" parent="Center/Contents/HBox/ToolBar"]
 margin_top = 80.0
