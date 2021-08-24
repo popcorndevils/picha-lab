@@ -88,32 +88,48 @@ public static class PichaExtensions
 
 
     public static Image BlitLayer(this Image img, Image layer, Vector2 position) {
-        var _output = img;
+        
+        var _output = new Image();
+        _output.Create(img.GetWidth(), img.GetHeight(), false, Image.Format.Rgba8);
 
-        var _i = layer;
-        var _i_p = position;
-        var _i_s = img.GetSize();
+        _output.Lock();
+        layer.Lock();
+        img.Lock();
 
-        int _x_off = (int)_i_p.x + (int)(img.GetSize().x / 2);
-        int _y_off = (int)_i_p.y + (int)(img.GetSize().y / 2);
-
-        for(int x = 0; x < img.GetSize().x; x++) 
+        for(int x = 0; x < img.GetWidth(); x++)
         {
-            for(int y = 0; y < img.GetSize().y; y++) 
+            for(int y = 0; y < img.GetHeight(); y++)
             {
-                int _x = x - _x_off;
-                int _y = y - _y_off;
+                var _imgC = img.GetPixel(x, y);
 
-                if(!(_x < 0 | _y < 0 | _x >= _i_s.x | _y >= _i_s.y)) 
+                int _lX = (int)position.x;
+                int _lX2 = _lX + layer.GetWidth();
+
+                int _lY = (int)position.y;
+                int _lY2 = _lY + layer.GetHeight();
+
+                if(x >= _lX && x < _lX2 && y >= _lY && y < _lY2)
                 {
-                    var _c = _i.GetPixel(_x, _y);
-                    if(_c.a != 0f) 
-                    { 
-                        _output.SetPixel(x, y, _c); 
+                    var _layC = layer.GetPixel(x - _lX, y - _lY);
+                    if(_layC.a != 0f)
+                    {
+                        _output.SetPixel(x, y, _layC);
                     }
+                    else
+                    {
+                        _output.SetPixel(x, y, _imgC);
+                    }
+                }
+                else
+                {
+                    _output.SetPixel(x, y, _imgC);
                 }
             }
         }
+
+        _output.Unlock();
+        layer.Unlock();
+        img.Unlock();
 
         return _output;
     }

@@ -128,9 +128,13 @@ public class CanvasView : TabContainer
     public void ExportTest()
     {
         GD.Print("EXPORT");
-        // var _data = this.Active.SaveData();
+        var _images = new ExportManager() {Canvas = this.Active.SaveData()};
 
-        // var _images = new PImage(_data);
+        var _export = _images.GetSprite();
+        _export.Unlock();
+        _export.Resize(160, 160, Image.Interpolation.Nearest);
+        _export.Lock();
+        _export.SavePng("test.png");
 
         // _images.Scale = 100;
 
