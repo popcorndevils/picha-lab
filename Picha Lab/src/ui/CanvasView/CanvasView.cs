@@ -129,16 +129,8 @@ public class CanvasView : TabContainer
     {
         GD.Print("EXPORT");
         var _images = new ExportManager() {Canvas = this.Active.SaveData()};
+        var _sprite = _images.GetSpriteSheet(1, 3, 30);
 
-        var _export = _images.GetSprite()[0];
-        _export.Unlock();
-        _export.Resize(160, 160, Image.Interpolation.Nearest);
-        _export.Lock();
-        _export.SavePng("test.png");
-
-        // _images.Scale = 100;
-
-        // _images.LayerImages[0].Frames[0].SavePng("test.png");
-
+        _sprite.SavePng("test.png");
     }
 }

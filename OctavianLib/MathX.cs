@@ -44,6 +44,11 @@ namespace System
 
                 return MathX.GCF(a, b);
             }
+
+            else if(numbers.Length == 1)
+            {
+                return numbers[0];
+            }
             
             return 0;
         }
@@ -79,6 +84,11 @@ namespace System
                 int b = numbers[1].Copy();
 
                 return MathX.LCD(a, b);
+            }
+
+            else if(numbers.Length == 1)
+            {
+                return numbers[0];
             }
 
             return 0;
