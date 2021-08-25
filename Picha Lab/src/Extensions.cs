@@ -86,7 +86,6 @@ public static class PichaExtensions
 
     }
 
-
     public static Image BlitLayer(this Image img, Image layer, Vector2 position) {
         
         var _output = new Image();
@@ -133,6 +132,12 @@ public static class PichaExtensions
 
         return _output;
     }
+    
+    // helpers for BlitLayer
+    public static Image BlitLayer(this Image img, Image layer, (int x, int y) position)
+        { return img.BlitLayer(layer, position.ToVector2()); }
+    public static Image BlitLayer(this Image img, Image layer, int x, int y)
+        { return img.BlitLayer(layer, (x, y).ToVector2()); }
 
     public static Image ToImage(this Chroma[,] layer)
     {

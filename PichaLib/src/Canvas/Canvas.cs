@@ -7,6 +7,16 @@ namespace PichaLib
     {
         public List<Layer> Layers = new List<Layer>();
         public (int W, int H) Size = (16, 16);
+        public int[] FrameCount {
+            get {
+                var _val = new int[this.Layers.Count];
+                for(int i = 0; i < this.Layers.Count; i++)
+                {
+                    _val[i] = this.Layers[i].Frames.Count;
+                }
+                return _val;
+            }
+        }
 
         // useful for the app only.
         public bool AutoGen = false;

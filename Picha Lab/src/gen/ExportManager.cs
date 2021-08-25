@@ -12,28 +12,31 @@ public class ExportManager
 {
     public Canvas Canvas;
 
-    public Image GetSprite(int scale = 1)
+    public List<Image> GetSprite(int scale = 1)
     {
-        var _output = new Image();
+        var _output = new List<Image>();
 
         var _s = this.Canvas.Size;
 
-        _output.Create(_s.W, _s.H, false, Image.Format.Rgba8);
-        _output.Fill(new Color(1f, 1f, 1f, 0f));
-
-        var _frameNums = new int[this.Canvas.Layers.Count];
-
-        for(int i = 0; i < _frameNums.Length; i++)
-        {
-            _frameNums[i] = this.Canvas.Layers[i].Frames.Count;
-        }
-
+        var _frameNums = this.Canvas.FrameCount;
         var _totalFrames = MathX.LCD(_frameNums);
-        GD.Print(_totalFrames);
+
+        var _layerFrames = new List<List<Image>>();
 
         foreach(Layer l in this.Canvas.Layers)
         {
-            _output = _output.BlitLayer(ExportManager.GetLayerImages(l, this.Canvas.Size)[0], (0, 0).ToVector2());
+            _layerFrames.Add(ExportManager.GetLayerImages(l, this.Canvas.Size));
+        }
+
+        for(int i = 0; i < _totalFrames; i++)
+        {
+            var _spriteFrame = new Image();
+            _spriteFrame.Create(this.Canvas.Size.W, this.Canvas.Size.H, false, Image.Format.Rgba8);
+            foreach(List<Image> f in _layerFrames)
+            {
+                _spriteFrame = _spriteFrame.BlitLayer(f[(int)(i / f.Count)], (0, 0));
+            }
+            _output.Add(_spriteFrame);
         }
 
         return _output;
