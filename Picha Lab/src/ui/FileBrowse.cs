@@ -55,5 +55,6 @@ public enum DialogMode
     NONE,
     SAVE_CANVAS_AS_NEW,
     OPEN_CANVAS,
-    EXPORT_SPRITE,
+    EXPORT_SPRITESHEET,
+    EXPORT_SPRITEDIR,
 }

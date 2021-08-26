@@ -46,6 +46,18 @@ public class CycleSection : BaseSection
         }
     }
 
+    public void LoadLayer()
+    {
+        this._Layer = null;
+        this._NewCycle.Disabled = true;
+        this.SectionHeader.Disabled = true;
+        
+        foreach(Node n in this.SectionGrid.GetChildren())
+        {
+            this.SectionGrid.RemoveChild(n);
+        }
+    }
+
     public void PixelNameChange(string oldName, string newName)
     {
         foreach(Node n in this.SectionGrid.GetChildren())

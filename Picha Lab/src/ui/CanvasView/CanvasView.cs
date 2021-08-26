@@ -5,13 +5,27 @@ using Godot;
 
 using PichaLib;
 
-public class CanvasView : TabContainer
+public class CanvasView : VBoxContainer
 {
+    public TabContainer Content = new TabContainer() {
+        TabsVisible = false,
+        SizeFlagsHorizontal = (int)SizeFlags.ExpandFill,
+        SizeFlagsVertical = (int)SizeFlags.ExpandFill,
+        RectMinSize = new Vector2(500, 0),
+    };
+
+    public Tabs Tabs = new Tabs() {
+        TabAlign = Tabs.TabAlignEnum.Left,
+        SizeFlagsHorizontal = (int)SizeFlags.ExpandFill,
+        DragToRearrangeEnabled = true,
+        TabCloseDisplayPolicy = Tabs.CloseButtonDisplayPolicy.ShowActiveOnly,
+    };
+
     public GenCanvas Active {
         get {
-            if(this.GetChildren().Count > 0)
+            if(this.Content.GetChildren().Count > 0)
             {
-                return this.GetChild<CanvasContainer>(this.CurrentTab).Canvas;
+                return this.Content.GetChild<CanvasContainer>(this.Content.CurrentTab).Canvas;
             }
             return null;
         } 
@@ -31,11 +45,11 @@ public class CanvasView : TabContainer
     {
         this.AddToGroup("gp_canvas_handler");
 
-        this.RectMinSize = new Vector2(500, 0);
+        this.AddChildren(this.Tabs, this.Content);
+        this.AddConstantOverride("separation", 0);
 
-        this.TabAlign = TabAlignEnum.Left;
-        this.TabsVisible = true;
-        DragToRearrangeEnabled = true;
+        this.Tabs.Connect("tab_clicked", this, "OnTabClick");
+
         this.SizeFlagsHorizontal = (int)SizeFlags.ExpandFill;
         this.SizeFlagsVertical = (int)SizeFlags.ExpandFill;
     }
@@ -83,14 +97,25 @@ public class CanvasView : TabContainer
 
     public void AddCanvas(GenCanvas c)
     {
-        var _i = this.GetChildren().Count;
+        var _i = this.Content.GetChildren().Count;
         var _view = new CanvasContainer();
-        this.AddChild(_view);
+        this.Content.AddChild(_view);
+        this.Tabs.AddTab(c.CanvasName);
+        
         _view.Canvas = c;
+
         if(c.Data == null) { c.Data = new Canvas(); }
-        this.CurrentTab = _i;
-        this.SetTabTitle(this.CurrentTab, c.CanvasName);
+
+        this.Tabs.CurrentTab = _i;
+        this.Content.CurrentTab = _i;
+        this.Tabs.SetTabTitle(this.Content.CurrentTab, c.CanvasName);
         this.Active.CanvasChanges.Add(this.Active.SaveData());
+    }
+
+    public void OnTabClick(int tab)
+    {
+        GD.Print(tab);
+        this.Content.CurrentTab = tab;
     }
 
     public void UndoChange()
@@ -122,7 +147,7 @@ public class CanvasView : TabContainer
 
     public void NameCurrentTab(string s)
     {
-        this.SetTabTitle(this.CurrentTab, s);
+        this.Tabs.SetTabTitle(this.Content.CurrentTab, s);
     }
 
     public void ExportTest()

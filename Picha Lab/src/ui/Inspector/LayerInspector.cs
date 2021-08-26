@@ -20,8 +20,6 @@ public class LayerInspector : ScrollContainer
     {
         this.AddToGroup("gp_layer_gui");
 
-        // this.RectMinSize = new Vector2(350, 0);
-
         this._Delete = new Button() {
             SizeFlagsHorizontal = (int)SizeFlags.ShrinkEnd,
             Icon = GD.Load<Texture>("res://res/icons/delete_white.svg"),
@@ -182,11 +180,30 @@ public class LayerInspector : ScrollContainer
         this._MirrorYEdit.Pressed = l.Data.MirrorY;
     }
 
+    public void LoadLayer()
+    {
+        this._Pixels.LoadLayer();
+        this._Cycles.LoadLayer();
+
+        this._NameEdit.Editable = false;
+        this._MirrorXEdit.Disabled = true;
+        this._MirrorYEdit.Disabled = true;
+
+        this.Layer = null;
+        this._NameEdit.Text = "";
+        this._MirrorXEdit.Pressed = false;
+        this._MirrorYEdit.Pressed = false;
+    }
+
     public void LoadCanvas(GenCanvas c)
     {
         if(c.Layers.Count > 0)
         {
             this.LoadLayer(c.Layers[0]);
+        }
+        else
+        {
+            this.LoadLayer();
         }
     }
 

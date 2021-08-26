@@ -42,12 +42,22 @@ public class PixelSection : BaseSection
         this.SectionHeader.Disabled = false;
 
         foreach(Node n in this.SectionGrid.GetChildren())
-        { this.SectionGrid.RemoveChild(n); }
+            { this.SectionGrid.RemoveChild(n); }
 
         foreach(Pixel p in l.Pixels.Values)
         { 
             this.AddNewPixel(p);
         }
+    }
+
+    public void LoadLayer()
+    {
+        this._Layer = null;
+        this._NewPixel.Disabled = true;
+        this.SectionHeader.Disabled = true;
+
+        foreach(Node n in this.SectionGrid.GetChildren())
+            { this.SectionGrid.RemoveChild(n); }
     }
 
     public void AddNewPixel(Pixel p)
