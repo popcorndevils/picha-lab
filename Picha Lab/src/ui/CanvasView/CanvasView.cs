@@ -101,7 +101,7 @@ public class CanvasView : VBoxContainer
         var _view = new CanvasContainer();
         this.Content.AddChild(_view);
         this.Tabs.AddTab(c.CanvasName);
-        
+
         _view.Canvas = c;
 
         if(c.Data == null) { c.Data = new Canvas(); }
@@ -114,7 +114,6 @@ public class CanvasView : VBoxContainer
 
     public void OnTabClick(int tab)
     {
-        GD.Print(tab);
         this.Content.CurrentTab = tab;
     }
 
