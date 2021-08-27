@@ -37,6 +37,10 @@ Action = "save_canvas"
 Text = "Save Canvas As..."
 Action = "save_canvas_as"
 
+[node name="ExportSprite" parent="OptButtons/OptFile" instance=ExtResource( 2 )]
+Text = "Export Sprite"
+Action = "export_sprite"
+
 [node name="Help" type="MenuButton" parent="OptButtons"]
 margin_left = 39.0
 margin_right = 81.0

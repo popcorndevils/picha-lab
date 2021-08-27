@@ -39,6 +39,10 @@ public class Application : Node
             case "open_docs":
                 this.GetTree().CallGroup("gp_helpdialog", "OpenHelp");
                 break;
+            case "export_sprite":
+                var diag = this.GetNode<ExportDialog>("PichaGUI/ExportDialog");
+                diag.PopupCentered();
+                break;
             default:
                 GD.PrintErr($"Unable to Parse MenuItem action \"{menu.Action}\".");
                 break;

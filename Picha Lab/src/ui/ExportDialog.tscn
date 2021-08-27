@@ -1,9 +1,22 @@
-[gd_scene format=2]
+[gd_scene load_steps=2 format=2]
 
-[node name="ExportDialog" type="WindowDialog"]
+[ext_resource path="res://src/ui/ExportDialog.cs" type="Script" id=1]
+
+[node name="ExportDialog" type="AcceptDialog"]
 visible = true
-margin_right = 48.0
-margin_bottom = 40.0
+margin_right = 102.0
+margin_bottom = 73.0
+window_title = "Export Sprite"
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+margin_left = 8.0
+margin_top = 8.0
+margin_right = 121.0
+margin_bottom = 37.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
