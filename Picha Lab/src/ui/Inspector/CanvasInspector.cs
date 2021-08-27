@@ -135,6 +135,19 @@ public class CanvasInspector : VBoxContainer
         this._FGEdit.Connect("color_changed", this, "OnCanvasEdit");
     }
 
+    public void LoadCanvas()
+    {
+        this.Canvas = null;
+
+        this._AutoGenEdit.Pressed = false;
+
+        this._IgnoreSignals = true;
+        this._AutoGenTimeEdit.Value = 0;
+        this._WidthEdit.Value = 0;
+        this._HeightEdit.Value = 0;
+        this._IgnoreSignals = false;
+    }
+
     public void LoadCanvas(GenCanvas c)
     {
         this.Canvas = c;

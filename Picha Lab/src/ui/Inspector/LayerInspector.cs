@@ -207,6 +207,11 @@ public class LayerInspector : ScrollContainer
         }
     }
 
+    public void LoadCanvas()
+    {
+        this.LoadLayer();
+    }
+
     public void CorrectPixelName(string oldName, string newName)
     {
         foreach(Node n in this._Pixels.Pixels)

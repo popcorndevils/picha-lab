@@ -74,6 +74,21 @@ public class LayerStack : TabContainer
         }
     }
 
+    public void LoadCanvas()
+    {
+        this.Canvas = null;
+
+        foreach(Node n in this._Buttons.GetChildren())
+        {
+            if(n is LayerButtonControl b)
+            {
+                b.Layer = null;
+                b.QueueFree();
+                this._Buttons.RemoveChild(b);
+            }
+        }
+    }
+
     public void AddLayer(GenLayer l)
     {
         this._Buttons.AddChild(new LayerButtonControl() { Layer = l });

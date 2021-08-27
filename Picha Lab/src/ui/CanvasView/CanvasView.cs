@@ -5,7 +5,7 @@ using Godot;
 
 using PichaLib;
 
-public class CanvasView : VBoxContainer
+public partial class CanvasView : VBoxContainer
 {
     public TabContainer Content = new TabContainer() {
         TabsVisible = false,
@@ -48,7 +48,9 @@ public class CanvasView : VBoxContainer
         this.AddChildren(this.Tabs, this.Content);
         this.AddConstantOverride("separation", 0);
 
-        this.Tabs.Connect("tab_clicked", this, "OnTabClick");
+        this.Tabs.Connect("tab_changed", this, "OnTabChange");
+        this.Tabs.Connect("reposition_active_tab_request", this, "OnTabReposition");
+        this.Tabs.Connect("tab_close", this, "OnTabClose");
 
         this.SizeFlagsHorizontal = (int)SizeFlags.ExpandFill;
         this.SizeFlagsVertical = (int)SizeFlags.ExpandFill;
@@ -112,9 +114,30 @@ public class CanvasView : VBoxContainer
         this.Active.CanvasChanges.Add(this.Active.SaveData());
     }
 
-    public void OnTabClick(int tab)
+    public void OnTabChange(int tab)
     {
         this.Content.CurrentTab = tab;
+    }
+
+    public void OnTabReposition(int tab)
+    {
+        this.Content.MoveChild(this.Content.GetChild(this.Tabs.CurrentTab), tab);
+    }
+
+    public void OnTabClose(int tab)
+    {
+        var n = this.Content.GetChild(tab);
+
+        this.Tabs.RemoveTab(tab);
+        this.Content.RemoveChild(n);
+
+        n.QueueFree();
+
+        if(this.Content.GetChildCount() == 0)
+        {
+            this.GetTree().CallGroup("gp_canvas_gui", "LoadCanvas");
+            this.GetTree().CallGroup("gp_layer_gui", "LoadCanvas");
+        }
     }
 
     public void UndoChange()
