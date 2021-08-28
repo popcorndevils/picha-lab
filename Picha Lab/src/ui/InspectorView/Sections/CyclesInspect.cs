@@ -2,7 +2,7 @@ using Godot;
 
 using PichaLib;
 
-public class CycleSection : BaseSection
+public class CyclesInspect : BaseSection
 {
     private GenLayer _Layer;
 
@@ -38,7 +38,7 @@ public class CycleSection : BaseSection
 
         foreach(Cycle _c in l.Cycles)
         {
-            var _props = new CycleProperties() { SectionTitle = _c.Name };
+            var _props = new CycleProps() { SectionTitle = _c.Name };
             this.SectionGrid.AddChild(_props);
             _props.SectionHeader.Align = Button.TextAlign.Left;
             _props.LoadCycle(l, _c);
@@ -62,7 +62,7 @@ public class CycleSection : BaseSection
     {
         foreach(Node n in this.SectionGrid.GetChildren())
         {
-            if(n is CycleProperties c)
+            if(n is CycleProps c)
             {
                 c.RenamePixel(oldName, newName);
             }
@@ -73,7 +73,7 @@ public class CycleSection : BaseSection
     {
         foreach(Node n in this.SectionGrid.GetChildren())
         {
-            if(n is CycleProperties c)
+            if(n is CycleProps c)
             {
                 c.AddNewPixel(p);
             }
@@ -84,14 +84,14 @@ public class CycleSection : BaseSection
     {
         var _newCycle = this._Layer.NewCycle();
 
-        var _props = new CycleProperties() { SectionTitle = _newCycle.Name };
+        var _props = new CycleProps() { SectionTitle = _newCycle.Name };
         this.SectionGrid.AddChild(_props);
         _props.SectionHeader.Align = Button.TextAlign.Left;
         _props.LoadCycle(this._Layer, _newCycle);
         _props.CycleDeleted += this.OnCycleDelete;
     }
 
-    public void OnCycleDelete(CycleProperties c)
+    public void OnCycleDelete(CycleProps c)
     {
         this._Layer.DeleteCycle(c.Cycle);
         c.QueueFree();

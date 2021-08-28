@@ -4,7 +4,7 @@ using PichaLib;
 
 public delegate void NewPixelAddedHandler(Pixel p);
 
-public class PixelSection : BaseSection
+public class PixelsInspect : BaseSection
 {
     public event PixelChangedHandler PixelChanged;
     public event NewPixelAddedHandler NewPixelAdded;
@@ -62,7 +62,7 @@ public class PixelSection : BaseSection
 
     public void AddNewPixel(Pixel p)
     {
-        var _props = new PixelProperties() {
+        var _props = new PixelProps() {
             SectionTitle = p.Name
         };
 

@@ -9,8 +9,8 @@ public class LayerInspector : ScrollContainer
     private VBoxContainer _Contents;
     private GridContainer _GenSettings;
     private Button _Delete;
-    private PixelSection _Pixels;
-    private CycleSection _Cycles;
+    private PixelsInspect _Pixels;
+    private CyclesInspect _Cycles;
 
     private LineEdit _NameEdit;
     private CheckBox _MirrorXEdit;
@@ -36,8 +36,8 @@ public class LayerInspector : ScrollContainer
             SizeFlagsHorizontal = (int)SizeFlags.ExpandFill,
         };
 
-        this._Pixels = new PixelSection();
-        this._Cycles = new CycleSection();
+        this._Pixels = new PixelsInspect();
+        this._Cycles = new CyclesInspect();
 
         this._Pixels.PixelChanged += this.OnPixelChange;
         this._Pixels.NewPixelAdded += this.OnNewPixelAdded;
@@ -216,7 +216,7 @@ public class LayerInspector : ScrollContainer
     {
         foreach(Node n in this._Pixels.Pixels)
         {
-            if(n is PixelProperties p)
+            if(n is PixelProps p)
             {
                 if(p.NameEdit.Text != p.Pixel.Name)
                 {

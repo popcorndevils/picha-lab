@@ -6,7 +6,7 @@ using PichaLib;
 public delegate void PixelChangedHandler(Pixel p, string property, object value);
 public delegate void PixelDeleteHandler(Pixel p);
 
-public class PixelProperties : BaseSection
+public class PixelProps : BaseSection
 {
     public event PixelChangedHandler PixelChanged;
     public event PixelDeleteHandler PixelDeleted;

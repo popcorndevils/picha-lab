@@ -7,9 +7,9 @@ using PichaLib;
 using OctavianLib;
 
 public delegate void PolicyChangedHandler(Policy p);
-public delegate void PolicyDeletedHandler(PolicyProperties p);
+public delegate void PolicyDeletedHandler(PolicyProps p);
 
-public class PolicyProperties : BaseSection
+public class PolicyProps : BaseSection
 {
     public event PolicyChangedHandler PolicyChanged;
     public event PolicyDeletedHandler PolicyDeleted;

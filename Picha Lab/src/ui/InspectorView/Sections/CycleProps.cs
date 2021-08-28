@@ -2,10 +2,10 @@ using Godot;
 
 using PichaLib;
 
-public delegate void CycleDeleteHandler(CycleProperties c);
+public delegate void CycleDeleteHandler(CycleProps c);
 public delegate void CycleChangeHandler(Cycle c);
 
-public class CycleProperties : BaseSection
+public class CycleProps : BaseSection
 {
     public event CycleDeleteHandler CycleDeleted;
     public event CycleChangeHandler CycleChanged;
@@ -45,7 +45,7 @@ public class CycleProperties : BaseSection
 
         foreach(Policy _p in c.Policies)
         {
-            var _props = new PolicyProperties() { 
+            var _props = new PolicyProps() { 
                 SectionTitle = $"{l.Pixels[_p.Input].Name} -> {l.Pixels[_p.Output].Name}",
             };
             this.SectionGrid.AddChild(_props);
@@ -59,7 +59,7 @@ public class CycleProperties : BaseSection
     {
         foreach(Node n in this.SectionGrid.GetChildren())
         {
-            if(n is PolicyProperties p)
+            if(n is PolicyProps p)
             {
                 p.RenamePixel(oldName, newName);
             }
@@ -70,7 +70,7 @@ public class CycleProperties : BaseSection
     {
         foreach(Node n in this.SectionGrid.GetChildren())
         {
-            if(n is PolicyProperties pol)
+            if(n is PolicyProps pol)
             {
                 pol.AddNewPixel(p);
             }
@@ -81,7 +81,7 @@ public class CycleProperties : BaseSection
     {
         var _policy = this.Layer.NewPolicy(this.Cycle);
 
-        var _props = new PolicyProperties() { 
+        var _props = new PolicyProps() { 
             SectionTitle = $"{this.Layer.Pixels[_policy.Input].Name} -> {this.Layer.Pixels[_policy.Output].Name}",
         };
         this.SectionGrid.AddChild(_props);
@@ -95,7 +95,7 @@ public class CycleProperties : BaseSection
         this.CycleDeleted?.Invoke(this);
     }
 
-    public void OnPolicyDeleted(PolicyProperties p)
+    public void OnPolicyDeleted(PolicyProps p)
     {
         this.Layer.DeletePolicy(this.Cycle, p.Policy);
         p.QueueFree();
@@ -107,9 +107,9 @@ public class CycleProperties : BaseSection
         Node _droppedControl = dropped.GetParent().GetParent().GetParent();
         Node _list = _headerControl.GetParent();
 
-        if(_droppedControl is CycleProperties _d)
+        if(_droppedControl is CycleProps _d)
         {
-            var _h = (CycleProperties)_headerControl;
+            var _h = (CycleProps)_headerControl;
             _d.Layer.MoveCycle(_d.Cycle, _h.GetIndex());
         }
 
