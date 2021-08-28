@@ -6,7 +6,7 @@ public class FileBrowse : FileDialog
 
     public override void _Ready()
     {
-        this.AddToGroup("gp_filebrowse");
+        this.AddToGroup("diag_file");
         this.Connect("file_selected", this, "OnDialogConfirm");
         this.Connect("dir_selected", this, "OnDialogConfirm");
     }

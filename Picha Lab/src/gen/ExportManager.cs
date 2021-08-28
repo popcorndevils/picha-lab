@@ -8,9 +8,14 @@ using System;
 /// <summary>
 /// Special class for generating images and spritesheets using canvas data.
 /// </summary>
-public class ExportManager
+public class ExportManager : Node
 {
     public Canvas Canvas;
+
+    public ExportManager(Canvas canvas)
+    {
+        this.Canvas = canvas;
+    }
 
     public Image GetSpriteSheet(int cols = 1, int rows = 1, int scale = 1)
     {

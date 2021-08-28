@@ -13,7 +13,7 @@ public partial class CanvasView : VBoxContainer
             if(this.FileExists) 
                 { this.Active.Save(); }
             else 
-                { this.GetTree().CallGroup("gp_filebrowse", "OpenDialog", DialogMode.SAVE_CANVAS_AS_NEW); }
+                { this.GetTree().CallGroup("diag_file", "OpenDialog", DialogMode.SAVE_CANVAS_AS_NEW); }
         }
     }
 
@@ -21,7 +21,7 @@ public partial class CanvasView : VBoxContainer
     {
         if(this.Active != null)
         {
-            this.GetTree().CallGroup("gp_filebrowse", "OpenDialog", DialogMode.SAVE_CANVAS_AS_NEW);
+            this.GetTree().CallGroup("diag_file", "OpenDialog", DialogMode.SAVE_CANVAS_AS_NEW);
         }
     }
     
@@ -61,13 +61,12 @@ public partial class CanvasView : VBoxContainer
         this.Tabs.SetTabTitle(this.Content.CurrentTab, s);
     }
 
-    public void ExportTest()
+    public void ExportCanvas()
     {
-        GD.Print("EXPORT");
-        var _images = new ExportManager() {Canvas = this.Active.SaveData()};
-        var _sprite = _images.GetSpriteSheet(1, 3, 30);
-
-        _sprite.SavePng("test.png");
+        if(this.Active != null)
+        {
+            this.GetTree().CallGroup("diag_export", "Open", new ExportManager(this.Active.SaveData()));
+        }
     }
 
     public void WriteFile(string f)
@@ -80,16 +79,19 @@ public partial class CanvasView : VBoxContainer
     
     public void OpenCanvas(string path)
     {
-        var _dat = JsonConvert.DeserializeObject<Canvas>(System.IO.File.ReadAllText(path));
-        var _can = new GenCanvas();
+        if(!this.PathExists(path))
+        {
+            var _dat = JsonConvert.DeserializeObject<Canvas>(System.IO.File.ReadAllText(path));
+            var _can = new GenCanvas();
 
-        _can.LoadData(_dat);
+            _can.LoadData(_dat);
 
-        _can.PathName = path;
-        _can.FileExists = true;
-        _can.FileSaved = true;
+            _can.PathName = path;
+            _can.FileExists = true;
+            _can.FileSaved = true;
 
-        this.AddCanvas(_can);
+            this.AddCanvas(_can);
+        }
     }
 
     public void AddLayer(GenLayer l)

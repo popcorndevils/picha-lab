@@ -14,7 +14,7 @@ public class HelpDialog : WindowDialog
 
     public override void _Ready()
     {
-        this.AddToGroup("gp_helpdialog");
+        this.AddToGroup("diag_help");
         this._DocTitle = this.GetNode<RichTextLabel>("HBox/VBoxContainer/TitleMargin/DocTitle");
         this._DocText = this.GetNode<RichTextLabel>("HBox/VBoxContainer/DocTextBox/Margins/DocText");
         this._DocTree= this.GetNode<Tree>("HBox/DocTree");

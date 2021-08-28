@@ -30,4 +30,16 @@ public partial class CanvasView : VBoxContainer
         this.SizeFlagsHorizontal = (int)SizeFlags.ExpandFill;
         this.SizeFlagsVertical = (int)SizeFlags.ExpandFill;
     }
+
+    public bool PathExists(string path)
+    {
+        foreach(GenCanvas c in this.Canvases)
+        {
+            if(c.PathName == path)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
 }

@@ -28,7 +28,7 @@ public class Application : Node
                 this.GetTree().CallGroup("gp_canvas_handler", "AddCanvas", new GenCanvas());
                 break;
             case "open_canvas":
-                this.GetTree().CallGroup("gp_filebrowse", "OpenDialog", DialogMode.OPEN_CANVAS);
+                this.GetTree().CallGroup("diag_file", "OpenDialog", DialogMode.OPEN_CANVAS);
                 break;
             case "save_canvas":
                 this.GetTree().CallGroup("gp_canvas_handler", "Save");
@@ -37,11 +37,10 @@ public class Application : Node
                 this.GetTree().CallGroup("gp_canvas_handler", "SaveCanvas");
                 break;
             case "open_docs":
-                this.GetTree().CallGroup("gp_helpdialog", "OpenHelp");
+                this.GetTree().CallGroup("diag_help", "OpenHelp");
                 break;
             case "export_sprite":
-                var diag = this.GetNode<ExportDialog>("PichaGUI/ExportDialog");
-                diag.PopupCentered();
+                this.GetTree().CallGroup("gp_canvas_handler", "ExportCanvas");
                 break;
             default:
                 GD.PrintErr($"Unable to Parse MenuItem action \"{menu.Action}\".");
