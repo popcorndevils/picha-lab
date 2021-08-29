@@ -8,7 +8,7 @@ using System;
 /// <summary>
 /// Special class for generating images and spritesheets using canvas data.
 /// </summary>
-public class ExportManager : Node
+public class ExportManager
 {
     public Canvas Canvas;
 

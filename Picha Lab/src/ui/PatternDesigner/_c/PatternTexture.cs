@@ -37,6 +37,7 @@ public class PatternTexture : TextureRect
         this._PixelOutline.Texture = this._GetOutline();
         this.AddChild(this._PixelOutline);
         this._Owner = this.GetTree().Root.GetNode<PatternDesigner>("Application/PichaGUI/PatternDesigner");
+        this.RectScale = new Vector2(20f, 20f);
     }
 
     public void LoadLayer(string[,] frame, Dictionary<string, Pixel> pixels)
@@ -151,7 +152,6 @@ public class PatternTexture : TextureRect
         this._Image.Unlock();
         this._ImageTex.CreateFromImage(this._Image, 0);
         this.Texture = this._ImageTex;
-        this.RectSize = new Vector2(w, h);
     }
 
     private ImageTexture _GetOutline()

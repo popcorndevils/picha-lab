@@ -65,7 +65,9 @@ public partial class CanvasView : VBoxContainer
     {
         if(this.Active != null)
         {
-            this.GetTree().CallGroup("diag_export", "Open", new ExportManager(this.Active.SaveData()));
+            var _nodes = this.GetTree().GetNodesInGroup("diag_export");
+            var _export = _nodes[0] as ExportDialog;
+            _export.Open(new ExportManager(this.Active.SaveData()));
         }
     }
 

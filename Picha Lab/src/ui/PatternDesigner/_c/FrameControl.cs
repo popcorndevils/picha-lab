@@ -4,7 +4,7 @@ using Godot;
 
 using PichaLib;
 
-public class FrameControl : Node2D
+public class FrameControl : Control
 {
     private PatternDesigner _Owner;
 
@@ -21,8 +21,9 @@ public class FrameControl : Node2D
 
     public override void _Ready()
     {
+        this.SizeFlagsHorizontal = (int)SizeFlags.Fill;
+        this._Texture.SizeFlagsHorizontal = (int)SizeFlags.Fill;
         this._Owner = this.GetTree().Root.GetNode<PatternDesigner>("Application/PichaGUI/PatternDesigner");
-        this.Scale = new Vector2(20, 20);
 
         this.AddChild(this._Texture);
 

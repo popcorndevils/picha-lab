@@ -5,7 +5,7 @@ using Godot;
 using PichaLib;
 using OctavianLib;
 
-public class PatternDesigner : AcceptDialog
+public class PatternDesigner : WindowDialog
 {
     private GenLayer _Layer;
     public GenLayer Layer {
@@ -15,10 +15,12 @@ public class PatternDesigner : AcceptDialog
 
     private bool _Editing = false;
     private bool _IgnoreSizeSignal = true;
-    private CenterContainer FramesView;
+    public VBoxContainer ToolBox;
+    private MarginContainer FramesView;
     public PaintBtn PaintBtn;
     public SpinBox WEdit;
     public SpinBox HEdit;
+    public MarginContainer Margins;
 
     private Label _FrameIndex;
     private Button _NavPrev;
@@ -50,22 +52,25 @@ public class PatternDesigner : AcceptDialog
 
     public override void _Ready()
     {
-        this.GetOk().Visible = false;
-
         this.AddToGroup("pattern_designer");
         this.Connect("about_to_show", this, "OnShow");
         this.Connect("popup_hide", this, "OnHide");
 
-        this.FramesView = this.GetNode<CenterContainer>("Center/Contents/HBox/FramesView");
-        this.PaintBtn = this.GetNode<PaintBtn>("Center/Contents/HBox/ToolBar/PaintBtn");
-        this.WEdit = this.GetNode<SpinBox>("Center/Contents/HBox/ToolBar/WEdit");
-        this.HEdit = this.GetNode<SpinBox>("Center/Contents/HBox/ToolBar/HEdit");
-        this._NavPrev = this.GetNode<Button>("Center/Contents/HBox/ToolBar/FrameNav/NavPrev");
-        this._NavNext = this.GetNode<Button>("Center/Contents/HBox/ToolBar/FrameNav/NavNext");
-        this._AddFrame = this.GetNode<Button>("Center/Contents/HBox/ToolBar/FrameNav/AddFrame");
-        this._DelFrame = this.GetNode<Button>("Center/Contents/HBox/ToolBar/FrameNav/DelFrame");
-        this._Accept = this.GetNode<Button>("Center/Contents/Accept");
-        this._FrameIndex = this.GetNode<Label>("Center/Contents/HBox/ToolBar/FrameIndex");
+        var _contents = this.GetNode<VBoxContainer>("Margins/Center/Contents");
+
+        this.Margins = this.GetNode<MarginContainer>("Margins");
+
+        this.ToolBox = _contents.GetNode<VBoxContainer>("HBox/ToolBar/");
+        this.FramesView = _contents.GetNode<MarginContainer>("HBox/FramesView");
+        this.PaintBtn = _contents.GetNode<PaintBtn>("HBox/ToolBar/PaintBtn");
+        this.WEdit = _contents.GetNode<SpinBox>("HBox/ToolBar/WEdit");
+        this.HEdit = _contents.GetNode<SpinBox>("HBox/ToolBar/HEdit");
+        this._NavPrev = _contents.GetNode<Button>("HBox/ToolBar/FrameNav/NavPrev");
+        this._NavNext = _contents.GetNode<Button>("HBox/ToolBar/FrameNav/NavNext");
+        this._AddFrame = _contents.GetNode<Button>("HBox/ToolBar/FrameNav/AddFrame");
+        this._DelFrame = _contents.GetNode<Button>("HBox/ToolBar/FrameNav/DelFrame");
+        this._Accept = _contents.GetNode<Button>("HBox/ToolBar/Accept");
+        this._FrameIndex = _contents.GetNode<Label>("HBox/ToolBar/FrameIndex");
 
 
         this.WEdit.Connect("value_changed", this, "OnSizeEdit");
@@ -87,12 +92,15 @@ public class PatternDesigner : AcceptDialog
 
         this._PopulateView(this.Layer.Frames, this.Layer.Pixels);
 
-        this.FramesView.RectMinSize = new Vector2((float)_w, (float)_h) * new Vector2(20f, 20f);
-
         this.WEdit.Value = _w;
         this.HEdit.Value = _h;
         
-        this.PopupCenteredMinsize();
+        var _rectW = this.ToolBox.RectSize.x + (_w * 20f) + 25f;
+        var _rectH = Mathf.Max(this.ToolBox.RectSize.y + 20f, (_h * 20f) + 20f);
+
+        this.RectSize = new Vector2(_rectW, _rectH);
+
+        this.PopupCentered();
     }
 
     public void NewLayer()
@@ -159,17 +167,18 @@ public class PatternDesigner : AcceptDialog
     {
         if(!this._IgnoreSizeSignal)
         {
-            var _w = this.WEdit.Value;
-            var _h = this.HEdit.Value;
-
-            this.FramesView.RectMinSize = new Vector2((float)_w, (float)_h) * new Vector2(20f, 20f);
+            var _w = (float)this.WEdit.Value;
+            var _h = (float)this.HEdit.Value;
 
             foreach(FrameControl _f in this.FramesView.GetChildren())
             {
                 _f.SetSize((int)_w, (int)_h);
             }
 
-            this.RectSize = this.FramesView.RectMinSize;
+            var _rectW = this.ToolBox.RectSize.x + (_w * 20f) + 25f;
+            var _rectH = Mathf.Max(this.ToolBox.RectSize.y + 20f, (_h * 20f) + 20f);
+
+            this.RectSize = new Vector2(_rectW, _rectH);
         }
     }
 

@@ -3,59 +3,66 @@
 [ext_resource path="res://src/ui/ExportDialog.cs" type="Script" id=1]
 [ext_resource path="res://res/icons/folder-line.png" type="Texture" id=2]
 
-[node name="ExportDialog" type="AcceptDialog"]
+[node name="ExportDialog" type="WindowDialog"]
 visible = true
 margin_right = 102.0
 margin_bottom = 73.0
 window_title = "Export Sprite"
 script = ExtResource( 1 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
-[node name="MarginContainer" type="MarginContainer" parent="."]
+[node name="Contents" type="MarginContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
 margin_left = 8.0
 margin_top = 8.0
-margin_right = 256.0
-margin_bottom = 66.0
+margin_right = -8.0
+margin_bottom = -36.0
+custom_constants/margin_right = 10
+custom_constants/margin_top = 10
+custom_constants/margin_left = 10
+custom_constants/margin_bottom = 10
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="VBox" type="VBoxContainer" parent="MarginContainer"]
-margin_right = 248.0
-margin_bottom = 58.0
+[node name="VBox" type="VBoxContainer" parent="Contents"]
+margin_left = 10.0
+margin_top = 10.0
+margin_right = 258.0
+margin_bottom = 68.0
 
-[node name="HBox" type="HBoxContainer" parent="MarginContainer/VBox"]
+[node name="HBox" type="HBoxContainer" parent="Contents/VBox"]
 margin_right = 248.0
 margin_bottom = 30.0
 
-[node name="Label" type="Label" parent="MarginContainer/VBox/HBox"]
+[node name="Label" type="Label" parent="Contents/VBox/HBox"]
 margin_top = 8.0
 margin_right = 54.0
 margin_bottom = 22.0
 text = "Location"
 
-[node name="LineEdit" type="LineEdit" parent="MarginContainer/VBox/HBox"]
+[node name="LineEdit" type="LineEdit" parent="Contents/VBox/HBox"]
 margin_left = 58.0
 margin_right = 208.0
 margin_bottom = 30.0
 rect_min_size = Vector2( 150, 0 )
+caret_blink = true
+caret_blink_speed = 0.5
 
-[node name="Button" type="Button" parent="MarginContainer/VBox/HBox"]
+[node name="Button" type="Button" parent="Contents/VBox/HBox"]
 margin_left = 212.0
 margin_right = 248.0
 margin_bottom = 30.0
 focus_mode = 0
 icon = ExtResource( 2 )
 
-[node name="HBox2" type="HBoxContainer" parent="MarginContainer/VBox"]
+[node name="HBox2" type="HBoxContainer" parent="Contents/VBox"]
 margin_top = 34.0
 margin_right = 248.0
 margin_bottom = 58.0
 alignment = 1
 
-[node name="CheckBox" type="CheckBox" parent="MarginContainer/VBox/HBox2"]
+[node name="CheckBox" type="CheckBox" parent="Contents/VBox/HBox2"]
 margin_left = 112.0
 margin_right = 136.0
 margin_bottom = 24.0

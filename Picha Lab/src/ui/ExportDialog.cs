@@ -1,15 +1,19 @@
 using Godot;
 
-public class ExportDialog : AcceptDialog
+public class ExportDialog : WindowDialog
 {
-    // Called when the node enters the scene tree for the first time.
+    public MarginContainer Contents;
+
     public override void _Ready()
     {
         this.AddToGroup("diag_export");
+
+        this.Contents = this.GetNode<MarginContainer>("Contents");
     }
 
     public void Open(ExportManager export)
     {
+        this.RectSize = this.Contents.RectSize;
         this.PopupCentered();
     }
 }
