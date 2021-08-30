@@ -29,11 +29,29 @@ __meta__ = {
 margin_left = 10.0
 margin_top = 10.0
 margin_right = 258.0
-margin_bottom = 68.0
+margin_bottom = 96.0
+
+[node name="HBox3" type="HBoxContainer" parent="Contents/VBox"]
+margin_right = 248.0
+margin_bottom = 24.0
+alignment = 1
+
+[node name="CheckBox2" type="CheckBox" parent="Contents/VBox/HBox3"]
+margin_left = 31.0
+margin_right = 120.0
+margin_bottom = 24.0
+text = "As Layers"
+
+[node name="CheckBox3" type="CheckBox" parent="Contents/VBox/HBox3"]
+margin_left = 124.0
+margin_right = 217.0
+margin_bottom = 24.0
+text = "Full Anim."
 
 [node name="HBox" type="HBoxContainer" parent="Contents/VBox"]
+margin_top = 28.0
 margin_right = 248.0
-margin_bottom = 30.0
+margin_bottom = 58.0
 
 [node name="Label" type="Label" parent="Contents/VBox/HBox"]
 margin_top = 8.0
@@ -56,13 +74,20 @@ margin_bottom = 30.0
 focus_mode = 0
 icon = ExtResource( 2 )
 
-[node name="HBox2" type="HBoxContainer" parent="Contents/VBox"]
-margin_top = 34.0
+[node name="HBox4" type="HBoxContainer" parent="Contents/VBox"]
+margin_top = 62.0
 margin_right = 248.0
-margin_bottom = 58.0
+margin_bottom = 82.0
 alignment = 1
 
-[node name="CheckBox" type="CheckBox" parent="Contents/VBox/HBox2"]
-margin_left = 112.0
-margin_right = 136.0
-margin_bottom = 24.0
+[node name="Button" type="Button" parent="Contents/VBox/HBox4"]
+margin_left = 80.0
+margin_right = 110.0
+margin_bottom = 20.0
+text = "Ok"
+
+[node name="Button2" type="Button" parent="Contents/VBox/HBox4"]
+margin_left = 114.0
+margin_right = 168.0
+margin_bottom = 20.0
+text = "Cancel"

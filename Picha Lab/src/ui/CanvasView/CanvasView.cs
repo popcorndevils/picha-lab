@@ -16,11 +16,17 @@ public partial class CanvasView : VBoxContainer
         TabCloseDisplayPolicy = Tabs.CloseButtonDisplayPolicy.ShowActiveOnly,
     };
 
+    public MarginContainer Margins = new MarginContainer();
+
     public override void _Ready()
     {
         this.AddToGroup("gp_canvas_handler");
 
-        this.AddChildren(this.Tabs, this.Content);
+        this.Margins.AddChild(this.Tabs);
+
+        this.Margins.AddConstantOverride("margin_left", 8);
+
+        this.AddChildren(this.Margins, this.Content);
         this.AddConstantOverride("separation", 0);
 
         this.Tabs.Connect("tab_changed", this, "OnTabChange");
