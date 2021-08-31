@@ -7,10 +7,14 @@
 visible = true
 margin_right = 102.0
 margin_bottom = 73.0
+popup_exclusive = true
 window_title = "Export Sprite"
 script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
-[node name="Contents" type="MarginContainer" parent="."]
+[node name="Margins" type="MarginContainer" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 8.0
@@ -25,69 +29,115 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="VBox" type="VBoxContainer" parent="Contents"]
+[node name="Contents" type="VBoxContainer" parent="Margins"]
 margin_left = 10.0
 margin_top = 10.0
-margin_right = 258.0
-margin_bottom = 96.0
+margin_right = 200.0
+margin_bottom = 176.0
 
-[node name="HBox3" type="HBoxContainer" parent="Contents/VBox"]
-margin_right = 248.0
+[node name="rows" type="SpinBox" parent="Margins/Contents"]
+margin_left = 58.0
+margin_right = 132.0
 margin_bottom = 24.0
+size_flags_horizontal = 4
+min_value = 1.0
+value = 1.0
+prefix = "rows"
+
+[node name="cols" type="SpinBox" parent="Margins/Contents"]
+margin_left = 58.0
+margin_top = 28.0
+margin_right = 132.0
+margin_bottom = 52.0
+size_flags_horizontal = 4
+min_value = 1.0
+value = 1.0
+prefix = "cols"
+
+[node name="sheets" type="SpinBox" parent="Margins/Contents"]
+margin_left = 58.0
+margin_top = 56.0
+margin_right = 132.0
+margin_bottom = 80.0
+size_flags_horizontal = 4
+min_value = 1.0
+value = 1.0
+prefix = "sheets"
+
+[node name="OptionBox" type="HBoxContainer" parent="Margins/Contents"]
+margin_top = 84.0
+margin_right = 190.0
+margin_bottom = 108.0
 alignment = 1
 
-[node name="CheckBox2" type="CheckBox" parent="Contents/VBox/HBox3"]
-margin_left = 31.0
-margin_right = 120.0
+[node name="as_layers" type="CheckBox" parent="Margins/Contents/OptionBox"]
+margin_left = 4.0
+margin_right = 93.0
 margin_bottom = 24.0
+focus_mode = 0
 text = "As Layers"
 
-[node name="CheckBox3" type="CheckBox" parent="Contents/VBox/HBox3"]
-margin_left = 124.0
-margin_right = 217.0
+[node name="full_sized" type="CheckBox" parent="Margins/Contents/OptionBox"]
+margin_left = 97.0
+margin_right = 186.0
 margin_bottom = 24.0
-text = "Full Anim."
+focus_mode = 0
+text = "Full Sized"
 
-[node name="HBox" type="HBoxContainer" parent="Contents/VBox"]
-margin_top = 28.0
-margin_right = 248.0
-margin_bottom = 58.0
+[node name="PathBox" type="HBoxContainer" parent="Margins/Contents"]
+margin_top = 112.0
+margin_right = 190.0
+margin_bottom = 142.0
 
-[node name="Label" type="Label" parent="Contents/VBox/HBox"]
-margin_top = 8.0
-margin_right = 54.0
-margin_bottom = 22.0
-text = "Location"
-
-[node name="LineEdit" type="LineEdit" parent="Contents/VBox/HBox"]
-margin_left = 58.0
-margin_right = 208.0
+[node name="path" type="LineEdit" parent="Margins/Contents/PathBox"]
+margin_right = 150.0
 margin_bottom = 30.0
 rect_min_size = Vector2( 150, 0 )
+editable = false
+placeholder_text = "Output Location"
 caret_blink = true
 caret_blink_speed = 0.5
 
-[node name="Button" type="Button" parent="Contents/VBox/HBox"]
-margin_left = 212.0
-margin_right = 248.0
+[node name="btn_browse" type="Button" parent="Margins/Contents/PathBox"]
+margin_left = 154.0
+margin_right = 190.0
 margin_bottom = 30.0
 focus_mode = 0
 icon = ExtResource( 2 )
 
-[node name="HBox4" type="HBoxContainer" parent="Contents/VBox"]
-margin_top = 62.0
-margin_right = 248.0
-margin_bottom = 82.0
+[node name="BBox" type="HBoxContainer" parent="Margins/Contents"]
+margin_top = 146.0
+margin_right = 190.0
+margin_bottom = 166.0
 alignment = 1
 
-[node name="Button" type="Button" parent="Contents/VBox/HBox4"]
-margin_left = 80.0
-margin_right = 110.0
+[node name="ok" type="Button" parent="Margins/Contents/BBox"]
+margin_left = 51.0
+margin_right = 81.0
 margin_bottom = 20.0
+focus_mode = 0
 text = "Ok"
 
-[node name="Button2" type="Button" parent="Contents/VBox/HBox4"]
-margin_left = 114.0
-margin_right = 168.0
+[node name="cancel" type="Button" parent="Margins/Contents/BBox"]
+margin_left = 85.0
+margin_right = 139.0
 margin_bottom = 20.0
+focus_mode = 0
 text = "Cancel"
+
+[node name="FileDialog" type="FileDialog" parent="."]
+margin_right = 416.0
+margin_bottom = 184.0
+rect_min_size = Vector2( 400, 140 )
+window_title = "Open a Directory"
+resizable = true
+mode = 2
+access = 2
+current_dir = "/Projects/Picha/Picha Lab"
+current_path = "/Projects/Picha/Picha Lab/"
+
+[node name="Confirmation" type="ConfirmationDialog" parent="."]
+margin_top = -11.0
+margin_right = 201.0
+margin_bottom = 103.0
+window_title = "Are you sure?"
