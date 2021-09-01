@@ -21,10 +21,10 @@ margin_left = 8.0
 margin_top = 8.0
 margin_right = -8.0
 margin_bottom = -36.0
-custom_constants/margin_right = 10
+custom_constants/margin_right = 25
 custom_constants/margin_top = 10
 custom_constants/margin_left = 10
-custom_constants/margin_bottom = 10
+custom_constants/margin_bottom = 20
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -35,54 +35,68 @@ margin_top = 10.0
 margin_right = 200.0
 margin_bottom = 176.0
 
-[node name="rows" type="SpinBox" parent="Margins/Contents"]
-margin_left = 58.0
-margin_right = 132.0
+[node name="OptionBox" type="GridContainer" parent="Margins/Contents"]
+margin_right = 190.0
+margin_bottom = 80.0
+columns = 2
+
+[node name="rows" type="SpinBox" parent="Margins/Contents/OptionBox"]
+margin_right = 74.0
 margin_bottom = 24.0
 size_flags_horizontal = 4
 min_value = 1.0
 value = 1.0
 prefix = "rows"
 
-[node name="cols" type="SpinBox" parent="Margins/Contents"]
-margin_left = 58.0
+[node name="split_frames" type="CheckBox" parent="Margins/Contents/OptionBox"]
+margin_left = 78.0
+margin_right = 185.0
+margin_bottom = 24.0
+focus_mode = 0
+text = "Split Frames"
+
+[node name="cols" type="SpinBox" parent="Margins/Contents/OptionBox"]
 margin_top = 28.0
-margin_right = 132.0
+margin_right = 74.0
 margin_bottom = 52.0
 size_flags_horizontal = 4
 min_value = 1.0
 value = 1.0
 prefix = "cols"
 
-[node name="sheets" type="SpinBox" parent="Margins/Contents"]
-margin_left = 58.0
+[node name="as_layers" type="CheckBox" parent="Margins/Contents/OptionBox"]
+margin_left = 78.0
+margin_top = 28.0
+margin_right = 185.0
+margin_bottom = 52.0
+focus_mode = 0
+text = "As Layers"
+
+[node name="sheets" type="SpinBox" parent="Margins/Contents/OptionBox"]
 margin_top = 56.0
-margin_right = 132.0
+margin_right = 74.0
 margin_bottom = 80.0
 size_flags_horizontal = 4
 min_value = 1.0
 value = 1.0
 prefix = "sheets"
 
-[node name="OptionBox" type="HBoxContainer" parent="Margins/Contents"]
+[node name="full_sized" type="CheckBox" parent="Margins/Contents/OptionBox"]
+margin_left = 78.0
+margin_top = 56.0
+margin_right = 185.0
+margin_bottom = 80.0
+focus_mode = 0
+text = "Full Sized"
+
+[node name="sprite_name" type="LineEdit" parent="Margins/Contents"]
 margin_top = 84.0
 margin_right = 190.0
 margin_bottom = 108.0
-alignment = 1
-
-[node name="as_layers" type="CheckBox" parent="Margins/Contents/OptionBox"]
-margin_left = 4.0
-margin_right = 93.0
-margin_bottom = 24.0
-focus_mode = 0
-text = "As Layers"
-
-[node name="full_sized" type="CheckBox" parent="Margins/Contents/OptionBox"]
-margin_left = 97.0
-margin_right = 186.0
-margin_bottom = 24.0
-focus_mode = 0
-text = "Full Sized"
+rect_min_size = Vector2( 150, 0 )
+placeholder_text = "Sprite Name"
+caret_blink = true
+caret_blink_speed = 0.5
 
 [node name="PathBox" type="HBoxContainer" parent="Margins/Contents"]
 margin_top = 112.0
@@ -93,6 +107,8 @@ margin_bottom = 142.0
 margin_right = 150.0
 margin_bottom = 30.0
 rect_min_size = Vector2( 150, 0 )
+focus_mode = 0
+size_flags_horizontal = 3
 editable = false
 placeholder_text = "Output Location"
 caret_blink = true
@@ -137,7 +153,6 @@ current_dir = "/Projects/Picha/Picha Lab"
 current_path = "/Projects/Picha/Picha Lab/"
 
 [node name="Confirmation" type="ConfirmationDialog" parent="."]
-margin_top = -11.0
-margin_right = 201.0
-margin_bottom = 103.0
-window_title = "Are you sure?"
+visible = true
+margin_right = 200.0
+margin_bottom = 70.0

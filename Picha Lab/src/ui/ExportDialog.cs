@@ -15,11 +15,13 @@ public class ExportDialog : WindowDialog
     public SpinBox Cols;
     public SpinBox Sheets;
 
-    public Button FileButton;
-    public Button AsLayers;
-    public Button FullSized;
+    public CheckBox SplitFrames;
+    public CheckBox AsLayers;
+    public CheckBox FullSized;
 
+    public LineEdit SpriteName;
     public LineEdit Path;
+    public Button FileButton;
 
     public Button Ok;
     public Button Cancel;
@@ -33,27 +35,30 @@ public class ExportDialog : WindowDialog
         this.FileDialog = this.GetNode<FileDialog>("FileDialog");
         this.Confirmation = this.GetNode<ConfirmationDialog>("Confirmation");
         
-        this.Rows = this.GetNode<SpinBox>("Margins/Contents/rows");
-        this.Cols = this.GetNode<SpinBox>("Margins/Contents/cols");
-        this.Sheets = this.GetNode<SpinBox>("Margins/Contents/sheets");
+        this.Rows = this.GetNode<SpinBox>("Margins/Contents/OptionBox/rows");
+        this.Cols = this.GetNode<SpinBox>("Margins/Contents/OptionBox/cols");
+        this.Sheets = this.GetNode<SpinBox>("Margins/Contents/OptionBox/sheets");
 
+        this.SplitFrames = this.GetNode<CheckBox>("Margins/Contents/OptionBox/split_frames");
+        this.AsLayers = this.GetNode<CheckBox>("Margins/Contents/OptionBox/as_layers");
+        this.FullSized = this.GetNode<CheckBox>("Margins/Contents/OptionBox/full_sized");
+
+        this.SpriteName = this.GetNode<LineEdit>("Margins/Contents/sprite_name");
         this.FileButton = this.GetNode<Button>("Margins/Contents/PathBox/btn_browse");
-        this.AsLayers = this.GetNode<Button>("Margins/Contents/OptionBox/as_layers");
-        this.FullSized = this.GetNode<Button>("Margins/Contents/OptionBox/full_sized");
-
         this.Path = this.GetNode<LineEdit>("Margins/Contents/PathBox/path");
         
         this.Ok = this.GetNode<Button>("Margins/Contents/BBox/ok");
         this.Cancel = this.GetNode<Button>("Margins/Contents/BBox/cancel");
+
+        this.Confirmation.GetOk().FocusMode = FocusModeEnum.None;
+        this.Confirmation.GetCancel().FocusMode = FocusModeEnum.None;
 
         this.FileButton.Connect("pressed", this, "OnFileButtonPress");
         this.AsLayers.Connect("pressed", this, "OnAsLayersPress");
         this.Ok.Connect("pressed", this, "OnOkPress");
         this.Cancel.Connect("pressed", this, "OnCancelPress");
         this.FileDialog.Connect("dir_selected", this, "OnDirSelect");
-
-        this.Confirmation.GetOk().FocusMode = FocusModeEnum.None;
-        this.Confirmation.GetCancel().FocusMode = FocusModeEnum.None;
+        this.Confirmation.Connect("confirmed", this, "OnConfirmExport");
     }
 
 
@@ -67,6 +72,7 @@ public class ExportDialog : WindowDialog
         this.Cols.Value = 1;
         this.Sheets.Value = 1;
 
+        this.SplitFrames.Pressed = false;
         this.AsLayers.Pressed = false;
         this.FullSized.Pressed = false;
         this.FullSized.Disabled = true;
@@ -84,6 +90,7 @@ public class ExportDialog : WindowDialog
     public void OnAsLayersPress()
     {
         this.FullSized.Disabled = !this.AsLayers.Pressed;
+        this.SpriteName.Editable = !this.AsLayers.Pressed;
 
         if(this.FullSized.Disabled)
         {
@@ -94,7 +101,9 @@ public class ExportDialog : WindowDialog
 
     public void OnOkPress()
     {
-        this.Confirmation.DialogText = $"Each Sprite includes {MathX.LCD(this.Export.Canvas.FrameCount)} frames of animation.\nWould you like to continue with export?";
+        var _frames = MathX.LCD(this.Export.Canvas.FrameCount);
+        var _word = _frames > 1 ? "frames" : "frame";
+        this.Confirmation.DialogText = $"Each Sprite includes {_frames} {_word} of animation.\nWould you like to continue with export?";
 
         this.Confirmation.PopupCentered();
     }
@@ -109,5 +118,11 @@ public class ExportDialog : WindowDialog
     public void OnDirSelect(string s)
     {
         this.Path.Text = s;
+    }
+
+
+    public void OnConfirmExport()
+    {
+        GD.Print("GET ER DONE");
     }
 }
