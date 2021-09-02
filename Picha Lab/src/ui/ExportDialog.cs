@@ -98,10 +98,13 @@ public class ExportDialog : WindowDialog
     {
         this.FullSized.Disabled = !this.AsLayers.Pressed;
         this.SpriteName.Editable = !this.AsLayers.Pressed;
-
-        if(this.FullSized.Disabled)
+        if(SpriteName.Editable)
         {
-            this.FullSized.Pressed = false;
+            this.SpriteName.FocusMode = FocusModeEnum.All;
+        }
+        else
+        {
+            this.SpriteName.FocusMode = FocusModeEnum.None;
         }
     }
 

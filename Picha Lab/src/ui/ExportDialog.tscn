@@ -99,6 +99,13 @@ max_value = 1000.0
 value = 1.0
 prefix = "scale"
 
+[node name="sub_folders" type="CheckBox" parent="Margins/Contents/OptionBox"]
+margin_left = 78.0
+margin_top = 56.0
+margin_right = 185.0
+margin_bottom = 80.0
+text = "Sub Folders"
+
 [node name="sprite_name" type="LineEdit" parent="Margins/Contents"]
 margin_top = 112.0
 margin_right = 190.0
