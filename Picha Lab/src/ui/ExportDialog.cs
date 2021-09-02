@@ -135,15 +135,10 @@ public class ExportDialog : WindowDialog
         
         var _numGen = _rows * _cols * _sheets;
 
-        this.Loading.Text = $"[center]Exporting...[/center]";
-        this.Loading.PopupCentered();
-
         for(int i = 0; i < _sheets; i++)
         {
             var _s = this.Export.GetSpriteSheet(_cols, _rows, _scale);
             _s.SavePng($"{this.Path.Text}/{this.SpriteName.Text}_{i}.png");
         }
-
-        this.Loading.Hide();
     }
 }
