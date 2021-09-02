@@ -22,7 +22,7 @@ public class ExportDialog : WindowDialog
     public CheckBox FullSized;
 
     public LineEdit SpriteName;
-    public LineEdit Path;
+    public LineEdit OutputPath;
     public Button FileButton;
 
     public Button Ok;
@@ -49,7 +49,7 @@ public class ExportDialog : WindowDialog
 
         this.SpriteName = this.GetNode<LineEdit>("Margins/Contents/sprite_name");
         this.FileButton = this.GetNode<Button>("Margins/Contents/PathBox/btn_browse");
-        this.Path = this.GetNode<LineEdit>("Margins/Contents/PathBox/path");
+        this.OutputPath = this.GetNode<LineEdit>("Margins/Contents/PathBox/path");
         
         this.Ok = this.GetNode<Button>("Margins/Contents/BBox/ok");
         this.Cancel = this.GetNode<Button>("Margins/Contents/BBox/cancel");
@@ -107,7 +107,7 @@ public class ExportDialog : WindowDialog
 
     public void OnOkPress()
     {
-        var _frames = MathX.LCD(this.Export.Canvas.FrameCount);
+        var _frames = MathX.LCD(this.Export.Canvas.FrameCounts);
         var _word = _frames > 1 ? "frames" : "frame";
         this.Confirmation.DialogText = $"Each Sprite includes {_frames} {_word} of animation.\nWould you like to continue with export?";
 
@@ -123,33 +123,31 @@ public class ExportDialog : WindowDialog
 
     public void OnDirSelect(string s)
     {
-        this.Path.Text = s;
+        this.OutputPath.Text = s;
     }
 
     
     public async void OnConfirmExport()
     {
-        var _rows = (int)this.Rows.Value;
-        var _cols = (int)this.Cols.Value;
-        var _sheets = (int)this.Sheets.Value;
-        var _scale = (int)this.Scale.Value;
-        
-        var _numGen = _rows * _cols * _sheets;
+        var _data = new ExportData(){
+            Columns = (int)this.Cols.Value,
+            Rows = (int)this.Rows.Value,
+            Sheets = (int)this.Sheets.Value,
+            Scale = (int)this.Scale.Value,
+            SplitFrames = this.SplitFrames.Pressed,
+            AsLayers = this.AsLayers.Pressed,
+            FullSizedLayers = this.FullSized.Pressed,
+            SpriteName = this.SpriteName.Text,
+            OutputPath = this.OutputPath.Text,
+        };
 
         this.Progress.PopupCentered();
 
         var _thread = new Thread();
+        _thread.Start(this.Export, "ExportSprite", _data);
+        await ToSignal(this.Export, "ProgressFinished");
 
-        var _data = new ExportData(){
-            cols = _cols,
-            rows = _rows,
-            scale = _scale,
-            sheets = _sheets
-        };
-
-        _thread.Start(this.Export, "GetSpriteSheet", _data);
-        var _result = await ToSignal(this.Export, "ProgressFinished");
-        GD.Print(_result);
         this.Progress.Hide();
+        this.Hide();
     }
 }

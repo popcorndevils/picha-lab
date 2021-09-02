@@ -40,21 +40,6 @@ margin_right = 190.0
 margin_bottom = 108.0
 columns = 2
 
-[node name="rows" type="SpinBox" parent="Margins/Contents/OptionBox"]
-margin_right = 74.0
-margin_bottom = 24.0
-size_flags_horizontal = 4
-min_value = 1.0
-value = 1.0
-prefix = "rows"
-
-[node name="split_frames" type="CheckBox" parent="Margins/Contents/OptionBox"]
-margin_left = 78.0
-margin_right = 185.0
-margin_bottom = 24.0
-focus_mode = 0
-text = "Split Frames"
-
 [node name="cols" type="SpinBox" parent="Margins/Contents/OptionBox"]
 margin_top = 28.0
 margin_right = 74.0
@@ -63,6 +48,21 @@ size_flags_horizontal = 4
 min_value = 1.0
 value = 1.0
 prefix = "cols"
+
+[node name="split_frames" type="CheckBox" parent="Margins/Contents/OptionBox"]
+margin_left = 78.0
+margin_right = 185.0
+margin_bottom = 24.0
+focus_mode = 0
+text = "Split Frames"
+
+[node name="rows" type="SpinBox" parent="Margins/Contents/OptionBox"]
+margin_right = 74.0
+margin_bottom = 24.0
+size_flags_horizontal = 4
+min_value = 1.0
+value = 1.0
+prefix = "rows"
 
 [node name="as_layers" type="CheckBox" parent="Margins/Contents/OptionBox"]
 margin_left = 78.0

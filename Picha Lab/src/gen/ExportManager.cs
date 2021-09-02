@@ -13,28 +13,70 @@ public class ExportManager : Node
 {
     public Canvas Canvas;
 
-    [Signal] public delegate void ProgressChanged(int increment);
-    [Signal] public delegate void ProgressFinished(int status);
+    [Signal] public delegate void ProgressChanged(int i, int total);
+    [Signal] public delegate void ProgressFinished();
 
     public ExportManager(Canvas canvas)
     {
         this.Canvas = canvas;
     }
 
-    public void GetSpriteSheet(ExportData args)
+    public void ExportSprite(ExportData args)
     {
-        for(int i = 1; i < 101; i++)
+        var _spriteFrameNum = MathX.LCD(this.Canvas.FrameCounts);
+
+        var _spriteWidth = this.Canvas.Size.W * (args.SplitFrames ? 1: _spriteFrameNum);
+        var _spriteHeight = this.Canvas.Size.H;
+
+        var _sheetWidth = _spriteWidth * args.Columns;
+        var _sheetHeight = _spriteHeight * args.Rows;
+
+        var _spriteNumTotal = args.Columns * args.Rows * args.Sheets;
+
+        for(int s = 0; s < args.Sheets; s++)
         {
-            OS.DelayMsec(100);
-            this.EmitSignal(nameof(ExportManager.ProgressChanged), i);
+            var _sheetImage = new Image();
+            _sheetImage.Create(_sheetWidth, _sheetHeight, false, Image.Format.Rgba8);
+
+            for(int x = 0; x < args.Columns; x++)
+            {
+                for(int y = 0; y < args.Rows; y++)
+                {
+                    var _spriteNum = (y * args.Columns) + (x * args.Rows) + (s * args.Rows * args.Columns);
+
+                    if(!args.AsLayers)
+                    {
+                        var _sprites = this.GetSprite();
+
+                        for(int i = 0; i < _sprites.Count; i++)
+                        {
+                            var _x = (x * this.Canvas.Size.W * _spriteFrameNum) + (i * this.Canvas.Size.W);
+                            var _y = y * this.Canvas.Size.H;
+
+                            _sheetImage = _sheetImage.BlitLayer(_sprites[i], _x, _y);
+                        }
+
+                        this.EmitSignal(nameof(ExportManager.ProgressChanged), _spriteNum, _spriteNumTotal);
+                    }
+                }
+            }
+
+            if(args.Scale != 1)
+            {
+                _sheetImage.Unlock();
+                _sheetImage.Resize(args.Scale * _sheetWidth, args.Scale * _sheetHeight, Image.Interpolation.Nearest);
+                _sheetImage.Lock();
+            }
+
+            _sheetImage.SavePng($"{args.OutputPath}/{args.SpriteName}_{s}.png");
         }
-        this.EmitSignal(nameof(ExportManager.ProgressFinished), 1);
-        // return this.GetSpriteSheet(args.cols, args.rows, args.scale);
+        
+        this.EmitSignal(nameof(ExportManager.ProgressFinished));
     }
 
     public Image GetSpriteSheet(int cols = 1, int rows = 1, int scale = 1)
     {
-        int _frames = MathX.LCD(this.Canvas.FrameCount);
+        int _frames = MathX.LCD(this.Canvas.FrameCounts);
         int _w = this.Canvas.Size.W * _frames * cols;
         int _h = this.Canvas.Size.H * rows;
 
@@ -73,7 +115,7 @@ public class ExportManager : Node
 
         var _s = this.Canvas.Size;
 
-        var _frameNums = this.Canvas.FrameCount;
+        var _frameNums = this.Canvas.FrameCounts;
         var _totalFrames = MathX.LCD(_frameNums);
 
         var _layerFrames = this.GetSpriteLayers();
@@ -134,8 +176,13 @@ public class ExportManager : Node
 
 public class ExportData : Node
 {
-    public int cols;
-    public int rows;
-    public int scale;
-    public int sheets;
+    public int Columns;
+    public int Rows;
+    public int Sheets;
+    public int Scale;
+    public bool SplitFrames;
+    public bool AsLayers;
+    public bool FullSizedLayers;
+    public string SpriteName;
+    public string OutputPath;
 }
