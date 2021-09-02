@@ -9,7 +9,7 @@ using Godot;
 /// <summary>
 /// Special class for generating images and spritesheets using canvas data.
 /// </summary>
-public class ExportManager : Node
+public class SpriteExporter : Node
 {
     public Canvas Canvas;
 
@@ -17,7 +17,7 @@ public class ExportManager : Node
     [Signal] public delegate void StatusUpdate(string s);
     [Signal] public delegate void ProgressFinished();
 
-    public ExportManager(Canvas canvas)
+    public SpriteExporter(Canvas canvas)
     {
         this.Canvas = canvas;
     }
@@ -75,13 +75,13 @@ public class ExportManager : Node
                         }
                     }
 
-                    this.EmitSignal(nameof(ExportManager.ProgressChanged), _spriteNum, _spriteNumTotal);
+                    this.EmitSignal(nameof(SpriteExporter.ProgressChanged), _spriteNum, _spriteNumTotal);
                 }
             }
 
             if(args.Scale != 1)
             {
-                this.EmitSignal(nameof(ExportManager.StatusUpdate), $"Resizing Sheet {args.SpriteName}_{s}.png");
+                this.EmitSignal(nameof(SpriteExporter.StatusUpdate), $"Resizing Sheet {args.SpriteName}_{s}.png");
 
                 foreach(Image i in _sheetImage)
                 {
@@ -104,7 +104,7 @@ public class ExportManager : Node
             }            
         }
         
-        this.EmitSignal(nameof(ExportManager.ProgressFinished));
+        this.EmitSignal(nameof(SpriteExporter.ProgressFinished));
     }
 
     public List<Image> GetSprite()
@@ -137,7 +137,7 @@ public class ExportManager : Node
 
         foreach(Layer l in this.Canvas.Layers)
         {
-            var _frames = ExportManager.GetLayerImages(l, canvas);
+            var _frames = SpriteExporter.GetLayerImages(l, canvas);
             _output.Add((l, _frames));
         }
 

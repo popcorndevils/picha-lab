@@ -4,7 +4,7 @@ using Godot;
 
 public class ExportDialog : WindowDialog
 {
-    public ExportManager Export;
+    public SpriteExporter Export;
 
     public MarginContainer Margins;
 
@@ -66,7 +66,7 @@ public class ExportDialog : WindowDialog
     }
 
 
-    public void Open(ExportManager export)
+    public void Open(SpriteExporter export)
     {
         this.Export = export;
         this.Export.Connect("ProgressChanged", this.Progress, "OnProgressChanged");
