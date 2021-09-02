@@ -10,10 +10,12 @@ public class ExportDialog : WindowDialog
 
     public FileDialog FileDialog;
     public ConfirmationDialog Confirmation;
+    public LoadingBar Loading;
 
     public SpinBox Rows;
     public SpinBox Cols;
     public SpinBox Sheets;
+    public SpinBox Scale;
 
     public CheckBox SplitFrames;
     public CheckBox AsLayers;
@@ -34,10 +36,12 @@ public class ExportDialog : WindowDialog
         
         this.FileDialog = this.GetNode<FileDialog>("FileDialog");
         this.Confirmation = this.GetNode<ConfirmationDialog>("Confirmation");
+        this.Loading = this.GetNode<LoadingBar>("LoadingBar");
         
         this.Rows = this.GetNode<SpinBox>("Margins/Contents/OptionBox/rows");
         this.Cols = this.GetNode<SpinBox>("Margins/Contents/OptionBox/cols");
         this.Sheets = this.GetNode<SpinBox>("Margins/Contents/OptionBox/sheets");
+        this.Scale = this.GetNode<SpinBox>("Margins/Contents/OptionBox/scale");
 
         this.SplitFrames = this.GetNode<CheckBox>("Margins/Contents/OptionBox/split_frames");
         this.AsLayers = this.GetNode<CheckBox>("Margins/Contents/OptionBox/as_layers");
@@ -71,6 +75,7 @@ public class ExportDialog : WindowDialog
         this.Rows.Value = 1;
         this.Cols.Value = 1;
         this.Sheets.Value = 1;
+        this.Scale.Value = 1;
 
         this.SplitFrames.Pressed = false;
         this.AsLayers.Pressed = false;
@@ -123,6 +128,22 @@ public class ExportDialog : WindowDialog
 
     public void OnConfirmExport()
     {
-        GD.Print("GET ER DONE");
+        var _rows = (int)this.Rows.Value;
+        var _cols = (int)this.Cols.Value;
+        var _sheets = (int)this.Sheets.Value;
+        var _scale = (int)this.Scale.Value;
+        
+        var _numGen = _rows * _cols * _sheets;
+
+        this.Loading.Text = $"[center]Exporting...[/center]";
+        this.Loading.PopupCentered();
+
+        for(int i = 0; i < _sheets; i++)
+        {
+            var _s = this.Export.GetSpriteSheet(_cols, _rows, _scale);
+            _s.SavePng($"{this.Path.Text}/{this.SpriteName.Text}_{i}.png");
+        }
+
+        this.Loading.Hide();
     }
 }

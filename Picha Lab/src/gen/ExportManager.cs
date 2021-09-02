@@ -19,7 +19,8 @@ public class ExportManager
 
     public Image GetSpriteSheet(int cols = 1, int rows = 1, int scale = 1)
     {
-        int _w = this.Canvas.Size.W * MathX.LCD(this.Canvas.FrameCount) * cols;
+        int _frames = MathX.LCD(this.Canvas.FrameCount);
+        int _w = this.Canvas.Size.W * _frames * cols;
         int _h = this.Canvas.Size.H * rows;
 
         var _output = new Image();
@@ -33,10 +34,10 @@ public class ExportManager
                 var _sprites = this.GetSprite();
                 for(int i = 0; i < _sprites.Count; i++)
                 {
-                    var _x = (i * this.Canvas.Size.W) + (x * _w);
+                    var _x = (x * this.Canvas.Size.W * _frames) + (i * this.Canvas.Size.W);
                     var _y = y * this.Canvas.Size.H;
 
-                    _output = _output.BlitLayer( _sprites[i], _x, _y);
+                    _output = _output.BlitLayer(_sprites[i], _x, _y);
                 }
             }
         }

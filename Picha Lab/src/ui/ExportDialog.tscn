@@ -1,10 +1,10 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://src/ui/ExportDialog.cs" type="Script" id=1]
 [ext_resource path="res://res/icons/folder-line.png" type="Texture" id=2]
+[ext_resource path="res://src/ui/LoadingBar.tscn" type="PackedScene" id=3]
 
 [node name="ExportDialog" type="WindowDialog"]
-visible = true
 margin_right = 102.0
 margin_bottom = 73.0
 popup_exclusive = true
@@ -89,6 +89,16 @@ margin_bottom = 80.0
 focus_mode = 0
 text = "Full Sized"
 
+[node name="scale" type="SpinBox" parent="Margins/Contents/OptionBox"]
+margin_top = 56.0
+margin_right = 74.0
+margin_bottom = 80.0
+size_flags_horizontal = 4
+min_value = 1.0
+max_value = 1000.0
+value = 1.0
+prefix = "scale"
+
 [node name="sprite_name" type="LineEdit" parent="Margins/Contents"]
 margin_top = 84.0
 margin_right = 190.0
@@ -107,9 +117,7 @@ margin_bottom = 142.0
 margin_right = 150.0
 margin_bottom = 30.0
 rect_min_size = Vector2( 150, 0 )
-focus_mode = 0
 size_flags_horizontal = 3
-editable = false
 placeholder_text = "Output Location"
 caret_blink = true
 caret_blink_speed = 0.5
@@ -153,6 +161,8 @@ current_dir = "/Projects/Picha/Picha Lab"
 current_path = "/Projects/Picha/Picha Lab/"
 
 [node name="Confirmation" type="ConfirmationDialog" parent="."]
-visible = true
 margin_right = 200.0
 margin_bottom = 70.0
+rect_min_size = Vector2( 400, 140 )
+
+[node name="LoadingBar" parent="." instance=ExtResource( 3 )]
