@@ -5,6 +5,7 @@
 [ext_resource path="res://src/ui/ProgressTrack.tscn" type="PackedScene" id=3]
 
 [node name="ExportDialog" type="WindowDialog"]
+visible = true
 margin_right = 102.0
 margin_bottom = 73.0
 popup_exclusive = true
@@ -41,9 +42,8 @@ margin_bottom = 108.0
 columns = 2
 
 [node name="cols" type="SpinBox" parent="Margins/Contents/OptionBox"]
-margin_top = 28.0
 margin_right = 74.0
-margin_bottom = 52.0
+margin_bottom = 24.0
 size_flags_horizontal = 4
 min_value = 1.0
 value = 1.0
@@ -57,8 +57,9 @@ focus_mode = 0
 text = "Split Frames"
 
 [node name="rows" type="SpinBox" parent="Margins/Contents/OptionBox"]
+margin_top = 28.0
 margin_right = 74.0
-margin_bottom = 24.0
+margin_bottom = 52.0
 size_flags_horizontal = 4
 min_value = 1.0
 value = 1.0
@@ -101,9 +102,9 @@ prefix = "scale"
 
 [node name="sub_folders" type="CheckBox" parent="Margins/Contents/OptionBox"]
 margin_left = 78.0
-margin_top = 56.0
+margin_top = 84.0
 margin_right = 185.0
-margin_bottom = 80.0
+margin_bottom = 108.0
 text = "Sub Folders"
 
 [node name="sprite_name" type="LineEdit" parent="Margins/Contents"]
@@ -173,3 +174,4 @@ margin_bottom = 70.0
 rect_min_size = Vector2( 400, 140 )
 
 [node name="ProgressTrack" parent="." instance=ExtResource( 3 )]
+visible = false

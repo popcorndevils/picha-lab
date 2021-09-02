@@ -66,7 +66,8 @@ namespace PichaLib
             get {
                 foreach(string[,] f in this._Frames)
                 {
-                    return (f.GetWidth(), f.GetHeight());
+                    return (f.GetWidth() * (this.MirrorX ? 2 : 1) ,
+                            f.GetHeight() * (this.MirrorY ? 2 : 1));
                 }
                 return (0, 0);
             }

@@ -20,6 +20,7 @@ public class ExportDialog : WindowDialog
     public CheckBox SplitFrames;
     public CheckBox AsLayers;
     public CheckBox FullSized;
+    public CheckBox SubFolders;
 
     public LineEdit SpriteName;
     public LineEdit OutputPath;
@@ -46,6 +47,7 @@ public class ExportDialog : WindowDialog
         this.SplitFrames = this.GetNode<CheckBox>("Margins/Contents/OptionBox/split_frames");
         this.AsLayers = this.GetNode<CheckBox>("Margins/Contents/OptionBox/as_layers");
         this.FullSized = this.GetNode<CheckBox>("Margins/Contents/OptionBox/full_sized");
+        this.SubFolders = this.GetNode<CheckBox>("Margins/Contents/OptionBox/sub_folders");
 
         this.SpriteName = this.GetNode<LineEdit>("Margins/Contents/sprite_name");
         this.FileButton = this.GetNode<Button>("Margins/Contents/PathBox/btn_browse");
@@ -97,15 +99,12 @@ public class ExportDialog : WindowDialog
     public void OnAsLayersPress()
     {
         this.FullSized.Disabled = !this.AsLayers.Pressed;
+        this.SubFolders.Disabled = !this.AsLayers.Pressed;
         this.SpriteName.Editable = !this.AsLayers.Pressed;
         if(SpriteName.Editable)
-        {
-            this.SpriteName.FocusMode = FocusModeEnum.All;
-        }
+            { this.SpriteName.FocusMode = FocusModeEnum.All; }
         else
-        {
-            this.SpriteName.FocusMode = FocusModeEnum.None;
-        }
+            { this.SpriteName.FocusMode = FocusModeEnum.None; }
     }
 
 
@@ -147,7 +146,12 @@ public class ExportDialog : WindowDialog
         this.Progress.PopupCentered();
 
         var _thread = new Thread();
-        _thread.Start(this.Export, "ExportSprite", _data);
+
+        if(this.AsLayers.Pressed)
+            { _thread.Start(this.Export, "ExportLayers", _data); }
+        else
+            { _thread.Start(this.Export, "ExportSprite", _data); }
+
         await ToSignal(this.Export, "ProgressFinished");
 
         this.Progress.Hide();
