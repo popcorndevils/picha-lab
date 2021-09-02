@@ -69,7 +69,8 @@ public class ExportDialog : WindowDialog
     public void Open(ExportManager export)
     {
         this.Export = export;
-        this.Export.Connect("ProgressChanged", this.Progress, "IncrementProgress");
+        this.Export.Connect("ProgressChanged", this.Progress, "OnProgressChanged");
+        this.Export.Connect("StatusUpdate", this.Progress, "OnStatusUpdate");
 
         this.RectSize = this.Margins.RectSize;
         
@@ -135,7 +136,6 @@ public class ExportDialog : WindowDialog
             Sheets = (int)this.Sheets.Value,
             Scale = (int)this.Scale.Value,
             SplitFrames = this.SplitFrames.Pressed,
-            AsLayers = this.AsLayers.Pressed,
             FullSizedLayers = this.FullSized.Pressed,
             SpriteName = this.SpriteName.Text,
             OutputPath = this.OutputPath.Text,

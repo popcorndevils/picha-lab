@@ -12,11 +12,15 @@ public class ProgressTrack : PopupPanel
         this.Bar = this.GetNode<ProgressBar>("VBox/Bar");
     }
 
-    public void IncrementProgress(int i, int total)
+    public void OnProgressChanged(int i, int total)
     {
         float _val = ((float)i / (float)total) * 100f;
-        GD.Print(_val);
         this.Bar.Value = _val;
         this.Status.Text = $"Processing sprite {i} of {total}...";
+    }
+
+    public void OnStatusUpdate(string s)
+    {
+        this.Status.Text = s;
     }
 }
