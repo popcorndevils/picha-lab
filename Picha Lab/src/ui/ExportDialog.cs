@@ -10,7 +10,7 @@ public class ExportDialog : WindowDialog
 
     public FileDialog FileDialog;
     public ConfirmationDialog Confirmation;
-    public LoadingBar Loading;
+    public ProgressTrack Progress;
 
     public SpinBox Rows;
     public SpinBox Cols;
@@ -36,7 +36,7 @@ public class ExportDialog : WindowDialog
         
         this.FileDialog = this.GetNode<FileDialog>("FileDialog");
         this.Confirmation = this.GetNode<ConfirmationDialog>("Confirmation");
-        this.Loading = this.GetNode<LoadingBar>("LoadingBar");
+        this.Progress = this.GetNode<ProgressTrack>("ProgressTrack");
         
         this.Rows = this.GetNode<SpinBox>("Margins/Contents/OptionBox/rows");
         this.Cols = this.GetNode<SpinBox>("Margins/Contents/OptionBox/cols");
@@ -69,6 +69,7 @@ public class ExportDialog : WindowDialog
     public void Open(ExportManager export)
     {
         this.Export = export;
+        this.Export.Connect("ProgressChanged", this.Progress, "IncrementProgress");
 
         this.RectSize = this.Margins.RectSize;
         
@@ -125,8 +126,8 @@ public class ExportDialog : WindowDialog
         this.Path.Text = s;
     }
 
-
-    public void OnConfirmExport()
+    
+    public async void OnConfirmExport()
     {
         var _rows = (int)this.Rows.Value;
         var _cols = (int)this.Cols.Value;
@@ -135,10 +136,20 @@ public class ExportDialog : WindowDialog
         
         var _numGen = _rows * _cols * _sheets;
 
-        for(int i = 0; i < _sheets; i++)
-        {
-            var _s = this.Export.GetSpriteSheet(_cols, _rows, _scale);
-            _s.SavePng($"{this.Path.Text}/{this.SpriteName.Text}_{i}.png");
-        }
+        this.Progress.PopupCentered();
+
+        var _thread = new Thread();
+
+        var _data = new ExportData(){
+            cols = _cols,
+            rows = _rows,
+            scale = _scale,
+            sheets = _sheets
+        };
+
+        _thread.Start(this.Export, "GetSpriteSheet", _data);
+        var _result = await ToSignal(this.Export, "ProgressFinished");
+        GD.Print(_result);
+        this.Progress.Hide();
     }
 }

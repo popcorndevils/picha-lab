@@ -2,7 +2,7 @@
 
 [ext_resource path="res://src/ui/ExportDialog.cs" type="Script" id=1]
 [ext_resource path="res://res/icons/folder-line.png" type="Texture" id=2]
-[ext_resource path="res://src/ui/LoadingBar.tscn" type="PackedScene" id=3]
+[ext_resource path="res://src/ui/ProgressTrack.tscn" type="PackedScene" id=3]
 
 [node name="ExportDialog" type="WindowDialog"]
 margin_right = 102.0
@@ -33,11 +33,11 @@ __meta__ = {
 margin_left = 10.0
 margin_top = 10.0
 margin_right = 200.0
-margin_bottom = 176.0
+margin_bottom = 204.0
 
 [node name="OptionBox" type="GridContainer" parent="Margins/Contents"]
 margin_right = 190.0
-margin_bottom = 80.0
+margin_bottom = 108.0
 columns = 2
 
 [node name="rows" type="SpinBox" parent="Margins/Contents/OptionBox"]
@@ -90,9 +90,9 @@ focus_mode = 0
 text = "Full Sized"
 
 [node name="scale" type="SpinBox" parent="Margins/Contents/OptionBox"]
-margin_top = 56.0
+margin_top = 84.0
 margin_right = 74.0
-margin_bottom = 80.0
+margin_bottom = 108.0
 size_flags_horizontal = 4
 min_value = 1.0
 max_value = 1000.0
@@ -100,18 +100,18 @@ value = 1.0
 prefix = "scale"
 
 [node name="sprite_name" type="LineEdit" parent="Margins/Contents"]
-margin_top = 84.0
+margin_top = 112.0
 margin_right = 190.0
-margin_bottom = 108.0
+margin_bottom = 136.0
 rect_min_size = Vector2( 150, 0 )
 placeholder_text = "Sprite Name"
 caret_blink = true
 caret_blink_speed = 0.5
 
 [node name="PathBox" type="HBoxContainer" parent="Margins/Contents"]
-margin_top = 112.0
+margin_top = 140.0
 margin_right = 190.0
-margin_bottom = 142.0
+margin_bottom = 170.0
 
 [node name="path" type="LineEdit" parent="Margins/Contents/PathBox"]
 margin_right = 150.0
@@ -130,9 +130,9 @@ focus_mode = 0
 icon = ExtResource( 2 )
 
 [node name="BBox" type="HBoxContainer" parent="Margins/Contents"]
-margin_top = 146.0
+margin_top = 174.0
 margin_right = 190.0
-margin_bottom = 166.0
+margin_bottom = 194.0
 alignment = 1
 
 [node name="ok" type="Button" parent="Margins/Contents/BBox"]
@@ -165,4 +165,4 @@ margin_right = 200.0
 margin_bottom = 70.0
 rect_min_size = Vector2( 400, 140 )
 
-[node name="LoadingBar" parent="." instance=ExtResource( 3 )]
+[node name="ProgressTrack" parent="." instance=ExtResource( 3 )]

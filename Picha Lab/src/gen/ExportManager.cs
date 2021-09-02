@@ -1,20 +1,35 @@
+using System;
+using System.Threading.Tasks;
 using System.Collections.Generic;
 
 using PichaLib;
 
 using Godot;
-using System;
 
 /// <summary>
 /// Special class for generating images and spritesheets using canvas data.
 /// </summary>
-public class ExportManager
+public class ExportManager : Node
 {
     public Canvas Canvas;
+
+    [Signal] public delegate void ProgressChanged(int increment);
+    [Signal] public delegate void ProgressFinished(int status);
 
     public ExportManager(Canvas canvas)
     {
         this.Canvas = canvas;
+    }
+
+    public void GetSpriteSheet(ExportData args)
+    {
+        for(int i = 1; i < 101; i++)
+        {
+            OS.DelayMsec(100);
+            this.EmitSignal(nameof(ExportManager.ProgressChanged), i);
+        }
+        this.EmitSignal(nameof(ExportManager.ProgressFinished), 1);
+        // return this.GetSpriteSheet(args.cols, args.rows, args.scale);
     }
 
     public Image GetSpriteSheet(int cols = 1, int rows = 1, int scale = 1)
@@ -115,4 +130,12 @@ public class ExportManager
         }
         return _output;
     }
+}
+
+public class ExportData : Node
+{
+    public int cols;
+    public int rows;
+    public int scale;
+    public int sheets;
 }
