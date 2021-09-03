@@ -64,37 +64,52 @@ public class ExportDialog : WindowDialog
         this.Ok.Connect("pressed", this, "OnOkPress");
         this.Cancel.Connect("pressed", this, "OnCancelPress");
         this.FileDialog.Connect("dir_selected", this, "OnDirSelect");
+        this.SpriteName.Connect("text_changed", this, "OnSpriteNameChange");
         this.Confirmation.Connect("confirmed", this, "OnConfirmExport");
     }
 
 
     public void Open(SpriteExporter export)
     {
-        this.Export = export;
-        this.Export.Connect("ProgressChanged", this.Progress, "OnProgressChanged");
-        this.Export.Connect("StatusUpdate", this.Progress, "OnStatusUpdate");
+        if(this.Export != export)
+        {
+            if(this.Export != null)
+            {
+                this.Export.Disconnect("ProgressChanged", this.Progress, "OnProgressChanged");
+                this.Export.Disconnect("StatusUpdate", this.Progress, "OnStatusUpdate");
+            }
+
+            this.Export = export;
+            this.Export.Connect("ProgressChanged", this.Progress, "OnProgressChanged");
+            this.Export.Connect("StatusUpdate", this.Progress, "OnStatusUpdate");
+
+            this.Rows.Value = 1;
+            this.Cols.Value = 1;
+            this.Sheets.Value = 1;
+            this.Scale.Value = 1;
+
+            this.SpriteName.Text = "";
+            this.OutputPath.Text = "";
+
+            this.SplitFrames.Pressed = false;
+            this.AsLayers.Pressed = false;
+            this.FullSized.Pressed = false;
+            this.FullSized.Disabled = true;
+            this.SubFolders.Pressed = false;
+            this.SubFolders.Disabled = true;
+            this.SpriteName.Editable = true;
+            this.Ok.Disabled = true;
+        }
 
         this.RectSize = this.Margins.RectSize;
         
-        this.Rows.Value = 1;
-        this.Cols.Value = 1;
-        this.Sheets.Value = 1;
-        this.Scale.Value = 1;
-
-        this.SplitFrames.Pressed = false;
-        this.AsLayers.Pressed = false;
-        this.FullSized.Pressed = false;
-        this.FullSized.Disabled = true;
-        
         this.PopupCentered();
     }
-
 
     public void OnFileButtonPress()
     {
         this.FileDialog.PopupCentered();
     }
-
 
     public void OnAsLayersPress()
     {
@@ -105,6 +120,8 @@ public class ExportDialog : WindowDialog
             { this.SpriteName.FocusMode = FocusModeEnum.All; }
         else
             { this.SpriteName.FocusMode = FocusModeEnum.None; }
+
+        this.Ok.Disabled = this.OutputPath.Text == "" || (this.AsLayers.Pressed ? false : this.SpriteName.Text == "");
     }
 
 
@@ -117,16 +134,20 @@ public class ExportDialog : WindowDialog
         this.Confirmation.PopupCentered();
     }
 
-
     public void OnCancelPress()
     {
         this.Hide();
     }
 
+    public void OnSpriteNameChange(string s)
+    {
+        this.Ok.Disabled = this.OutputPath.Text == "" || (this.AsLayers.Pressed ? false : this.SpriteName.Text == "");
+    }
 
     public void OnDirSelect(string s)
     {
         this.OutputPath.Text = s;
+        this.Ok.Disabled = this.OutputPath.Text == "" || (this.AsLayers.Pressed ? false : this.SpriteName.Text == "");
     }
 
     
