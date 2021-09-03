@@ -42,6 +42,9 @@ public class Application : Node
             case "export_sprite":
                 this.GetTree().CallGroup("gp_canvas_handler", "ExportCanvas");
                 break;
+            case "about_picha":
+                this.GetTree().CallGroup("diag_about", "OpenAbout");
+                break;
             default:
                 GD.PrintErr($"Unable to Parse MenuItem action \"{menu.Action}\".");
                 break;

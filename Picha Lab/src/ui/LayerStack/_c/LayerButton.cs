@@ -42,9 +42,15 @@ public class LayerButton : Button
         {
             Node _control = this.GetParent();
             Node _list = _control.GetParent();
+            
+            var _oldI = b.Layer.GetIndex();
+            var _newI = this.Layer.GetIndex();
 
             _list.MoveChild(b.GetParent(), _control.GetIndex());
-            this.Layer.GetParent().MoveChild(b.Layer, this.Layer.GetIndex());
+            this.Layer.GetParent().MoveChild(b.Layer, _newI);
+
+            var _view = this.GetTree().GetNodesInGroup("gp_canvas_handler")[0] as CanvasView;
+            _view.MoveLayer(_oldI, _newI);
         }
     }
 

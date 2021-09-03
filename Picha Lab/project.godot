@@ -17,7 +17,10 @@ _global_script_class_icons={
 
 config/name="Picha Lab"
 run/main_scene="res://src/Application.tscn"
-config/icon="res://icon.png"
+boot_splash/image="res://riblet.png"
+boot_splash/use_filter=false
+boot_splash/bg_color=Color( 0.294118, 0.294118, 0.294118, 1 )
+config/icon="res://riblet.png"
 
 [input]
 

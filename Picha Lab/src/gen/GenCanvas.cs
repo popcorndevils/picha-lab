@@ -28,7 +28,15 @@ public class GenCanvas : Node2D
             this._Timer.WaitTime = 1f;
             this.BG = value.TransparencyBG.ToGodotColor();
             this.FG = value.TransparencyFG.ToGodotColor();
-            if(this.AutoGen) { this._Timer.Start(); }
+
+            if(this.AutoGen) 
+            { 
+                if(this._Timer.IsInsideTree())
+                    { this._Timer.Start();  }
+                else
+                    { this._Timer.Autostart = true; }
+            }
+
             this._FG.Texture = this._GetFG(value.Size.W, value.Size.H);
         }
     }

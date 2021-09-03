@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://src/Application.cs" type="Script" id=1]
 [ext_resource path="res://src/ui/Menu/MenuBar.tscn" type="PackedScene" id=2]
@@ -8,6 +8,7 @@
 [ext_resource path="res://src/ui/HelpDialog.tscn" type="PackedScene" id=6]
 [ext_resource path="res://src/ui/ExportDialog.tscn" type="PackedScene" id=7]
 [ext_resource path="res://src/ui/FileBrowse.cs" type="Script" id=8]
+[ext_resource path="res://src/ui/AboutDiaglog.tscn" type="PackedScene" id=9]
 
 [node name="Application" type="Node"]
 script = ExtResource( 1 )
@@ -59,3 +60,6 @@ script = ExtResource( 8 )
 [node name="ExportDialog" parent="PichaGUI" instance=ExtResource( 7 )]
 margin_right = 172.0
 margin_bottom = 102.0
+
+[node name="AboutDiaglog" parent="PichaGUI" instance=ExtResource( 9 )]
+visible = false

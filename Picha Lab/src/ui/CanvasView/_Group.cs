@@ -1,3 +1,5 @@
+using System.Linq;
+
 using Newtonsoft.Json;
 
 using Godot;
@@ -106,6 +108,16 @@ public partial class CanvasView : VBoxContainer
         else {
             this.AddCanvas(new GenCanvas());
             this.AddLayer(l);
+        }
+    }
+
+    public void MoveLayer(int index, int newIndex)
+    {
+        if(this.Active != null)
+        {
+            var _l = this.Active.Layers[index];
+            this.Active.Layers.Remove(_l);
+            this.Active.Layers.Insert(newIndex, _l);
         }
     }
 }

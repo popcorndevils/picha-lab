@@ -177,6 +177,20 @@ public class SpriteExporter : Node
         this.EmitSignal(nameof(SpriteExporter.ProgressFinished));
     }
 
+    public Image GetSpriteFrame(int i, int scale = 1)
+    {
+        var _frame = this.GetSprite()[i];
+
+        if(scale != 1)
+        {
+            _frame.Unlock();
+            _frame.Resize(scale * _frame.GetWidth(), scale * _frame.GetHeight(), Image.Interpolation.Nearest);
+            _frame.Lock();
+        }
+
+        return _frame;
+    }
+
     public List<Image> GetSprite()
     {
         var _output = new List<Image>();
