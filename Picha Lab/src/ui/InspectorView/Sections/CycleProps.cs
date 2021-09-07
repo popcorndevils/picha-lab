@@ -32,7 +32,7 @@ public class CycleProps : BaseSection
         base._Ready();
         this.SectionHeader.Draggable = true;
         this.SectionHeader.HeaderDropped += this.OnHeaderDrop;
-        this.Theme = GD.Load<Theme>("./res/theme/SubSection.tres");
+        this.Theme = GD.Load<Theme>("res://res/theme/SubSection.tres");
         this._Delete.Connect("pressed", this, "OnCycleDelete");
         this._NewPolicy.Connect("pressed", this, "OnAddPolicy");
         this.HeaderContainer.AddChildren(this._NewPolicy, this._Delete);

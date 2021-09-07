@@ -47,13 +47,13 @@ public class BaseSection : PanelContainer
     public VBoxContainer SectionContent = new VBoxContainer();
     public GridContainer SectionGrid = new GridContainer();
     public HBoxContainer HeaderContainer = new HBoxContainer();
-    private Texture _ExpandIcon = GD.Load<Texture>("res/icons/section_expand.png");
-    private Texture _ContractIcon = GD.Load<Texture>("res/icons/section_contract.png");
+    private Texture _ExpandIcon = GD.Load<Texture>("res://res/icons/section_expand.png");
+    private Texture _ContractIcon = GD.Load<Texture>("res://res/icons/section_contract.png");
     private StyleBoxFlat _PanelStyle;
 
     public override void _Ready()
     {
-        this.Theme = GD.Load<Theme>("./res/theme/Section.tres");
+        this.Theme = GD.Load<Theme>("res://res/theme/Section.tres");
 
         this.HeaderContainer.AddChild(this.SectionHeader);
         this.SectionContent.AddChild(this.SectionGrid);

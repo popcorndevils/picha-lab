@@ -1,20 +1,20 @@
 [   
     {
         "section_name": "Welcome",
-        "text_path": "./res/data/_doc/01_welcome.md"
+        "text_path": "res://res/data/_doc/01_welcome.md"
     },
     {
         "section_name": "Credits",
-        "text_path": "./res/data/_doc/credits.md",
+        "text_path": "res://res/data/_doc/credits.md",
         "sub_section": 
         [
             {
                 "section_name": "Fairfax Font",
-                "text_path": "./res/data/_doc/credits_fairfax.md"
+                "text_path": "res://res/data/_doc/credits_fairfax.md"
             },
             {
                 "section_name": "Deep Copy",
-                "text_path": "./res/data/_doc/credits_objext.md"
+                "text_path": "res://res/data/_doc/credits_objext.md"
             }
         ]
     }

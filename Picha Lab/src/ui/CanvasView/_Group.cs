@@ -85,10 +85,13 @@ public partial class CanvasView : VBoxContainer
     {
         if(!this.PathExists(path))
         {
-            var _dat = JsonConvert.DeserializeObject<Canvas>(System.IO.File.ReadAllText(path));
             var _can = new GenCanvas();
-
-            _can.LoadData(_dat);
+            
+            using(var _file = new File()) {
+                _file.Open(path, File.ModeFlags.Read);
+                var _dat = JsonConvert.DeserializeObject<Canvas>(_file.GetAsText());
+                _can.LoadData(_dat);
+            }
 
             _can.PathName = path;
             _can.FileExists = true;

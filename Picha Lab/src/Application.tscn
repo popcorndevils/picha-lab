@@ -62,4 +62,3 @@ margin_right = 172.0
 margin_bottom = 102.0
 
 [node name="AboutDiaglog" parent="PichaGUI" instance=ExtResource( 9 )]
-visible = false

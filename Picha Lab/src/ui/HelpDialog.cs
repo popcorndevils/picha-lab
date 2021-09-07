@@ -65,7 +65,7 @@ public class HelpDialog : WindowDialog
 
         using(var _reader = new File())
         {
-            _reader.Open("./res/data/docs.json", File.ModeFlags.Read);
+            _reader.Open("res://res/data/docs.json", File.ModeFlags.Read);
             _docs = JSON.Parse(_reader.GetAsText());
         }
 
@@ -111,11 +111,13 @@ public class HelpDialog : WindowDialog
 
     private DocsObject _GetDocsObject(Godot.Collections.Dictionary document)
     {
-        var _file = new File();
         var _textPath = (string)document["text_path"];
-        _file.Open(_textPath, File.ModeFlags.Read);
-        var _text = _file.GetAsText();
-        _file.Close();
+        string _text;
+
+        using(var _file = new File()) {
+            _file.Open(_textPath, File.ModeFlags.Read);
+            _text = _file.GetAsText();
+        }
 
         var _output = new DocsObject(){
             Title = (string)document["section_name"],

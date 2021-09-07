@@ -1,5 +1,3 @@
-using System;
-
 using Newtonsoft.Json;
 
 using Godot;
@@ -24,10 +22,13 @@ public class AboutDiaglog : WindowDialog
         this.TextureRect = this.GetNode<TextureRect>("HBox/Texture");
         this.Clock = this.GetNode<Timer>("Timer");
 
-        var _dat = JsonConvert.DeserializeObject<Canvas>(System.IO.File.ReadAllText("./res/icons/Riblet.plab"));
-        this.Canvas = new SpriteExporter(_dat);
-        this.Texture = this._GetTexture();
+        using(var _file = new File()) {
+            _file.Open("res://res/icons/Riblet.plab", File.ModeFlags.Read);
+            var _dat = JsonConvert.DeserializeObject<Canvas>(_file.GetAsText());
+            this.Canvas = new SpriteExporter(_dat);
+        }
 
+        this.Texture = this._GetTexture();
         this.Clock.Connect("timeout", this, "OnTimeout");
     }
 

@@ -253,7 +253,11 @@ public class GenCanvas : Node2D
 
     public void _WriteFile(string path)
     { 
-        System.IO.File.WriteAllText(path, JsonConvert.SerializeObject(this.SaveData()));
+        using(var _file = new File()) {
+            _file.Open(path, File.ModeFlags.Write);
+            _file.StoreString(@JsonConvert.SerializeObject(this.SaveData()));
+        }
+        
         this.FileSaved = true;
     }
 
