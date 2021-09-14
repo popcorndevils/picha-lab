@@ -57,6 +57,11 @@ public class CanvasInspector : VBoxContainer
             Align = Label.AlignEnum.Right,
         };
 
+        var _animTimeLabel = new Label() {
+            Text = "Anim Length",
+            Align = Label.AlignEnum.Right,
+        };
+
         var _bgColorsLabel = new Label() {
             Text = "Transparency",
             Align = Label.AlignEnum.Right,
@@ -67,6 +72,13 @@ public class CanvasInspector : VBoxContainer
         };
 
         this._AutoGenTimeEdit = new SpinBox() {
+            MinValue = .1,
+            MaxValue = 99,
+            Step = .1f,
+            FocusMode = FocusModeEnum.None,
+        };
+
+        this._AnimTimeEdit = new SpinBox() {
             MinValue = .1,
             MaxValue = 99,
             Step = .1f,
@@ -123,11 +135,13 @@ public class CanvasInspector : VBoxContainer
         this._Settings.AddChildren(
             _autoGenLabel, _genBox,
             _autoGenTimeLabel, this._AutoGenTimeEdit,
+            _animTimeLabel, this._AnimTimeEdit,
             _bgColorsLabel, _bgColorsBox,
             _sizeLabel, _sizeBox);
 
         this._AutoGenEdit.Connect("pressed", this, "OnCanvasEdit");
         this._AutoGenTimeEdit.Connect("value_changed", this, "OnCanvasEdit");
+        this._AnimTimeEdit.Connect("value_changed", this, "OnCanvasEdit");
         this._Regen.Connect("pressed", this, "OnRegen");
         this._WidthEdit.Connect("value_changed", this, "OnCanvasEdit");
         this._HeightEdit.Connect("value_changed", this, "OnCanvasEdit");
@@ -143,6 +157,7 @@ public class CanvasInspector : VBoxContainer
 
         this._IgnoreSignals = true;
         this._AutoGenTimeEdit.Value = 0;
+        this._AnimTimeEdit.Value = 0;
         this._WidthEdit.Value = 0;
         this._HeightEdit.Value = 0;
         this._IgnoreSignals = false;
@@ -159,6 +174,7 @@ public class CanvasInspector : VBoxContainer
 
         this._IgnoreSignals = true;
         this._AutoGenTimeEdit.Value = c.TimeToGen;
+        this._AnimTimeEdit.Value = c.AnimTime;
         this._WidthEdit.Value = _size.x;
         this._HeightEdit.Value = _size.y;
         this._IgnoreSignals = false;
@@ -174,6 +190,7 @@ public class CanvasInspector : VBoxContainer
             this.Canvas.FG = this._FGEdit.Color;
             this.Canvas.AutoGen = this._AutoGenEdit.Pressed;
             this.Canvas.TimeToGen = (float)this._AutoGenTimeEdit.Value;
+            this.Canvas.AnimTime = (float)this._AnimTimeEdit.Value;
             this.Canvas.Size = new Vector2((int)this._WidthEdit.Value, (int)this._HeightEdit.Value);
         }
     }

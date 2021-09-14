@@ -92,6 +92,17 @@ public class GenCanvas : Node2D
             }
         }
     }
+    
+    public float AnimTime {
+        get => this.Data.AnimTime;
+        set {
+            this.Data.AnimTime = value;
+            foreach(GenLayer l in this.Layers)
+            {
+                l.SetAnimTime(value);
+            }
+        }
+    }
 
     public float TimeToGen {
         get {
@@ -104,7 +115,7 @@ public class GenCanvas : Node2D
             if(this.Data != null) 
             {
                 this.Data.TimeToGen = value;
-                if(_Timer != null)
+                if(this._Timer != null)
                 {
                     this._Timer.WaitTime = value;
                     if(this.AutoGen)
@@ -173,13 +184,18 @@ public class GenCanvas : Node2D
         this.Generate();
     }
 
-    public void AddLayer(GenLayer l)
+    public void AddLayer(GenLayer layer)
     {
-        this.Layers.Add(l);
-        this._LayerBox.AddChild(l);
-        l.LayerChanged += this.OnLayerChange;
-        l.Generate();
+        this.Layers.Add(layer);
+        this._LayerBox.AddChild(layer);
+        layer.LayerChanged += this.OnLayerChange;
+        layer.Generate();
         this.FileSaved = false;
+        
+        foreach(GenLayer l in this.Layers)
+        {
+            l.SetAnimTime(this.AnimTime);
+        }
     }
 
     public void Generate()

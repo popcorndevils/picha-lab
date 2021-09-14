@@ -50,7 +50,10 @@ public class GenLayer : TextureRect
         get => this._FrameTime;
         set {
             this._FrameTime = value;
-            this._Timer.WaitTime = value;
+            if(this._Timer != null)
+            {
+                this._Timer.WaitTime = value;
+            }
         }
     }
 
@@ -111,14 +114,6 @@ public class GenLayer : TextureRect
         get => this.Data.Cycles;
         set {
             this.Data.Cycles = value;
-        }
-    }
-
-    public float AnimTime {
-        get => this.Data.AnimTime;
-        set {
-            this.Data.AnimTime = value;
-            this.FrameTime = value / this._Textures.Count;
         }
     }
 
@@ -271,6 +266,12 @@ public class GenLayer : TextureRect
         this.Pixels.Add(_newPixelName, _newPixel);
 
         return _newPixel;
+    }
+
+    public void SetAnimTime(float time)
+    {
+        this.FrameTime = time / this._Textures.Count;
+        this._Timer.Start();
     }
 
     /// <summary>

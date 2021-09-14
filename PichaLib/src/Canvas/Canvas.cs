@@ -21,6 +21,7 @@ namespace PichaLib
         // useful for the app only.
         public bool AutoGen = false;
         public float TimeToGen = 1f;
+        public float AnimTime = 3f;
         public Chroma TransparencyFG = Chroma.CreateFromHex("#298c8c8c");
         public Chroma TransparencyBG = new Chroma(.1f, .1f, .1f, 0f);
     }

@@ -5,7 +5,6 @@ using OctavianLib;
 
 namespace PichaLib
 {
-
     public delegate void LayerChangeHandler(Layer layer, bool major);
 
     public class Layer
@@ -17,15 +16,6 @@ namespace PichaLib
             get => this._Name;
             set {
                 this._Name = value;
-                this.LayerChanged?.Invoke(this, false);
-            }
-        }
-
-        private float _AnimTime;
-        public float AnimTime {
-            get => this._AnimTime;
-            set {
-                this._AnimTime = value;
                 this.LayerChanged?.Invoke(this, false);
             }
         }
