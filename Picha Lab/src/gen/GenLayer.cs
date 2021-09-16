@@ -7,9 +7,12 @@ using Godot;
 using PichaLib;
 using OctavianLib;
 
+public delegate void FrameChangeHandler(int current, int total);
+
 public class GenLayer : TextureRect
 {
     public LayerChangeHandler LayerChanged;
+    public FrameChangeHandler FrameChange;
 
     private Timer _Timer;
     private List<Texture> _Textures = new List<Texture>();
@@ -64,6 +67,7 @@ public class GenLayer : TextureRect
             this._Frame = value;
             this.Texture = this._Textures[value];
             this.RectSize = this._Textures[value].GetSize();
+            this.FrameChange?.Invoke(value, this.Frames.Count);
         }
     }
 

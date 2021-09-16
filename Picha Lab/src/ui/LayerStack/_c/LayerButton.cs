@@ -11,12 +11,14 @@ public class LayerButton : Button
             if(this._Layer != null)
             {
                 this._Layer.LayerChanged -= this.OnLayerChange; 
+                this._Layer.FrameChange -= this.OnFrameChange; 
             }
             if(value != null)
             {
                 this._Layer = value;
                 this.Text = value.Data.Name;
                 this._Layer.LayerChanged += this.OnLayerChange;
+                this._Layer.FrameChange += this.OnFrameChange; 
             }
         }
     } 
@@ -82,6 +84,11 @@ public class LayerButton : Button
     public void OnLayerChange(Layer layer, bool major)
     {
         this.Text = layer.Name;
+    }
+    
+    public void OnFrameChange(int current, int total)
+    {
+        this.GetParent<LayerButtonControl>().FrameStatus.Text = $"[{current + 1}/{total}]";
     }
 
     public void OnMouseEnter()

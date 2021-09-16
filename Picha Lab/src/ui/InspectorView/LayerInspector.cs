@@ -66,12 +66,12 @@ public class LayerInspector : ScrollContainer
         };
 
         var _nameLabel = new Label() {
-            Text = "Layer Name",
+            Text = "Name",
             Align = Label.AlignEnum.Right,
         };
 
         var _mirrorLabel = new Label() {
-            Text = "Mirror Settings",
+            Text = "Mirror",
             Align = Label.AlignEnum.Right,
         };
 

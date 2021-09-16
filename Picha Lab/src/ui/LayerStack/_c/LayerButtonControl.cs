@@ -10,6 +10,10 @@ public class LayerButtonControl : HBoxContainer
         HintTooltip = PDefaults.ToolHints.Layer.OpenTemplate,
     };
 
+    public Label FrameStatus = new Label() {
+        Text = "[/]"
+    };
+
     private GenLayer _Layer;
     public GenLayer Layer {
         get => this.Button.Layer;
@@ -18,9 +22,8 @@ public class LayerButtonControl : HBoxContainer
 
     public override void _Ready()
     {
-        this.Name = "TEST";
         this.SizeFlagsHorizontal = (int)SizeFlags.ExpandFill;
-        this.AddChildren(this.Button, this.Grid);
+        this.AddChildren(this.Button, this.FrameStatus, this.Grid);
         this.Grid.Connect("pressed", this, "OnGridOpen");
     }
 
