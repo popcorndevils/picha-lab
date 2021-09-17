@@ -104,6 +104,7 @@ public class GenLayer : TextureRect
         set {
             this.Data.Frames = value;
             this.RectSize = (this.Data.Size).ToVector2();
+            this.FrameChange?.Invoke(0, value.Count);
         }
     }
 
@@ -213,7 +214,7 @@ public class GenLayer : TextureRect
             if(this._Textures.Count > 0)
             {
                 this.Texture = this._Textures[0];
-                this._Frame = 0;
+                this.Frame = 0;
                 if(this.IsInsideTree()) { this._Timer.Start(); }
             }
         }

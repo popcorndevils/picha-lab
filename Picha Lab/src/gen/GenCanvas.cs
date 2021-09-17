@@ -144,6 +144,17 @@ public class GenCanvas : Node2D
             }
         } 
     }
+    
+    public int[] FrameCounts {
+        get {
+            var _val = new int[this.Layers.Count];
+            for(int i = 0; i < this.Layers.Count; i++)
+            {
+                _val[i] = this.Layers[i].Frames.Count;
+            }
+            return _val;
+        }
+    }
 
     private List<GenLayer> _Layers = new List<GenLayer>();
     public List<GenLayer> Layers {
@@ -194,6 +205,7 @@ public class GenCanvas : Node2D
         
         foreach(GenLayer l in this.Layers)
         {
+            l.Frame = 0;
             l.SetAnimTime(this.AnimTime);
         }
     }

@@ -1,4 +1,8 @@
+using System;
+
 using Godot;
+
+using OctavianLib;
 
 public class LayerStack : TabContainer
 {
@@ -12,6 +16,13 @@ public class LayerStack : TabContainer
     private ChangeLog _Log = new ChangeLog() {
         Name = "Change Log",
         RectMinSize = new Vector2(260, 200)
+    };
+
+    private Label _AnimStatus = new Label() {
+        Text = "[/]",
+        SizeFlagsHorizontal = (int)SizeFlags.ExpandFill,
+        Align = Label.AlignEnum.Right,
+        Visible = false,
     };
 
     private ScrollContainer _Contents = new ScrollContainer() {
@@ -44,7 +55,7 @@ public class LayerStack : TabContainer
 
         this.AddChildren(this._LayersViewList, _Log);
 
-        this._FooterContainer.AddChildren(this._NewLayer);
+        this._FooterContainer.AddChildren(this._NewLayer, this._AnimStatus);
         this._Contents.AddChild(_Buttons);
 
         this._LayersViewList.AddChildren(

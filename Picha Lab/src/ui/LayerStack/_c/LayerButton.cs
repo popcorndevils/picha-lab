@@ -27,7 +27,8 @@ public class LayerButton : Button
     {
         this.FocusMode = FocusModeEnum.None;
         this.SizeFlagsHorizontal = (int)SizeFlags.ExpandFill;
-
+        
+        this.GetParent<LayerButtonControl>().FrameStatus.Text = $"[{this.Layer.Frame + 1}/{this.Layer.Frames.Count}]";
         this.Connect("mouse_entered", this, "OnMouseEnter");
         this.Connect("mouse_exited", this, "OnMouseExit");
     }
@@ -58,7 +59,7 @@ public class LayerButton : Button
 
     public override object GetDragData(Vector2 position)
     {
-        var _preview = new LayerButton() {
+        var _preview = new Button() {
             Text = this.Text,
             RectMinSize = this.RectSize,
             Modulate = new Color(1f, 1f, 1f, .65f),
@@ -69,7 +70,7 @@ public class LayerButton : Button
         _preview.RectPosition = new Vector2(_preview.RectMinSize.x * -.5f, _preview.RectMinSize.y * -.5f);
 
         this.SetDragPreview(c);
-        return this;
+        return (object)this;
     }
 
     public override bool CanDropData(Vector2 position, object data)

@@ -51,6 +51,18 @@ namespace OctavianLib
 
             return _output;
         }
+
+        public static string ToPrintOut<T>(this T[] array)
+        {
+            string _output = "[";
+
+            foreach(T t in array)
+            {
+                _output = $"{_output}{t.ToString()}, ";
+            }
+
+            return $"{_output}]";
+        }
         
         public static string ToPrintOut<T>(this T[,] matrix) 
         {
