@@ -1,15 +1,17 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
-[ext_resource path="res://src/ui/ExportDialog.cs" type="Script" id=1]
+[ext_resource path="res://src/ui/ExportDialog/ExportDialog.cs" type="Script" id=1]
 [ext_resource path="res://res/icons/folder-line.png" type="Texture" id=2]
-[ext_resource path="res://src/ui/ProgressTrack.tscn" type="PackedScene" id=3]
+[ext_resource path="res://src/ui/ExportDialog/ProgressTrack.tscn" type="PackedScene" id=3]
+[ext_resource path="res://src/ui/ExportDialog/SelectLayersDialog.tscn" type="PackedScene" id=4]
 
 [node name="ExportDialog" type="WindowDialog"]
 visible = true
-margin_right = 102.0
-margin_bottom = 73.0
+margin_right = 235.0
+margin_bottom = 293.0
 popup_exclusive = true
 window_title = "Export Sprite"
+resizable = true
 script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -18,14 +20,10 @@ __meta__ = {
 [node name="Margins" type="MarginContainer" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = 8.0
-margin_top = 8.0
-margin_right = -8.0
-margin_bottom = -36.0
-custom_constants/margin_right = 25
+custom_constants/margin_right = 10
 custom_constants/margin_top = 10
 custom_constants/margin_left = 10
-custom_constants/margin_bottom = 20
+custom_constants/margin_bottom = 10
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -33,98 +31,139 @@ __meta__ = {
 [node name="Contents" type="VBoxContainer" parent="Margins"]
 margin_left = 10.0
 margin_top = 10.0
-margin_right = 223.0
-margin_bottom = 204.0
+margin_right = 225.0
+margin_bottom = 283.0
+
+[node name="LayersBox" type="HBoxContainer" parent="Margins/Contents"]
+margin_right = 215.0
+margin_bottom = 75.0
+size_flags_vertical = 3
+
+[node name="set_layers" type="Button" parent="Margins/Contents/LayersBox"]
+margin_top = 27.0
+margin_right = 77.0
+margin_bottom = 47.0
+focus_mode = 0
+size_flags_vertical = 4
+text = "Set Layers"
+
+[node name="selected_layers" type="TextEdit" parent="Margins/Contents/LayersBox"]
+margin_left = 81.0
+margin_right = 215.0
+margin_bottom = 75.0
+rect_min_size = Vector2( 0, 60 )
+size_flags_horizontal = 3
+text = "layer1
+layer2
+layer2
+"
+readonly = true
+highlight_current_line = true
+smooth_scrolling = true
 
 [node name="OptionBox" type="GridContainer" parent="Margins/Contents"]
-margin_right = 213.0
-margin_bottom = 108.0
+margin_top = 79.0
+margin_right = 215.0
+margin_bottom = 187.0
+size_flags_horizontal = 3
 columns = 2
 
 [node name="cols" type="SpinBox" parent="Margins/Contents/OptionBox"]
-margin_right = 74.0
+margin_right = 91.0
 margin_bottom = 24.0
-size_flags_horizontal = 4
+size_flags_horizontal = 3
+size_flags_vertical = 5
 min_value = 1.0
 value = 1.0
 prefix = "cols"
 
 [node name="clip_content" type="CheckBox" parent="Margins/Contents/OptionBox"]
-margin_left = 78.0
-margin_right = 198.0
+margin_left = 95.0
+margin_right = 215.0
 margin_bottom = 24.0
 focus_mode = 0
+size_flags_horizontal = 3
+size_flags_vertical = 5
 text = "Clip Content"
 
 [node name="rows" type="SpinBox" parent="Margins/Contents/OptionBox"]
 margin_top = 28.0
-margin_right = 74.0
+margin_right = 91.0
 margin_bottom = 52.0
-size_flags_horizontal = 4
+size_flags_horizontal = 3
+size_flags_vertical = 5
 min_value = 1.0
 value = 1.0
 prefix = "rows"
 
 [node name="split_frames" type="CheckBox" parent="Margins/Contents/OptionBox"]
-margin_left = 78.0
+margin_left = 95.0
 margin_top = 28.0
-margin_right = 198.0
+margin_right = 215.0
 margin_bottom = 52.0
 focus_mode = 0
+size_flags_horizontal = 3
+size_flags_vertical = 5
 text = "Split Frames"
 
 [node name="sheets" type="SpinBox" parent="Margins/Contents/OptionBox"]
 margin_top = 56.0
-margin_right = 74.0
+margin_right = 91.0
 margin_bottom = 80.0
-size_flags_horizontal = 4
+size_flags_horizontal = 3
+size_flags_vertical = 5
 min_value = 1.0
 max_value = 1000.0
 value = 1.0
 prefix = "sheets"
 
 [node name="as_layers" type="CheckBox" parent="Margins/Contents/OptionBox"]
-margin_left = 78.0
+margin_left = 95.0
 margin_top = 56.0
-margin_right = 198.0
+margin_right = 215.0
 margin_bottom = 80.0
 focus_mode = 0
+size_flags_horizontal = 3
+size_flags_vertical = 5
 text = "As Layers"
 
 [node name="scale" type="SpinBox" parent="Margins/Contents/OptionBox"]
 margin_top = 84.0
-margin_right = 74.0
+margin_right = 91.0
 margin_bottom = 108.0
-size_flags_horizontal = 4
+size_flags_horizontal = 3
+size_flags_vertical = 5
 min_value = 1.0
 max_value = 1000.0
 value = 1.0
 prefix = "scale"
 
 [node name="map_to_canvas" type="CheckBox" parent="Margins/Contents/OptionBox"]
-margin_left = 78.0
+margin_left = 95.0
 margin_top = 84.0
-margin_right = 198.0
+margin_right = 215.0
 margin_bottom = 108.0
 focus_mode = 0
+size_flags_horizontal = 3
+size_flags_vertical = 5
 text = "Map to Canvas"
 
 [node name="sprite_name" type="LineEdit" parent="Margins/Contents"]
-margin_top = 112.0
-margin_right = 213.0
-margin_bottom = 136.0
+margin_top = 191.0
+margin_right = 215.0
+margin_bottom = 215.0
 rect_min_size = Vector2( 150, 0 )
 placeholder_text = "Sprite Name"
 caret_blink = true
 caret_blink_speed = 0.5
 
 [node name="PathBox" type="HBoxContainer" parent="Margins/Contents"]
-margin_top = 140.0
-margin_right = 213.0
-margin_bottom = 170.0
+margin_top = 219.0
+margin_right = 215.0
+margin_bottom = 249.0
 
 [node name="path" type="LineEdit" parent="Margins/Contents/PathBox"]
-margin_right = 173.0
+margin_right = 175.0
 margin_bottom = 30.0
 rect_min_size = Vector2( 150, 0 )
 size_flags_horizontal = 3
@@ -133,28 +172,28 @@ caret_blink = true
 caret_blink_speed = 0.5
 
 [node name="btn_browse" type="Button" parent="Margins/Contents/PathBox"]
-margin_left = 177.0
-margin_right = 213.0
+margin_left = 179.0
+margin_right = 215.0
 margin_bottom = 30.0
 focus_mode = 0
 icon = ExtResource( 2 )
 
 [node name="BBox" type="HBoxContainer" parent="Margins/Contents"]
-margin_top = 174.0
-margin_right = 213.0
-margin_bottom = 194.0
+margin_top = 253.0
+margin_right = 215.0
+margin_bottom = 273.0
 alignment = 1
 
 [node name="ok" type="Button" parent="Margins/Contents/BBox"]
-margin_left = 62.0
-margin_right = 92.0
+margin_left = 63.0
+margin_right = 93.0
 margin_bottom = 20.0
 focus_mode = 0
 text = "Ok"
 
 [node name="cancel" type="Button" parent="Margins/Contents/BBox"]
-margin_left = 96.0
-margin_right = 150.0
+margin_left = 97.0
+margin_right = 151.0
 margin_bottom = 20.0
 focus_mode = 0
 text = "Cancel"
@@ -174,6 +213,10 @@ current_path = "/Projects/Picha/Picha Lab/"
 margin_right = 200.0
 margin_bottom = 70.0
 rect_min_size = Vector2( 400, 140 )
+window_title = "Export Details"
 
 [node name="ProgressTrack" parent="." instance=ExtResource( 3 )]
+visible = false
+
+[node name="SelectLayersDialog" parent="." instance=ExtResource( 4 )]
 visible = false

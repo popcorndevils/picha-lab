@@ -1,0 +1,99 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://src/ui/ExportDialog/SelectLayersDialog.cs" type="Script" id=1]
+
+[node name="SelectLayersDialog" type="WindowDialog"]
+visible = true
+margin_right = 400.0
+margin_bottom = 252.0
+window_title = "Select Layers"
+resizable = true
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Grid" type="GridContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 10.0
+margin_top = 10.0
+margin_right = -10.0
+margin_bottom = -10.0
+rect_min_size = Vector2( 260, 150 )
+columns = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="UnSelectedLabel" type="Label" parent="Grid"]
+margin_right = 176.0
+margin_bottom = 14.0
+text = "Available Layers"
+align = 1
+valign = 1
+
+[node name="blank" type="Control" parent="Grid"]
+margin_left = 180.0
+margin_right = 200.0
+margin_bottom = 14.0
+
+[node name="SelectedLabel" type="Label" parent="Grid"]
+margin_left = 204.0
+margin_right = 380.0
+margin_bottom = 14.0
+text = "Layers to Export"
+align = 1
+valign = 1
+
+[node name="UnSelectedTree" type="Tree" parent="Grid"]
+margin_top = 18.0
+margin_right = 176.0
+margin_bottom = 232.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Buttons" type="VBoxContainer" parent="Grid"]
+margin_left = 180.0
+margin_top = 18.0
+margin_right = 200.0
+margin_bottom = 232.0
+alignment = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Select" type="Button" parent="Grid/Buttons"]
+margin_top = 61.0
+margin_right = 20.0
+margin_bottom = 81.0
+text = ">"
+
+[node name="UnSelect" type="Button" parent="Grid/Buttons"]
+margin_top = 85.0
+margin_right = 20.0
+margin_bottom = 105.0
+text = "<"
+
+[node name="MoveUp" type="Button" parent="Grid/Buttons"]
+margin_top = 109.0
+margin_right = 20.0
+margin_bottom = 129.0
+text = "^"
+
+[node name="MoveDown" type="Button" parent="Grid/Buttons"]
+margin_top = 133.0
+margin_right = 20.0
+margin_bottom = 153.0
+text = "d"
+
+[node name="SelectedTree" type="Tree" parent="Grid"]
+margin_left = 204.0
+margin_top = 18.0
+margin_right = 380.0
+margin_bottom = 232.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}

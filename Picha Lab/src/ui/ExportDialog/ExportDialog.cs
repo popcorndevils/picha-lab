@@ -10,6 +10,7 @@ public class ExportDialog : WindowDialog
 
     public FileDialog FileDialog;
     public ConfirmationDialog Confirmation;
+    public SelectLayersDialog SelectLayersDialog;
     public ProgressTrack Progress;
 
     public SpinBox Rows;
@@ -26,6 +27,7 @@ public class ExportDialog : WindowDialog
     public LineEdit OutputPath;
     public Button FileButton;
 
+    public Button SetLayers;
     public Button Ok;
     public Button Cancel;
 
@@ -37,6 +39,7 @@ public class ExportDialog : WindowDialog
         
         this.FileDialog = this.GetNode<FileDialog>("FileDialog");
         this.Confirmation = this.GetNode<ConfirmationDialog>("Confirmation");
+        this.SelectLayersDialog = this.GetNode<SelectLayersDialog>("SelectLayersDialog");
         this.Progress = this.GetNode<ProgressTrack>("ProgressTrack");
         
         this.Rows = this.GetNode<SpinBox>("Margins/Contents/OptionBox/rows");
@@ -53,6 +56,7 @@ public class ExportDialog : WindowDialog
         this.FileButton = this.GetNode<Button>("Margins/Contents/PathBox/btn_browse");
         this.OutputPath = this.GetNode<LineEdit>("Margins/Contents/PathBox/path");
         
+        this.SetLayers = this.GetNode<Button>("Margins/Contents/LayersBox/set_layers");
         this.Ok = this.GetNode<Button>("Margins/Contents/BBox/ok");
         this.Cancel = this.GetNode<Button>("Margins/Contents/BBox/cancel");
 
@@ -63,11 +67,14 @@ public class ExportDialog : WindowDialog
         this.MapToCanvas.Connect("pressed", this, "OnOptionButtonPress");
 
         this.FileButton.Connect("pressed", this, "OnFileButtonPress");
+        this.SetLayers.Connect("pressed", this, "OnSetLayersPress");
         this.Ok.Connect("pressed", this, "OnOkPress");
         this.Cancel.Connect("pressed", this, "OnCancelPress");
         this.FileDialog.Connect("dir_selected", this, "OnDirSelect");
         this.SpriteName.Connect("text_changed", this, "OnSpriteNameChange");
         this.Confirmation.Connect("confirmed", this, "OnConfirmExport");
+
+        this.RectMinSize = this.Margins.RectSize;
 
         this.Rows.Value = 1;
         this.Cols.Value = 1;
@@ -96,7 +103,6 @@ public class ExportDialog : WindowDialog
         this.OutputPath.Text = "";
 
         this.OnOptionButtonPress();
-        this.RectSize = this.Margins.RectSize;
         this.PopupCentered();
     }
 
@@ -119,6 +125,10 @@ public class ExportDialog : WindowDialog
         this.Ok.Disabled = this.OutputPath.Text == "" || (this.AsLayers.Pressed ? false : this.SpriteName.Text == "");
     }
 
+    public void OnSetLayersPress()
+    {
+        this.SelectLayersDialog.PopupCentered();
+    }
 
     public void OnOkPress()
     {
