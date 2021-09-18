@@ -114,6 +114,14 @@ public partial class CanvasView : VBoxContainer
         }
     }
 
+    public void UpdateTimes()
+    {
+        if(this.Active != null)
+        {
+            this.Active.PropagateAnimTime();
+        }
+    }
+
     public void MoveLayer(int index, int newIndex)
     {
         if(this.Active != null)

@@ -275,8 +275,10 @@ public class GenLayer : TextureRect
 
     public void SetAnimTime(float time)
     {
+        this.Frame = 0;
         this.FrameTime = time / this._Textures.Count;
-        this._Timer.Start();
+        if(this._Timer != null)
+            { this._Timer.Start(); } 
     }
 
     /// <summary>

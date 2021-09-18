@@ -1,5 +1,4 @@
 using System;
-using SysIO = System.IO;
 using System.Collections.Generic;
 
 using PichaLib;
@@ -31,6 +30,7 @@ public class SpriteExporter : Node
 
         for(int s = 0; s < args.Sheets; s++)
         {
+            var _layerNames = new SortedSet<string>();
             var _sheetImage = new Dictionary<Layer, List<Image>>();
 
             // prepare output canvases
@@ -41,8 +41,8 @@ public class SpriteExporter : Node
 
                 for(int _sf = 0; _sf < _framesPerSprite; _sf++)
                 {
-                    var _lWidth = (args.FullSizedLayers ? this.Canvas.Size.W : l.Size.W);
-                    var _lHeight = (args.FullSizedLayers ? this.Canvas.Size.H : l.Size.H);
+                    var _lWidth = (args.MapToCanvas ? this.Canvas.Size.W : l.Size.W);
+                    var _lHeight = (args.MapToCanvas ? this.Canvas.Size.H : l.Size.H);
 
                     _layerImage.Add(new Image());
                     _layerImage[_sf].Create(
@@ -61,11 +61,11 @@ public class SpriteExporter : Node
                     var _spriteNum = ((s * (args.Rows * args.Columns)) + (x * args.Rows) + y) + 1;
                     this.EmitSignal(nameof(SpriteExporter.ProgressChanged), _spriteNum, _spriteNumTotal);
 
-                    var _layerFrames = this.GetSpriteLayers(args.FullSizedLayers ? this.Canvas.Size : (0, 0));
+                    var _layerFrames = this.GetSpriteLayers(args.MapToCanvas ? this.Canvas.Size : (0, 0));
 
                     foreach((Layer L, List<Image> F) val in _layerFrames)
                     {
-                        var _size = args.FullSizedLayers ? this.Canvas.Size : val.L.Size;
+                        var _size = args.MapToCanvas ? this.Canvas.Size : val.L.Size;
                         var _y = y * _size.H;
 
                         for(int f = 0; f < _numFrames; f++)
@@ -84,8 +84,8 @@ public class SpriteExporter : Node
             {
                 foreach(KeyValuePair<Layer, List<Image>> val in _sheetImage)
                 {
-                    var _w = args.Scale * (args.FullSizedLayers ? this.Canvas.Size.W : val.Key.Size.W);
-                    var _h = args.Scale * (args.FullSizedLayers ? this.Canvas.Size.H : val.Key.Size.H);
+                    var _w = args.Scale * (args.MapToCanvas ? this.Canvas.Size.W : val.Key.Size.W);
+                    var _h = args.Scale * (args.MapToCanvas ? this.Canvas.Size.H : val.Key.Size.H);
                     this.EmitSignal(nameof(SpriteExporter.StatusUpdate), $"Resizing Sheet {val.Key.Name}_{s}.png");
 
                     foreach(Image i in val.Value)
@@ -99,10 +99,21 @@ public class SpriteExporter : Node
 
             foreach(KeyValuePair<Layer, List<Image>> val in _sheetImage)
             {
+                var _name = val.Key.Name;
+
+                if(_layerNames.Contains(_name))
+                {
+                    int _i = 0;
+                    while(_layerNames.Contains($"{_name}({_i})")) { _i++; }
+                    _name = $"{_name}({_i})";
+                }
+
+                _layerNames.Add(_name);
+
                 for(int i = 0; i < val.Value.Count; i++)
                 {
                     var _fileEnding = args.SplitFrames ? $"_{i}.png" : ".png";
-                    var _fileName = $"{args.OutputPath}/{val.Key.Name}_{s}{_fileEnding}";
+                    var _fileName = $"{args.OutputPath}/{_name}_{s}{_fileEnding}";
                     val.Value[i].SavePng(_fileName);
                 }
             }
@@ -261,7 +272,8 @@ public class ExportData : Node
     public int Sheets;
     public int Scale;
     public bool SplitFrames;
-    public bool FullSizedLayers;
+    public bool MapToCanvas;
+    public bool ClipContent;
     public string SpriteName;
     public string OutputPath;
 }

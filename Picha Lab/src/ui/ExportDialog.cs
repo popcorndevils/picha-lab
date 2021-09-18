@@ -19,8 +19,8 @@ public class ExportDialog : WindowDialog
 
     public CheckBox SplitFrames;
     public CheckBox AsLayers;
-    public CheckBox FullSized;
-    public CheckBox SubFolders;
+    public CheckBox MapToCanvas;
+    public CheckBox ClipContent;
 
     public LineEdit SpriteName;
     public LineEdit OutputPath;
@@ -46,8 +46,8 @@ public class ExportDialog : WindowDialog
 
         this.SplitFrames = this.GetNode<CheckBox>("Margins/Contents/OptionBox/split_frames");
         this.AsLayers = this.GetNode<CheckBox>("Margins/Contents/OptionBox/as_layers");
-        this.FullSized = this.GetNode<CheckBox>("Margins/Contents/OptionBox/full_sized");
-        this.SubFolders = this.GetNode<CheckBox>("Margins/Contents/OptionBox/sub_folders");
+        this.MapToCanvas = this.GetNode<CheckBox>("Margins/Contents/OptionBox/map_to_canvas");
+        this.ClipContent = this.GetNode<CheckBox>("Margins/Contents/OptionBox/clip_content");
 
         this.SpriteName = this.GetNode<LineEdit>("Margins/Contents/sprite_name");
         this.FileButton = this.GetNode<Button>("Margins/Contents/PathBox/btn_browse");
@@ -59,50 +59,44 @@ public class ExportDialog : WindowDialog
         this.Confirmation.GetOk().FocusMode = FocusModeEnum.None;
         this.Confirmation.GetCancel().FocusMode = FocusModeEnum.None;
 
+        this.AsLayers.Connect("pressed", this, "OnOptionButtonPress");
+        this.MapToCanvas.Connect("pressed", this, "OnOptionButtonPress");
+
         this.FileButton.Connect("pressed", this, "OnFileButtonPress");
-        this.AsLayers.Connect("pressed", this, "OnAsLayersPress");
         this.Ok.Connect("pressed", this, "OnOkPress");
         this.Cancel.Connect("pressed", this, "OnCancelPress");
         this.FileDialog.Connect("dir_selected", this, "OnDirSelect");
         this.SpriteName.Connect("text_changed", this, "OnSpriteNameChange");
         this.Confirmation.Connect("confirmed", this, "OnConfirmExport");
+
+        this.Rows.Value = 1;
+        this.Cols.Value = 1;
+        this.Sheets.Value = 1;
+        this.Scale.Value = 1;
+        this.SplitFrames.Pressed = false;
+        this.AsLayers.Pressed = false;
+        this.MapToCanvas.Pressed = false;
+        this.ClipContent.Pressed = true;
     }
 
 
     public void Open(SpriteExporter export)
     {
-        if(this.Export != export)
+        if(this.Export != null)
         {
-            if(this.Export != null)
-            {
-                this.Export.Disconnect("ProgressChanged", this.Progress, "OnProgressChanged");
-                this.Export.Disconnect("StatusUpdate", this.Progress, "OnStatusUpdate");
-            }
-
-            this.Export = export;
-            this.Export.Connect("ProgressChanged", this.Progress, "OnProgressChanged");
-            this.Export.Connect("StatusUpdate", this.Progress, "OnStatusUpdate");
-
-            this.Rows.Value = 1;
-            this.Cols.Value = 1;
-            this.Sheets.Value = 1;
-            this.Scale.Value = 1;
-
-            this.SpriteName.Text = "";
-            this.OutputPath.Text = "";
-
-            this.SplitFrames.Pressed = false;
-            this.AsLayers.Pressed = false;
-            this.FullSized.Pressed = false;
-            this.FullSized.Disabled = true;
-            this.SubFolders.Pressed = false;
-            this.SubFolders.Disabled = true;
-            this.SpriteName.Editable = true;
-            this.Ok.Disabled = true;
+            this.Export.Disconnect("ProgressChanged", this.Progress, "OnProgressChanged");
+            this.Export.Disconnect("StatusUpdate", this.Progress, "OnStatusUpdate");
         }
 
+        this.Export = export;
+        this.Export.Connect("ProgressChanged", this.Progress, "OnProgressChanged");
+        this.Export.Connect("StatusUpdate", this.Progress, "OnStatusUpdate");
+
+        this.SpriteName.Text = "";
+        this.OutputPath.Text = "";
+
+        this.OnOptionButtonPress();
         this.RectSize = this.Margins.RectSize;
-        
         this.PopupCentered();
     }
 
@@ -111,11 +105,12 @@ public class ExportDialog : WindowDialog
         this.FileDialog.PopupCentered();
     }
 
-    public void OnAsLayersPress()
+    public void OnOptionButtonPress()
     {
-        this.FullSized.Disabled = !this.AsLayers.Pressed;
-        this.SubFolders.Disabled = !this.AsLayers.Pressed;
+        this.MapToCanvas.Disabled = !this.AsLayers.Pressed;
         this.SpriteName.Editable = !this.AsLayers.Pressed;
+        this.ClipContent.Disabled = this.AsLayers.Pressed ? !this.MapToCanvas.Pressed : false;
+
         if(SpriteName.Editable)
             { this.SpriteName.FocusMode = FocusModeEnum.All; }
         else
@@ -159,7 +154,8 @@ public class ExportDialog : WindowDialog
             Sheets = (int)this.Sheets.Value,
             Scale = (int)this.Scale.Value,
             SplitFrames = this.SplitFrames.Pressed,
-            FullSizedLayers = this.FullSized.Pressed,
+            MapToCanvas = this.MapToCanvas.Pressed,
+            ClipContent = this.ClipContent.Pressed,
             SpriteName = this.SpriteName.Text,
             OutputPath = this.OutputPath.Text,
         };

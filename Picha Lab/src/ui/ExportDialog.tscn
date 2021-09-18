@@ -5,6 +5,7 @@
 [ext_resource path="res://src/ui/ProgressTrack.tscn" type="PackedScene" id=3]
 
 [node name="ExportDialog" type="WindowDialog"]
+visible = true
 margin_right = 102.0
 margin_bottom = 73.0
 popup_exclusive = true
@@ -32,11 +33,11 @@ __meta__ = {
 [node name="Contents" type="VBoxContainer" parent="Margins"]
 margin_left = 10.0
 margin_top = 10.0
-margin_right = 200.0
+margin_right = 223.0
 margin_bottom = 204.0
 
 [node name="OptionBox" type="GridContainer" parent="Margins/Contents"]
-margin_right = 190.0
+margin_right = 213.0
 margin_bottom = 108.0
 columns = 2
 
@@ -48,12 +49,12 @@ min_value = 1.0
 value = 1.0
 prefix = "cols"
 
-[node name="split_frames" type="CheckBox" parent="Margins/Contents/OptionBox"]
+[node name="clip_content" type="CheckBox" parent="Margins/Contents/OptionBox"]
 margin_left = 78.0
-margin_right = 185.0
+margin_right = 198.0
 margin_bottom = 24.0
 focus_mode = 0
-text = "Split Frames"
+text = "Clip Content"
 
 [node name="rows" type="SpinBox" parent="Margins/Contents/OptionBox"]
 margin_top = 28.0
@@ -64,13 +65,13 @@ min_value = 1.0
 value = 1.0
 prefix = "rows"
 
-[node name="as_layers" type="CheckBox" parent="Margins/Contents/OptionBox"]
+[node name="split_frames" type="CheckBox" parent="Margins/Contents/OptionBox"]
 margin_left = 78.0
 margin_top = 28.0
-margin_right = 185.0
+margin_right = 198.0
 margin_bottom = 52.0
 focus_mode = 0
-text = "As Layers"
+text = "Split Frames"
 
 [node name="sheets" type="SpinBox" parent="Margins/Contents/OptionBox"]
 margin_top = 56.0
@@ -82,13 +83,13 @@ max_value = 1000.0
 value = 1.0
 prefix = "sheets"
 
-[node name="full_sized" type="CheckBox" parent="Margins/Contents/OptionBox"]
+[node name="as_layers" type="CheckBox" parent="Margins/Contents/OptionBox"]
 margin_left = 78.0
 margin_top = 56.0
-margin_right = 185.0
+margin_right = 198.0
 margin_bottom = 80.0
 focus_mode = 0
-text = "Full Sized"
+text = "As Layers"
 
 [node name="scale" type="SpinBox" parent="Margins/Contents/OptionBox"]
 margin_top = 84.0
@@ -100,17 +101,17 @@ max_value = 1000.0
 value = 1.0
 prefix = "scale"
 
-[node name="sub_folders" type="CheckBox" parent="Margins/Contents/OptionBox"]
+[node name="map_to_canvas" type="CheckBox" parent="Margins/Contents/OptionBox"]
 margin_left = 78.0
 margin_top = 84.0
-margin_right = 185.0
+margin_right = 198.0
 margin_bottom = 108.0
 focus_mode = 0
-text = "Sub Folders"
+text = "Map to Canvas"
 
 [node name="sprite_name" type="LineEdit" parent="Margins/Contents"]
 margin_top = 112.0
-margin_right = 190.0
+margin_right = 213.0
 margin_bottom = 136.0
 rect_min_size = Vector2( 150, 0 )
 placeholder_text = "Sprite Name"
@@ -119,11 +120,11 @@ caret_blink_speed = 0.5
 
 [node name="PathBox" type="HBoxContainer" parent="Margins/Contents"]
 margin_top = 140.0
-margin_right = 190.0
+margin_right = 213.0
 margin_bottom = 170.0
 
 [node name="path" type="LineEdit" parent="Margins/Contents/PathBox"]
-margin_right = 150.0
+margin_right = 173.0
 margin_bottom = 30.0
 rect_min_size = Vector2( 150, 0 )
 size_flags_horizontal = 3
@@ -132,28 +133,28 @@ caret_blink = true
 caret_blink_speed = 0.5
 
 [node name="btn_browse" type="Button" parent="Margins/Contents/PathBox"]
-margin_left = 154.0
-margin_right = 190.0
+margin_left = 177.0
+margin_right = 213.0
 margin_bottom = 30.0
 focus_mode = 0
 icon = ExtResource( 2 )
 
 [node name="BBox" type="HBoxContainer" parent="Margins/Contents"]
 margin_top = 174.0
-margin_right = 190.0
+margin_right = 213.0
 margin_bottom = 194.0
 alignment = 1
 
 [node name="ok" type="Button" parent="Margins/Contents/BBox"]
-margin_left = 51.0
-margin_right = 81.0
+margin_left = 62.0
+margin_right = 92.0
 margin_bottom = 20.0
 focus_mode = 0
 text = "Ok"
 
 [node name="cancel" type="Button" parent="Margins/Contents/BBox"]
-margin_left = 85.0
-margin_right = 139.0
+margin_left = 96.0
+margin_right = 150.0
 margin_bottom = 20.0
 focus_mode = 0
 text = "Cancel"

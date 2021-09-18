@@ -155,9 +155,12 @@ public class PatternDesigner : WindowDialog
         }
 
         this.Layer.Frames = _newFrames;
+        
 
         if(!this._Editing)
             { this.GetTree().CallGroup("gp_canvas_handler", "AddLayer", this.Layer); }
+
+        this.GetTree().CallGroup("gp_canvas_handler", "UpdateTimes");
 
         this.Layer = null;
         this.Hide();

@@ -97,10 +97,7 @@ public class GenCanvas : Node2D
         get => this.Data.AnimTime;
         set {
             this.Data.AnimTime = value;
-            foreach(GenLayer l in this.Layers)
-            {
-                l.SetAnimTime(value);
-            }
+            this.PropagateAnimTime();
         }
     }
 
@@ -203,9 +200,13 @@ public class GenCanvas : Node2D
         layer.Generate();
         this.FileSaved = false;
         
+        this.PropagateAnimTime();
+    }
+
+    public void PropagateAnimTime()
+    {
         foreach(GenLayer l in this.Layers)
         {
-            l.Frame = 0;
             l.SetAnimTime(this.AnimTime);
         }
     }
