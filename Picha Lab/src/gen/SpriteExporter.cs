@@ -10,20 +10,13 @@ using Godot;
 /// </summary>
 public class SpriteExporter : Node
 {
-    public Canvas Canvas;
-
     [Signal] public delegate void ProgressChanged(int i, int total);
     [Signal] public delegate void StatusUpdate(string s);
     [Signal] public delegate void ProgressFinished();
 
-    public SpriteExporter(Canvas canvas)
-    {
-        this.Canvas = canvas;
-    }
-
     public void ExportLayers(ExportData args)
     {
-        var _numFrames = MathX.LCD(this.Canvas.FrameCounts);
+        var _numFrames = MathX.LCD(args.Canvas.FrameCounts);
         var _framesPerSprite = (args.SplitFrames ? _numFrames : 1);
 
         var _spriteNumTotal = args.Columns * args.Rows * args.Sheets;
@@ -34,15 +27,15 @@ public class SpriteExporter : Node
             var _sheetImage = new Dictionary<Layer, List<Image>>();
 
             // prepare output canvases
-            foreach(Layer l in this.Canvas.Layers)
+            foreach(Layer l in args.Canvas.Layers)
             {
                 var _layerImage = new List<Image>();
                 _sheetImage.Add(l, _layerImage);
 
                 for(int _sf = 0; _sf < _framesPerSprite; _sf++)
                 {
-                    var _lWidth = (args.MapToCanvas ? this.Canvas.Size.W : l.Size.W);
-                    var _lHeight = (args.MapToCanvas ? this.Canvas.Size.H : l.Size.H);
+                    var _lWidth = (args.MapToCanvas ? args.Canvas.Size.W : l.Size.W);
+                    var _lHeight = (args.MapToCanvas ? args.Canvas.Size.H : l.Size.H);
 
                     _layerImage.Add(new Image());
                     _layerImage[_sf].Create(
@@ -61,11 +54,11 @@ public class SpriteExporter : Node
                     var _spriteNum = ((s * (args.Rows * args.Columns)) + (x * args.Rows) + y) + 1;
                     this.EmitSignal(nameof(SpriteExporter.ProgressChanged), _spriteNum, _spriteNumTotal);
 
-                    var _layerFrames = this.GetSpriteLayers(args.MapToCanvas ? this.Canvas.Size : (0, 0));
+                    var _layerFrames = this.GetSpriteLayers(args.Canvas, args.MapToCanvas ? args.Canvas.Size : (0, 0));
 
                     foreach((Layer L, List<Image> F) val in _layerFrames)
                     {
-                        var _size = args.MapToCanvas ? this.Canvas.Size : val.L.Size;
+                        var _size = args.MapToCanvas ? args.Canvas.Size : val.L.Size;
                         var _y = y * _size.H;
 
                         for(int f = 0; f < _numFrames; f++)
@@ -84,8 +77,8 @@ public class SpriteExporter : Node
             {
                 foreach(KeyValuePair<Layer, List<Image>> val in _sheetImage)
                 {
-                    var _w = args.Scale * (args.MapToCanvas ? this.Canvas.Size.W : val.Key.Size.W);
-                    var _h = args.Scale * (args.MapToCanvas ? this.Canvas.Size.H : val.Key.Size.H);
+                    var _w = args.Scale * (args.MapToCanvas ? args.Canvas.Size.W : val.Key.Size.W);
+                    var _h = args.Scale * (args.MapToCanvas ? args.Canvas.Size.H : val.Key.Size.H);
                     this.EmitSignal(nameof(SpriteExporter.StatusUpdate), $"Resizing Sheet {val.Key.Name}_{s}.png");
 
                     foreach(Image i in val.Value)
@@ -125,10 +118,10 @@ public class SpriteExporter : Node
 
     public void ExportSprite(ExportData args)
     {
-        var _spriteFrameNum = MathX.LCD(this.Canvas.FrameCounts);
+        var _spriteFrameNum = MathX.LCD(args.Canvas.FrameCounts);
 
-        var _spriteWidth = this.Canvas.Size.W * (args.SplitFrames ? 1 : _spriteFrameNum);
-        var _spriteHeight = this.Canvas.Size.H;
+        var _spriteWidth = args.Canvas.Size.W * (args.SplitFrames ? 1 : _spriteFrameNum);
+        var _spriteHeight = args.Canvas.Size.H;
 
         var _sheetWidth = _spriteWidth * args.Columns;
         var _sheetHeight = _spriteHeight * args.Rows;
@@ -152,13 +145,13 @@ public class SpriteExporter : Node
                     var _spriteNum = ((s * (args.Rows * args.Columns)) + (x * args.Rows) + y) + 1;
                     this.EmitSignal(nameof(SpriteExporter.ProgressChanged), _spriteNum, _spriteNumTotal);
 
-                    var _spriteFrames = this.GetSprite();
-                    var _y = y * this.Canvas.Size.H;
+                    var _spriteFrames = this.GetSprite(args.Canvas);
+                    var _y = y * args.Canvas.Size.H;
 
                     for(int f = 0; f < _spriteFrames.Count; f++)
                     {
-                        var _x = args.SplitFrames ? x * this.Canvas.Size.W : 
-                            (x * this.Canvas.Size.W * _spriteFrameNum) + (f * this.Canvas.Size.W);
+                        var _x = args.SplitFrames ? x * args.Canvas.Size.W : 
+                            (x * args.Canvas.Size.W * _spriteFrameNum) + (f * args.Canvas.Size.W);
                         var _index = args.SplitFrames ? f : 0;
                         _sheetImage[_index] = _sheetImage[_index].BlitLayer(_spriteFrames[f], _x, _y);
                     }
@@ -188,9 +181,9 @@ public class SpriteExporter : Node
         this.EmitSignal(nameof(SpriteExporter.ProgressFinished));
     }
 
-    public Image GetSpriteFrame(int i, int scale = 1)
+    public Image GetSpriteFrame(Canvas canvas, int i, int scale = 1)
     {
-        var _frame = this.GetSprite()[i];
+        var _frame = this.GetSprite(canvas)[i];
 
         if(scale != 1)
         {
@@ -202,18 +195,18 @@ public class SpriteExporter : Node
         return _frame;
     }
 
-    public List<Image> GetSprite()
+    public List<Image> GetSprite(Canvas canvas)
     {
         var _output = new List<Image>();
-        var _frameNums = this.Canvas.FrameCounts;
+        var _frameNums = canvas.FrameCounts;
         var _totalFrames = MathX.LCD(_frameNums);
 
-        var _layerFrames = this.GetSpriteLayers(this.Canvas.Size);
+        var _layerFrames = this.GetSpriteLayers(canvas, canvas.Size);
 
         for(int i = 0; i < _totalFrames; i++)
         {
             var _spriteFrame = new Image();
-            _spriteFrame.Create(this.Canvas.Size.W, this.Canvas.Size.H, false, Image.Format.Rgba8);
+            _spriteFrame.Create(canvas.Size.W, canvas.Size.H, false, Image.Format.Rgba8);
 
             foreach((Layer layer, List<Image> imgs) f in _layerFrames)
             {
@@ -226,14 +219,13 @@ public class SpriteExporter : Node
         return _output;
     }
 
-    public List<(Layer, List<Image>)> GetSpriteLayers() { return this.GetSpriteLayers((0, 0)); }
-    public List<(Layer, List<Image>)> GetSpriteLayers((int w, int h) canvas)
+    public List<(Layer, List<Image>)> GetSpriteLayers(Canvas canvas, (int w, int h) size)
     {
         var _output = new List<(Layer, List<Image>)>();
 
-        foreach(Layer l in this.Canvas.Layers)
+        foreach(Layer l in canvas.Layers)
         {
-            var _frames = SpriteExporter.GetLayerImages(l, canvas);
+            var _frames = SpriteExporter.GetLayerImages(l, size);
             _output.Add((l, _frames));
         }
 
@@ -267,6 +259,7 @@ public class SpriteExporter : Node
 
 public class ExportData : Node
 {
+    public Canvas Canvas;
     public int Columns;
     public int Rows;
     public int Sheets;
@@ -274,6 +267,7 @@ public class ExportData : Node
     public bool SplitFrames;
     public bool MapToCanvas;
     public bool ClipContent;
+    public bool NoCopies;
     public string SpriteName;
     public string OutputPath;
 }

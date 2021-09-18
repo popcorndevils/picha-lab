@@ -6,7 +6,9 @@ using PichaLib;
 
 public class AboutDiaglog : WindowDialog
 {
-    public SpriteExporter Canvas;
+    public SpriteExporter Exporter;
+    public Canvas Canvas;
+
     public TextureRect TextureRect;
     public Timer Clock;
 
@@ -21,11 +23,11 @@ public class AboutDiaglog : WindowDialog
 
         this.TextureRect = this.GetNode<TextureRect>("HBox/Texture");
         this.Clock = this.GetNode<Timer>("Timer");
+        this.Exporter = new SpriteExporter();
 
         using(var _file = new File()) {
             _file.Open("res://res/icons/Riblet.plab", File.ModeFlags.Read);
-            var _dat = JsonConvert.DeserializeObject<Canvas>(_file.GetAsText());
-            this.Canvas = new SpriteExporter(_dat);
+            this.Canvas = JsonConvert.DeserializeObject<Canvas>(_file.GetAsText());
         }
 
         this.Texture = this._GetTexture();
@@ -35,7 +37,7 @@ public class AboutDiaglog : WindowDialog
     private ImageTexture _GetTexture()
     {
         var _output = new ImageTexture();
-        _output.CreateFromImage(this.Canvas.GetSpriteFrame(0, 30), 0);
+        _output.CreateFromImage(this.Exporter.GetSpriteFrame(this.Canvas, 0, 30), 0);
         return _output;
     }
 

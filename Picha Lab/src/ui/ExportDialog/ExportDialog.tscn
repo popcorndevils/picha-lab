@@ -32,17 +32,17 @@ __meta__ = {
 margin_left = 10.0
 margin_top = 10.0
 margin_right = 225.0
-margin_bottom = 283.0
+margin_bottom = 300.0
 
 [node name="LayersBox" type="HBoxContainer" parent="Margins/Contents"]
 margin_right = 215.0
-margin_bottom = 75.0
+margin_bottom = 64.0
 size_flags_vertical = 3
 
 [node name="set_layers" type="Button" parent="Margins/Contents/LayersBox"]
-margin_top = 27.0
+margin_top = 22.0
 margin_right = 77.0
-margin_bottom = 47.0
+margin_bottom = 42.0
 focus_mode = 0
 size_flags_vertical = 4
 text = "Set Layers"
@@ -50,7 +50,7 @@ text = "Set Layers"
 [node name="selected_layers" type="TextEdit" parent="Margins/Contents/LayersBox"]
 margin_left = 81.0
 margin_right = 215.0
-margin_bottom = 75.0
+margin_bottom = 64.0
 rect_min_size = Vector2( 0, 60 )
 size_flags_horizontal = 3
 text = "layer1
@@ -62,9 +62,9 @@ highlight_current_line = true
 smooth_scrolling = true
 
 [node name="OptionBox" type="GridContainer" parent="Margins/Contents"]
-margin_top = 79.0
+margin_top = 68.0
 margin_right = 215.0
-margin_bottom = 187.0
+margin_bottom = 204.0
 size_flags_horizontal = 3
 columns = 2
 
@@ -148,19 +148,34 @@ size_flags_horizontal = 3
 size_flags_vertical = 5
 text = "Map to Canvas"
 
-[node name="sprite_name" type="LineEdit" parent="Margins/Contents"]
-margin_top = 191.0
+[node name="Control" type="Control" parent="Margins/Contents/OptionBox"]
+margin_top = 112.0
+margin_right = 91.0
+margin_bottom = 136.0
+
+[node name="no_copies" type="CheckBox" parent="Margins/Contents/OptionBox"]
+margin_left = 95.0
+margin_top = 112.0
 margin_right = 215.0
-margin_bottom = 215.0
+margin_bottom = 136.0
+focus_mode = 0
+size_flags_horizontal = 3
+size_flags_vertical = 5
+text = "No Copies"
+
+[node name="sprite_name" type="LineEdit" parent="Margins/Contents"]
+margin_top = 208.0
+margin_right = 215.0
+margin_bottom = 232.0
 rect_min_size = Vector2( 150, 0 )
 placeholder_text = "Sprite Name"
 caret_blink = true
 caret_blink_speed = 0.5
 
 [node name="PathBox" type="HBoxContainer" parent="Margins/Contents"]
-margin_top = 219.0
+margin_top = 236.0
 margin_right = 215.0
-margin_bottom = 249.0
+margin_bottom = 266.0
 
 [node name="path" type="LineEdit" parent="Margins/Contents/PathBox"]
 margin_right = 175.0
@@ -179,9 +194,9 @@ focus_mode = 0
 icon = ExtResource( 2 )
 
 [node name="BBox" type="HBoxContainer" parent="Margins/Contents"]
-margin_top = 253.0
+margin_top = 270.0
 margin_right = 215.0
-margin_bottom = 273.0
+margin_bottom = 290.0
 alignment = 1
 
 [node name="ok" type="Button" parent="Margins/Contents/BBox"]

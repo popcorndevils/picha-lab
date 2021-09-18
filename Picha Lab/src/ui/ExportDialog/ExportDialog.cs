@@ -1,10 +1,14 @@
 using System;
 
 using Godot;
+using PichaLib;
 
 public class ExportDialog : WindowDialog
 {
-    public SpriteExporter Export;
+    private Canvas _OriginalCanvas;
+    private Canvas _SubmitCanvas;
+
+    public SpriteExporter Export = new SpriteExporter();
 
     public MarginContainer Margins;
 
@@ -18,10 +22,11 @@ public class ExportDialog : WindowDialog
     public SpinBox Sheets;
     public SpinBox Scale;
 
+    public CheckBox ClipContent;
     public CheckBox SplitFrames;
     public CheckBox AsLayers;
     public CheckBox MapToCanvas;
-    public CheckBox ClipContent;
+    public CheckBox NoCopies;
 
     public LineEdit SpriteName;
     public LineEdit OutputPath;
@@ -47,10 +52,11 @@ public class ExportDialog : WindowDialog
         this.Sheets = this.GetNode<SpinBox>("Margins/Contents/OptionBox/sheets");
         this.Scale = this.GetNode<SpinBox>("Margins/Contents/OptionBox/scale");
 
+        this.ClipContent = this.GetNode<CheckBox>("Margins/Contents/OptionBox/clip_content");
         this.SplitFrames = this.GetNode<CheckBox>("Margins/Contents/OptionBox/split_frames");
         this.AsLayers = this.GetNode<CheckBox>("Margins/Contents/OptionBox/as_layers");
         this.MapToCanvas = this.GetNode<CheckBox>("Margins/Contents/OptionBox/map_to_canvas");
-        this.ClipContent = this.GetNode<CheckBox>("Margins/Contents/OptionBox/clip_content");
+        this.NoCopies = this.GetNode<CheckBox>("Margins/Contents/OptionBox/no_copies");
 
         this.SpriteName = this.GetNode<LineEdit>("Margins/Contents/sprite_name");
         this.FileButton = this.GetNode<Button>("Margins/Contents/PathBox/btn_browse");
@@ -73,6 +79,8 @@ public class ExportDialog : WindowDialog
         this.FileDialog.Connect("dir_selected", this, "OnDirSelect");
         this.SpriteName.Connect("text_changed", this, "OnSpriteNameChange");
         this.Confirmation.Connect("confirmed", this, "OnConfirmExport");
+        this.Export.Connect("ProgressChanged", this.Progress, "OnProgressChanged");
+        this.Export.Connect("StatusUpdate", this.Progress, "OnStatusUpdate");
 
         this.RectMinSize = this.Margins.RectSize;
 
@@ -84,20 +92,13 @@ public class ExportDialog : WindowDialog
         this.AsLayers.Pressed = false;
         this.MapToCanvas.Pressed = false;
         this.ClipContent.Pressed = true;
+        this.NoCopies.Pressed = false;
     }
 
 
-    public void Open(SpriteExporter export)
+    public void Open(Canvas canvas)
     {
-        if(this.Export != null)
-        {
-            this.Export.Disconnect("ProgressChanged", this.Progress, "OnProgressChanged");
-            this.Export.Disconnect("StatusUpdate", this.Progress, "OnStatusUpdate");
-        }
-
-        this.Export = export;
-        this.Export.Connect("ProgressChanged", this.Progress, "OnProgressChanged");
-        this.Export.Connect("StatusUpdate", this.Progress, "OnStatusUpdate");
+        this._OriginalCanvas = canvas;
 
         this.SpriteName.Text = "";
         this.OutputPath.Text = "";
@@ -114,6 +115,7 @@ public class ExportDialog : WindowDialog
     public void OnOptionButtonPress()
     {
         this.MapToCanvas.Disabled = !this.AsLayers.Pressed;
+        this.NoCopies.Disabled = !this.AsLayers.Pressed;
         this.SpriteName.Editable = !this.AsLayers.Pressed;
         this.ClipContent.Disabled = this.AsLayers.Pressed ? !this.MapToCanvas.Pressed : false;
 
@@ -132,7 +134,7 @@ public class ExportDialog : WindowDialog
 
     public void OnOkPress()
     {
-        var _frames = MathX.LCD(this.Export.Canvas.FrameCounts);
+        var _frames = MathX.LCD(this._OriginalCanvas.FrameCounts);
         var _word = _frames > 1 ? "frames" : "frame";
         this.Confirmation.DialogText = $"Each Sprite includes {_frames} {_word} of animation.\nWould you like to continue with export?";
 
@@ -159,6 +161,7 @@ public class ExportDialog : WindowDialog
     public async void OnConfirmExport()
     {
         var _data = new ExportData(){
+            Canvas = this._OriginalCanvas,
             Columns = (int)this.Cols.Value,
             Rows = (int)this.Rows.Value,
             Sheets = (int)this.Sheets.Value,
@@ -166,6 +169,7 @@ public class ExportDialog : WindowDialog
             SplitFrames = this.SplitFrames.Pressed,
             MapToCanvas = this.MapToCanvas.Pressed,
             ClipContent = this.ClipContent.Pressed,
+            NoCopies = this.NoCopies.Pressed,
             SpriteName = this.SpriteName.Text,
             OutputPath = this.OutputPath.Text,
         };
