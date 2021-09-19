@@ -122,7 +122,6 @@ public class ExportDialog : WindowDialog
         this.NoCopies.Pressed = false;
     }
 
-
     public void Open(Canvas canvas)
     {
         this._OriginalCanvas = canvas;
@@ -172,7 +171,7 @@ public class ExportDialog : WindowDialog
 
     public void OnSetLayersPress()
     {
-        this.SelectLayersDialog.PopupCentered();
+        this.SelectLayersDialog.Open(this._OriginalCanvas, this.SubmitCanvas);
     }
 
     public void OnOkPress()

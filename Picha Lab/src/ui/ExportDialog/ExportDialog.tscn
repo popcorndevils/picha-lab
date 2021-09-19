@@ -228,4 +228,3 @@ window_title = "Export Details"
 visible = false
 
 [node name="SelectLayersDialog" parent="." instance=ExtResource( 4 )]
-visible = false

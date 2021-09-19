@@ -3,6 +3,7 @@
 [ext_resource path="res://src/ui/ExportDialog/SelectLayersDialog.cs" type="Script" id=1]
 
 [node name="SelectLayersDialog" type="WindowDialog"]
+visible = true
 margin_right = 400.0
 margin_bottom = 252.0
 window_title = "Select Layers"
@@ -50,16 +51,19 @@ margin_bottom = 14.0
 margin_left = 208.0
 margin_right = 380.0
 margin_bottom = 14.0
-text = "Layers to Export"
+text = "Selected Layers"
 align = 1
 valign = 1
 
-[node name="UnSelectedTree" type="Tree" parent="VBox/Grid"]
+[node name="AvailableTree" type="Tree" parent="VBox/Grid"]
 margin_top = 18.0
 margin_right = 172.0
 margin_bottom = 208.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
+hide_folding = true
+hide_root = true
+select_mode = 2
 
 [node name="Buttons" type="VBoxContainer" parent="VBox/Grid"]
 margin_left = 176.0
@@ -85,14 +89,14 @@ margin_bottom = 93.0
 focus_mode = 0
 text = ">>"
 
-[node name="UnSelect" type="Button" parent="VBox/Grid/Buttons"]
+[node name="Remove" type="Button" parent="VBox/Grid/Buttons"]
 margin_top = 97.0
 margin_right = 28.0
 margin_bottom = 117.0
 focus_mode = 0
 text = "<"
 
-[node name="UnSelectAll" type="Button" parent="VBox/Grid/Buttons"]
+[node name="RemoveAll" type="Button" parent="VBox/Grid/Buttons"]
 margin_top = 121.0
 margin_right = 28.0
 margin_bottom = 141.0
@@ -106,6 +110,9 @@ margin_right = 380.0
 margin_bottom = 208.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
+hide_folding = true
+hide_root = true
+select_mode = 2
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -116,16 +123,16 @@ margin_right = 380.0
 margin_bottom = 232.0
 alignment = 1
 
-[node name="BtnOk" type="Button" parent="VBox/HBox"]
-margin_left = 146.0
-margin_right = 176.0
+[node name="Accept" type="Button" parent="VBox/HBox"]
+margin_left = 133.0
+margin_right = 189.0
 margin_bottom = 20.0
 focus_mode = 0
-text = "Ok"
+text = "Accept"
 
-[node name="BtnCan" type="Button" parent="VBox/HBox"]
-margin_left = 180.0
-margin_right = 234.0
+[node name="Cancel" type="Button" parent="VBox/HBox"]
+margin_left = 193.0
+margin_right = 247.0
 margin_bottom = 20.0
 focus_mode = 0
 text = "Cancel"
