@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 using Godot;
 using PichaLib;
@@ -6,7 +7,9 @@ using PichaLib;
 public class ExportDialog : WindowDialog
 {
     private Canvas _OriginalCanvas;
-    private Canvas _SubmitCanvas;
+    
+    public Tree SelectedLayers;
+    public List<TreeItem> TreeNodes;
 
     public SpriteExporter Export = new SpriteExporter();
 
@@ -36,11 +39,35 @@ public class ExportDialog : WindowDialog
     public Button Ok;
     public Button Cancel;
 
+    public Canvas SubmitCanvas {
+        get {
+            var _output = this._OriginalCanvas.Copy();
+            _output.Layers.Clear();
+
+            TreeItem _root = this.SelectedLayers.GetRoot();
+
+            if(_root != null)
+            {
+                TreeItem _child = _root.GetChildren();
+                while(_child != null)
+                {
+                    var _item = _child.GetMetadata(0) as TreeLayer;
+                    _output.Layers.Add(_item.Data);
+                    _child = _child.GetNext();
+                }
+            }
+
+            return _output;
+        }
+    }
+
     public override void _Ready()
     {
         this.AddToGroup("diag_export");
 
         this.Margins = this.GetNode<MarginContainer>("Margins");
+
+        this.SelectedLayers = this.GetNode<Tree>("Margins/Contents/LayersBox/selected_layers");
         
         this.FileDialog = this.GetNode<FileDialog>("FileDialog");
         this.Confirmation = this.GetNode<ConfirmationDialog>("Confirmation");
@@ -100,11 +127,27 @@ public class ExportDialog : WindowDialog
     {
         this._OriginalCanvas = canvas;
 
+        this.ProcessSelectedLayers(canvas);
+
         this.SpriteName.Text = "";
         this.OutputPath.Text = "";
 
         this.OnOptionButtonPress();
         this.PopupCentered();
+    }
+
+    public void ProcessSelectedLayers(Canvas canvas)
+    {
+        this.SelectedLayers.Clear();
+
+        var _root = this.SelectedLayers.CreateItem();
+
+        foreach(Layer l in canvas.Layers)
+        {
+            var _item = this.SelectedLayers.CreateItem(_root);
+            _item.SetText(0, l.Name);
+            _item.SetMetadata(0, new TreeLayer() {Data = l});
+        }
     }
 
     public void OnFileButtonPress()
@@ -161,7 +204,7 @@ public class ExportDialog : WindowDialog
     public async void OnConfirmExport()
     {
         var _data = new ExportData(){
-            Canvas = this._OriginalCanvas,
+            Canvas = this.SubmitCanvas,
             Columns = (int)this.Cols.Value,
             Rows = (int)this.Rows.Value,
             Sheets = (int)this.Sheets.Value,
@@ -188,4 +231,9 @@ public class ExportDialog : WindowDialog
         this.Progress.Hide();
         this.Hide();
     }
+}
+
+public class TreeLayer : Node
+{
+    public Layer Data;
 }
