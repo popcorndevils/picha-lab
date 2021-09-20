@@ -126,7 +126,7 @@ public class ExportDialog : WindowDialog
     {
         this._OriginalCanvas = canvas;
 
-        this.ProcessSelectedLayers(canvas);
+        this.ProcessCanvas(canvas);
 
         this.SpriteName.Text = "";
         this.OutputPath.Text = "";
@@ -135,19 +135,22 @@ public class ExportDialog : WindowDialog
         this.PopupCentered();
     }
 
-    public void ProcessSelectedLayers(Canvas canvas)
+
+    public void ProcessCanvas(Canvas canvas) { this.ProcessLayers(canvas.Layers); }
+    public void ProcessLayers(List<Layer> layers)
     {
         this.SelectedLayers.Clear();
 
         var _root = this.SelectedLayers.CreateItem();
 
-        foreach(Layer l in canvas.Layers)
+        foreach(Layer l in layers)
         {
             var _item = this.SelectedLayers.CreateItem(_root);
             _item.SetText(0, l.Name);
             _item.SetMetadata(0, new TreeLayer() {Data = l});
         }
     }
+
 
     public void OnFileButtonPress()
     {
