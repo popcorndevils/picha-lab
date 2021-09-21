@@ -5,8 +5,8 @@ using PichaLib;
 
 public class SelectLayersDialog : WindowDialog
 {
-    private Tree _Available;
-    private Tree _Selected;
+    private LayersTree _Available;
+    private LayersTree _Selected;
 
     private Button _Select;
     private Button _SelectAll;
@@ -16,86 +16,13 @@ public class SelectLayersDialog : WindowDialog
     private Button _Accept;
     private Button _Cancel;
 
-    public List<TreeItem> AllAvailableLayers {
-        get {
-            var _output = new List<TreeItem>();
-
-            TreeItem _root = this._Available.GetRoot();
-
-            if(_root != null)
-            {
-                TreeItem _child = _root.GetChildren();
-                while(_child != null)
-                {
-                    _output.Add(_child);
-                    _child = _child.GetNext();
-                }
-            }
-
-            return _output;
-        }
-    }
-
-    public List<TreeItem> AllSelectedLayers {
-        get {
-            var _output = new List<TreeItem>();
-
-            TreeItem _root = this._Selected.GetRoot();
-
-            if(_root != null)
-            {
-                TreeItem _child = _root.GetChildren();
-                while(_child != null)
-                {
-                    _output.Add(_child);
-                    _child = _child.GetNext();
-                }
-            }
-
-            return _output;
-        }
-    }
-
-    public List<TreeItem> SelectedAvailableTree {
-        get {
-            
-            var _output = new List<TreeItem>();
-
-            TreeItem _item = this._Available.GetNextSelected(null);
-            
-            while(_item != null)
-            {
-                _output.Add(_item);
-                _item = this._Available.GetNextSelected(_item);
-            }
-
-            return _output;
-        }
-    }
-
-    public List<TreeItem> SelectedSelectedTree {
-        get {
-            
-            var _output = new List<TreeItem>();
-
-            TreeItem _item = this._Selected.GetNextSelected(null);
-            
-            while(_item != null)
-            {
-                _output.Add(_item);
-                _item = this._Selected.GetNextSelected(_item);
-            }
-
-            return _output;
-        }
-    }
 
     public override void _Ready()
     {
         this.RectMinSize = this.GetNode<VBoxContainer>("VBox").RectMinSize + new Vector2(40, 40);
 
-        this._Available = this.GetNode<Tree>("VBox/Grid/AvailableTree");
-        this._Selected = this.GetNode<Tree>("VBox/Grid/SelectedTree");
+        this._Available = this.GetNode<LayersTree>("VBox/Grid/AvailableTree");
+        this._Selected = this.GetNode<LayersTree>("VBox/Grid/SelectedTree");
 
         this._Select = this.GetNode<Button>("VBox/Grid/Buttons/Select");
         this._SelectAll = this.GetNode<Button>("VBox/Grid/Buttons/SelectAll");
@@ -116,80 +43,43 @@ public class SelectLayersDialog : WindowDialog
 
     public void Open(Canvas available, Canvas selected)
     {
-        TreeItem _root;
-        
-        this._Available.Clear();
-        this._Selected.Clear();
-
-        _root = this._Available.CreateItem();
+        var _avail = new List<Layer>();
 
         foreach(Layer l in available.Layers)
         {
             if(!selected.Layers.Contains(l))
             {
-                var _item = this._Available.CreateItem(_root);
-                _item.SetText(0, l.Name);
-                _item.SetMetadata(0, new TreeLayer() { Data = l });
+                _avail.Add(l);
             }
         }
 
-        _root = this._Selected.CreateItem();
-
-        foreach(Layer l in selected.Layers)
-        {
-            var _item = this._Selected.CreateItem(_root);
-            _item.SetText(0, l.Name);
-            _item.SetMetadata(0, new TreeLayer() { Data = l });
-        }
+        this._Available.LoadLayers(_avail);
+        this._Selected.LoadLayers(selected.Layers);
 
         this.PopupCentered();
     }
 
-    public void OnSelectAll() { this.OnSelectLayers(this.AllAvailableLayers); }
-    public void OnSelectLayers() { this.OnSelectLayers(this.SelectedAvailableTree); }
+    public void OnSelectAll() { this.OnSelectLayers(this._Available.AllItems); }
+    public void OnSelectLayers() { this.OnSelectLayers(this._Available.SelectedItems); }
     public void OnSelectLayers(List<TreeItem> items)
     {
-        TreeItem _root = this._Selected.GetRoot();
-
-        foreach(TreeItem i in items)
-        {
-            var _item = this._Selected.CreateItem(_root);
-            var _layer = i.GetMetadata(0) as TreeLayer;
-
-            _item.SetText(0, _layer.Data.Name);
-            _item.SetMetadata(0, new TreeLayer() { Data = _layer.Data });  
-
-            i.GetParent().RemoveChild(i);
-        }
-
-        this._Available.Update();
+        this._Selected.AddItems(items);
+        this._Available.RemoveItems(items);
     }
 
-    public void OnRemoveAll() { this.OnRemoveLayers(this.AllSelectedLayers); }
-    public void OnRemoveLayers() { this.OnRemoveLayers(this.SelectedSelectedTree); }
+    public void OnRemoveAll() { this.OnRemoveLayers(this._Selected.AllItems); }
+    public void OnRemoveLayers() { this.OnRemoveLayers(this._Selected.SelectedItems); }
     public void OnRemoveLayers(List<TreeItem> items)
     {
-        TreeItem _root = this._Available.GetRoot();
-
-        foreach(TreeItem i in items)
-        {
-            var _item = this._Available.CreateItem(_root);
-            var _layer = i.GetMetadata(0) as TreeLayer;
-
-            _item.SetText(0, _layer.Data.Name);
-            _item.SetMetadata(0, new TreeLayer() { Data = _layer.Data });  
-
-            i.GetParent().RemoveChild(i);
-        }
-
-        this._Selected.Update();
+        this._Available.AddItems(items);
+        this._Selected.RemoveItems(items);
     }
 
     public void OnAcceptLayers()
     {
         var _output = new List<Layer>();
 
-        foreach(TreeItem i in this.AllSelectedLayers)
+        foreach(TreeItem i in this._Selected.AllItems)
         {
             var _layer = i.GetMetadata(0) as TreeLayer;
             _output.Add(_layer.Data);
