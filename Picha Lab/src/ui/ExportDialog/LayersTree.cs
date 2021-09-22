@@ -95,7 +95,12 @@ public class LayersTree : Tree
 
     public override bool CanDropData(Vector2 position, object data)
     {
-        return data.GetType() == typeof(TreeItem);
+        if(data.GetType() == typeof(TreeItem))
+        {
+            var _item = data as TreeItem;
+            return _item.GetParent() == this.GetRoot();
+        }
+        return false;
     }
 
     public override void DropData(Vector2 position, object data)
