@@ -54,10 +54,10 @@ namespace PichaLib
 
         public (int W, int H) Size {
             get {
-                foreach(string[,] f in this._Frames)
+                foreach(Frame f in this._Frames)
                 {
-                    return (f.GetWidth() * (this.MirrorX ? 2 : 1) ,
-                            f.GetHeight() * (this.MirrorY ? 2 : 1));
+                    return (f.Data.GetWidth() * (this.MirrorX ? 2 : 1) ,
+                            f.Data.GetHeight() * (this.MirrorY ? 2 : 1));
                 }
                 return (0, 0);
             }
@@ -75,8 +75,8 @@ namespace PichaLib
             }
         }
 
-        private List<string[,]> _Frames = new List<string[,]>();
-        public List<string[,]> Frames {
+        private List<Frame> _Frames = new List<Frame>();
+        public List<Frame> Frames {
             get => this._Frames;
             set {
                 this._Frames = value;

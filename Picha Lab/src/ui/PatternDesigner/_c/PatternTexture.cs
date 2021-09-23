@@ -16,7 +16,7 @@ public class PatternTexture : TextureRect
     private ImageTexture _ImageTex = new ImageTexture();
     private Pixel Current => this._Owner.PaintBtn.Selected;
 
-    public string[,] Frame;
+    public Frame Frame;
     private Dictionary<string, Pixel> _Pixels;
 
     private TextureRect _PixelOutline = new TextureRect() {
@@ -40,12 +40,12 @@ public class PatternTexture : TextureRect
         this.RectScale = new Vector2(20f, 20f);
     }
 
-    public void LoadLayer(string[,] frame, Dictionary<string, Pixel> pixels)
+    public void LoadLayer(Frame frame, Dictionary<string, Pixel> pixels)
     {
         int _w = frame.GetWidth();
         int _h = frame.GetHeight();
 
-        this.Frame = new string[_h, _w];
+        this.Frame = new Frame() { Data = new string[_h, _w] };
         this._Pixels = pixels;
 
         this._Image.Create(_w, _h, false, Image.Format.Rgba8);
@@ -56,8 +56,8 @@ public class PatternTexture : TextureRect
             for(int _y = 0; _y < _h; _y++)
             {
                 Chroma _col;
-                var _cell = frame[_y, _x];
-                this.Frame[_y, _x] = _cell;
+                var _cell = frame.Data[_y, _x];
+                this.Frame.Data[_y, _x] = _cell;
 
                 if(_cell != Pixel.NULL)
                 {
@@ -119,28 +119,28 @@ public class PatternTexture : TextureRect
 
     public void OverwriteSize(int w, int h)
     {
-        var _newFrame = new string[h, w];
-        var _oldHeight = this.Frame.GetHeight();
-        var _oldWidth = this.Frame.GetWidth();
+        var _newFrame = new Frame() { Data = new string[h, w] };
+        var _oldHeight = this.Frame.Data.GetHeight();
+        var _oldWidth = this.Frame.Data.GetWidth();
 
-        this._Image.Create(_newFrame.GetWidth(), _newFrame.GetHeight(), false, Image.Format.Rgba8);
+        this._Image.Create(_newFrame.Data.GetWidth(), _newFrame.Data.GetHeight(), false, Image.Format.Rgba8);
         this._Image.Lock();
 
-        for(int _x = 0; _x < _newFrame.GetWidth(); _x++)
+        for(int _x = 0; _x < _newFrame.Data.GetWidth(); _x++)
         {
-            for(int _y = 0; _y < _newFrame.GetHeight(); _y++)
+            for(int _y = 0; _y < _newFrame.Data.GetHeight(); _y++)
             {
                 if(_x >= _oldWidth || _y >= _oldHeight)
                 {
                     var _cell = this.Current.Name;
-                    _newFrame[_y, _x] = _cell;
+                    _newFrame.Data[_y, _x] = _cell;
                     var _col = this._Pixels[_cell].Paint;
                     this._Image.SetPixel(_x, _y, _col.ToGodotColor());
                 }
                 else 
                 {
-                    var _cell = this.Frame[_y, _x];
-                    _newFrame[_y, _x] = _cell;
+                    var _cell = this.Frame.Data[_y, _x];
+                    _newFrame.Data[_y, _x] = _cell;
                     var _col = this._Pixels[_cell].Paint;
                     this._Image.SetPixel(_x, _y, _col.ToGodotColor());
                 }
@@ -183,7 +183,7 @@ public class PatternTexture : TextureRect
         this._Image.SetPixel(x, y, p.Paint.ToGodotColor());
         this._Image.Unlock();
         this._ImageTex.SetData(this._Image);
-        this.Frame[y, x] = p.Name;
+        this.Frame.Data[y, x] = p.Name;
     }
     
     public void OnMouseEnter()

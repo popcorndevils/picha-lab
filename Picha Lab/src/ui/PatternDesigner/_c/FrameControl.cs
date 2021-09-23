@@ -14,10 +14,10 @@ public class FrameControl : Control
         SizeFlagsVertical = (int)Control.SizeFlags.ExpandFill,
     };
 
-    public string[,] Frame;
+    public Frame Frame;
     public Dictionary<string, Pixel> Pixels;
 
-    public string[,] FinalizedFrame => this._Texture.Frame;
+    public Frame FinalizedFrame => this._Texture.Frame;
 
     public override void _Ready()
     {

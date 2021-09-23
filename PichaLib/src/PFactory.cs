@@ -40,9 +40,9 @@ namespace PichaLib
         {
             var _output = new List<string[,]>();
 
-            foreach(string[,] _frame in l.Frames)
+            foreach(Frame _frame in l.Frames)
             {
-                _output.Add(PFactory._GenShape(_frame, l.Cycles));
+                _output.Add(PFactory._GenShape(_frame.Data, l.Cycles));
             }
             return _output;
         }

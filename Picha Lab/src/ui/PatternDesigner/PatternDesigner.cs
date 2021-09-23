@@ -115,10 +115,10 @@ public class PatternDesigner : WindowDialog
         this._OpenLayer(l);
     }
 
-    private void _PopulateView(List<string[,]> frames, Dictionary<string, Pixel> pixels)
+    private void _PopulateView(List<Frame> frames, Dictionary<string, Pixel> pixels)
     {
 
-        foreach(string[,] _pair in frames)
+        foreach(Frame _pair in frames)
         {
             this.FramesView.AddChild(new FrameControl() {
                 Frame = _pair,
@@ -147,7 +147,7 @@ public class PatternDesigner : WindowDialog
 
     public void OnConfirmedLayers()
     {
-        var _newFrames = new List<string[,]>();
+        var _newFrames = new List<Frame>();
 
         foreach(FrameControl _f in this.FramesView.GetChildren())
         {

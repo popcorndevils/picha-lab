@@ -99,7 +99,7 @@ public class GenLayer : TextureRect
         }
     }
 
-    public List<string[,]> Frames {
+    public List<Frame> Frames {
         get => this.Data.Frames;
         set {
             this.Data.Frames = value;
@@ -375,13 +375,13 @@ public class GenLayer : TextureRect
         }
     }
 
-    private List<string[,]> _RenamePixelFrames(string oldName, string newName)
+    private List<Frame> _RenamePixelFrames(string oldName, string newName)
     {
-        var _newFrames = new List<string[,]>();
+        var _newFrames = new List<Frame>();
 
-        foreach(string[,] frame in this.Frames)
+        foreach(Frame frame in this.Frames)
         {
-            _newFrames.Add(frame.ReplaceVal(oldName, newName));
+            _newFrames.Add(new Frame() { Data = frame.Data.ReplaceVal(oldName, newName) });
         }
 
         return _newFrames;
