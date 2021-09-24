@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 
 using Godot;
@@ -17,7 +18,13 @@ public class FrameControl : Control
     public Frame Frame;
     public Dictionary<string, Pixel> Pixels;
 
-    public Frame FinalizedFrame => this._Texture.Frame;
+    public Frame FinalizedFrame {
+        get {
+            var _output = this._Texture.Frame.Copy();
+            _output.Timing = this.Frame.Timing;
+            return _output;
+        }
+    } 
 
     public override void _Ready()
     {
