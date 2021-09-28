@@ -31,34 +31,90 @@ namespace PichaLib
             return _output;
         }
 
+        public static Chroma[,] GenFrameColor(Frame f, Dictionary<string, CellData> data, Layer l)
+        {
+            int _w = f.GetWidth();
+            int _h = f.GetHeight();
+            var _frameOut = new Chroma[_h, _w];
+
+            for(int _y = 0; _y < _h; _y++)
+            {
+                for(int _x = 0; _x < _w; _x++)
+                {
+                    var _cell = f.Data[_y, _x];
+                    var _cSet = data[_cell];
+                    if(_cell != Pixel.NULL)
+                    {
+                        float _grade = 0f;
+
+                        switch(l.Pixels[_cell].FadeDirection)
+                        {
+                            case FadeDirection.NORTH:
+                                _grade = (float)((_y + 1f) / _h);
+                                break;
+                            case FadeDirection.WEST:
+                                _grade = (float)((_x + 1f) / _w);
+                                break;
+                            case FadeDirection.SOUTH:
+                                _grade = 1f - (float)((_y + 1f) / _h);
+                                break;
+                            case FadeDirection.EAST:
+                                _grade = 1f - (float)((_x + 1f) / _w);
+                                break;
+                            case FadeDirection.NONE:
+                                _grade = 1f;
+                                break;
+                        }
+
+                        float u_sin = (float)Math.Cos(_grade * Math.PI);
+                        float _l = (float)(PFactory._Random.RandfRange(0f, l.Pixels[_cell].BrightNoise) * u_sin) + _cSet.HSL.l;
+
+                        _frameOut[_y, _x] = Chroma.CreateFromHSL(_cSet.HSL.h, _cSet.Sat, _l, _cSet.HSL.a);
+                    }
+                    else
+                    {
+                        // is the cell is null just fill with transparent pixel.
+                        _frameOut[_y, _x] = Chroma.CreateFromBytes(0, 0, 0, 0);
+                    }
+                }
+            }
+
+            if(l.MirrorX) { _frameOut = _frameOut.MirrorX(); }
+            if(l.MirrorY) { _frameOut = _frameOut.MirrorY(); }
+
+            return _frameOut;
+        }
+
         public static List<Chroma[,]> ProcessLayer(Layer l)
         {
             return PFactory._GenColors(PFactory._GenShapes(l), l);
         }
 
-        private static List<string[,]> _GenShapes(Layer l)
+        private static List<Frame> _GenShapes(Layer l)
         {
-            var _output = new List<string[,]>();
+            var _output = new List<Frame>();
 
             foreach(Frame _frame in l.Frames)
             {
-                _output.Add(PFactory._GenShape(_frame.Data, l.Cycles));
+                _output.Add(PFactory._GenShape(_frame, l.Cycles));
             }
             return _output;
         }
 
-        private static string[,] _GenShape(string[,] frame, List<Cycle> cycles)
+        private static Frame _GenShape(Frame f, List<Cycle> cycles)
         {
-            string[,] _frameCopy = frame.Copy();
+            var _output = new Frame() { Timing = f.Timing };
+            _output.Data = f.Data.Copy();
 
             foreach(Cycle _cycle in cycles)
             {
-                _frameCopy = PFactory._RunCycle(_frameCopy, _cycle.Policies);
+                _output.Data = PFactory._RunCycle(_output.Data, _cycle.Policies);
             }
-            return _frameCopy;
+
+            return _output;
         }
 
-        private static List<Chroma[,]> _GenColors(List<string[,]> cells, Layer l)
+        private static List<Chroma[,]> _GenColors(List<Frame> cells, Layer l)
         {
             var _output = new List<Chroma[,]>();
             var _cellColors = new Dictionary<string, CellData>();
@@ -84,60 +140,15 @@ namespace PichaLib
                 _cellColors.Add(_type.Name, _dat);
             }
 
-            foreach(string[,] _pair in cells)
+            foreach(Frame f in cells)
             {
-                int _w = _pair.GetWidth();
-                int _h = _pair.GetHeight();
-                var _frameOut = new Chroma[_h, _w];
-
-                for(int _y = 0; _y < _h; _y++)
+                var _product = PFactory.GenFrameColor(f, _cellColors, l);
+                
+                for(int i = 0; i < f.Timing; i++)
                 {
-                    for(int _x = 0; _x < _w; _x++)
-                    {
-                        var _cell = _pair[_y, _x];
-                        CellData _cSet;
-                        if(_cell != Pixel.NULL)
-                        {
-                            _cSet = _cellColors[_cell];float _grade = 0f;
-
-                            switch(l.Pixels[_cell].FadeDirection)
-                            {
-                                case FadeDirection.NORTH:
-                                    _grade = (float)((_y + 1f) / _h);
-                                    break;
-                                case FadeDirection.WEST:
-                                    _grade = (float)((_x + 1f) / _w);
-                                    break;
-                                case FadeDirection.SOUTH:
-                                    _grade = 1f - (float)((_y + 1f) / _h);
-                                    break;
-                                case FadeDirection.EAST:
-                                    _grade = 1f - (float)((_x + 1f) / _w);
-                                    break;
-                                case FadeDirection.NONE:
-                                    _grade = 1f;
-                                    break;
-                            }
-
-                            float u_sin = (float)Math.Cos(_grade * Math.PI);
-                            float _l = (float)(PFactory._Random.RandfRange(0f, l.Pixels[_cell].BrightNoise) * u_sin) + _cSet.HSL.l;
-
-                            _frameOut[_y, _x] = Chroma.CreateFromHSL(_cSet.HSL.h, _cSet.Sat, _l, _cSet.HSL.a);
-                        }
-                        else
-                        {
-                            // is the cell is null just fill with transparent pixel.
-                            _frameOut[_y, _x] = Chroma.CreateFromBytes(0, 0, 0, 0);
-                        }
-                    }
+                    _output.Add(_product);
                 }
-
-                if(l.MirrorX) { _frameOut = _frameOut.MirrorX(); }
-                if(l.MirrorY) { _frameOut = _frameOut.MirrorY(); }
-
-                _output.Add(_frameOut);
             }
-
 
             return _output;
         }
