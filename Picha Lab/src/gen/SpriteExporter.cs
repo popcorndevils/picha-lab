@@ -286,7 +286,7 @@ public class SpriteExporter : Node
     public static List<Image> GetLayerImages(Layer layer, (int w, int h) canvas, int offsetX = 0, int offsetY = 0)
     {
         var _output = new List<Image>();
-        var _data = PFactory.ProcessLayer(layer);
+        var _data = PFactory.Generate(layer);
         foreach(Chroma[,] val in _data)
         {
             var _img = val.ToImage();

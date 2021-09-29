@@ -208,7 +208,7 @@ public class GenLayer : TextureRect
         {
             this._Textures.Clear();
 
-            foreach(Chroma[,] _p in PFactory.ProcessLayer(this.Data))
+            foreach(Chroma[,] _p in PFactory.Generate(this.Data))
                 { this._Textures.Add(_p.ToGodotTex()); }
 
             GD.Print(this._Textures.Count);
