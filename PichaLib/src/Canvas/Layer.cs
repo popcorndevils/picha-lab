@@ -75,6 +75,14 @@ namespace PichaLib
             }
         }
 
+        public int FramesCount {
+            get {
+                int _output = 0;
+                foreach(Frame f in this.Frames) { _output += f.Timing; }
+                return _output;
+            }
+        }
+
         private List<Frame> _Frames = new List<Frame>();
         public List<Frame> Frames {
             get => this._Frames;

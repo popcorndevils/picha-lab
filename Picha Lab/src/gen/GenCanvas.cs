@@ -147,7 +147,7 @@ public class GenCanvas : Node2D
             var _val = new int[this.Layers.Count];
             for(int i = 0; i < this.Layers.Count; i++)
             {
-                _val[i] = this.Layers[i].Frames.Count;
+                _val[i] = this.Layers[i].FrameCount;
             }
             return _val;
         }

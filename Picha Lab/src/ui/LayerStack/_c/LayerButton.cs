@@ -28,7 +28,7 @@ public class LayerButton : Button
         this.FocusMode = FocusModeEnum.None;
         this.SizeFlagsHorizontal = (int)SizeFlags.ExpandFill;
         
-        this.GetParent<LayerButtonControl>().FrameStatus.Text = $"[{this.Layer.Frame + 1}/{this.Layer.Frames.Count}]";
+        this.GetParent<LayerButtonControl>().FrameStatus.Text = $"[{this.Layer.Frame + 1}/{this.Layer.FrameCount}]";
         this.Connect("mouse_entered", this, "OnMouseEnter");
         this.Connect("mouse_exited", this, "OnMouseExit");
     }

@@ -67,7 +67,7 @@ public class GenLayer : TextureRect
             this._Frame = value;
             this.Texture = this._Textures[value];
             this.RectSize = this._Textures[value].GetSize();
-            this.FrameChange?.Invoke(value, this.Frames.Count);
+            this.FrameChange?.Invoke(value, this.FrameCount);
         }
     }
 
@@ -99,12 +99,14 @@ public class GenLayer : TextureRect
         }
     }
 
+    public int FrameCount => this.Data.FramesCount;
+
     public List<Frame> Frames {
         get => this.Data.Frames;
         set {
             this.Data.Frames = value;
             this.RectSize = (this.Data.Size).ToVector2();
-            this.FrameChange?.Invoke(0, value.Count);
+            this.FrameChange?.Invoke(0, this.FrameCount);
         }
     }
 
@@ -210,8 +212,6 @@ public class GenLayer : TextureRect
 
             foreach(Chroma[,] _p in PFactory.Generate(this.Data))
                 { this._Textures.Add(_p.ToGodotTex()); }
-
-            GD.Print(this._Textures.Count);
 
             if(this._Textures.Count > 0)
             {
