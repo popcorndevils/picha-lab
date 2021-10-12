@@ -25,7 +25,7 @@ public static class PichaExtensions
     public static ImageTexture ToGodotTex(this SysDraw.Bitmap img)
     {
         var _output = new ImageTexture();
-        _output.CreateFromImage(img.ToImage());
+        _output.CreateFromImage(img.ToImage(), 0);
         return _output;
     }
 
