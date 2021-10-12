@@ -1,5 +1,5 @@
 using System.IO;
-using System.Runtime.Serialization.Formatters.Binary;
+using SysDraw = System.Drawing;
 
 using Godot;
 
@@ -19,6 +19,13 @@ public static class PichaExtensions
     {
         var _output = new ImageTexture();
         _output.CreateFromImage(array.ToImage(), 0);
+        return _output;
+    }
+
+    public static ImageTexture ToGodotTex(this SysDraw.Bitmap img)
+    {
+        var _output = new ImageTexture();
+        _output.CreateFromImage(img.ToImage());
         return _output;
     }
 
@@ -135,6 +142,17 @@ public static class PichaExtensions
             }
         }
 
+        return _output;
+    }
+
+    public static Image ToImage(this SysDraw.Bitmap img)
+    {
+        var _output = new Image();
+        using (MemoryStream ms = new MemoryStream()) {
+            img.Save(ms, SysDraw.Imaging.ImageFormat.Png);
+            ms.Position = 0;
+            _output.LoadPngFromBuffer(ms.ToArray());
+        }
         return _output;
     }
 }

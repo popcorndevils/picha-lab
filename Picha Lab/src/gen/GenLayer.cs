@@ -1,4 +1,4 @@
-using System;
+using SysDraw = System.Drawing;
 using System.Linq;
 using System.Collections.Generic;
 
@@ -210,8 +210,10 @@ public class GenLayer : TextureRect
         {
             this._Textures.Clear();
 
-            foreach(Chroma[,] _p in PFactory.Generate(this.Data))
-                { this._Textures.Add(_p.ToGodotTex()); }
+            foreach(SysDraw.Bitmap _bit in PFactory.Generate(this.Data))
+            { 
+                this._Textures.Add(_bit.ToGodotTex());
+            }
 
             if(this._Textures.Count > 0)
             {

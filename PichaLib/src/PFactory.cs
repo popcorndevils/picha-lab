@@ -1,5 +1,6 @@
 using System;
-using System.Collections;
+using SysDraw = System.Drawing;
+using PixelFormat = System.Drawing.Imaging.PixelFormat;
 using System.Collections.Generic;
 using OctavianLib;
 
@@ -9,31 +10,39 @@ namespace PichaLib
     {
         private static Random _Random = new Random();
 
-        public static List<Chroma[,]> Generate(Canvas c)
+        public static List<SysDraw.Bitmap> Generate(Canvas c)
         {
-            var _output = new List<Chroma[,]>();
+            var _output = new List<SysDraw.Bitmap>();
 
             foreach(Layer _l in c.Layers)
             {
-                var _canvasLayer = new Chroma[c.Size.H, c.Size.W];
+                var _canvasLayer = new SysDraw.Bitmap(c.Size.H, c.Size.W, PixelFormat.Canonical);
                 var _layerData = Generate(_l)[0];
-
-                for(int y = 0; y < _l.Size.H; y++)
-                {
-                    for(int x = 0; x < _l.Size.W; x++)
-                    {
-                        _canvasLayer[y + _l.Position.Y, x + _l.Position.X] = _layerData[y, x].Copy();
-                    }
-                }
-                _output.Add(_canvasLayer);
+                _output.Add(_layerData);
             }
 
             return _output;
         }
 
-        public static List<Chroma[,]> Generate(Layer l)
+        public static List<SysDraw.Bitmap> Generate(Layer l)
         {
-            return PFactory._GenColors(PFactory.RunCycles(l), l);
+            var _output = new List<SysDraw.Bitmap>();
+            var _data = PFactory._GenColors(PFactory.RunCycles(l), l);
+            foreach(Chroma[,] f in _data)
+            {
+                var _layer = new SysDraw.Bitmap(f.GetWidth(), f.GetHeight(), PixelFormat.Format32bppArgb);
+                for(int x = 0; x < f.GetWidth(); x++)
+                {
+                    for(int y = 0; y < f.GetHeight(); y++)
+                    {
+                        var _pixel = f[y, x].IntRGBA;
+                        var _color = SysDraw.Color.FromArgb(_pixel.a, _pixel.r, _pixel.g, _pixel.b);
+                        _layer.SetPixel(x, y, _color);
+                    }
+                }
+                _output.Add(_layer);
+            }
+            return _output;
         }
 
         private static Chroma[,] Generate(Frame f, CellData data)
