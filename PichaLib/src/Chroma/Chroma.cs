@@ -10,6 +10,23 @@ namespace PichaLib
         public (float r, float g, float b, float a) RGBA => (this.R, this.G, this.B, this.A);
         public (float h, float s, float v, float a) HSV => Chroma.RGBtoHSV(this.RGBA);
         public (float h, float s, float l, float a) HSL => Chroma.RGBtoHSL(this.RGBA);
+        public (int r, int g, int b, int a) IntRGBA {
+            get {
+                var _f_rgba = this.RGBA;
+                (int r, int g, int b, int a) _output = (0, 0, 0, 0);
+
+                if(_f_rgba.r < 0) { _f_rgba.r = 0; }
+                if(_f_rgba.g < 0) { _f_rgba.g = 0; }
+                if(_f_rgba.b < 0) { _f_rgba.b = 0; }
+                if(_f_rgba.a < 0) { _f_rgba.a = 0; }
+
+                _output.r = (int)(_f_rgba.r * 255);
+                _output.g = (int)(_f_rgba.g * 255);
+                _output.b = (int)(_f_rgba.b * 255);
+                _output.a = (int)(_f_rgba.a * 255);
+                return _output;
+            }
+        }
 
         public Chroma()
         {

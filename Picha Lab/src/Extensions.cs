@@ -18,26 +18,7 @@ public static class PichaExtensions
     public static ImageTexture ToGodotTex(this Chroma[,] array)
     {
         var _output = new ImageTexture();
-
-        var _i = new Image();
-
-        var _width = array.GetWidth();
-        var _height = array.GetHeight();
-
-        _i.Create(_width, _height, false, Image.Format.Rgba8);
-        _i.Lock();
-
-        for(int x = 0; x < _width; x++) 
-        {
-            for(int y = 0; y < _height; y++) 
-            {
-                // use transpose
-                _i.SetPixel(x, y, array[y, x].ToGodotColor());
-            }
-        }
-
-        _i.Unlock();
-        _output.CreateFromImage(_i, 0);
+        _output.CreateFromImage(array.ToImage(), 0);
         return _output;
     }
 
@@ -149,7 +130,8 @@ public static class PichaExtensions
         {
             for(int y = 0; y < layer.GetHeight(); y++) 
             {   
-                _output.SetPixel(x, y, layer[y, x].ToGodotColor());
+                var _c = layer[y, x].ToGodotColor();
+                _output.SetPixel(x, y, _c);
             }
         }
 
