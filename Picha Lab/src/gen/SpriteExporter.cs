@@ -1,5 +1,5 @@
 using System;
-using SysDraw = System.Drawing;
+using Bitmap = System.Drawing.Bitmap;
 using System.Collections.Generic;
 
 using PichaLib;
@@ -288,7 +288,7 @@ public class SpriteExporter : Node
     {
         var _output = new List<Image>();
         var _data = PFactory.Generate(layer);
-        foreach(SysDraw.Bitmap val in _data)
+        foreach(Bitmap val in _data)
         {
             var _img = val.ToImage();
 
