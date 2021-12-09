@@ -1,0 +1,6 @@
+.mono/
+.import/
+.mono/
+*.VSCodeCounter/
+*.import
+builds/

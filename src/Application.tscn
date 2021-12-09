@@ -51,8 +51,8 @@ rect_min_size = Vector2( 400, 140 )
 resizable = true
 access = 2
 filters = PoolStringArray( "*.plab ; Picha Lab" )
-current_dir = "/Projects/Picha/Picha Lab"
-current_path = "/Projects/Picha/Picha Lab/"
+current_dir = "/Projects/picha-lab"
+current_path = "/Projects/picha-lab/"
 script = ExtResource( 8 )
 
 [node name="HelpDialog" parent="PichaGUI" instance=ExtResource( 6 )]
