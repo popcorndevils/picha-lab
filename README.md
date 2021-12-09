@@ -1,6 +1,5 @@
 # Picha
 Tool for generating sprites  
-<img src="https://raw.githubusercontent.com/popcorndevils/picha/master/imgs/riblet.gif" width="200" title="Riblet the Frog was generated using Picha Lab"/>
 
 # About
 Hi, this is a tool I've developed on and off for a couple of years, you might have seen it in other forms.  Well, I don't see as many godot applications out there as examples so I've decided to open up the code to open source so you can see it, and maybe it will help you with your own projects.  
