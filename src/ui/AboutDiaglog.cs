@@ -48,6 +48,6 @@ public class AboutDiaglog : WindowDialog
 
     public void OnTimeout()
     {
-        this.Texture = this._GetTexture();
+        // this.Texture = this._GetTexture();
     }
 }

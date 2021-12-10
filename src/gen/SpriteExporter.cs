@@ -261,7 +261,9 @@ public class SpriteExporter : Node
 
             foreach((Layer layer, List<Image> imgs) f in _layerFrames)
             {
-                _spriteFrame = _spriteFrame.BlitLayer(f.imgs[i / (_totalFrames / f.imgs.Count)], (0, 0));
+                // When the number of frame imgs is above the count, we get a divide by zero error
+                // TODO no longer produces an error, but need to correctly export frames by timing
+                _spriteFrame = _spriteFrame.BlitLayer(f.imgs[i / (f.imgs.Count / _totalFrames)], (0, 0));
             }
 
             _output.Add(_spriteFrame);
