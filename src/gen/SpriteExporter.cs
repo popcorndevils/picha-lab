@@ -17,7 +17,7 @@ public class SpriteExporter : Node
 
     public void ExportLayers(ExportData args)
     {
-        var _numFrames = MathX.LCD(args.Canvas.FrameCounts);
+        var _numFrames = ExMath.LCD(args.Canvas.FrameCounts);
         var _framesPerSprite = (args.SplitFrames ? _numFrames : 1);
 
         var _spriteNumTotal = args.Columns * args.Rows * args.Sheets;
@@ -146,7 +146,7 @@ public class SpriteExporter : Node
 
     public void ExportSprite(ExportData args)
     {
-        var _spriteFrameNum = MathX.LCD(args.Canvas.FrameCounts);
+        var _spriteFrameNum = ExMath.LCD(args.Canvas.FrameCounts);
 
         (int W, int H) _spriteSize;
         int _offX = 0;
@@ -250,7 +250,7 @@ public class SpriteExporter : Node
     {
         var _output = new List<Image>();
         var _frameNums = canvas.FrameCounts;
-        var _totalFrames = MathX.LCD(_frameNums);
+        var _totalFrames = ExMath.LCD(_frameNums);
 
         var _layerFrames = this.GetSpriteLayers(canvas, size, offsetX, offsetY);
 

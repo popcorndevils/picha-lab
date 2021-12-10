@@ -179,7 +179,7 @@ public class ExportDialog : WindowDialog
 
     public void OnOkPress()
     {
-        var _frames = MathX.LCD(this._OriginalCanvas.FrameCounts);
+        var _frames = ExMath.LCD(this._OriginalCanvas.FrameCounts);
         var _word = _frames > 1 ? "frames" : "frame";
         this.Confirmation.DialogText = $"Each Sprite includes {_frames} {_word} of animation.\nWould you like to continue with export?";
 
