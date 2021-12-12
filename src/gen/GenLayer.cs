@@ -210,7 +210,7 @@ public class GenLayer : TextureRect
         {
             this._Textures.Clear();
 
-            foreach(SysDraw.Bitmap _bit in PFactory.Generate(this.Data))
+            foreach(SysDraw.Bitmap _bit in this.Data.Generate())
             { 
                 this._Textures.Add(_bit.ToGodotTex());
             }
