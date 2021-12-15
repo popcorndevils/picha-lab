@@ -1,6 +1,8 @@
 # Picha
 Tool for generating sprites  
 
+![Look at those frogs.](/_imgs/Riblet_example.png?raw=true "Lotta Riblets")
+
 # About
 Hi, this is a tool I've developed on and off for a couple of years, you might have seen it in other forms.  Well, I don't see as many godot applications out there as examples so I've decided to open up the code to open source so you can see it, and maybe it will help you with your own projects.  
   
