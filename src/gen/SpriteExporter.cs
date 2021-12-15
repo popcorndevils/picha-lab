@@ -199,11 +199,12 @@ public class SpriteExporter : Node
                     for(int f = 0; f < _spriteFrames.Count; f++)
                     {
                         var _i = args.SplitFrames ? f : 0;
-                        
-                        if(!args.SplitFrames)
-                            { _x += (args.ClipContent ? f * args.Canvas.Size.W : f * args.Canvas.TrueSize.W); }
+                        var _absX = _x;
 
-                        _sheetImage[_i] = _sheetImage[_i].BlitLayer(_spriteFrames[f], _x, _y);
+                        if(!args.SplitFrames)
+                            { _absX += (args.ClipContent ? f * args.Canvas.Size.W : f * args.Canvas.TrueSize.W); }
+
+                        _sheetImage[_i] = _sheetImage[_i].BlitLayer(_spriteFrames[f], _absX, _y);
                     }
                 }
             }
@@ -263,7 +264,7 @@ public class SpriteExporter : Node
             {
                 // When the number of frame imgs is above the count, we get a divide by zero error
                 // TODO no longer produces an error, but need to correctly export frames by timing
-                _spriteFrame = _spriteFrame.BlitLayer(f.imgs[i / (f.imgs.Count / _totalFrames)], (0, 0));
+                _spriteFrame = _spriteFrame.BlitLayer(f.imgs[i / (_totalFrames / f.imgs.Count)], (0, 0));
             }
 
             _output.Add(_spriteFrame);

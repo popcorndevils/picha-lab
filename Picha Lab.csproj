@@ -7,7 +7,7 @@
     <ProjectReference Include="..\picha-lib\PichaLib.csproj">
       <ReferenceOutputAssembly>true</ReferenceOutputAssembly>
     </ProjectReference>
-    <ProjectReference Include="..\octatvian-lib\OctavianLib.csproj">
+    <ProjectReference Include="..\octavian-lib\OctavianLib.csproj">
       <ReferenceOutputAssembly>true</ReferenceOutputAssembly>
     </ProjectReference>
   </ItemGroup>
