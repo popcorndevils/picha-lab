@@ -5,7 +5,7 @@ Tool for generating sprites
   
 You can also build in some simple animations by adding multiple 'frames' to the layers.  Best to keep it simple though, Picha Lab has to factor in the number of frames for every layer using Least Common Multiple, so if you make a layer with 2 frames, and another with 3, You're going to have 6 total frames.
 
-But, if you achieve some nice effects with relatively few frames.
+But, you can achieve some nice effects with relatively few frames.
 
 ![Look at those frogs.](/_imgs/400_animated.gif?raw=true "EVERYONE BE QUIET") 
 
