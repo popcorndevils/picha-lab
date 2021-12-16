@@ -7,7 +7,7 @@ You can also build in some simple animations by adding multiple 'frames' to the 
 
 But, if you achieve some nice effects with relatively few frames.
 
-![Look at those frogs.](/_imgs/400_animated.png?raw=true "EVERYONE BE QUIET") 
+![Look at those frogs.](/_imgs/400_animated.gif?raw=true "EVERYONE BE QUIET") 
 
 # About
 Hi, this is a tool I've developed on and off for a couple of years, you might have seen it in other forms.  Well, I don't see as many godot applications out there as examples so I've decided to open up the code to open source so you can see it, and maybe it will help you with your own projects.  
