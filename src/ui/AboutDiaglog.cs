@@ -30,15 +30,8 @@ public class AboutDiaglog : WindowDialog
             this.Canvas = JsonConvert.DeserializeObject<Canvas>(_file.GetAsText());
         }
 
-        // NOTE: sample code for dealing with canvas sprite
-        // var test = this.Canvas.Generate();
-        // var test2 = test.ToImage();
-        // test2.Unlock();
-        // test2.Resize(test2.GetWidth() * 100, test2.GetHeight() * 100, Image.Interpolation.Nearest);
-        // test2.Lock();
-        // test2.SavePng("test2.png");
-
         this.Texture = this._GetTexture();
+
         this.Clock.Connect("timeout", this, "OnTimeout");
     }
 
@@ -56,6 +49,6 @@ public class AboutDiaglog : WindowDialog
 
     public void OnTimeout()
     {
-        // this.Texture = this._GetTexture();
+        this.Texture = this._GetTexture();
     }
 }
