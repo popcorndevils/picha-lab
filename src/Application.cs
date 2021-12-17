@@ -1,9 +1,5 @@
 using Godot;
 
-using PichaLib;
-
-using Newtonsoft.Json;
-
 public class Application : Node
 {
 	public override void _Ready()
