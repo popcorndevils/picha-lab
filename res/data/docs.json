@@ -15,6 +15,10 @@
             {
                 "section_name": "Deep Copy",
                 "text_path": "res://res/data/_doc/credits_objext.md"
+            },
+            {
+                "section_name": "AnimatedGif",
+                "text_path": "res://res/data/_doc/credits_gifs.md"
             }
         ]
     }

@@ -7,6 +7,9 @@ using PichaLib;
 public class ExportDialog : WindowDialog
 {
     private Canvas _OriginalCanvas;
+    private TabContainer _Tabs;
+    private VBoxContainer _Layers;
+    private VBoxContainer _Sprites;
     
     public Tree SelectedLayers;
     public List<TreeItem> TreeNodes;
@@ -66,32 +69,34 @@ public class ExportDialog : WindowDialog
         this.AddToGroup("diag_export");
 
         this.Margins = this.GetNode<MarginContainer>("Margins");
+        this._Tabs = this.GetNode<TabContainer>("Margins/Tabs");
+        this._Layers = this.GetNode<VBoxContainer>("Margins/Tabs/Layers");
 
-        this.SelectedLayers = this.GetNode<Tree>("Margins/Contents/LayersBox/selected_layers");
+        this.SelectedLayers = this.GetNode<Tree>("Margins/Tabs/Layers/LayersBox/selected_layers");
         
         this.FileDialog = this.GetNode<FileDialog>("FileDialog");
         this.Confirmation = this.GetNode<ConfirmationDialog>("Confirmation");
         this.SelectLayersDialog = this.GetNode<SelectLayersDialog>("SelectLayersDialog");
         this.Progress = this.GetNode<ProgressTrack>("ProgressTrack");
         
-        this.Rows = this.GetNode<SpinBox>("Margins/Contents/OptionBox/rows");
-        this.Cols = this.GetNode<SpinBox>("Margins/Contents/OptionBox/cols");
-        this.Sheets = this.GetNode<SpinBox>("Margins/Contents/OptionBox/sheets");
-        this.Scale = this.GetNode<SpinBox>("Margins/Contents/OptionBox/scale");
+        this.Rows = this.GetNode<SpinBox>("Margins/Tabs/Layers/OptionBox/rows");
+        this.Cols = this.GetNode<SpinBox>("Margins/Tabs/Layers/OptionBox/cols");
+        this.Sheets = this.GetNode<SpinBox>("Margins/Tabs/Layers/OptionBox/sheets");
+        this.Scale = this.GetNode<SpinBox>("Margins/Tabs/Layers/OptionBox/scale");
 
-        this.ClipContent = this.GetNode<CheckBox>("Margins/Contents/OptionBox/clip_content");
-        this.SplitFrames = this.GetNode<CheckBox>("Margins/Contents/OptionBox/split_frames");
-        this.AsLayers = this.GetNode<CheckBox>("Margins/Contents/OptionBox/as_layers");
-        this.MapToCanvas = this.GetNode<CheckBox>("Margins/Contents/OptionBox/map_to_canvas");
-        this.NoCopies = this.GetNode<CheckBox>("Margins/Contents/OptionBox/no_copies");
+        this.ClipContent = this.GetNode<CheckBox>("Margins/Tabs/Layers/OptionBox/clip_content");
+        this.SplitFrames = this.GetNode<CheckBox>("Margins/Tabs/Layers/OptionBox/split_frames");
+        this.AsLayers = this.GetNode<CheckBox>("Margins/Tabs/Layers/OptionBox/as_layers");
+        this.MapToCanvas = this.GetNode<CheckBox>("Margins/Tabs/Layers/OptionBox/map_to_canvas");
+        this.NoCopies = this.GetNode<CheckBox>("Margins/Tabs/Layers/OptionBox/no_copies");
 
-        this.SpriteName = this.GetNode<LineEdit>("Margins/Contents/sprite_name");
-        this.FileButton = this.GetNode<Button>("Margins/Contents/PathBox/btn_browse");
-        this.OutputPath = this.GetNode<LineEdit>("Margins/Contents/PathBox/path");
+        this.SpriteName = this.GetNode<LineEdit>("Margins/Tabs/Layers/sprite_name");
+        this.FileButton = this.GetNode<Button>("Margins/Tabs/Layers/PathBox/btn_browse");
+        this.OutputPath = this.GetNode<LineEdit>("Margins/Tabs/Layers/PathBox/path");
         
-        this.SetLayers = this.GetNode<Button>("Margins/Contents/LayersBox/set_layers");
-        this.Ok = this.GetNode<Button>("Margins/Contents/BBox/ok");
-        this.Cancel = this.GetNode<Button>("Margins/Contents/BBox/cancel");
+        this.SetLayers = this.GetNode<Button>("Margins/Tabs/Layers/LayersBox/set_layers");
+        this.Ok = this.GetNode<Button>("Margins/Tabs/Layers/BBox/ok");
+        this.Cancel = this.GetNode<Button>("Margins/Tabs/Layers/BBox/cancel");
 
         this.Confirmation.GetOk().FocusMode = FocusModeEnum.None;
         this.Confirmation.GetCancel().FocusMode = FocusModeEnum.None;
@@ -109,7 +114,8 @@ public class ExportDialog : WindowDialog
         this.Export.Connect("ProgressChanged", this.Progress, "OnProgressChanged");
         this.Export.Connect("StatusUpdate", this.Progress, "OnStatusUpdate");
 
-        this.RectMinSize = this.Margins.RectSize;
+        this.RectMinSize = this._Layers.RectSize + new Vector2(60, 60);
+        // this._Tabs.RectMinSize = this.Margins.RectSize;
 
         this.Rows.Value = 1;
         this.Cols.Value = 1;
