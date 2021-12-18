@@ -8,8 +8,9 @@ public class ExportDialog : WindowDialog
 {
     private Canvas _OriginalCanvas;
     private TabContainer _Tabs;
-    private VBoxContainer _Layers;
+    private VBoxContainer _Options;
     private VBoxContainer _Sprites;
+    private VBoxContainer _ParentBox;
     
     public Tree SelectedLayers;
     public List<TreeItem> TreeNodes;
@@ -32,7 +33,6 @@ public class ExportDialog : WindowDialog
     public CheckBox SplitFrames;
     public CheckBox AsLayers;
     public CheckBox MapToCanvas;
-    public CheckBox NoCopies;
 
     public LineEdit SpriteName;
     public LineEdit OutputPath;
@@ -68,35 +68,35 @@ public class ExportDialog : WindowDialog
     {
         this.AddToGroup("diag_export");
 
+        this._ParentBox = this.GetNode<VBoxContainer>("Margins/VBox");
         this.Margins = this.GetNode<MarginContainer>("Margins");
-        this._Tabs = this.GetNode<TabContainer>("Margins/Tabs");
-        this._Layers = this.GetNode<VBoxContainer>("Margins/Tabs/Layers");
+        this._Tabs = this.GetNode<TabContainer>("Margins/VBox/Tabs");
+        this._Options = this.GetNode<VBoxContainer>("Margins/VBox/Tabs/Options");
 
-        this.SelectedLayers = this.GetNode<Tree>("Margins/Tabs/Layers/LayersBox/selected_layers");
+        this.SelectedLayers = this.GetNode<Tree>("Margins/VBox/LayersBox/selected_layers");
         
         this.FileDialog = this.GetNode<FileDialog>("FileDialog");
         this.Confirmation = this.GetNode<ConfirmationDialog>("Confirmation");
         this.SelectLayersDialog = this.GetNode<SelectLayersDialog>("SelectLayersDialog");
         this.Progress = this.GetNode<ProgressTrack>("ProgressTrack");
         
-        this.Rows = this.GetNode<SpinBox>("Margins/Tabs/Layers/OptionBox/rows");
-        this.Cols = this.GetNode<SpinBox>("Margins/Tabs/Layers/OptionBox/cols");
-        this.Sheets = this.GetNode<SpinBox>("Margins/Tabs/Layers/OptionBox/sheets");
-        this.Scale = this.GetNode<SpinBox>("Margins/Tabs/Layers/OptionBox/scale");
+        this.Rows = this.GetNode<SpinBox>("Margins/VBox/Tabs/Sprite/OptionBox/rows");
+        this.Cols = this.GetNode<SpinBox>("Margins/VBox/Tabs/Sprite/OptionBox/cols");
+        this.Sheets = this.GetNode<SpinBox>("Margins/VBox/Tabs/Sprite/OptionBox/sheets");
+        this.Scale = this.GetNode<SpinBox>("Margins/VBox/Tabs/Sprite/OptionBox/scale");
 
-        this.ClipContent = this.GetNode<CheckBox>("Margins/Tabs/Layers/OptionBox/clip_content");
-        this.SplitFrames = this.GetNode<CheckBox>("Margins/Tabs/Layers/OptionBox/split_frames");
-        this.AsLayers = this.GetNode<CheckBox>("Margins/Tabs/Layers/OptionBox/as_layers");
-        this.MapToCanvas = this.GetNode<CheckBox>("Margins/Tabs/Layers/OptionBox/map_to_canvas");
-        this.NoCopies = this.GetNode<CheckBox>("Margins/Tabs/Layers/OptionBox/no_copies");
+        this.ClipContent = this.GetNode<CheckBox>("Margins/VBox/Tabs/Options/OptionBox/clip_content");
+        this.SplitFrames = this.GetNode<CheckBox>("Margins/VBox/Tabs/Options/OptionBox/split_frames");
+        this.AsLayers = this.GetNode<CheckBox>("Margins/VBox/Tabs/Options/OptionBox/as_layers");
+        this.MapToCanvas = this.GetNode<CheckBox>("Margins/VBox/Tabs/Options/OptionBox/map_to_canvas");
 
-        this.SpriteName = this.GetNode<LineEdit>("Margins/Tabs/Layers/sprite_name");
-        this.FileButton = this.GetNode<Button>("Margins/Tabs/Layers/PathBox/btn_browse");
-        this.OutputPath = this.GetNode<LineEdit>("Margins/Tabs/Layers/PathBox/path");
+        this.SpriteName = this.GetNode<LineEdit>("Margins/VBox/sprite_name");
+        this.FileButton = this.GetNode<Button>("Margins/VBox/PathBox/btn_browse");
+        this.OutputPath = this.GetNode<LineEdit>("Margins/VBox/PathBox/path");
         
-        this.SetLayers = this.GetNode<Button>("Margins/Tabs/Layers/LayersBox/set_layers");
-        this.Ok = this.GetNode<Button>("Margins/Tabs/Layers/BBox/ok");
-        this.Cancel = this.GetNode<Button>("Margins/Tabs/Layers/BBox/cancel");
+        this.SetLayers = this.GetNode<Button>("Margins/VBox/LayersBox/set_layers");
+        this.Ok = this.GetNode<Button>("Margins/VBox/BBox/ok");
+        this.Cancel = this.GetNode<Button>("Margins/VBox/BBox/cancel");
 
         this.Confirmation.GetOk().FocusMode = FocusModeEnum.None;
         this.Confirmation.GetCancel().FocusMode = FocusModeEnum.None;
@@ -114,8 +114,7 @@ public class ExportDialog : WindowDialog
         this.Export.Connect("ProgressChanged", this.Progress, "OnProgressChanged");
         this.Export.Connect("StatusUpdate", this.Progress, "OnStatusUpdate");
 
-        this.RectMinSize = this._Layers.RectSize + new Vector2(60, 60);
-        // this._Tabs.RectMinSize = this.Margins.RectSize;
+        this.RectMinSize = this._ParentBox.RectSize + new Vector2(60, 60);
 
         this.Rows.Value = 1;
         this.Cols.Value = 1;
@@ -125,7 +124,6 @@ public class ExportDialog : WindowDialog
         this.AsLayers.Pressed = false;
         this.MapToCanvas.Pressed = false;
         this.ClipContent.Pressed = true;
-        this.NoCopies.Pressed = false;
     }
 
     public void Open(Canvas canvas)
@@ -166,7 +164,6 @@ public class ExportDialog : WindowDialog
     public void OnOptionButtonPress()
     {
         this.MapToCanvas.Disabled = !this.AsLayers.Pressed;
-        this.NoCopies.Disabled = !this.AsLayers.Pressed;
         this.SpriteName.Editable = !this.AsLayers.Pressed;
         this.ClipContent.Disabled = this.AsLayers.Pressed ? !this.MapToCanvas.Pressed : false;
 
@@ -220,7 +217,6 @@ public class ExportDialog : WindowDialog
             SplitFrames = this.SplitFrames.Pressed,
             MapToCanvas = this.MapToCanvas.Pressed,
             ClipContent = this.ClipContent.Pressed,
-            NoCopies = this.NoCopies.Pressed,
             SpriteName = this.SpriteName.Text,
             OutputPath = this.OutputPath.Text,
         };
