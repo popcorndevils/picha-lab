@@ -19,7 +19,6 @@ public class SpriteExporter : Node
     {
         var _numFrames = ExMath.LCD(args.Canvas.FrameCounts);
         var _framesPerSprite = (args.SplitFrames ? _numFrames : 1);
-
         var _spriteNumTotal = args.Columns * args.Rows * args.Sheets;
 
         for(int s = 0; s < args.Sheets; s++)
@@ -144,26 +143,44 @@ public class SpriteExporter : Node
         this.EmitSignal(nameof(SpriteExporter.ProgressFinished));
     }
 
+
     public void ExportSprite(ExportData args)
     {
         for(int s = 0; s < args.Sheets; s++)
         {
-            var _sheet = PFactory.GenerateSpriteSheet(
-                args.Canvas,
-                args.Columns,
-                args.Rows,
-                args.Scale,
-                args.ClipContent);
-            
-            // TODO re implement splitting on frames.
-            // var _fileEnding = args.SplitFrames ? $"_{s}.png" : ".png";
-            var _fileEnding = ".png";
-            var _fileName = $"{args.OutputPath}/{args.SpriteName}_{s}{_fileEnding}";
-            _sheet.Save(_fileName);
-            this.EmitSignal(nameof(SpriteExporter.ProgressChanged), s + 1, args.Sheets, $"Processing sheet {s + 1} of {args.Sheets}...");
+            if(args.SplitFrames)
+            {
+
+                var _frames = PFactory.GenerateFrameSheets(
+                    args.Canvas, args.Columns, args.Rows, args.Scale, args.ClipContent);
+
+                var _totalFrames = args.Sheets * _frames.Length;
+
+                for(int f = 0; f < _frames.Length; f++)
+                {
+                    var _fI = f + (s * args.Sheets) + 1;
+                    _frames[f].Save($"{args.OutputPath}/{args.SpriteName}_{f}.png");
+
+                    this.EmitSignal(
+                        nameof(SpriteExporter.ProgressChanged),
+                        _fI, _totalFrames, $"Processing frame {_fI} of {args.Sheets * _frames.Length}...");
+                }
+            }
+            else
+            {
+                var _sheet = PFactory.GenerateSpriteSheet(
+                    args.Canvas, args.Columns, args.Rows, args.Scale, args.ClipContent);
+                var _fileName = $"{args.OutputPath}/{args.SpriteName}_{s}.png";
+                _sheet.Save(_fileName);
+                this.EmitSignal(
+                    nameof(SpriteExporter.ProgressChanged),
+                    s + 1,
+                    args.Sheets,
+                    $"Processing sheet {s + 1} of {args.Sheets}...");
+            }
         }
-        
         this.EmitSignal(nameof(SpriteExporter.ProgressFinished));
+
     }
 
     public Image GetSpriteFrame(Canvas canvas, int i, int scale = 1)

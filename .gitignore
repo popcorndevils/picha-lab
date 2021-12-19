@@ -1,8 +1,8 @@
 .mono/
 .import/
+builds/
 bin/
 *.VSCodeCounter/
 *.import
-builds/
 _scratch_pad.txt
 ribanim.plab
