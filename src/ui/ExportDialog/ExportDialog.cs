@@ -8,8 +8,6 @@ public class ExportDialog : WindowDialog
 {
     private Canvas _OriginalCanvas;
     private TabContainer _Tabs;
-    private VBoxContainer _Options;
-    private VBoxContainer _Sprites;
     private VBoxContainer _ParentBox;
     
     public Tree SelectedLayers;
@@ -71,7 +69,6 @@ public class ExportDialog : WindowDialog
         this._ParentBox = this.GetNode<VBoxContainer>("Margins/VBox");
         this.Margins = this.GetNode<MarginContainer>("Margins");
         this._Tabs = this.GetNode<TabContainer>("Margins/VBox/Tabs");
-        this._Options = this.GetNode<VBoxContainer>("Margins/VBox/Tabs/Options");
 
         this.SelectedLayers = this.GetNode<Tree>("Margins/VBox/LayersBox/selected_layers");
         
@@ -80,15 +77,15 @@ public class ExportDialog : WindowDialog
         this.SelectLayersDialog = this.GetNode<SelectLayersDialog>("SelectLayersDialog");
         this.Progress = this.GetNode<ProgressTrack>("ProgressTrack");
         
-        this.Rows = this.GetNode<SpinBox>("Margins/VBox/Tabs/Sprite/OptionBox/rows");
-        this.Cols = this.GetNode<SpinBox>("Margins/VBox/Tabs/Sprite/OptionBox/cols");
-        this.Sheets = this.GetNode<SpinBox>("Margins/VBox/Tabs/Sprite/OptionBox/sheets");
-        this.Scale = this.GetNode<SpinBox>("Margins/VBox/Tabs/Sprite/OptionBox/scale");
+        this.Rows = this.GetNode<SpinBox>("Margins/VBox/Tabs/Sprite/rows");
+        this.Cols = this.GetNode<SpinBox>("Margins/VBox/Tabs/Sprite/cols");
+        this.Sheets = this.GetNode<SpinBox>("Margins/VBox/Tabs/Sprite/sheets");
+        this.Scale = this.GetNode<SpinBox>("Margins/VBox/Tabs/Sprite/scale");
 
-        this.ClipContent = this.GetNode<CheckBox>("Margins/VBox/Tabs/Options/OptionBox/clip_content");
-        this.SplitFrames = this.GetNode<CheckBox>("Margins/VBox/Tabs/Options/OptionBox/split_frames");
-        this.AsLayers = this.GetNode<CheckBox>("Margins/VBox/Tabs/Options/OptionBox/as_layers");
-        this.MapToCanvas = this.GetNode<CheckBox>("Margins/VBox/Tabs/Options/OptionBox/map_to_canvas");
+        this.ClipContent = this.GetNode<CheckBox>("Margins/VBox/Tabs/Options/clip_content");
+        this.SplitFrames = this.GetNode<CheckBox>("Margins/VBox/Tabs/Options/split_frames");
+        this.AsLayers = this.GetNode<CheckBox>("Margins/VBox/Tabs/Options/as_layers");
+        this.MapToCanvas = this.GetNode<CheckBox>("Margins/VBox/Tabs/Options/map_to_canvas");
 
         this.SpriteName = this.GetNode<LineEdit>("Margins/VBox/sprite_name");
         this.FileButton = this.GetNode<Button>("Margins/VBox/PathBox/btn_browse");

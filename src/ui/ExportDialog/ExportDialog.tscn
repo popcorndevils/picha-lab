@@ -62,101 +62,87 @@ margin_bottom = 252.0
 size_flags_vertical = 3
 tab_align = 0
 
-[node name="Sprite" type="VBoxContainer" parent="Margins/VBox/Tabs"]
+[node name="Sprite" type="GridContainer" parent="Margins/VBox/Tabs"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 4.0
 margin_top = 32.0
 margin_right = -4.0
 margin_bottom = -4.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="OptionBox" type="GridContainer" parent="Margins/VBox/Tabs/Sprite"]
-margin_right = 207.0
-margin_bottom = 112.0
 size_flags_horizontal = 3
 columns = 2
 
-[node name="cols_lab" type="Label" parent="Margins/VBox/Tabs/Sprite/OptionBox"]
-margin_left = 17.0
+[node name="cols_lab" type="Label" parent="Margins/VBox/Tabs/Sprite"]
 margin_top = 5.0
 margin_right = 43.0
 margin_bottom = 19.0
-size_flags_horizontal = 8
 text = "cols"
+align = 2
 
-[node name="cols" type="SpinBox" parent="Margins/VBox/Tabs/Sprite/OptionBox"]
+[node name="cols" type="SpinBox" parent="Margins/VBox/Tabs/Sprite"]
 margin_left = 47.0
-margin_right = 207.0
+margin_right = 121.0
 margin_bottom = 24.0
-size_flags_horizontal = 3
 size_flags_vertical = 5
 min_value = 1.0
 value = 1.0
 
-[node name="rows_lab" type="Label" parent="Margins/VBox/Tabs/Sprite/OptionBox"]
-margin_left = 13.0
+[node name="rows_lab" type="Label" parent="Margins/VBox/Tabs/Sprite"]
 margin_top = 33.0
 margin_right = 43.0
 margin_bottom = 47.0
-size_flags_horizontal = 8
 text = "rows"
+align = 2
 
-[node name="rows" type="SpinBox" parent="Margins/VBox/Tabs/Sprite/OptionBox"]
+[node name="rows" type="SpinBox" parent="Margins/VBox/Tabs/Sprite"]
 margin_left = 47.0
 margin_top = 28.0
-margin_right = 207.0
+margin_right = 121.0
 margin_bottom = 52.0
-size_flags_horizontal = 3
 size_flags_vertical = 5
 min_value = 1.0
 value = 1.0
 
-[node name="sheets_lab" type="Label" parent="Margins/VBox/Tabs/Sprite/OptionBox"]
+[node name="sheets_lab" type="Label" parent="Margins/VBox/Tabs/Sprite"]
 margin_top = 61.0
 margin_right = 43.0
 margin_bottom = 75.0
-size_flags_horizontal = 8
 text = "sheets"
+align = 2
 
-[node name="sheets" type="SpinBox" parent="Margins/VBox/Tabs/Sprite/OptionBox"]
+[node name="sheets" type="SpinBox" parent="Margins/VBox/Tabs/Sprite"]
 margin_left = 47.0
 margin_top = 56.0
-margin_right = 207.0
+margin_right = 121.0
 margin_bottom = 80.0
-size_flags_horizontal = 3
 size_flags_vertical = 5
 min_value = 1.0
 max_value = 1000.0
 value = 1.0
 
-[node name="scale_lab" type="Label" parent="Margins/VBox/Tabs/Sprite/OptionBox"]
-margin_left = 10.0
+[node name="scale_lab" type="Label" parent="Margins/VBox/Tabs/Sprite"]
 margin_top = 89.0
 margin_right = 43.0
 margin_bottom = 103.0
-size_flags_horizontal = 8
 text = "scale"
+align = 2
 
-[node name="scale" type="SpinBox" parent="Margins/VBox/Tabs/Sprite/OptionBox"]
+[node name="scale" type="SpinBox" parent="Margins/VBox/Tabs/Sprite"]
 margin_left = 47.0
 margin_top = 84.0
-margin_right = 207.0
+margin_right = 121.0
 margin_bottom = 108.0
-size_flags_horizontal = 3
 size_flags_vertical = 5
 min_value = 1.0
 max_value = 1000.0
 value = 1.0
 
-[node name="Control" type="Control" parent="Margins/VBox/Tabs/Sprite/OptionBox"]
+[node name="Control" type="Control" parent="Margins/VBox/Tabs/Sprite"]
 margin_top = 112.0
 margin_right = 43.0
 margin_bottom = 112.0
 
-[node name="Options" type="VBoxContainer" parent="Margins/VBox/Tabs"]
+[node name="Options" type="GridContainer" parent="Margins/VBox/Tabs"]
 visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -164,50 +150,39 @@ margin_left = 4.0
 margin_top = 32.0
 margin_right = -4.0
 margin_bottom = -4.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="OptionBox" type="GridContainer" parent="Margins/VBox/Tabs/Options"]
-margin_right = 324.0
-margin_bottom = 56.0
 size_flags_horizontal = 3
 
-[node name="clip_content" type="CheckBox" parent="Margins/VBox/Tabs/Options/OptionBox"]
-margin_right = 160.0
+[node name="clip_content" type="CheckBox" parent="Margins/VBox/Tabs/Options"]
+margin_right = 106.0
 margin_bottom = 24.0
-size_flags_horizontal = 3
 size_flags_vertical = 5
 text = "Clip Content"
 
-[node name="split_frames" type="CheckBox" parent="Margins/VBox/Tabs/Options/OptionBox"]
-margin_left = 164.0
-margin_right = 324.0
+[node name="split_frames" type="CheckBox" parent="Margins/VBox/Tabs/Options"]
+margin_left = 110.0
+margin_right = 230.0
 margin_bottom = 24.0
-size_flags_horizontal = 3
 size_flags_vertical = 5
 text = "Split Frames"
 
-[node name="as_layers" type="CheckBox" parent="Margins/VBox/Tabs/Options/OptionBox"]
+[node name="as_layers" type="CheckBox" parent="Margins/VBox/Tabs/Options"]
 margin_top = 28.0
-margin_right = 160.0
+margin_right = 106.0
 margin_bottom = 52.0
-size_flags_horizontal = 3
 size_flags_vertical = 5
 text = "As Layers"
 
-[node name="map_to_canvas" type="CheckBox" parent="Margins/VBox/Tabs/Options/OptionBox"]
-margin_left = 164.0
+[node name="map_to_canvas" type="CheckBox" parent="Margins/VBox/Tabs/Options"]
+margin_left = 110.0
 margin_top = 28.0
-margin_right = 324.0
+margin_right = 230.0
 margin_bottom = 52.0
-size_flags_horizontal = 3
 size_flags_vertical = 5
 text = "Map to Canvas"
 
-[node name="Control" type="Control" parent="Margins/VBox/Tabs/Options/OptionBox"]
+[node name="Control" type="Control" parent="Margins/VBox/Tabs/Options"]
 margin_top = 56.0
-margin_right = 160.0
+margin_right = 106.0
 margin_bottom = 56.0
 
 [node name="sprite_name" type="LineEdit" parent="Margins/VBox"]
