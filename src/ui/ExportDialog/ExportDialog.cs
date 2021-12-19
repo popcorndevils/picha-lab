@@ -7,15 +7,11 @@ using PichaLib;
 public class ExportDialog : WindowDialog
 {
     private Canvas _OriginalCanvas;
-    private TabContainer _Tabs;
     private VBoxContainer _ParentBox;
     
     public Tree SelectedLayers;
-    public List<TreeItem> TreeNodes;
 
     public SpriteExporter Export = new SpriteExporter();
-
-    public MarginContainer Margins;
 
     public FileDialog FileDialog;
     public ConfirmationDialog Confirmation;
@@ -67,8 +63,6 @@ public class ExportDialog : WindowDialog
         this.AddToGroup("diag_export");
 
         this._ParentBox = this.GetNode<VBoxContainer>("Margins/VBox");
-        this.Margins = this.GetNode<MarginContainer>("Margins");
-        this._Tabs = this.GetNode<TabContainer>("Margins/VBox/Tabs");
 
         this.SelectedLayers = this.GetNode<Tree>("Margins/VBox/LayersBox/selected_layers");
         

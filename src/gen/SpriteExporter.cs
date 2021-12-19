@@ -146,87 +146,21 @@ public class SpriteExporter : Node
 
     public void ExportSprite(ExportData args)
     {
-        var _spriteFrameNum = ExMath.LCD(args.Canvas.FrameCounts);
-
-        (int W, int H) _spriteSize;
-        int _offX = 0;
-        int _offY = 0;
-
-        if(args.ClipContent)
-        {
-            var _w = args.Canvas.Size.W * (args.SplitFrames ? 1 : _spriteFrameNum);
-            var _h = args.Canvas.Size.H;
-            _spriteSize = (_w, _h);
-        }
-        else
-        {
-            _offX = args.ClipContent ? 0 : Math.Abs(args.Canvas.Extents.MinX);
-            _offY = args.ClipContent ? 0 : Math.Abs(args.Canvas.Extents.MinY);
-            var _w = args.Canvas.TrueSize.W * (args.SplitFrames ? 1 : _spriteFrameNum);
-            var _h = args.Canvas.TrueSize.H;
-            _spriteSize = (_w, _h);
-        }
-
-        var _sheetWidth = _spriteSize.W * args.Columns;
-        var _sheetHeight = _spriteSize.H * args.Rows;
-
-        var _spriteNumTotal = args.Columns * args.Rows * args.Sheets;
-
         for(int s = 0; s < args.Sheets; s++)
         {
-            var _sheetImage = new List<Image>();
-
-            for(int _sf = 0; _sf < (args.SplitFrames ? _spriteFrameNum : 1); _sf++)
-            {
-                _sheetImage.Add(new Image());
-                _sheetImage[_sf].Create(_sheetWidth, _sheetHeight, false, Image.Format.Rgba8);
-            }
-
-            for(int x = 0; x < args.Columns; x++)
-            {
-                for(int y = 0; y < args.Rows; y++)
-                {
-                    var _spriteNum = ((s * (args.Rows * args.Columns)) + (x * args.Rows) + y) + 1;
-                    this.EmitSignal(nameof(SpriteExporter.ProgressChanged), _spriteNum, _spriteNumTotal);
-
-                    List<Image> _spriteFrames;
-
-                    _spriteFrames = this.GetSprite(args.Canvas, _spriteSize, _offX, _offY);
-
-                    int _x = x * _spriteSize.W;
-                    int _y = y * _spriteSize.H;
-
-                    for(int f = 0; f < _spriteFrames.Count; f++)
-                    {
-                        var _i = args.SplitFrames ? f : 0;
-                        var _absX = _x;
-
-                        if(!args.SplitFrames)
-                            { _absX += (args.ClipContent ? f * args.Canvas.Size.W : f * args.Canvas.TrueSize.W); }
-
-                        _sheetImage[_i] = _sheetImage[_i].BlitLayer(_spriteFrames[f], _absX, _y);
-                    }
-                }
-            }
-
-            if(args.Scale != 1)
-            {
-                this.EmitSignal(nameof(SpriteExporter.StatusUpdate), $"Resizing Sheet {args.SpriteName}_{s}.png");
-
-                foreach(Image i in _sheetImage)
-                {
-                    i.Unlock();
-                    i.Resize(args.Scale * _sheetWidth, args.Scale * _sheetHeight, Image.Interpolation.Nearest);
-                    i.Lock();
-                }
-            }
+            var _sheet = PFactory.GenerateSpriteSheet(
+                args.Canvas,
+                args.Columns,
+                args.Rows,
+                args.Scale,
+                args.ClipContent);
             
-            for(int i = 0; i < _sheetImage.Count; i++)
-            {
-                var _fileEnding = args.SplitFrames ? $"_{i}.png" : ".png";
-                var _fileName = $"{args.OutputPath}/{args.SpriteName}_{s}{_fileEnding}";
-                _sheetImage[i].SavePng(_fileName);
-            }     
+            // TODO re implement splitting on frames.
+            // var _fileEnding = args.SplitFrames ? $"_{s}.png" : ".png";
+            var _fileEnding = ".png";
+            var _fileName = $"{args.OutputPath}/{args.SpriteName}_{s}{_fileEnding}";
+            _sheet.Save(_fileName);
+            this.EmitSignal(nameof(SpriteExporter.ProgressChanged), s + 1, args.Sheets, $"Processing sheet {s + 1} of {args.Sheets}...");
         }
         
         this.EmitSignal(nameof(SpriteExporter.ProgressFinished));
