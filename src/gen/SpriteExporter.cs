@@ -151,7 +151,7 @@ public class SpriteExporter : Node
         {
             if(args.SplitFrames)
             {
-                var _frames = PFactory.GenerateFrameSheets(
+                var _frames = PFactory.GenSpriteFrames(
                     args.Canvas, args.Columns, args.Rows, args.Scale, args.ClipContent);
 
                 var _totalFrames = args.Sheets * _frames.Length;
@@ -168,13 +168,13 @@ public class SpriteExporter : Node
             }
             else if(args.AsGif)
             {
-                var _frames = PFactory.GenerateFrameSheets(
+                var _frames = PFactory.GenSpriteFrames(
                     args.Canvas, args.Columns, args.Rows, args.Scale,
                     args.ClipContent, args.RandomStartFrame);
 
                 var _totalFrames = args.Sheets * _frames.Length;
                 int _delay = (int)((args.Canvas.AnimTime * 1000) / _frames.Length);
-                
+
                 using (var _gif = Giffer.Create($"{args.OutputPath}/{args.SpriteName}_{s}.gif", _delay))
                 {
                     for(int f = 0; f < _frames.Length; f++)
@@ -190,7 +190,7 @@ public class SpriteExporter : Node
             }
             else
             {
-                var _sheet = PFactory.GenerateSpriteSheet(
+                var _sheet = PFactory.GenSpriteSheet(
                     args.Canvas, args.Columns, args.Rows, args.Scale, args.ClipContent, args.RandomStartFrame);
                 var _fileName = $"{args.OutputPath}/{args.SpriteName}_{s}.png";
                 _sheet.Save(_fileName);
