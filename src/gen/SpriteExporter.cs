@@ -1,6 +1,7 @@
 using System;
 using Bitmap = System.Drawing.Bitmap;
 using System.Collections.Generic;
+using Giffer = AnimatedGif.AnimatedGif;
 
 using PichaLib;
 
@@ -150,7 +151,6 @@ public class SpriteExporter : Node
         {
             if(args.SplitFrames)
             {
-
                 var _frames = PFactory.GenerateFrameSheets(
                     args.Canvas, args.Columns, args.Rows, args.Scale, args.ClipContent);
 
@@ -163,13 +163,35 @@ public class SpriteExporter : Node
 
                     this.EmitSignal(
                         nameof(SpriteExporter.ProgressChanged),
-                        _fI, _totalFrames, $"Processing frame {_fI} of {args.Sheets * _frames.Length}...");
+                        _fI, _totalFrames, $"Processing frame {_fI} of {_totalFrames}...");
+                }
+            }
+            else if(args.AsGif)
+            {
+                var _frames = PFactory.GenerateFrameSheets(
+                    args.Canvas, args.Columns, args.Rows, args.Scale,
+                    args.ClipContent, args.RandomStartFrame);
+
+                var _totalFrames = args.Sheets * _frames.Length;
+                int _delay = (int)((args.Canvas.AnimTime * 1000) / _frames.Length);
+                
+                using (var _gif = Giffer.Create($"{args.OutputPath}/{args.SpriteName}_{s}.gif", _delay))
+                {
+                    for(int f = 0; f < _frames.Length; f++)
+                    {
+                        var _fI = f + (s * args.Sheets) + 1;
+                        _gif.AddFrame(_frames[f], delay: -1, quality: AnimatedGif.GifQuality.Bit8);
+
+                        this.EmitSignal(
+                            nameof(SpriteExporter.ProgressChanged),
+                            _fI, _totalFrames, $"Processing frame {f + 1} of sheet {s + 1}. \n{_fI} / {_totalFrames}");
+                    }
                 }
             }
             else
             {
                 var _sheet = PFactory.GenerateSpriteSheet(
-                    args.Canvas, args.Columns, args.Rows, args.Scale, args.ClipContent);
+                    args.Canvas, args.Columns, args.Rows, args.Scale, args.ClipContent, args.RandomStartFrame);
                 var _fileName = $"{args.OutputPath}/{args.SpriteName}_{s}.png";
                 _sheet.Save(_fileName);
                 this.EmitSignal(
@@ -274,7 +296,8 @@ public class ExportData : Node
     public bool SplitFrames;
     public bool MapToCanvas;
     public bool ClipContent;
-    public bool NoCopies;
+    public bool AsGif;
+    public bool RandomStartFrame;
     public string SpriteName;
     public string OutputPath;
 }

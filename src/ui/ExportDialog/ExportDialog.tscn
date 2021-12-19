@@ -6,7 +6,6 @@
 [ext_resource path="res://res/icons/folder-line.png" type="Texture" id=5]
 
 [node name="ExportDialog" type="WindowDialog"]
-visible = true
 margin_right = 235.0
 margin_bottom = 293.0
 popup_exclusive = true
@@ -32,7 +31,7 @@ __meta__ = {
 margin_left = 10.0
 margin_top = 10.0
 margin_right = 225.0
-margin_bottom = 348.0
+margin_bottom = 283.0
 
 [node name="LayersBox" type="HBoxContainer" parent="Margins/VBox"]
 margin_right = 215.0
@@ -180,10 +179,21 @@ margin_bottom = 52.0
 size_flags_vertical = 5
 text = "Map to Canvas"
 
-[node name="Control" type="Control" parent="Margins/VBox/Tabs/Options"]
-margin_top = 56.0
-margin_right = 106.0
-margin_bottom = 56.0
+[node name="as_gif" type="CheckBox" parent="Margins/VBox/Tabs/Options"]
+margin_left = 110.0
+margin_top = 28.0
+margin_right = 230.0
+margin_bottom = 52.0
+size_flags_vertical = 5
+text = "As GIF"
+
+[node name="ran_start_frame" type="CheckBox" parent="Margins/VBox/Tabs/Options"]
+margin_left = 110.0
+margin_top = 28.0
+margin_right = 230.0
+margin_bottom = 52.0
+size_flags_vertical = 5
+text = "Random Start Frame"
 
 [node name="sprite_name" type="LineEdit" parent="Margins/VBox"]
 margin_top = 256.0

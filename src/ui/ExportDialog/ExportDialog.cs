@@ -27,6 +27,8 @@ public class ExportDialog : WindowDialog
     public CheckBox SplitFrames;
     public CheckBox AsLayers;
     public CheckBox MapToCanvas;
+    public CheckBox AsGif;
+    public CheckBox RandStartFrame;
 
     public LineEdit SpriteName;
     public LineEdit OutputPath;
@@ -60,6 +62,7 @@ public class ExportDialog : WindowDialog
 
     public override void _Ready()
     {
+        this.Resizable = false;
         this.AddToGroup("diag_export");
 
         this._ParentBox = this.GetNode<VBoxContainer>("Margins/VBox");
@@ -80,6 +83,8 @@ public class ExportDialog : WindowDialog
         this.SplitFrames = this.GetNode<CheckBox>("Margins/VBox/Tabs/Options/split_frames");
         this.AsLayers = this.GetNode<CheckBox>("Margins/VBox/Tabs/Options/as_layers");
         this.MapToCanvas = this.GetNode<CheckBox>("Margins/VBox/Tabs/Options/map_to_canvas");
+        this.AsGif = this.GetNode<CheckBox>("Margins/VBox/Tabs/Options/as_gif");
+        this.RandStartFrame = this.GetNode<CheckBox>("Margins/VBox/Tabs/Options/ran_start_frame");
 
         this.SpriteName = this.GetNode<LineEdit>("Margins/VBox/sprite_name");
         this.FileButton = this.GetNode<Button>("Margins/VBox/PathBox/btn_browse");
@@ -105,7 +110,7 @@ public class ExportDialog : WindowDialog
         this.Export.Connect("ProgressChanged", this.Progress, "OnProgressChanged");
         this.Export.Connect("StatusUpdate", this.Progress, "OnStatusUpdate");
 
-        this.RectMinSize = this._ParentBox.RectSize + new Vector2(60, 60);
+        this.RectMinSize = this._ParentBox.RectSize + new Vector2(60, 120);
 
         this.Rows.Value = 1;
         this.Cols.Value = 1;
@@ -208,6 +213,8 @@ public class ExportDialog : WindowDialog
             SplitFrames = this.SplitFrames.Pressed,
             MapToCanvas = this.MapToCanvas.Pressed,
             ClipContent = this.ClipContent.Pressed,
+            AsGif = this.AsGif.Pressed,
+            RandomStartFrame = this.RandStartFrame.Pressed,
             SpriteName = this.SpriteName.Text,
             OutputPath = this.OutputPath.Text,
         };
