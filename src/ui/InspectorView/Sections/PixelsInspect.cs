@@ -9,7 +9,7 @@ public class PixelsInspect : BaseSection
     public event PixelChangedHandler PixelChanged;
     public event NewPixelAddedHandler NewPixelAdded;
 
-    private GenLayer _Layer;
+    private GenCanvas _Canvas;
     private Button _NewPixel;
     
     public Godot.Collections.Array Pixels => this.SectionGrid.GetChildren();
@@ -35,24 +35,24 @@ public class PixelsInspect : BaseSection
         this._NewPixel.Connect("pressed", this, "OnNewPixel");
     }
 
-    public void LoadLayer(GenLayer l)
+    public void LoadCanvas(GenCanvas c)
     {
-        this._Layer = l;
+        this._Canvas = c;
         this._NewPixel.Disabled = false;
         this.SectionHeader.Disabled = false;
 
         foreach(Node n in this.SectionGrid.GetChildren())
             { this.SectionGrid.RemoveChild(n); }
 
-        foreach(Pixel p in l.Pixels.Values)
+        foreach(Pixel p in c.Pixels.Values)
         { 
             this.AddNewPixel(p);
         }
     }
 
-    public void LoadLayer()
+    public void LoadCanvas()
     {
-        this._Layer = null;
+        this._Canvas = null;
         this._NewPixel.Disabled = true;
         this.SectionHeader.Disabled = true;
 
@@ -76,7 +76,7 @@ public class PixelsInspect : BaseSection
 
     public void OnNewPixel()
     {
-        var _newPixel = this._Layer.NewPixel();
+        var _newPixel = this._Canvas.NewPixel();
         this.AddNewPixel(_newPixel);
         this.NewPixelAdded?.Invoke(_newPixel);
     }
@@ -88,7 +88,7 @@ public class PixelsInspect : BaseSection
 
     public void OnDeletePixel(Pixel p)
     {
-        this._Layer.DeletePixel(p);
-        this.GetTree().CallGroup("gp_layer_gui", "LoadLayer", this._Layer);
+        this._Canvas.DeletePixel(p);
+        this.GetTree().CallGroup("gp_layer_gui", "LoadLayer", this._Canvas);
     }
 }

@@ -14,8 +14,11 @@ public class GenLayer : TextureRect
     public LayerChangeHandler LayerChanged;
     public FrameChangeHandler FrameChange;
 
+    public GenCanvas Parent;
+
     private Timer _Timer;
     private List<Texture> _Textures = new List<Texture>();
+    public Dictionary<string, Pixel> Pixels => this.Parent.Pixels;
 
     private bool _Hover;
     public bool Hover {
@@ -110,13 +113,6 @@ public class GenLayer : TextureRect
         }
     }
 
-    public Dictionary<string, Pixel> Pixels {
-        get => this.Data.Pixels;
-        set {
-            this.Data.Pixels = value;
-        }
-    }
-
     public List<Cycle> Cycles {
         get => this.Data.Cycles;
         set {
@@ -144,6 +140,7 @@ public class GenLayer : TextureRect
             this.Data.MirrorY = value;
         }
     }
+
     
     //******************\\ 
     // ** OPERATIONS ** \\
@@ -204,13 +201,13 @@ public class GenLayer : TextureRect
         }
     }
 
-    public void Generate()
+    public void Generate(Dictionary<string, PixelColors> colors)
     {
         if(this.Data != null)
         {
             this._Textures.Clear();
 
-            foreach(SysDraw.Bitmap _bit in this.Data.Generate())
+            foreach(SysDraw.Bitmap _bit in this.Data.Generate(colors))
             { 
                 this._Textures.Add(_bit.ToGodotTex());
             }
@@ -224,57 +221,19 @@ public class GenLayer : TextureRect
         }
     }
 
-    public string ChangePixelName(Pixel p, string n)
+    public string ChangePixelName(string oldName, string newName)
     {
-        string _oldName = p.Name;
-        string _newName = n;
-
-        if(this.Pixels.ContainsKey(_newName))
-        {
-            int _num = 1;
-            while(this.Pixels.ContainsKey($"{n}{_num}"))
-            {
-                _num = _num + 1;
-            }
-
-            _newName = $"{n}{_num}";
-        }
-
-        this.Pixels.Remove(_oldName);
-        this.Pixels.Add(_newName, p);
-
-        p.Name = _newName;        
-        
-
         foreach(Cycle cycle in this.Cycles)
         {
             foreach(Policy policy in cycle.Policies)
             {
-                policy.RenamePixel(_oldName, _newName);
+                policy.RenamePixel(oldName, newName);
             }
         }
 
-        this.Frames = this._RenamePixelFrames(_oldName, _newName);
+        this.Frames = this._RenamePixelFrames(oldName, newName);
 
-        return _newName;
-    }
-
-    public Pixel NewPixel()
-    {
-        var _num = this.Pixels.Count;
-
-        while(this.Pixels.ContainsKey($"Pixel_{_num}"))
-        {
-            _num = _num + 1;
-        }
-
-        var _newPixelName = $"Pixel_{_num}";
-        var _newPixel = PDefaults.Pixel;
-        _newPixel.Name = _newPixelName;
-
-        this.Pixels.Add(_newPixelName, _newPixel);
-
-        return _newPixel;
+        return newName;
     }
 
     public void SetAnimTime(float time)
@@ -291,7 +250,6 @@ public class GenLayer : TextureRect
     /// <param name="p">Pixel being deleted from the layer.</param>
     public void DeletePixel(Pixel p)
     {
-        this.Pixels.Remove(p.Name);
         this._RemovePixelCycles(p);
         this.Frames = this._RenamePixelFrames(p.Name, Pixel.NULL);
     }
@@ -347,7 +305,7 @@ public class GenLayer : TextureRect
         return _output;
     }
 
-    private void _RemovePixelCycles(Pixel p)
+    public void _RemovePixelCycles(Pixel p)
     {
         var _badCycles = new List<Cycle>();
 

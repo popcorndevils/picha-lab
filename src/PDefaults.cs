@@ -19,7 +19,6 @@ static class PDefaults
                     Name = "[unnamed]",
                     Cycles = PDefaults.Cycles,
                     Frames = PDefaults.Frames,
-                    Pixels = PDefaults.Pixels
                 }
             };
         }

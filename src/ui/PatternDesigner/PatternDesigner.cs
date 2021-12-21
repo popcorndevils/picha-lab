@@ -109,10 +109,13 @@ public class PatternDesigner : WindowDialog
         this.PopupCentered();
     }
 
-    public void NewLayer()
+    public void NewLayer(GenCanvas canvas)
     {
+        var _new = PDefaults.Layer;
+        _new.Parent = canvas;
+
         this._Editing = false;
-        this._OpenLayer(PDefaults.Layer);
+        this._OpenLayer(_new);
     }
 
     public void EditLayer(GenLayer l)
@@ -211,7 +214,7 @@ public class PatternDesigner : WindowDialog
 
         this.FramesView.AddChild(new FrameControl() {
             Frame = _sample,
-            Pixels = this.Layer.Data.Pixels,
+            Pixels = this.Layer.Pixels,
         });
 
         this.CurrentFrame = this.FrameCount - 1;

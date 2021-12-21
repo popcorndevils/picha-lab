@@ -30,7 +30,7 @@ public class AboutDiaglog : WindowDialog
             this.Canvas = JsonConvert.DeserializeObject<Canvas>(_file.GetAsText());
         }
 
-        this.Texture = this._GetTexture();
+        // this.Texture = this._GetTexture();
 
         this.Clock.Connect("timeout", this, "OnTimeout");
     }
@@ -38,7 +38,7 @@ public class AboutDiaglog : WindowDialog
     private ImageTexture _GetTexture()
     {
         var _output = new ImageTexture();
-        _output.CreateFromImage(this.Exporter.GetSpriteFrame(this.Canvas, 0, 30), 0);
+        _output.CreateFromImage(this.Canvas.GenerateSprite(false, 30).ToImage());
         return _output;
     }
 
@@ -49,6 +49,6 @@ public class AboutDiaglog : WindowDialog
 
     public void OnTimeout()
     {
-        this.Texture = this._GetTexture();
+        // this.Texture = this._GetTexture();
     }
 }

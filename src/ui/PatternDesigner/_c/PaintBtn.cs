@@ -40,7 +40,7 @@ public class PaintBtn : MenuButton
 
         _pop.Clear();
 
-        foreach(KeyValuePair<string, Pixel> _pair in l.Data.Pixels)
+        foreach(KeyValuePair<string, Pixel> _pair in l.Pixels)
         {
 
             int _i = this._PixelIDs.Count;

@@ -107,7 +107,7 @@ public class LayerStack : TabContainer
 
     public void OnNewLayerPressed()
     {
-        this.GetTree().CallGroup("pattern_designer", "NewLayer");
+        this.GetTree().CallGroup("pattern_designer", "NewLayer", this.Canvas);
     }
 
     public void OnLayerHover(bool hover, GenLayer layer)

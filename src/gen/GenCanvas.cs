@@ -16,6 +16,7 @@ public class GenCanvas : Node2D
     private Color _BGCol = new Color(.1f, .1f, .1f, 0f);
     private Color _FGCol = Chroma.CreateFromHex("#298c8c8c").ToGodotColor();
     private Control _LayerBox = new Control();
+    private Dictionary<string, PixelColors> _PixelColors = new Dictionary<string, PixelColors>();
     public List<Canvas> CanvasChanges = new List<Canvas>();
 
     public string PathName = "";
@@ -38,6 +39,15 @@ public class GenCanvas : Node2D
             }
 
             this._FG.Texture = this._GetFG(value.Size.W, value.Size.H);
+        }
+    }
+
+    public Dictionary<string, Pixel> Pixels {
+        get {
+            return this.Data.Pixels;
+        }
+        set {
+            this.Data.Pixels = value;
         }
     }
 
@@ -181,6 +191,9 @@ public class GenCanvas : Node2D
     {
         this._Timer.WaitTime = this.TimeToGen;
 
+        this.Data = new Canvas();
+        this.Data.Pixels = PDefaults.Pixels;
+
         this.AddChild(this._Timer);
         this.AddChild(this._BG);
         this.AddChild(this._FG);
@@ -192,13 +205,77 @@ public class GenCanvas : Node2D
         this.Generate();
     }
 
+    public string ChangePixelName(Pixel p, string n)
+    {
+        string _oldName = p.Name;
+        string _newName = n;
+
+        if(this.Pixels.ContainsKey(_newName))
+        {
+            int _num = 1;
+            while(this.Pixels.ContainsKey($"{n}{_num}"))
+            {
+                _num = _num + 1;
+            }
+
+            _newName = $"{n}{_num}";
+        }
+
+        this.Pixels.Remove(_oldName);
+        this.Pixels.Add(_newName, p);
+
+        p.Name = _newName; 
+
+        foreach(GenLayer layer in this.Layers)
+        {
+            layer.ChangePixelName(_newName, _oldName);
+        }
+
+        return _newName;
+    }
+
+
+    /// <summary>
+    /// Deletes pixels from the layer, accounting for affected policies and cycles.
+    /// </summary>
+    /// <param name="p">Pixel being deleted from the layer.</param>
+    public void DeletePixel(Pixel p)
+    {
+        this.Pixels.Remove(p.Name);
+        foreach(GenLayer layer in this.Layers)
+        {
+            layer.DeletePixel(p);
+        }
+    }
+
+
+    public Pixel NewPixel()
+    {
+        var _num = this.Pixels.Count;
+
+        while(this.Pixels.ContainsKey($"Pixel_{_num}"))
+        {
+            _num = _num + 1;
+        }
+
+        var _newPixelName = $"Pixel_{_num}";
+        var _newPixel = PDefaults.Pixel;
+        _newPixel.Name = _newPixelName;
+
+        this.Pixels.Add(_newPixelName, _newPixel);
+
+        return _newPixel;
+    }
+
     public void AddLayer(GenLayer layer)
     {
         this.Layers.Add(layer);
         this._LayerBox.AddChild(layer);
         layer.LayerChanged += this.OnLayerChange;
-        layer.Generate();
+        layer.Generate(this._PixelColors);
         this.FileSaved = false;
+
+        layer.Parent = this;
         
         this.PropagateAnimTime();
     }
@@ -213,9 +290,10 @@ public class GenCanvas : Node2D
 
     public void Generate()
     {
+        this._PixelColors = PFactory.PickColors(this.Data.Pixels);
         foreach(GenLayer _l in this.Layers)
         {
-            _l.Generate();
+            _l.Generate(this._PixelColors);
         }
     }
     
@@ -298,6 +376,7 @@ public class GenCanvas : Node2D
             TimeToGen = this.TimeToGen,
             TransparencyFG = this.FG.ToChroma(),
             TransparencyBG = this.BG.ToChroma(),
+            Pixels = this.Pixels,
         };
 
         foreach(GenLayer _l in this.Layers)

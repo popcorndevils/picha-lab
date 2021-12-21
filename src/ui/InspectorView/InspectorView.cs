@@ -23,6 +23,9 @@ public class InspectorView : TabContainer
         };
 
         this.AddChildren(this._CanvasInspector, this._LayerInspector);
+
+        
+        this._CanvasInspector._Pixels.NewPixelAdded += this._LayerInspector.OnNewPixelAdded;
     }
 
     public void LayerLoaded()

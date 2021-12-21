@@ -9,7 +9,6 @@ public class LayerInspector : ScrollContainer
     private VBoxContainer _Contents;
     private GridContainer _GenSettings;
     private Button _Delete;
-    private PixelsInspect _Pixels;
     private CyclesInspect _Cycles;
 
     private LineEdit _NameEdit;
@@ -36,11 +35,7 @@ public class LayerInspector : ScrollContainer
             SizeFlagsHorizontal = (int)SizeFlags.ExpandFill,
         };
 
-        this._Pixels = new PixelsInspect();
         this._Cycles = new CyclesInspect();
-
-        this._Pixels.PixelChanged += this.OnPixelChange;
-        this._Pixels.NewPixelAdded += this.OnNewPixelAdded;
 
         this._NameEdit = new LineEdit() {
             SizeFlagsHorizontal = (int)Control.SizeFlags.ExpandFill,
@@ -79,7 +74,7 @@ public class LayerInspector : ScrollContainer
             SizeFlagsHorizontal = (int)SizeFlags.ExpandFill,
         };
 
-        this._Contents.AddChildren(this._GenSettings, this._Pixels, this._Cycles);
+        this._Contents.AddChildren(this._GenSettings, this._Cycles);
         this.AddChild(this._Contents);
 
         _mirrorGroup.AddChildren(this._MirrorXEdit, this._MirrorYEdit);
@@ -90,40 +85,6 @@ public class LayerInspector : ScrollContainer
         this._NameEdit.Connect("text_changed", this, "OnLayerNameChange");
         this._MirrorXEdit.Connect("pressed", this, "OnLayerMirrorXChange");
         this._MirrorYEdit.Connect("pressed", this, "OnLayerMirrorYChange");
-    }
-
-    public void OnPixelChange(Pixel p, string property, object value)
-    {
-        switch(property)
-        {
-            case "Name":
-                var _oldName = p.Name;
-                var _newName = this.Layer.ChangePixelName(p, (string)value);
-                this._Cycles.PixelNameChange(_oldName, _newName);
-                if(_newName != (string)value)
-                {
-                    this.CorrectPixelName((string)value, _newName);
-                }
-                break;
-            case "RandomCol":
-                p.RandomCol = (bool)value;
-                break;
-            case "BrightNoise":
-                p.BrightNoise = (float)value;
-                break;
-            case "MinSaturation":
-                p.MinSaturation = (float)value;
-                break;
-            case "Color":
-                p.Color = (Chroma)value;
-                break;
-            case "Paint":
-                p.Paint = (Chroma)value;
-                break;
-            case "FadeDirection":
-                p.FadeDirection = (FadeDirection)value;
-                break;
-        }
     }
 
     public void AddLayer(GenLayer layer)
@@ -160,6 +121,39 @@ public class LayerInspector : ScrollContainer
         }
     }
 
+    public void OnPixelChange(Pixel p, string property, object value)
+    {
+        switch(property)
+        {
+            case "Name":
+                // var _oldName = p.Name;
+                // this._Cycles.PixelNameChange(_oldName, _newName);
+                // if(_newName != (string)value)
+                // {
+                //     this.CorrectPixelName((string)value, _newName);
+                // }
+                break;
+            case "RandomCol":
+                p.RandomCol = (bool)value;
+                break;
+            case "BrightNoise":
+                p.BrightNoise = (float)value;
+                break;
+            case "MinSaturation":
+                p.MinSaturation = (float)value;
+                break;
+            case "Color":
+                p.Color = (Chroma)value;
+                break;
+            case "Paint":
+                p.Paint = (Chroma)value;
+                break;
+            case "FadeDirection":
+                p.FadeDirection = (FadeDirection)value;
+                break;
+        }
+    }
+
     public void OnEditTemplate()
     {
         this.GetTree().CallGroup("pattern_designer", "EditLayer", this.Layer);
@@ -167,7 +161,6 @@ public class LayerInspector : ScrollContainer
 
     public void LoadLayer(GenLayer l)
     {
-        this._Pixels.LoadLayer(l);
         this._Cycles.LoadLayer(l);
 
         this._NameEdit.Editable = true;
@@ -182,7 +175,6 @@ public class LayerInspector : ScrollContainer
 
     public void LoadLayer()
     {
-        this._Pixels.LoadLayer();
         this._Cycles.LoadLayer();
 
         this._NameEdit.Editable = false;
@@ -210,22 +202,6 @@ public class LayerInspector : ScrollContainer
     public void LoadCanvas()
     {
         this.LoadLayer();
-    }
-
-    public void CorrectPixelName(string oldName, string newName)
-    {
-        foreach(Node n in this._Pixels.Pixels)
-        {
-            if(n is PixelProps p)
-            {
-                if(p.NameEdit.Text != p.Pixel.Name)
-                {
-                    p.NameEdit.Text = newName;
-                    p.NameEdit.CaretPosition = newName.Length;
-                    p.SectionTitle = newName;
-                }
-            }
-        }
     }
 
     public void ActivateLayerInspectorTab()
