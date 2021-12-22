@@ -27,8 +27,8 @@ __meta__ = {
 [node name="Center" type="CenterContainer" parent="Margins"]
 margin_left = 10.0
 margin_top = 10.0
-margin_right = 197.0
-margin_bottom = 156.0
+margin_right = 105.0
+margin_bottom = 128.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 __meta__ = {
@@ -36,9 +36,8 @@ __meta__ = {
 }
 
 [node name="Contents" type="VBoxContainer" parent="Margins/Center"]
-margin_left = 46.0
-margin_right = 141.0
-margin_bottom = 146.0
+margin_right = 95.0
+margin_bottom = 118.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 __meta__ = {
@@ -133,25 +132,6 @@ margin_bottom = 20.0
 focus_mode = 0
 text = "-"
 
-[node name="Timing" type="HBoxContainer" parent="Margins/Center/Contents/HBox/ToolBox"]
-margin_top = 98.0
-margin_right = 91.0
-margin_bottom = 122.0
-
-[node name="Label" type="Label" parent="Margins/Center/Contents/HBox/ToolBox/Timing"]
-margin_top = 5.0
-margin_right = 7.0
-margin_bottom = 19.0
-text = "T"
-
-[node name="Edit" type="SpinBox" parent="Margins/Center/Contents/HBox/ToolBox/Timing"]
-margin_left = 11.0
-margin_right = 85.0
-margin_bottom = 24.0
-min_value = 1.0
-value = 1.0
-align = 1
-
 [node name="Accept" type="Button" parent="Margins/Center/Contents/HBox/ToolBox"]
 margin_left = 17.0
 margin_top = 126.0
@@ -168,7 +148,7 @@ margin_bottom = 146.0
 size_flags_horizontal = 3
 
 [node name="Paints" type="GridContainer" parent="Margins/Center/Contents/HBox/DrawBox"]
-columns = 4
+columns = 6
 
 [node name="FramesView" type="MarginContainer" parent="Margins/Center/Contents/HBox/DrawBox"]
 margin_top = 4.0

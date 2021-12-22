@@ -2,7 +2,7 @@ using Godot;
 
 using PichaLib;
 
-public class CyclesInspect : BaseSection
+public class CycleSection : BaseSection
 {
     private GenLayer _Layer;
 

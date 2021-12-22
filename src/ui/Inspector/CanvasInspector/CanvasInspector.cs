@@ -19,12 +19,8 @@ public class CanvasInspector : ScrollContainer
     private SpinBox _WidthEdit;
     private SpinBox _HeightEdit;
 
-    public PixelsInspect _Pixels;
-
     public override void _Ready()
     {
-        this.AddToGroup("gp_canvas_gui");
-
         this.SizeFlagsVertical = (int)SizeFlags.Fill;
         this.SizeFlagsHorizontal = (int)SizeFlags.Fill;
 
@@ -139,12 +135,8 @@ public class CanvasInspector : ScrollContainer
         _bgColorsBox.AddChildren(this._FGEdit, this._BGEdit);
         _sizeBox.AddChildren(this._WidthEdit, this._HeightEdit);
 
-        this._Pixels = new PixelsInspect();
-
-        this._Pixels.PixelChanged += this.OnPixelChange;
-
         this.AddChild(this._Contents);
-        this._Contents.AddChildren(this._Settings, this._Pixels);
+        this._Contents.AddChildren(this._Settings);
 
         this._Settings.AddChildren(
             _autoGenLabel, _genBox,
@@ -163,62 +155,11 @@ public class CanvasInspector : ScrollContainer
         this._FGEdit.Connect("color_changed", this, "OnCanvasEdit");
     }
 
-    public void CorrectPixelName(string oldName, string newName)
-    {
-        foreach(Node n in this._Pixels.Pixels)
-        {
-            if(n is PixelProps p)
-            {
-                if(p.NameEdit.Text != p.Pixel.Name)
-                {
-                    p.NameEdit.Text = newName;
-                    p.NameEdit.CaretPosition = newName.Length;
-                    p.SectionTitle = newName;
-                }
-            }
-        }
-    }
-
-    public void OnPixelChange(Pixel p, string property, object value)
-    {
-        switch(property)
-        {
-            case "Name":
-                var _oldName = p.Name;
-                var _newName = this.Canvas.ChangePixelName(p, (string)value);
-                if(_newName != (string)value)
-                {
-                    this.CorrectPixelName((string)value, _newName);
-                }
-                this.GetTree().CallGroup("gp_layer_gui", "ChangePixelName", _oldName, _newName);
-                break;
-            case "RandomCol":
-                p.RandomCol = (bool)value;
-                break;
-            case "BrightNoise":
-                p.BrightNoise = (float)value;
-                break;
-            case "MinSaturation":
-                p.MinSaturation = (float)value;
-                break;
-            case "Color":
-                p.Color = (Chroma)value;
-                break;
-            case "Paint":
-                p.Paint = (Chroma)value;
-                break;
-            case "FadeDirection":
-                p.FadeDirection = (FadeDirection)value;
-                break;
-        }
-    }
-
     public void LoadCanvas()
     {
         this.Canvas = null;
 
         this._AutoGenEdit.Pressed = false;
-        this._Pixels.LoadCanvas();
 
         this._IgnoreSignals = true;
         this._AutoGenTimeEdit.Value = 0;
@@ -232,8 +173,6 @@ public class CanvasInspector : ScrollContainer
     {
         this.Canvas = c;
         var _size = c.Size;
-
-        this._Pixels.LoadCanvas(c);
 
         this._AutoGenEdit.Pressed = c.AutoGen;
         this._FGEdit.Color = c.FG;

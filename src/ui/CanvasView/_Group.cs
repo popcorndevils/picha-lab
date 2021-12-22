@@ -53,8 +53,8 @@ public partial class CanvasView : VBoxContainer
             int _index = this.Active.CanvasChanges.Count - 2;
             _new.LoadData(this.Active.CanvasChanges[_index]);
             _container.Canvas = _new;
-            this.GetTree().CallGroup("gp_canvas_gui", "LoadCanvas", _new);
-            this.GetTree().CallGroup("gp_layer_gui", "LoadCanvas", _new);
+            this.GetTree().CallGroup("inspector", "LoadCanvas", _new);
+            this.GetTree().CallGroup("layerstack", "LoadCanvas", _new);
         }
     }
 
@@ -106,7 +106,8 @@ public partial class CanvasView : VBoxContainer
         if(this.Active != null)
         {
             this.Active.AddLayer(l);
-            this.GetTree().CallGroup("gp_layer_gui", "AddLayer", l);
+            this.GetTree().CallGroup("inspector", "AddLayer", l);
+            this.GetTree().CallGroup("layerstack", "AddLayer", l);
         }
         else {
             this.AddCanvas(new GenCanvas());

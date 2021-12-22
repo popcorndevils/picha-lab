@@ -42,7 +42,6 @@ public class PatternDesigner : WindowDialog
         get => this._CurrentFrame;
         set {
             var _current = this.FramesView.GetChild<FrameControl>(this.CurrentFrame).Frame;
-            _current.Timing = (int)this.TEdit.Value;
 
             if(this.FramesView.GetChildCount() >= this._CurrentFrame + 1)
             {
@@ -55,7 +54,6 @@ public class PatternDesigner : WindowDialog
             var _frame = this.FramesView.GetChild<FrameControl>(value);
             _frame.Visible = true;
             this._CurrentFrame = value;
-            this.TEdit.Value = _frame.Frame.Timing;
             this._FrameIndex.Text = $"Frame {value + 1}/{this.FrameCount}";
         }
     }
@@ -76,7 +74,6 @@ public class PatternDesigner : WindowDialog
         this.FramesView = _contents.GetNode<MarginContainer>("HBox/DrawBox/FramesView");
         this.WEdit = _contents.GetNode<SpinBox>("HBox/ToolBox/Width/Edit");
         this.HEdit = _contents.GetNode<SpinBox>("HBox/ToolBox/Height/Edit");
-        this.TEdit = _contents.GetNode<SpinBox>("HBox/ToolBox/Timing/Edit");
         this._NavPrev = _contents.GetNode<Button>("HBox/ToolBox/FrameNav/NavPrev");
         this._NavNext = _contents.GetNode<Button>("HBox/ToolBox/FrameNav/NavNext");
         this._AddFrame = _contents.GetNode<Button>("HBox/ToolBox/FrameNav/AddFrame");
@@ -166,7 +163,6 @@ public class PatternDesigner : WindowDialog
         }
 
         this.FramesView.GetChild<FrameControl>(0).Visible = true;
-        this.TEdit.Value = this.FramesView.GetChild<FrameControl>(0).Frame.Timing;
         this._FrameIndex.Text = $"Frame 1/{this.Layer.Data.Frames.Count}";
     }
 
@@ -186,7 +182,6 @@ public class PatternDesigner : WindowDialog
 
     public void OnConfirmedLayers()
     {
-        this.FramesView.GetChild<FrameControl>(this.CurrentFrame).Frame.Timing = (int)this.TEdit.Value;
         var _newFrames = new List<Frame>();
 
         foreach(FrameControl _f in this.FramesView.GetChildren())

@@ -9,7 +9,7 @@ public class LayerInspector : ScrollContainer
     private VBoxContainer _Contents;
     private GridContainer _GenSettings;
     private Button _Delete;
-    private CyclesInspect _Cycles;
+    private CycleSection _Cycles;
 
     private LineEdit _NameEdit;
     private CheckBox _MirrorXEdit;
@@ -17,8 +17,6 @@ public class LayerInspector : ScrollContainer
 
     public override void _Ready()
     {
-        this.AddToGroup("gp_layer_gui");
-
         this._Delete = new Button() {
             SizeFlagsHorizontal = (int)SizeFlags.ShrinkEnd,
             Icon = GD.Load<Texture>("res://res/icons/delete_white.svg"),
@@ -35,7 +33,7 @@ public class LayerInspector : ScrollContainer
             SizeFlagsHorizontal = (int)SizeFlags.ExpandFill,
         };
 
-        this._Cycles = new CyclesInspect();
+        this._Cycles = new CycleSection();
 
         this._NameEdit = new LineEdit() {
             SizeFlagsHorizontal = (int)Control.SizeFlags.ExpandFill,
@@ -85,11 +83,6 @@ public class LayerInspector : ScrollContainer
         this._NameEdit.Connect("text_changed", this, "OnLayerNameChange");
         this._MirrorXEdit.Connect("pressed", this, "OnLayerMirrorXChange");
         this._MirrorYEdit.Connect("pressed", this, "OnLayerMirrorYChange");
-    }
-
-    public void AddLayer(GenLayer layer)
-    {
-        this.LoadLayer(layer);
     }
 
     public void OnNewPixelAdded(Pixel p)
@@ -157,29 +150,6 @@ public class LayerInspector : ScrollContainer
         this._NameEdit.Text = "";
         this._MirrorXEdit.Pressed = false;
         this._MirrorYEdit.Pressed = false;
-    }
-
-    public void LoadCanvas(GenCanvas c)
-    {
-        if(c.Layers.Count > 0)
-        {
-            this.LoadLayer(c.Layers[0]);
-        }
-        else
-        {
-            this.LoadLayer();
-        }
-    }
-
-    public void LoadCanvas()
-    {
-        this.LoadLayer();
-    }
-
-    public void ActivateLayerInspectorTab()
-    {
-        var _par = this.GetParent<InspectorView>();
-        _par.CurrentTab = this.GetIndex();
     }
 }
 

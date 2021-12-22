@@ -3,6 +3,7 @@
 [ext_resource path="res://src/ui/AboutDiaglog.cs" type="Script" id=1]
 
 [node name="AboutDiaglog" type="WindowDialog"]
+visible = true
 margin_right = 502.0
 margin_bottom = 292.0
 script = ExtResource( 1 )
@@ -38,5 +39,9 @@ text = "Here are some simple platitudes about how I came to make this program."
 align = 1
 autowrap = true
 
-[node name="Timer" type="Timer" parent="."]
+[node name="GenTimer" type="Timer" parent="."]
+wait_time = 4.0
+autostart = true
+
+[node name="AnimTimer" type="Timer" parent="."]
 autostart = true

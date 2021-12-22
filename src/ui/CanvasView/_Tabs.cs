@@ -23,8 +23,8 @@ public partial class CanvasView : VBoxContainer
 
         if(this.Content.GetChildCount() == 0)
         {
-            this.GetTree().CallGroup("gp_canvas_gui", "LoadCanvas");
-            this.GetTree().CallGroup("gp_layer_gui", "LoadCanvas");
+            this.GetTree().CallGroup("inspector", "LoadCanvas");
+            this.GetTree().CallGroup("layerstack", "LoadCanvas");
         }
     }
 }

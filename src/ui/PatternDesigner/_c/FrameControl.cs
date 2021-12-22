@@ -21,7 +21,6 @@ public class FrameControl : Control
     public Frame FinalizedFrame {
         get {
             var _output = this._Texture.Frame.Copy();
-            _output.Timing = this.Frame.Timing;
             return _output;
         }
     } 

@@ -60,7 +60,7 @@ public class LayerStack : TabContainer
 
     public override void _Ready()
     {
-        this.AddToGroup("gp_layer_gui");
+        this.AddToGroup("layerstack");
 
         this.TabAlign = TabAlignEnum.Left;
         this.DragToRearrangeEnabled = false;

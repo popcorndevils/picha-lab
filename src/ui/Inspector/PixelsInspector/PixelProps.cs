@@ -51,7 +51,7 @@ public class PixelProps : BaseSection
         base._Ready();
         this.SectionGrid.Columns = 2;
 
-        this.Theme = GD.Load<Theme>("res://res/theme/SubSection.tres");
+        this.Theme = GD.Load<Theme>("res://res/theme/SubSubSection.tres");
 
         this._PanelStyle = new StyleBoxFlat() {
             BorderWidthTop = 0,
@@ -62,7 +62,7 @@ public class PixelProps : BaseSection
             ContentMarginLeft = 15,
             ContentMarginRight = 4,
             ContentMarginTop = 4,
-            BgColor = Chroma.CreateFromBytes(60, 60, 60, 255).ToGodotColor(),
+            BgColor = Chroma.CreateFromBytes(100, 100, 100, 255).ToGodotColor(),
         };
 
         this.AddStyleboxOverride("panel", this._PanelStyle);

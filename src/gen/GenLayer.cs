@@ -29,12 +29,12 @@ public class GenLayer : TextureRect
             if(value) 
             { 
                 this.Modulate = new Color(.75f, .75f, .75f, 1f); 
-                this.GetTree().CallGroup("gp_layer_gui", "OnLayerHover", true, this);
+                this.GetTree().CallGroup("layerstack", "OnLayerHover", true, this);
             }
             else 
             { 
                 this.Modulate = new Color(1f, 1f, 1f, 1f); 
-                this.GetTree().CallGroup("gp_layer_gui", "OnLayerHover", false, this);
+                this.GetTree().CallGroup("layerstack", "OnLayerHover", false, this);
             }
         }
     }
@@ -172,7 +172,7 @@ public class GenLayer : TextureRect
                 if(btn.Pressed && this.Hover)
                 {
                     this.Dragging = true;
-                    this.GetTree().CallGroup("gp_layer_gui", "LoadLayer", this);
+                    this.GetTree().CallGroup("inspector", "LoadLayer", this);
                 }
                 else if(!btn.Pressed && this.Dragging)
                 {

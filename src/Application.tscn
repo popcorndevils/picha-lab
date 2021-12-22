@@ -57,6 +57,7 @@ script = ExtResource( 8 )
 [node name="HelpDialog" parent="PichaGUI" instance=ExtResource( 6 )]
 
 [node name="AboutDiaglog" parent="PichaGUI" instance=ExtResource( 9 )]
+visible = false
 
 [node name="ExportDialog" parent="PichaGUI" instance=ExtResource( 7 )]
 margin_right = 142.0
