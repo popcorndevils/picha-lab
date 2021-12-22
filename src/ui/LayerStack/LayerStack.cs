@@ -6,7 +6,19 @@ using OctavianLib;
 
 public class LayerStack : TabContainer
 {
-    public GenCanvas Canvas;
+    private GenCanvas _Canvas;
+    public GenCanvas Canvas {
+        get {
+            if(this._Canvas == null)
+            {
+                this._Canvas = new GenCanvas();
+            }
+            return this._Canvas;
+        }
+        set {
+            this._Canvas = value;
+        }
+    } 
 
     private VBoxContainer _LayersViewList = new VBoxContainer() {
         Name = "Layer Stack",

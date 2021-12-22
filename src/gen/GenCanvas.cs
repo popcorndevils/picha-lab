@@ -108,6 +108,13 @@ public class GenCanvas : Node2D
                         else
                             { this._Timer.Autostart = true; }
                     }
+                    else
+                    {
+                        if(this._Timer.IsInsideTree())
+                            { this._Timer.Stop();  }
+                        else
+                            { this._Timer.Autostart = false; }
+                    }
                 }
             }
         }
@@ -202,15 +209,18 @@ public class GenCanvas : Node2D
         }
     }
 
-    public override void _Ready()
+    public GenCanvas()
     {
-        this._Timer.WaitTime = this.TimeToGen;
-
         if(this.Data == null)
         {
             this.Data = new Canvas();
             this.Data.Pixels = PDefaults.Pixels;
         }
+    }
+
+    public override void _Ready()
+    {
+        this._Timer.WaitTime = this.TimeToGen;
 
         this.AddChild(this._Timer);
         this.AddChild(this._BG);
