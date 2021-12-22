@@ -13,16 +13,19 @@ public class PatternDesigner : WindowDialog
         set => this._Layer = value;
     }
 
-    private bool _Editing = false;
-    private bool _IgnoreSizeSignal = true;
     public VBoxContainer ToolBox;
+    public VBoxContainer DrawBox;
+    public GridContainer Paints;
     private MarginContainer FramesView;
-    public PaintBtn PaintBtn;
+    // public _PaintBtn PaintBtn;
     public SpinBox WEdit;
     public SpinBox HEdit;
     public SpinBox TEdit;
     public MarginContainer Margins;
+    public Pixel Selected;
 
+    private bool _Editing = false;
+    private bool _IgnoreSizeSignal = true;
     private Label _FrameIndex;
     private Button _NavPrev;
     private Button _NavNext;
@@ -31,6 +34,8 @@ public class PatternDesigner : WindowDialog
     private Button _Accept;
 
     public int FrameCount => this.FramesView.GetChildren().Count;
+    private float _RectHeight => Mathf.Max(this.ToolBox.RectSize.y + 20f, ((float)this.HEdit.Value * 20f) + this.Paints.RectSize.y + 30f);
+    private float _RectWidth => Mathf.Max(this.ToolBox.RectSize.x + ((float)this.WEdit.Value * 20f) + 25f, this.ToolBox.RectSize.x + (this.Paints.RectSize.x) + 25f);
 
     private int _CurrentFrame = 0;
     public int CurrentFrame {
@@ -65,18 +70,19 @@ public class PatternDesigner : WindowDialog
 
         this.Margins = this.GetNode<MarginContainer>("Margins");
 
-        this.ToolBox = _contents.GetNode<VBoxContainer>("HBox/ToolBar/");
-        this.FramesView = _contents.GetNode<MarginContainer>("HBox/FramesView");
-        this.PaintBtn = _contents.GetNode<PaintBtn>("HBox/ToolBar/PaintBtn");
-        this.WEdit = _contents.GetNode<SpinBox>("HBox/ToolBar/Width/Edit");
-        this.HEdit = _contents.GetNode<SpinBox>("HBox/ToolBar/Height/Edit");
-        this.TEdit = _contents.GetNode<SpinBox>("HBox/ToolBar/Timing/Edit");
-        this._NavPrev = _contents.GetNode<Button>("HBox/ToolBar/FrameNav/NavPrev");
-        this._NavNext = _contents.GetNode<Button>("HBox/ToolBar/FrameNav/NavNext");
-        this._AddFrame = _contents.GetNode<Button>("HBox/ToolBar/FrameNav/AddFrame");
-        this._DelFrame = _contents.GetNode<Button>("HBox/ToolBar/FrameNav/DelFrame");
-        this._Accept = _contents.GetNode<Button>("HBox/ToolBar/Accept");
-        this._FrameIndex = _contents.GetNode<Label>("HBox/ToolBar/FrameIndex");
+        this.ToolBox = _contents.GetNode<VBoxContainer>("HBox/ToolBox/");
+        this.DrawBox = _contents.GetNode<VBoxContainer>("HBox/DrawBox/");
+        this.Paints = _contents.GetNode<GridContainer>("HBox/DrawBox/Paints");
+        this.FramesView = _contents.GetNode<MarginContainer>("HBox/DrawBox/FramesView");
+        this.WEdit = _contents.GetNode<SpinBox>("HBox/ToolBox/Width/Edit");
+        this.HEdit = _contents.GetNode<SpinBox>("HBox/ToolBox/Height/Edit");
+        this.TEdit = _contents.GetNode<SpinBox>("HBox/ToolBox/Timing/Edit");
+        this._NavPrev = _contents.GetNode<Button>("HBox/ToolBox/FrameNav/NavPrev");
+        this._NavNext = _contents.GetNode<Button>("HBox/ToolBox/FrameNav/NavNext");
+        this._AddFrame = _contents.GetNode<Button>("HBox/ToolBox/FrameNav/AddFrame");
+        this._DelFrame = _contents.GetNode<Button>("HBox/ToolBox/FrameNav/DelFrame");
+        this._Accept = _contents.GetNode<Button>("HBox/ToolBox/Accept");
+        this._FrameIndex = _contents.GetNode<Label>("HBox/ToolBox/FrameIndex");
 
 
         this.WEdit.Connect("value_changed", this, "OnSizeEdit");
@@ -88,10 +94,36 @@ public class PatternDesigner : WindowDialog
         this._Accept.Connect("pressed", this, "OnConfirmedLayers");
     }
 
+    public void OnPaintSelect(Pixel p)
+    {
+        this.Selected = p;
+    }
+
     private void _OpenLayer(GenLayer l)
     {
         this.Layer = l;
-        this.PaintBtn.LoadLayer(this.Layer);
+        this.Selected = null;
+
+        foreach(PaintBtn p in this.Paints.GetChildren())
+        {
+            p.PaintSelected -= this.OnPaintSelect;
+        }
+
+        this.Paints.ClearChildren();
+
+        foreach(Pixel p in l.Pixels.Values)
+        {
+            if(this.Selected == null)
+            {
+                this.Selected = p;
+            }
+
+            var _btn = new PaintBtn(p);
+            
+            _btn.PaintSelected += this.OnPaintSelect;
+
+            this.Paints.AddChild(_btn);
+        }
 
         var _w = this.Layer.Frames[0].GetWidth();
         var _h = this.Layer.Frames[0].GetHeight();
@@ -100,11 +132,6 @@ public class PatternDesigner : WindowDialog
 
         this.WEdit.Value = _w;
         this.HEdit.Value = _h;
-        
-        var _rectW = this.ToolBox.RectSize.x + (_w * 20f) + 25f;
-        var _rectH = Mathf.Max(this.ToolBox.RectSize.y + 20f, (_h * 20f) + 20f);
-
-        this.RectSize = new Vector2(_rectW, _rectH);
 
         this.PopupCentered();
     }
@@ -116,12 +143,14 @@ public class PatternDesigner : WindowDialog
 
         this._Editing = false;
         this._OpenLayer(_new);
+        this.RectSize = new Vector2(this._RectWidth, this._RectHeight);
     }
 
     public void EditLayer(GenLayer l)
     {
         this._Editing = true;
         this._OpenLayer(l);
+        this.RectSize = new Vector2(this._RectWidth, this._RectHeight);
     }
 
     private void _PopulateView(List<Frame> frames, Dictionary<string, Pixel> pixels)
@@ -189,10 +218,7 @@ public class PatternDesigner : WindowDialog
                 _f.SetSize((int)_w, (int)_h);
             }
 
-            var _rectW = this.ToolBox.RectSize.x + (_w * 20f) + 25f;
-            var _rectH = Mathf.Max(this.ToolBox.RectSize.y + 20f, (_h * 20f) + 20f);
-
-            this.RectSize = new Vector2(_rectW, _rectH);
+            this.RectSize = new Vector2(this._RectWidth, this._RectHeight);
         }
     }
 

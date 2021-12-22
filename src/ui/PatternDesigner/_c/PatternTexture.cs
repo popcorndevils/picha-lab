@@ -14,7 +14,7 @@ public class PatternTexture : TextureRect
 
     private Image _Image = new Image();
     private ImageTexture _ImageTex = new ImageTexture();
-    private Pixel Current => this._Owner.PaintBtn.Selected;
+    private Pixel Current => this._Owner.Selected;
 
     public Frame Frame;
     private Dictionary<string, Pixel> _Pixels;

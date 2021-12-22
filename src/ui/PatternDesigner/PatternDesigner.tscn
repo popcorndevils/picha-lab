@@ -1,10 +1,8 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=2 format=2]
 
 [ext_resource path="res://src/ui/PatternDesigner/PatternDesigner.cs" type="Script" id=1]
-[ext_resource path="res://src/ui/PatternDesigner/_c/PaintBtn.cs" type="Script" id=2]
 
 [node name="PatternDesigner" type="WindowDialog"]
-visible = true
 margin_right = 146.0
 margin_bottom = 164.0
 size_flags_horizontal = 3
@@ -29,8 +27,8 @@ __meta__ = {
 [node name="Center" type="CenterContainer" parent="Margins"]
 margin_left = 10.0
 margin_top = 10.0
-margin_right = 134.0
-margin_bottom = 180.0
+margin_right = 197.0
+margin_bottom = 156.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 __meta__ = {
@@ -38,9 +36,9 @@ __meta__ = {
 }
 
 [node name="Contents" type="VBoxContainer" parent="Margins/Center"]
-margin_left = 14.0
-margin_right = 109.0
-margin_bottom = 170.0
+margin_left = 46.0
+margin_right = 141.0
+margin_bottom = 146.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 __meta__ = {
@@ -49,111 +47,104 @@ __meta__ = {
 
 [node name="HBox" type="HBoxContainer" parent="Margins/Center/Contents"]
 margin_right = 95.0
-margin_bottom = 170.0
+margin_bottom = 146.0
+size_flags_horizontal = 3
 
-[node name="ToolBar" type="VBoxContainer" parent="Margins/Center/Contents/HBox"]
+[node name="ToolBox" type="VBoxContainer" parent="Margins/Center/Contents/HBox"]
 margin_right = 91.0
-margin_bottom = 170.0
+margin_bottom = 146.0
 
-[node name="PaintBtn" type="MenuButton" parent="Margins/Center/Contents/HBox/ToolBar"]
+[node name="Width" type="HBoxContainer" parent="Margins/Center/Contents/HBox/ToolBox"]
 margin_right = 91.0
-margin_bottom = 20.0
-flat = false
-items = [ "Item 0", null, 0, false, false, 0, 0, null, "", false, "Item 1", null, 0, false, false, 1, 0, null, "", false, "Item 2", null, 0, false, false, 2, 0, null, "", false ]
-script = ExtResource( 2 )
+margin_bottom = 24.0
 
-[node name="Width" type="HBoxContainer" parent="Margins/Center/Contents/HBox/ToolBar"]
-margin_top = 24.0
-margin_right = 91.0
-margin_bottom = 48.0
-
-[node name="Label" type="Label" parent="Margins/Center/Contents/HBox/ToolBar/Width"]
+[node name="Label" type="Label" parent="Margins/Center/Contents/HBox/ToolBox/Width"]
 margin_top = 5.0
 margin_right = 13.0
 margin_bottom = 19.0
 text = "W"
 
-[node name="Edit" type="SpinBox" parent="Margins/Center/Contents/HBox/ToolBar/Width"]
+[node name="Edit" type="SpinBox" parent="Margins/Center/Contents/HBox/ToolBox/Width"]
 margin_left = 17.0
 margin_right = 91.0
 margin_bottom = 24.0
+size_flags_horizontal = 4
 min_value = 1.0
 value = 1.0
 align = 1
 
-[node name="Height" type="HBoxContainer" parent="Margins/Center/Contents/HBox/ToolBar"]
-margin_top = 52.0
+[node name="Height" type="HBoxContainer" parent="Margins/Center/Contents/HBox/ToolBox"]
+margin_top = 28.0
 margin_right = 91.0
-margin_bottom = 76.0
+margin_bottom = 52.0
 
-[node name="Label" type="Label" parent="Margins/Center/Contents/HBox/ToolBar/Height"]
+[node name="Label" type="Label" parent="Margins/Center/Contents/HBox/ToolBox/Height"]
 margin_top = 5.0
 margin_right = 10.0
 margin_bottom = 19.0
 text = "H"
 
-[node name="Edit" type="SpinBox" parent="Margins/Center/Contents/HBox/ToolBar/Height"]
+[node name="Edit" type="SpinBox" parent="Margins/Center/Contents/HBox/ToolBox/Height"]
 margin_left = 14.0
 margin_right = 88.0
 margin_bottom = 24.0
 min_value = 1.0
-max_value = 100.0
 value = 1.0
 align = 1
 
-[node name="FrameIndex" type="Label" parent="Margins/Center/Contents/HBox/ToolBar"]
-margin_top = 80.0
+[node name="FrameIndex" type="Label" parent="Margins/Center/Contents/HBox/ToolBox"]
+margin_top = 56.0
 margin_right = 91.0
-margin_bottom = 94.0
+margin_bottom = 70.0
 text = "Frame 1/1"
 align = 1
 
-[node name="FrameNav" type="HBoxContainer" parent="Margins/Center/Contents/HBox/ToolBar"]
-margin_top = 98.0
+[node name="FrameNav" type="HBoxContainer" parent="Margins/Center/Contents/HBox/ToolBox"]
+margin_top = 74.0
 margin_right = 91.0
-margin_bottom = 118.0
+margin_bottom = 94.0
 alignment = 1
 
-[node name="NavPrev" type="Button" parent="Margins/Center/Contents/HBox/ToolBar/FrameNav"]
+[node name="NavPrev" type="Button" parent="Margins/Center/Contents/HBox/ToolBox/FrameNav"]
 margin_left = 1.0
 margin_right = 21.0
 margin_bottom = 20.0
 focus_mode = 0
 text = "<"
 
-[node name="NavNext" type="Button" parent="Margins/Center/Contents/HBox/ToolBar/FrameNav"]
+[node name="NavNext" type="Button" parent="Margins/Center/Contents/HBox/ToolBox/FrameNav"]
 margin_left = 25.0
 margin_right = 45.0
 margin_bottom = 20.0
 focus_mode = 0
 text = ">"
 
-[node name="AddFrame" type="Button" parent="Margins/Center/Contents/HBox/ToolBar/FrameNav"]
+[node name="AddFrame" type="Button" parent="Margins/Center/Contents/HBox/ToolBox/FrameNav"]
 margin_left = 49.0
 margin_right = 69.0
 margin_bottom = 20.0
 focus_mode = 0
 text = "+"
 
-[node name="DelFrame" type="Button" parent="Margins/Center/Contents/HBox/ToolBar/FrameNav"]
+[node name="DelFrame" type="Button" parent="Margins/Center/Contents/HBox/ToolBox/FrameNav"]
 margin_left = 73.0
 margin_right = 90.0
 margin_bottom = 20.0
 focus_mode = 0
 text = "-"
 
-[node name="Timing" type="HBoxContainer" parent="Margins/Center/Contents/HBox/ToolBar"]
-margin_top = 122.0
+[node name="Timing" type="HBoxContainer" parent="Margins/Center/Contents/HBox/ToolBox"]
+margin_top = 98.0
 margin_right = 91.0
-margin_bottom = 146.0
+margin_bottom = 122.0
 
-[node name="Label" type="Label" parent="Margins/Center/Contents/HBox/ToolBar/Timing"]
+[node name="Label" type="Label" parent="Margins/Center/Contents/HBox/ToolBox/Timing"]
 margin_top = 5.0
 margin_right = 7.0
 margin_bottom = 19.0
 text = "T"
 
-[node name="Edit" type="SpinBox" parent="Margins/Center/Contents/HBox/ToolBar/Timing"]
+[node name="Edit" type="SpinBox" parent="Margins/Center/Contents/HBox/ToolBox/Timing"]
 margin_left = 11.0
 margin_right = 85.0
 margin_bottom = 24.0
@@ -161,16 +152,24 @@ min_value = 1.0
 value = 1.0
 align = 1
 
-[node name="Accept" type="Button" parent="Margins/Center/Contents/HBox/ToolBar"]
+[node name="Accept" type="Button" parent="Margins/Center/Contents/HBox/ToolBox"]
 margin_left = 17.0
-margin_top = 150.0
+margin_top = 126.0
 margin_right = 73.0
-margin_bottom = 170.0
+margin_bottom = 146.0
 focus_mode = 0
 size_flags_horizontal = 4
 text = "Accept"
 
-[node name="FramesView" type="MarginContainer" parent="Margins/Center/Contents/HBox"]
+[node name="DrawBox" type="VBoxContainer" parent="Margins/Center/Contents/HBox"]
 margin_left = 95.0
 margin_right = 95.0
-margin_bottom = 170.0
+margin_bottom = 146.0
+size_flags_horizontal = 3
+
+[node name="Paints" type="GridContainer" parent="Margins/Center/Contents/HBox/DrawBox"]
+columns = 4
+
+[node name="FramesView" type="MarginContainer" parent="Margins/Center/Contents/HBox/DrawBox"]
+margin_top = 4.0
+margin_bottom = 4.0

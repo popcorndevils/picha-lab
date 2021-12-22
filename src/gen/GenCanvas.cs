@@ -93,11 +93,21 @@ public class GenCanvas : Node2D
             {
                 this.Data.AutoGen = value;
                 if(_Timer != null)
-                {
+                {                    
+                    if(this.AutoGen)
+                    {
+                        if(this._Timer.IsInsideTree())
+                            { this._Timer.Start();  }
+                        else
+                            { this._Timer.Autostart = true; }
+                    }
                     if(value) 
-                        { this._Timer.Start(); }
-                    else 
-                        { this._Timer.Stop(); }
+                    { 
+                        if(this._Timer.IsInsideTree())
+                            { this._Timer.Start();  }
+                        else
+                            { this._Timer.Autostart = true; }
+                    }
                 }
             }
         }
@@ -126,7 +136,12 @@ public class GenCanvas : Node2D
                 {
                     this._Timer.WaitTime = value;
                     if(this.AutoGen)
-                        { this._Timer.Start(); }
+                    {
+                        if(this._Timer.IsInsideTree())
+                            { this._Timer.Start();  }
+                        else
+                            { this._Timer.Autostart = true; }
+                    }
                 }
             }
         }
@@ -191,8 +206,11 @@ public class GenCanvas : Node2D
     {
         this._Timer.WaitTime = this.TimeToGen;
 
-        this.Data = new Canvas();
-        this.Data.Pixels = PDefaults.Pixels;
+        if(this.Data == null)
+        {
+            this.Data = new Canvas();
+            this.Data.Pixels = PDefaults.Pixels;
+        }
 
         this.AddChild(this._Timer);
         this.AddChild(this._BG);
@@ -228,7 +246,7 @@ public class GenCanvas : Node2D
 
         foreach(GenLayer layer in this.Layers)
         {
-            layer.ChangePixelName(_newName, _oldName);
+            layer.ChangePixelName(_oldName, _newName);
         }
 
         return _newName;
@@ -390,6 +408,12 @@ public class GenCanvas : Node2D
     public void LoadData(Canvas c) 
     {
         this.Data = c;
+        this._PixelColors = PFactory.PickColors(this.Pixels);
+        this.TimeToGen = c.TimeToGen;
+        this.AnimTime = c.AnimTime;
+        this.AutoGen = c.AutoGen;
+        this.BG = c.TransparencyBG.ToGodotColor();
+        this.FG = c.TransparencyFG.ToGodotColor();
 
         foreach(GenLayer _l in this.Layers)
         {
@@ -401,6 +425,7 @@ public class GenCanvas : Node2D
         foreach(Layer _dat in c.Layers)
         {
             var _l = new GenLayer();
+            _l.Parent = this;
             _l.Data = _dat;
             this.AddLayer(_l);
         }

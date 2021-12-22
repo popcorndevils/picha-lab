@@ -121,37 +121,9 @@ public class LayerInspector : ScrollContainer
         }
     }
 
-    public void OnPixelChange(Pixel p, string property, object value)
+    public void ChangePixelName(string oldName, string newName)
     {
-        switch(property)
-        {
-            case "Name":
-                // var _oldName = p.Name;
-                // this._Cycles.PixelNameChange(_oldName, _newName);
-                // if(_newName != (string)value)
-                // {
-                //     this.CorrectPixelName((string)value, _newName);
-                // }
-                break;
-            case "RandomCol":
-                p.RandomCol = (bool)value;
-                break;
-            case "BrightNoise":
-                p.BrightNoise = (float)value;
-                break;
-            case "MinSaturation":
-                p.MinSaturation = (float)value;
-                break;
-            case "Color":
-                p.Color = (Chroma)value;
-                break;
-            case "Paint":
-                p.Paint = (Chroma)value;
-                break;
-            case "FadeDirection":
-                p.FadeDirection = (FadeDirection)value;
-                break;
-        }
+        this._Cycles.PixelNameChange(oldName, newName);
     }
 
     public void OnEditTemplate()

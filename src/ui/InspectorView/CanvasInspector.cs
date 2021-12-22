@@ -186,11 +186,11 @@ public class CanvasInspector : ScrollContainer
             case "Name":
                 var _oldName = p.Name;
                 var _newName = this.Canvas.ChangePixelName(p, (string)value);
-                // this._Cycles.PixelNameChange(_oldName, _newName);
                 if(_newName != (string)value)
                 {
                     this.CorrectPixelName((string)value, _newName);
                 }
+                this.GetTree().CallGroup("gp_layer_gui", "ChangePixelName", _oldName, _newName);
                 break;
             case "RandomCol":
                 p.RandomCol = (bool)value;
