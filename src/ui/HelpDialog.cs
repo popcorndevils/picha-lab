@@ -144,7 +144,7 @@ public class HelpDialog : WindowDialog
     }
 }
 
-public class DocsObject : Node
+public class DocsObject : Reference
 {
     public string Title;
     public string Text;

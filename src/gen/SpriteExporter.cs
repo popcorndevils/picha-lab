@@ -10,7 +10,7 @@ using Godot;
 /// <summary>
 /// Special class for generating images and spritesheets using canvas data.
 /// </summary>
-public class SpriteExporter : Node
+public class SpriteExporter : Reference
 {
     [Signal] public delegate void ProgressChanged(int i, int total);
     [Signal] public delegate void StatusUpdate(string s);
@@ -304,7 +304,7 @@ public class SpriteExporter : Node
     // }
 }
 
-public class ExportData : Node
+public class ExportData : Reference
 {
     public Canvas Canvas;
     public int Columns;

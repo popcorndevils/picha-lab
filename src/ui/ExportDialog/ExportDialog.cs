@@ -235,7 +235,7 @@ public class ExportDialog : WindowDialog
     }
 }
 
-public class TreeLayer : Node
+public class TreeLayer : Reference
 {
     public Layer Data;
 }
