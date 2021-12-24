@@ -469,5 +469,6 @@ public class GenCanvas : Node2D
         }
         this.FileSaved = false;
         this.CanvasChanges.Add(this.SaveData());
+        this.GetTree().CallGroup("change_log", "LogItem", layer.Name, "test", "tooltip");
     }
 }
