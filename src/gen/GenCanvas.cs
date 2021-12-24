@@ -306,6 +306,17 @@ public class GenCanvas : Node2D
         layer.Parent = this;
         
         this.PropagateAnimTime();
+
+        var _log = new LayerLogEvent() {
+            Change = new LayerChangeEvent() {
+                Sender = layer.Data,
+                Type = LayerChangeType.NULL,
+            },
+            Label = "new layer",
+            Description = layer.Data.Name,
+        };
+
+        this.GetTree().CallGroup("change_log", "LogItem", _log);
     }
 
     public void PropagateAnimTime()
@@ -461,14 +472,39 @@ public class GenCanvas : Node2D
         this.QueueFree();
     }
 
-    public void OnLayerChange(Layer layer, bool major)
+    public void OnLayerChange(LayerChangeEvent change)
     {
-        if(major)
+        if(change.Major)
         {
             this.Generate();
         }
         this.FileSaved = false;
         this.CanvasChanges.Add(this.SaveData());
-        this.GetTree().CallGroup("change_log", "LogItem", layer.Name, "test", "tooltip");
+
+        string _label;
+
+        switch(change.Type)
+        {
+            case LayerChangeType.NAME:
+                _label = "name edit";
+                break;
+            case LayerChangeType.POSITION:
+                _label = "move layer";
+                break;
+            case LayerChangeType.FRAME:
+                _label = "edit frames";
+                break;
+            default:
+                _label = "layer change";
+                break;
+        }
+
+        var _log = new LayerLogEvent() {
+            Change = change,
+            Label = _label,
+            Description = $"{change.OldValue} -> {change.NewValue}",
+        };
+
+        this.GetTree().CallGroup("change_log", "LogItem", _log);
     }
 }

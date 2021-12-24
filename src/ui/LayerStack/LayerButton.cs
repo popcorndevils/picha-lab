@@ -81,9 +81,9 @@ public class LayerButton : Button
         return false;
     }
 
-    public void OnLayerChange(Layer layer, bool major)
+    public void OnLayerChange(LayerChangeEvent change)
     {
-        this.Text = layer.Name;
+        this.Text = change.Sender.Name;
     }
     
     public void OnFrameChange(int current, int total)

@@ -257,13 +257,13 @@ public class GenLayer : TextureRect
     public void DeleteCycle(Cycle c)
     {
         this.Cycles.Remove(c);
-        this.LayerChanged?.Invoke(this.Data, true);
+        // this.LayerChanged?.Invoke(this.Data, true);
     }
 
     public void DeletePolicy(Cycle c, Policy p)
     {
         c.Policies.Remove(p);
-        this.LayerChanged?.Invoke(this.Data, true);
+        // this.LayerChanged?.Invoke(this.Data, true);
     }
 
     public Cycle NewCycle()
@@ -284,7 +284,7 @@ public class GenLayer : TextureRect
     {
         this.Cycles.Remove(cycle);
         this.Cycles.Insert(location, cycle);
-        this.LayerChanged?.Invoke(this.Data, true);
+        // this.LayerChanged?.Invoke(this.Data, true);
     }
 
     public Policy NewPolicy(Cycle c)
@@ -349,8 +349,8 @@ public class GenLayer : TextureRect
         return _newFrames;
     }
 
-    public void OnLayerChanged(Layer layer, bool major)
+    public void OnLayerChanged(LayerChangeEvent _change)
     {
-        this.LayerChanged?.Invoke(layer, major);
+        this.LayerChanged?.Invoke(_change);
     }
 }
