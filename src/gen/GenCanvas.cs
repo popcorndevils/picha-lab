@@ -481,29 +481,27 @@ public class GenCanvas : Node2D
         this.FileSaved = false;
         this.CanvasChanges.Add(this.SaveData());
 
-        string _label;
+        var _log = new LayerLogEvent() {Change = change};
 
         switch(change.Type)
         {
             case LayerChangeType.NAME:
-                _label = "name edit";
+                _log.Label = "name edit";
+                _log.Description = $"{change.OldValue} -> {change.NewValue}";
                 break;
             case LayerChangeType.POSITION:
-                _label = "move layer";
+                _log.Label = "move layer";
+                _log.Description = $"{change.OldValue} -> {change.NewValue}";
                 break;
             case LayerChangeType.FRAME:
-                _label = "edit frames";
+                _log.Label = "edit frames";
+                _log.Description = $"{change.OldValue} -> {change.NewValue}";
                 break;
             default:
-                _label = "layer change";
+                _log.Label = "layer change";
+                _log.Description = $"{change.OldValue} -> {change.NewValue}";
                 break;
         }
-
-        var _log = new LayerLogEvent() {
-            Change = change,
-            Label = _label,
-            Description = $"{change.OldValue} -> {change.NewValue}",
-        };
 
         this.GetTree().CallGroup("change_log", "LogItem", _log);
     }

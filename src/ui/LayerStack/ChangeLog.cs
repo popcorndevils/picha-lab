@@ -26,10 +26,10 @@ public class ChangeLog : Tree
         // TODO: correct renaming one layer right after another
         if(log.Change.Type == LayerChangeType.NAME)
         {
-            if(this._Logs.ContainsKey(log.Change.OldValue))
+            if(this._Logs.ContainsKey(log.Change.OldValue.ToString()))
             {
-                var _value = this._Logs[log.Change.OldValue];
-                this._Logs.Remove(log.Change.OldValue);
+                var _value = this._Logs[log.Change.OldValue.ToString()];
+                this._Logs.Remove(log.Change.OldValue.ToString());
                 this._Logs.Add(log.Change.Sender.Name, _value);
                 _value.SetText(0, log.Change.Sender.Name);
             }
@@ -42,7 +42,7 @@ public class ChangeLog : Tree
                 }
                 else
                 {
-                    this._PrevName = log.Change.OldValue;
+                    this._PrevName = log.Change.OldValue.ToString();
                     this._PrevNameChange = this.CreateItem(this._Logs[log.Change.Sender.Name]);
                     this._PrevNameChange.SetText(0, log.Label);
                     this._PrevNameChange.SetTooltip(0, log.Description);
