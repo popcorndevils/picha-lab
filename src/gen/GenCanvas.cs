@@ -312,13 +312,8 @@ public class GenCanvas : Node2D
             Type = LayerChangeType.NEW_LAYER,
         };
 
-        var _log = new CanvasLogEvent() {
-            Type = CanvasChangeType.LAYER,
-            Sender = this,
-            Change = _change,
-            Label = "new layer",
-        };
-
+        // TODO implement
+        var _log = new CanvasLogEvent();
         this.GetTree().CallGroup("change_log", "LogItem", _log);
     }
 
@@ -484,28 +479,8 @@ public class GenCanvas : Node2D
         this.FileSaved = false;
         this.CanvasChanges.Add(this.SaveData());
 
-        var _log = new CanvasLogEvent() {
-            Type = CanvasChangeType.LAYER,
-            Sender = this,
-            Change = change,
-        };
-
-        switch(change.Type)
-        {
-            case LayerChangeType.NAME:
-                _log.Label = "name edit";
-                break;
-            case LayerChangeType.POSITION:
-                _log.Label = "move layer";
-                break;
-            case LayerChangeType.FRAME:
-                _log.Label = "edit frames";
-                break;
-            default:
-                _log.Label = "layer change";
-                break;
-        }
-
+        // TODO implement
+        var _log = new CanvasLogEvent();
         this.GetTree().CallGroup("change_log", "LogItem", _log);
     }
 }
