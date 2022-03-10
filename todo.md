@@ -1,4 +1,4 @@
-# Worklist
+# Work list
 - ## Missing Features
     - Deleting Layers
 - ## Improvements
