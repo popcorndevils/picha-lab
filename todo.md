@@ -1,0 +1,12 @@
+# Worklist
+- ## Missing Features
+    - Deleting Layers
+- ## Improvements
+    - Better template drawing tools
+- ## Bugs
+    - Creating layer after deleting pixel.
+        - *Empty* is not in dictionary.
+    - Deleting Pixel after creating Layer.
+        - *Null* is not present in dictionary.
+- ## Investigate
+    - Build-Run does not work when application window starts on non-primary screen.
