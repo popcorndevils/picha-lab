@@ -1,0 +1,13 @@
+
+Missing Features:
+    ☐ Change log
+    ☐ Export Options
+    ☐ Deleting Layers
+Bug:
+    ☐ Deleting Pixel from existing Layer
+    ☐ Creating Layer after deleting Pixel
+Improvements:
+    ☐ Better Template Drawing Tools
+    ☐ Move arrow in section headers outside button text
+Investigations:
+    ☐ Build and Run on second screen
