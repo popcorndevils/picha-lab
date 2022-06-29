@@ -313,8 +313,8 @@ public class GenCanvas : Node2D
         };
 
         // TODO implement
-        var _log = new CanvasLogEvent();
-        this.GetTree().CallGroup("change_log", "LogItem", _log);
+        // var _log = new CanvasLogEvent();
+        // this.GetTree().CallGroup("change_log", "LogItem", _log);
     }
 
     public void PropagateAnimTime()
@@ -408,6 +408,7 @@ public class GenCanvas : Node2D
     public Canvas SaveData()
     {
         var _output = new Canvas() {
+            AnimTime = this.AnimTime,
             Size = ((int)this.Size.x, (int)this.Size.y),
             AutoGen = this.AutoGen,
             TimeToGen = this.TimeToGen,
