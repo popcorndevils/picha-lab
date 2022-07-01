@@ -1,4 +1,4 @@
-using SysDraw = System.Drawing;
+using SkiaSharp;
 using System.Linq;
 using System.Collections.Generic;
 
@@ -207,7 +207,7 @@ public class GenLayer : TextureRect
         {
             this._Textures.Clear();
 
-            foreach(SysDraw.Bitmap _bit in this.Data.Generate(colors))
+            foreach(SKBitmap _bit in this.Data.Generate(colors))
             { 
                 this._Textures.Add(_bit.ToGodotTex());
             }

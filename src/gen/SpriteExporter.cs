@@ -159,7 +159,7 @@ public class SpriteExporter : Reference
                 for(int f = 0; f < _frames.Length; f++)
                 {
                     var _fI = f + (s * args.Sheets) + 1;
-                    _frames[f].Save($"{args.OutputPath}/{args.SpriteName}_{f}.png");
+                    _frames[f].ToSystem().Save($"{args.OutputPath}/{args.SpriteName}_{f}.png");
 
                     this.EmitSignal(
                         nameof(SpriteExporter.ProgressChanged),
@@ -180,7 +180,7 @@ public class SpriteExporter : Reference
                     for(int f = 0; f < _frames.Length; f++)
                     {
                         var _fI = f + (s * args.Sheets) + 1;
-                        _gif.AddFrame(_frames[f], delay: -1, quality: AnimatedGif.GifQuality.Bit8);
+                        _gif.AddFrame(_frames[f].ToSystem(), delay: -1, quality: AnimatedGif.GifQuality.Bit8);
 
                         this.EmitSignal(
                             nameof(SpriteExporter.ProgressChanged),
@@ -193,7 +193,7 @@ public class SpriteExporter : Reference
                 var _sheet = PFactory.GenSpriteSheet(
                     args.Canvas, args.Columns, args.Rows, args.Scale, args.ClipContent, args.RandomStartFrame);
                 var _fileName = $"{args.OutputPath}/{args.SpriteName}_{s}.png";
-                _sheet.Save(_fileName);
+                _sheet.ToSystem().Save(_fileName);
                 this.EmitSignal(
                     nameof(SpriteExporter.ProgressChanged),
                     s + 1,

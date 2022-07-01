@@ -1,10 +1,8 @@
 using System.IO;
 using SysDraw = System.Drawing;
-
+using SkiaSharp;
 using Godot;
-
 using PichaLib;
-
 using OctavianLib;
 
 public static class PichaExtensions
@@ -19,6 +17,13 @@ public static class PichaExtensions
     {
         var _output = new ImageTexture();
         _output.CreateFromImage(array.ToImage(), 0);
+        return _output;
+    }
+
+    public static ImageTexture ToGodotTex(this SKBitmap bmp)
+    {
+        var _output = new ImageTexture();
+        _output.CreateFromImage(bmp.ToImage(), 0);
         return _output;
     }
 
@@ -154,6 +159,40 @@ public static class PichaExtensions
             _output.LoadPngFromBuffer(ms.ToArray());
         }
         return _output;
+    }
+
+    public static Image ToImage(this SKBitmap bmp)
+    {
+        return bmp.ToSystem().ToImage();
+    }
+
+    public static SysDraw.Bitmap[] ToSystem(this SKBitmap[] bmps)
+    {
+        var output = new SysDraw.Bitmap[bmps.Length];
+        for(int i = 0; i < bmps.Length; i++)
+        {
+            output[i] = bmps[i].ToSystem();
+        }
+        return output;
+    }
+
+    public static SysDraw.Bitmap ToSystem(this SKBitmap bmp)
+    {
+        var output = new SysDraw.Bitmap(bmp.Width, bmp.Height);            
+        for(int x = 0; x < bmp.Width; x++)
+        {
+            for(int y = 0; y < bmp.Height; y++)
+            {
+                var c = bmp.GetPixel(x, y);
+                output.SetPixel(x, y, c.ToSystem());
+            }
+        }
+        return output;
+    }
+
+    public static SysDraw.Color ToSystem(this SKColor c)
+    {
+        return SysDraw.Color.FromArgb(c.Alpha, c.Red, c.Green, c.Blue);
     }
 }
 
